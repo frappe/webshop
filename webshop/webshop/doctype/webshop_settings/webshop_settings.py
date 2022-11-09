@@ -7,7 +7,7 @@ from frappe import _
 from frappe.model.document import Document
 from frappe.utils import comma_and, flt, unique
 
-from erpnext.e_commerce.redisearch_utils import (
+from webshop.webshop.redisearch_utils import (
 	create_website_items_index,
 	define_autocomplete_dictionary,
 	get_indexable_web_fields,
@@ -19,7 +19,7 @@ class ShoppingCartSetupError(frappe.ValidationError):
 	pass
 
 
-class ECommerceSettings(Document):
+class WebshopSettings(Document):
 	def onload(self):
 		self.get("__onload").quotation_series = frappe.get_meta("Quotation").get_options("naming_series")
 
@@ -35,10 +35,10 @@ class ECommerceSettings(Document):
 		if self.enabled:
 			self.validate_price_list_exchange_rate()
 
-		frappe.clear_document_cache("E Commerce Settings", "E Commerce Settings")
+		frappe.clear_document_cache("Webshop Settings", "Webshop Settings")
 
 		self.is_redisearch_enabled_pre_save = frappe.db.get_single_value(
-			"E Commerce Settings", "is_redisearch_enabled"
+			"Webshop Settings", "is_redisearch_enabled"
 		)
 
 	def after_save(self):
@@ -160,11 +160,11 @@ class ECommerceSettings(Document):
 
 
 def validate_cart_settings(doc=None, method=None):
-	frappe.get_doc("E Commerce Settings", "E Commerce Settings").run_method("validate")
+	frappe.get_doc("Webshop Settings", "Webshop Settings").run_method("validate")
 
 
 def get_shopping_cart_settings():
-	return frappe.get_cached_doc("E Commerce Settings")
+	return frappe.get_cached_doc("Webshop Settings")
 
 
 @frappe.whitelist(allow_guest=True)

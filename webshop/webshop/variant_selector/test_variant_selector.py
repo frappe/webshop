@@ -2,11 +2,11 @@ import frappe
 from frappe.tests.utils import FrappeTestCase
 
 from erpnext.controllers.item_variant import create_variant
-from erpnext.e_commerce.doctype.e_commerce_settings.test_e_commerce_settings import (
-	setup_e_commerce_settings,
+from webshop.webshop.doctype.webshop_settings.test_webshop_settings import (
+	setup_webshop_settings,
 )
-from erpnext.e_commerce.doctype.website_item.website_item import make_website_item
-from erpnext.e_commerce.variant_selector.utils import get_next_attribute_and_values
+from webshop.webshop.doctype.website_item.website_item import make_website_item
+from webshop.webshop.variant_selector.utils import get_next_attribute_and_values
 from erpnext.stock.doctype.item.test_item import make_item
 
 test_dependencies = ["Item"]
@@ -49,7 +49,7 @@ class TestVariantSelector(FrappeTestCase):
 
 		Attribute selection must not be linked to Website Items.
 		"""
-		from erpnext.e_commerce.variant_selector.utils import get_attributes_and_values
+		from webshop.webshop.variant_selector.utils import get_attributes_and_values
 
 		attr_data = get_attributes_and_values("Test-Tshirt-Temp")
 
@@ -97,10 +97,10 @@ class TestVariantSelector(FrappeTestCase):
 		"""
 		Test price fetching and matching of variant without Website Item
 		"""
-		from erpnext.e_commerce.doctype.website_item.test_website_item import make_web_item_price
+		from webshop.webshop.doctype.website_item.test_website_item import make_web_item_price
 
 		frappe.set_user("Administrator")
-		setup_e_commerce_settings(
+		setup_webshop_settings(
 			{
 				"company": "_Test Company",
 				"enabled": 1,

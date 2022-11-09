@@ -10,7 +10,7 @@ from frappe.contacts.doctype.contact.contact import get_contact_name
 from frappe.model.document import Document
 from frappe.utils import cint, flt
 
-from erpnext.e_commerce.doctype.e_commerce_settings.e_commerce_settings import (
+from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 	get_shopping_cart_settings,
 )
 

@@ -4,8 +4,8 @@
 import frappe
 from frappe.utils import flt
 
-from erpnext.e_commerce.doctype.item_review.item_review import get_customer
-from erpnext.e_commerce.shopping_cart.product_info import get_product_info_for_website
+from webshop.webshop.doctype.item_review.item_review import get_customer
+from webshop.webshop.shopping_cart.product_info import get_product_info_for_website
 from erpnext.utilities.product import get_non_stock_item_status
 
 
@@ -17,11 +17,11 @@ class ProductQuery:
 	        conditions (string): Conditions for query building
 	        or_conditions (string): Search conditions
 	        page_length (Int): Length of page for the query
-	        settings (Document): E Commerce Settings DocType
+	        settings (Document): Webshop Settings DocType
 	"""
 
 	def __init__(self):
-		self.settings = frappe.get_doc("E Commerce Settings")
+		self.settings = frappe.get_doc("Webshop Settings")
 		self.page_length = self.settings.products_per_page or 20
 
 		self.or_filters = []

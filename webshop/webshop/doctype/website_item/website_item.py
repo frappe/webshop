@@ -14,13 +14,13 @@ from frappe.utils import cint, cstr, flt, random_string
 from frappe.website.doctype.website_slideshow.website_slideshow import get_slideshow
 from frappe.website.website_generator import WebsiteGenerator
 
-from erpnext.e_commerce.doctype.item_review.item_review import get_item_reviews
-from erpnext.e_commerce.redisearch_utils import (
+from webshop.webshop.doctype.item_review.item_review import get_item_reviews
+from webshop.webshop.redisearch_utils import (
 	delete_item_from_index,
 	insert_item_to_index,
 	update_index_for_item,
 )
-from erpnext.e_commerce.shopping_cart.cart import _set_price_list
+from webshop.webshop.shopping_cart.cart import _set_price_list
 from erpnext.setup.doctype.item_group.item_group import (
 	get_parent_item_groups,
 	invalidate_cache_for,
@@ -309,7 +309,7 @@ class WebsiteItem(WebsiteGenerator):
 		context.metatags["og:site_name"] = "ERPNext"
 
 	def set_shopping_cart_data(self, context):
-		from erpnext.e_commerce.shopping_cart.product_info import get_product_info_for_website
+		from webshop.webshop.shopping_cart.product_info import get_product_info_for_website
 
 		context.shopping_cart = get_product_info_for_website(
 			self.item_code, skip_quotation_creation=True

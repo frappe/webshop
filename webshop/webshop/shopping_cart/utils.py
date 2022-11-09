@@ -2,7 +2,7 @@
 # License: GNU General Public License v3. See license.txt
 import frappe
 
-from erpnext.e_commerce.doctype.e_commerce_settings.e_commerce_settings import is_cart_enabled
+from webshop.webshop.doctype.webshop_settings.webshop_settings import is_cart_enabled
 
 
 def show_cart_count():
@@ -24,7 +24,7 @@ def set_cart_count(login_manager):
 		return
 
 	if show_cart_count():
-		from erpnext.e_commerce.shopping_cart.cart import set_cart_count
+		from webshop.webshop.shopping_cart.cart import set_cart_count
 
 		# set_cart_count will try to fetch existing cart quotation
 		# or create one if non existent (and create a customer too)

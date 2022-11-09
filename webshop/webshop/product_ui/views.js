@@ -45,7 +45,7 @@ erpnext.ProductView =  class {
 		this.disable_view_toggler(true);
 
 		frappe.call({
-			method: "erpnext.e_commerce.api.get_product_filter_data",
+			method: "erpnext.webshop.api.get_product_filter_data",
 			args: {
 				query_args: args
 			},

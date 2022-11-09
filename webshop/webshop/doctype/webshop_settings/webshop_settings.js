@@ -1,7 +1,7 @@
 // Copyright (c) 2021, Frappe Technologies Pvt. Ltd. and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on("E Commerce Settings", {
+frappe.ui.form.on("Webshop Settings", {
 	onload: function(frm) {
 		if(frm.doc.__onload && frm.doc.__onload.quotation_series) {
 			frm.fields_dict.quotation_series.df.options = frm.doc.__onload.quotation_series;

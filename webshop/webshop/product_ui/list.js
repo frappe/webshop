@@ -1,7 +1,7 @@
 erpnext.ProductList = class {
 	/* Options:
 		- items: Items
-		- settings: E Commerce Settings
+		- settings: Webshop Settings
 		- products_section: Products Wrapper
 		- preference: If preference is not list view, render but hide
 	*/

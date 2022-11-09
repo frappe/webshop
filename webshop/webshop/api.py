@@ -7,8 +7,8 @@ import json
 import frappe
 from frappe.utils import cint
 
-from erpnext.e_commerce.product_data_engine.filters import ProductFiltersBuilder
-from erpnext.e_commerce.product_data_engine.query import ProductQuery
+from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
+from webshop.webshop.product_data_engine.query import ProductQuery
 from erpnext.setup.doctype.item_group.item_group import get_child_groups_for_website
 
 
@@ -78,4 +78,4 @@ def get_product_filter_data(query_args=None):
 
 @frappe.whitelist(allow_guest=True)
 def get_guest_redirect_on_action():
-	return frappe.db.get_single_value("E Commerce Settings", "redirect_on_action")
+	return frappe.db.get_single_value("Webshop Settings", "redirect_on_action")

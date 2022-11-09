@@ -373,8 +373,8 @@
  "links": [],
  "modified": "2022-04-01 18:35:56.106756",
  "modified_by": "Administrator",
- "module": "E-commerce",
- "name": "E Commerce Settings",
+ "module": "Webshop",
+ "name": "Webshop Settings",
  "owner": "Administrator",
  "permissions": [
   {

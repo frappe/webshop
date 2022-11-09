@@ -5,8 +5,8 @@ import unittest
 
 import frappe
 
-from erpnext.e_commerce.api import get_product_filter_data
-from erpnext.e_commerce.doctype.website_item.test_website_item import create_regular_web_item
+from webshop.webshop.api import get_product_filter_data
+from webshop.webshop.doctype.website_item.test_website_item import create_regular_web_item
 
 test_dependencies = ["Item", "Item Group"]
 

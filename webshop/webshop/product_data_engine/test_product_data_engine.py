@@ -5,12 +5,12 @@ import unittest
 
 import frappe
 
-from erpnext.e_commerce.doctype.e_commerce_settings.test_e_commerce_settings import (
-	setup_e_commerce_settings,
+from webshop.webshop.doctype.webshop_settings.test_webshop_settings import (
+	setup_webshop_settings,
 )
-from erpnext.e_commerce.doctype.website_item.test_website_item import create_regular_web_item
-from erpnext.e_commerce.product_data_engine.filters import ProductFiltersBuilder
-from erpnext.e_commerce.product_data_engine.query import ProductQuery
+from webshop.webshop.doctype.website_item.test_website_item import create_regular_web_item
+from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
+from webshop.webshop.product_data_engine.query import ProductQuery
 
 test_dependencies = ["Item", "Item Group"]
 
@@ -36,7 +36,7 @@ class TestProductDataEngine(unittest.TestCase):
 			if not frappe.db.exists("Website Item", {"item_code": item_code}):
 				create_regular_web_item(item_code, item_args=item_args, web_args=web_args)
 
-		setup_e_commerce_settings(
+		setup_webshop_settings(
 			{
 				"products_per_page": 4,
 				"enable_field_filters": 1,
@@ -179,7 +179,7 @@ class TestProductDataEngine(unittest.TestCase):
 
 	def test_product_list_discount_filter_builder(self):
 		"Test if discount filters are fetched correctly."
-		from erpnext.e_commerce.doctype.website_item.test_website_item import (
+		from webshop.webshop.doctype.website_item.test_website_item import (
 			make_web_item_price,
 			make_web_pricing_rule,
 		)
@@ -188,7 +188,7 @@ class TestProductDataEngine(unittest.TestCase):
 		make_web_item_price(item_code=item_code)
 		make_web_pricing_rule(title=f"Test Pricing Rule for {item_code}", item_code=item_code, selling=1)
 
-		setup_e_commerce_settings({"show_price": 1})
+		setup_webshop_settings({"show_price": 1})
 		frappe.local.shopping_cart_settings = None
 
 		engine = ProductQuery()
@@ -204,7 +204,7 @@ class TestProductDataEngine(unittest.TestCase):
 
 	def test_product_list_with_discount_filters(self):
 		"Test if discount filters are applied correctly."
-		from erpnext.e_commerce.doctype.website_item.test_website_item import (
+		from webshop.webshop.doctype.website_item.test_website_item import (
 			make_web_item_price,
 			make_web_pricing_rule,
 		)
@@ -225,7 +225,7 @@ class TestProductDataEngine(unittest.TestCase):
 			selling=1,
 		)
 
-		setup_e_commerce_settings({"show_price": 1})
+		setup_webshop_settings({"show_price": 1})
 		frappe.local.shopping_cart_settings = None
 
 		engine = ProductQuery()
@@ -240,7 +240,7 @@ class TestProductDataEngine(unittest.TestCase):
 
 	def test_product_list_with_api(self):
 		"Test products listing using API."
-		from erpnext.e_commerce.api import get_product_filter_data
+		from webshop.webshop.api import get_product_filter_data
 
 		create_variant_web_item()
 
@@ -261,7 +261,7 @@ class TestProductDataEngine(unittest.TestCase):
 		"Test if variants are hideen on hiding variants in settings."
 		create_variant_web_item()
 
-		setup_e_commerce_settings({"enable_attribute_filters": 0, "hide_variants": 1})
+		setup_webshop_settings({"enable_attribute_filters": 0, "hide_variants": 1})
 		frappe.local.shopping_cart_settings = None
 
 		attribute_filters = {"Test Size": ["Large"]}
@@ -275,7 +275,7 @@ class TestProductDataEngine(unittest.TestCase):
 		self.assertEqual(len(items), 0)
 
 		# tear down
-		setup_e_commerce_settings({"enable_attribute_filters": 1, "hide_variants": 0})
+		setup_webshop_settings({"enable_attribute_filters": 1, "hide_variants": 0})
 
 	def test_custom_field_as_filter(self):
 		"Test if custom field functions as filter correctly."
@@ -300,7 +300,7 @@ class TestProductDataEngine(unittest.TestCase):
 			"Website Item", {"item_code": "Test 12I Laptop"}, "supplier", "_Test Supplier 1"
 		)
 
-		settings = frappe.get_doc("E Commerce Settings")
+		settings = frappe.get_doc("Webshop Settings")
 		settings.append("filter_fields", {"fieldname": "supplier"})
 		settings.save()
 
@@ -329,7 +329,7 @@ class TestProductDataEngine(unittest.TestCase):
 def create_variant_web_item():
 	"Create Variant and Template Website Items."
 	from erpnext.controllers.item_variant import create_variant
-	from erpnext.e_commerce.doctype.website_item.website_item import make_website_item
+	from webshop.webshop.doctype.website_item.website_item import make_website_item
 	from erpnext.stock.doctype.item.test_item import make_item
 
 	make_item(

@@ -1,7 +1,7 @@
 erpnext.ProductGrid = class {
 	/* Options:
 		- items: Items
-		- settings: E Commerce Settings
+		- settings: Webshop Settings
 		- products_section: Products Wrapper
 		- preference: If preference is not grid view, render but hide
 	*/

@@ -4,3 +4,5 @@
 *.swp
 tags
 node_modules
+**/__pycache__
+.vscode/

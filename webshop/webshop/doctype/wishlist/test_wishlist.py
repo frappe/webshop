@@ -6,8 +6,8 @@ import unittest
 import frappe
 from frappe.core.doctype.user_permission.test_user_permission import create_user
 
-from erpnext.e_commerce.doctype.website_item.website_item import make_website_item
-from erpnext.e_commerce.doctype.wishlist.wishlist import add_to_wishlist, remove_from_wishlist
+from webshop.webshop.doctype.website_item.website_item import make_website_item
+from webshop.webshop.doctype.wishlist.wishlist import add_to_wishlist, remove_from_wishlist
 from erpnext.stock.doctype.item.test_item import make_item
 
 

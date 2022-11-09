@@ -7,7 +7,7 @@ from frappe.utils import floor
 class ProductFiltersBuilder:
 	def __init__(self, item_group=None):
 		if not item_group:
-			self.doc = frappe.get_doc("E Commerce Settings")
+			self.doc = frappe.get_doc("Webshop Settings")
 		else:
 			self.doc = frappe.get_doc("Item Group", item_group)
 
@@ -53,7 +53,7 @@ class ProductFiltersBuilder:
 						)
 
 				# exclude variants if mentioned in settings
-				if frappe.db.get_single_value("E Commerce Settings", "hide_variants"):
+				if frappe.db.get_single_value("Webshop Settings", "hide_variants"):
 					item_filters["variant_of"] = ["is", "not set"]
 
 				# Get link field values attached to published items

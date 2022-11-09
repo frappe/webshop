@@ -9,8 +9,8 @@ from frappe.tests.utils import change_settings
 from frappe.utils import add_months, cint, nowdate
 
 from erpnext.accounts.doctype.tax_rule.tax_rule import ConflictingTaxRule
-from erpnext.e_commerce.doctype.website_item.website_item import make_website_item
-from erpnext.e_commerce.shopping_cart.cart import (
+from webshop.webshop.doctype.website_item.website_item import make_website_item
+from webshop.webshop.shopping_cart.cart import (
 	_get_cart_quotation,
 	get_cart_quotation,
 	get_party,
@@ -156,7 +156,7 @@ class TestShoppingCart(unittest.TestCase):
 		self.remove_test_quotation(quotation)
 
 	@change_settings(
-		"E Commerce Settings",
+		"Webshop Settings",
 		{
 			"company": "_Test Company",
 			"enabled": 1,
@@ -168,7 +168,7 @@ class TestShoppingCart(unittest.TestCase):
 	def test_add_item_variant_without_web_item_to_cart(self):
 		"Test adding Variants having no Website Items in cart via Template Web Item."
 		from erpnext.controllers.item_variant import create_variant
-		from erpnext.e_commerce.doctype.website_item.website_item import make_website_item
+		from webshop.webshop.doctype.website_item.website_item import make_website_item
 		from erpnext.stock.doctype.item.test_item import make_item
 
 		template_item = make_item(
@@ -193,7 +193,7 @@ class TestShoppingCart(unittest.TestCase):
 		# test if items are rendered without error
 		frappe.render_template("templates/includes/cart/cart_items.html", cart)
 
-	@change_settings("E Commerce Settings", {"save_quotations_as_draft": 1})
+	@change_settings("Webshop Settings", {"save_quotations_as_draft": 1})
 	def test_cart_without_checkout_and_draft_quotation(self):
 		"Test impact of 'save_quotations_as_draft' checkbox."
 		frappe.local.shopping_cart_settings = None
@@ -205,7 +205,7 @@ class TestShoppingCart(unittest.TestCase):
 
 		self.assertEqual(quote_doctstatus, 0)
 
-		frappe.db.set_value("E Commerce Settings", None, "save_quotations_as_draft", 0)
+		frappe.db.set_value("Webshop Settings", None, "save_quotations_as_draft", 0)
 		frappe.local.shopping_cart_settings = None
 		update_cart("_Test Item", 1)
 		quote_name = request_for_quotation()  # Request for Quote
@@ -253,7 +253,7 @@ class TestShoppingCart(unittest.TestCase):
 
 	# helper functions
 	def enable_shopping_cart(self):
-		settings = frappe.get_doc("E Commerce Settings", "E Commerce Settings")
+		settings = frappe.get_doc("Webshop Settings", "Webshop Settings")
 
 		settings.update(
 			{
@@ -290,7 +290,7 @@ class TestShoppingCart(unittest.TestCase):
 		frappe.local.shopping_cart_settings = None
 
 	def disable_shopping_cart(self):
-		settings = frappe.get_doc("E Commerce Settings", "E Commerce Settings")
+		settings = frappe.get_doc("Webshop Settings", "Webshop Settings")
 		settings.enabled = 0
 		settings.save()
 		frappe.local.shopping_cart_settings = None
