@@ -1,8 +1,3 @@
-[pre_model_sync]
-
-[post_model_sync]
-
-[after-install]
 webshop.patches.copy_from_ecommerce_settings
 webshop.patches.remove_ecommerce_settings
 webshop.patches.drop_ecommerce_settings
