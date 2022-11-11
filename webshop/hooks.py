@@ -64,7 +64,7 @@ app_license = "GNU General Public License (v3)"
 # ------------
 
 # before_install = "webshop.install.before_install"
-# after_install = "webshop.install.after_install"
+after_install = "webshop.setup.install.after_install"
 
 # Uninstallation
 # ------------
