@@ -7,6 +7,8 @@ app_description = "Open Source eCommerce Platform"
 app_email = "contact@frappe.io"
 app_license = "GNU General Public License (v3)"
 
+required_apps = ["payments", "erpnext"]
+
 # Includes in <head>
 # ------------------
 
