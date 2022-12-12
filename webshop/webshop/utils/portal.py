@@ -9,7 +9,7 @@ from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 from webshop.webshop.shopping_cart.cart import get_debtors_account
 
 
-def foobar():
+def update_debtors_account():
     doc_type = debtors_account = None
     user = frappe.session.user
 
