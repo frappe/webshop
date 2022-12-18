@@ -43,3 +43,12 @@ class PaymentRequest(OriginalPaymentRequest):
         self.set_as_paid()
 
         return redirect_to
+
+    @staticmethod
+    def get_gateway_details(args):
+        if args.order_type != "Shopping Cart":
+            return super().get_gateway_details(args)
+
+        cart_settings = frappe.get_doc("Webshop Settings")
+        gateway_account = cart_settings.payment_gateway_account
+        return super().get_payment_gateway_account(gateway_account)
