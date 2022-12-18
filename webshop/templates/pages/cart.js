@@ -2,8 +2,8 @@
 // License: GNU General Public License v3. See license.txt
 
 // JS exclusive to /cart page
-frappe.provide("erpnext.e_commerce.shopping_cart");
-var shopping_cart = erpnext.e_commerce.shopping_cart;
+frappe.provide("webshop.webshop.shopping_cart");
+var shopping_cart = webshop.webshop.shopping_cart;
 
 $.extend(shopping_cart, {
 	show_error: function(title, text) {
@@ -46,7 +46,7 @@ $.extend(shopping_cart, {
 				const address_name = $card.closest('[data-address-name]').attr('data-address-name');
 				frappe.call({
 					type: "POST",
-					method: "erpnext.e_commerce.shopping_cart.cart.update_cart_address",
+					method: "webshop.webshop.shopping_cart.cart.update_cart_address",
 					freeze: true,
 					args: {
 						address_type,
@@ -201,7 +201,7 @@ $.extend(shopping_cart, {
 		return frappe.call({
 			btn: btn,
 			type: "POST",
-			method: "erpnext.e_commerce.shopping_cart.cart.apply_shipping_rule",
+			method: "webshop.webshop.shopping_cart.cart.apply_shipping_rule",
 			args: { shipping_rule: rule },
 			callback: function(r) {
 				if(!r.exc) {
@@ -216,7 +216,7 @@ $.extend(shopping_cart, {
 
 		return frappe.call({
 			type: "POST",
-			method: "erpnext.e_commerce.shopping_cart.cart.place_order",
+			method: "webshop.webshop.shopping_cart.cart.place_order",
 			btn: btn,
 			callback: function(r) {
 				if(r.exc) {
@@ -243,7 +243,7 @@ $.extend(shopping_cart, {
 
 		return frappe.call({
 			type: "POST",
-			method: "erpnext.e_commerce.shopping_cart.cart.request_for_quotation",
+			method: "webshop.webshop.shopping_cart.cart.request_for_quotation",
 			btn: btn,
 			callback: function(r) {
 				if(r.exc) {
@@ -274,7 +274,7 @@ $.extend(shopping_cart, {
 	apply_coupon_code: function(btn) {
 		return frappe.call({
 			type: "POST",
-			method: "erpnext.e_commerce.shopping_cart.cart.apply_coupon_code",
+			method: "webshop.webshop.shopping_cart.cart.apply_coupon_code",
 			btn: btn,
 			args : {
 				applied_code : $('.txtcoupon').val(),

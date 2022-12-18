@@ -7,13 +7,13 @@ import frappe
 from frappe.utils import cint, cstr
 from redis.commands.search.query import Query
 
-from erpnext.e_commerce.redisearch_utils import (
+from webshop.webshop.redisearch_utils import (
 	WEBSITE_ITEM_CATEGORY_AUTOCOMPLETE,
 	WEBSITE_ITEM_INDEX,
 	WEBSITE_ITEM_NAME_AUTOCOMPLETE,
 	is_redisearch_enabled,
 )
-from erpnext.e_commerce.shopping_cart.product_info import set_product_info_for_website
+from webshop.webshop.shopping_cart.product_info import set_product_info_for_website
 from erpnext.setup.doctype.item_group.item_group import get_item_for_list_in_html
 
 no_cache = 1

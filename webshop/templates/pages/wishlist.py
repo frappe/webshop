@@ -2,10 +2,10 @@
 # License: GNU General Public License v3. See license.txt
 import frappe
 
-from erpnext.e_commerce.doctype.e_commerce_settings.e_commerce_settings import (
+from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 	get_shopping_cart_settings,
 )
-from erpnext.e_commerce.shopping_cart.cart import _set_price_list
+from webshop.webshop.shopping_cart.cart import _set_price_list
 from erpnext.utilities.product import get_price
 
 

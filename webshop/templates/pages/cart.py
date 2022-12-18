@@ -3,7 +3,7 @@
 
 no_cache = 1
 
-from erpnext.e_commerce.shopping_cart.cart import get_cart_quotation
+from webshop.webshop.shopping_cart.cart import get_cart_quotation
 
 
 def get_context(context):

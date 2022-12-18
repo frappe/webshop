@@ -28,7 +28,7 @@ $(() => {
 					primary_action: function() {
 						let data = d.get_values();
 						frappe.call({
-							method: "erpnext.e_commerce.doctype.item_review.item_review.add_item_review",
+							method: "webshop.webshop.doctype.item_review.item_review.add_item_review",
 							args: {
 								web_item: $btn.attr('data-web-item'),
 								title: data.title,
@@ -66,7 +66,7 @@ $(() => {
 				let me = this;
 
 				frappe.call({
-					method: "erpnext.e_commerce.doctype.item_review.item_review.get_item_reviews",
+					method: "webshop.webshop.doctype.item_review.item_review.get_item_reviews",
 					args: {
 						web_item: $btn.attr('data-web-item'),
 						start: me.start,

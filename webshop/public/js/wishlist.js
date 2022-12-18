@@ -1,8 +1,8 @@
-frappe.provide("erpnext.e_commerce.wishlist");
-var wishlist = erpnext.e_commerce.wishlist;
+frappe.provide("webshop.webshop.wishlist");
+var wishlist = webshop.webshop.wishlist;
 
-frappe.provide("erpnext.e_commerce.shopping_cart");
-var shopping_cart = erpnext.e_commerce.shopping_cart;
+frappe.provide("webshop.webshop.shopping_cart");
+var shopping_cart = webshop.webshop.shopping_cart;
 
 $.extend(wishlist, {
 	set_wishlist_count: function(animate=false) {
@@ -100,7 +100,7 @@ $.extend(wishlist, {
 		}
 
 		let success_action = function() {
-			erpnext.e_commerce.wishlist.set_wishlist_count(true);
+			webshop.webshop.wishlist.set_wishlist_count(true);
 		};
 
 		if ($wish_icon.hasClass('wished')) {
@@ -146,9 +146,9 @@ $.extend(wishlist, {
 			}
 			this.redirect_guest();
 		} else {
-			let method = "erpnext.e_commerce.doctype.wishlist.wishlist.add_to_wishlist";
+			let method = "webshop.webshop.doctype.wishlist.wishlist.add_to_wishlist";
 			if (action === "remove") {
-				method = "erpnext.e_commerce.doctype.wishlist.wishlist.remove_from_wishlist";
+				method = "webshop.webshop.doctype.wishlist.wishlist.remove_from_wishlist";
 			}
 
 			frappe.call({
@@ -174,7 +174,7 @@ $.extend(wishlist, {
 	},
 
 	redirect_guest() {
-		frappe.call('erpnext.e_commerce.api.get_guest_redirect_on_action').then((res) => {
+		frappe.call('webshop.webshop.api.get_guest_redirect_on_action').then((res) => {
 			window.location.href = res.message || "/login";
 		});
 	},
