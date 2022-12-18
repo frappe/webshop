@@ -8,6 +8,10 @@ app_email = "contact@frappe.io"
 app_license = "GNU General Public License (v3)"
 app_version = _version
 
+web_include_js = [
+    "override.bundle.js",
+]
+
 after_install = "webshop.setup.install.after_install"
 on_logout = "webshop.webshop.shopping_cart.utils.clear_cart_count"
 on_session_creation = [
@@ -21,8 +25,42 @@ my_account_context = "webshop.webshop.shopping_cart.utils.update_my_account_cont
 
 website_generators = ["Website Item"]
 
+override_doctype_class = {
+    "Payment Request": "webshop.webshop.override_doctype.payment_request.PaymentRequest",
+}
+
+doctype_js = {
+    "Item": "public/js/overrides/item.js",
+}
+
 doc_events = {
+    "Item": {
+        "on_update": [
+            "webshop.webshop.crud_events.item.update_website_item.execute",
+            "webshop.webshop.crud_events.item.invalidate_item_variants_cache.execute",
+        ],
+        "after_rename": [
+            "webshop.webshop.crud_events.item.invalidate_item_variants_cache.execute",
+        ],
+    },
     "Sales Taxes and Charges Template": {
-        "on_update": "webshop.webshop.doctype.webshop_settings.webshop_settings.validate_cart_settings"
+        "on_update": [
+            "webshop.webshop.doctype.webshop_settings.webshop_settings.validate_cart_settings",
+        ],
+    },
+    "Quotation": {
+        "validate": [
+            "webshop.webshop.crud_events.quotation.validate_shopping_cart_items.execute",
+        ],
+    },
+    "Price List": {
+        "validate": [
+            "webshop.webshop.crud_events.price_list.check_impact_on_shopping_cart.execute"
+        ],
+    },
+    "Tax Rule": {
+        "validate": [
+            "webshop.webshop.crud_events.tax_rule.validate_use_for_cart.execute",
+        ],
     },
 }
