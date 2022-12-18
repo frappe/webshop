@@ -175,7 +175,7 @@ $.extend(shopping_cart, {
 
 	show_cart_navbar: function () {
 		frappe.call({
-			method: "webshop.webshop.doctype.e_commerce_settings.e_commerce_settings.is_cart_enabled",
+			method: "webshop.webshop.doctype.webshop_settings.webshop_settings.is_cart_enabled",
 			callback: function(r) {
 				$(".shopping-cart").toggleClass('hidden', r.message ? false : true);
 			}

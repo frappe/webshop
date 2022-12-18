@@ -2,7 +2,7 @@
 # License: GNU General Public License v3. See license.txt
 import frappe
 
-from webshop.webshop.doctype.e_commerce_settings.e_commerce_settings import (
+from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 	get_shopping_cart_settings,
 )
 from webshop.webshop.shopping_cart.cart import _set_price_list

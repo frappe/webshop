@@ -4,7 +4,7 @@
 import frappe
 from frappe import _
 
-from webshop.webshop.doctype.e_commerce_settings.e_commerce_settings import show_attachments
+from webshop.webshop.doctype.webshop_settings.webshop_settings import show_attachments
 
 
 def get_context(context):
