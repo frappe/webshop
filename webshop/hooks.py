@@ -8,6 +8,10 @@ app_email = "contact@frappe.io"
 app_license = "GNU General Public License (v3)"
 app_version = _version
 
+web_include_js = [
+    "override.bundle.js",
+]
+
 after_install = "webshop.setup.install.after_install"
 on_logout = "webshop.webshop.shopping_cart.utils.clear_cart_count"
 on_session_creation = [
