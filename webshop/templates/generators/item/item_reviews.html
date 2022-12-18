@@ -58,7 +58,7 @@
 				primary_action: function() {
 					var data = d.get_values();
 					frappe.call({
-						method: "erpnext.e_commerce.doctype.item_review.item_review.add_item_review",
+						method: "webshop.webshop.doctype.item_review.item_review.add_item_review",
 						args: {
 							web_item: "{{ doc.name }}",
 							title: data.title,

@@ -3,7 +3,7 @@ frappe.ui.form.on("Item", {
 		if (!frm.doc.published_in_website) {
 			frm.add_custom_button(__("Publish in Website"), function() {
 				frappe.call({
-					method: "erpnext.e_commerce.doctype.website_item.website_item.make_website_item",
+					method: "webshop.webshop.doctype.website_item.website_item.make_website_item",
 					args: {doc: frm.doc},
 					freeze: true,
 					freeze_message: __("Publishing Item ..."),

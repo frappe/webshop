@@ -2,8 +2,8 @@
 // License: GNU General Public License v3. See license.txt
 
 // shopping cart
-frappe.provide("erpnext.e_commerce.shopping_cart");
-var shopping_cart = erpnext.e_commerce.shopping_cart;
+frappe.provide("webshop.webshop.shopping_cart");
+var shopping_cart = webshop.webshop.shopping_cart;
 
 var getParams = function (url) {
 	var params = [];
@@ -63,7 +63,7 @@ $.extend(shopping_cart, {
 		$(".shopping-cart").on('shown.bs.dropdown', function() {
 			if (!$('.shopping-cart-menu .cart-container').length) {
 				return frappe.call({
-					method: 'erpnext.e_commerce.shopping_cart.cart.get_shopping_cart_menu',
+					method: 'webshop.webshop.shopping_cart.cart.get_shopping_cart_menu',
 					callback: function(r) {
 						if (r.message) {
 							$('.shopping-cart-menu').html(r.message);
@@ -79,14 +79,14 @@ $.extend(shopping_cart, {
 			if (localStorage) {
 				localStorage.setItem("last_visited", window.location.pathname);
 			}
-			frappe.call('erpnext.e_commerce.api.get_guest_redirect_on_action').then((res) => {
+			frappe.call('webshop.webshop.api.get_guest_redirect_on_action').then((res) => {
 				window.location.href = res.message || "/login";
 			});
 		} else {
 			shopping_cart.freeze();
 			return frappe.call({
 				type: "POST",
-				method: "erpnext.e_commerce.shopping_cart.cart.update_cart",
+				method: "webshop.webshop.shopping_cart.cart.update_cart",
 				args: {
 					item_code: opts.item_code,
 					qty: opts.qty,
@@ -175,7 +175,7 @@ $.extend(shopping_cart, {
 
 	show_cart_navbar: function () {
 		frappe.call({
-			method: "erpnext.e_commerce.doctype.e_commerce_settings.e_commerce_settings.is_cart_enabled",
+			method: "webshop.webshop.doctype.e_commerce_settings.e_commerce_settings.is_cart_enabled",
 			callback: function(r) {
 				$(".shopping-cart").toggleClass('hidden', r.message ? false : true);
 			}
@@ -196,7 +196,7 @@ $.extend(shopping_cart, {
 				if (localStorage) {
 					localStorage.setItem("last_visited", window.location.pathname);
 				}
-				frappe.call('erpnext.e_commerce.api.get_guest_redirect_on_action').then((res) => {
+				frappe.call('webshop.webshop.api.get_guest_redirect_on_action').then((res) => {
 					window.location.href = res.message || "/login";
 				});
 				return;
@@ -209,7 +209,7 @@ $.extend(shopping_cart, {
 			$btn.parent().find('.cart-indicator').removeClass('hidden');
 
 			const item_code = $btn.data('item-code');
-			erpnext.e_commerce.shopping_cart.update_cart({
+			webshop.webshop.shopping_cart.update_cart({
 				item_code,
 				qty: 1
 			});
