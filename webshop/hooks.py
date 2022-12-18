@@ -29,6 +29,10 @@ override_doctype_class = {
     "Payment Request": "webshop.webshop.override_doctype.payment_request.PaymentRequest",
 }
 
+doctype_js = {
+    "Item": "public/js/overrides/item.js",
+}
+
 doc_events = {
     "Item": {
         "on_update": [
