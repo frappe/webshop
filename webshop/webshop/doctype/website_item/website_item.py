@@ -25,8 +25,12 @@ from erpnext.setup.doctype.item_group.item_group import (
     get_parent_item_groups,
     invalidate_cache_for,
 )
+from erpnext.stock.doctype.item.item import Item
 from erpnext.utilities.product import get_price
-from webshop.shopping_cart.cart import get_party
+from webshop.webshop.shopping_cart.cart import get_party
+from webshop.webshop.variant_selector.item_variants_cache import (
+    ItemVariantsCacheManager,
+)
 
 
 class WebsiteItem(WebsiteGenerator):
@@ -417,12 +421,36 @@ class WebsiteItem(WebsiteGenerator):
         return items
 
 
-def invalidate_cache_for_web_item(doc):
-    """Invalidate Website Item Group cache and rebuild ItemVariantsCacheManager."""
-    from erpnext.stock.doctype.item.item import (
-        invalidate_item_variants_cache_for_website,
-    )
+def invalidate_item_variants_cache_for_website(doc: Item):
+    """
+    Rebuild ItemVariantsCacheManager via Item or Website Item
 
+    Args:
+        doc (Item): item of which cache should be cleared
+    """
+    item_code = None
+    is_web_item = doc.get("published_in_website") or doc.get("published")
+
+    if doc.has_variants and is_web_item:
+        item_code = doc.item_code
+    elif doc.variant_of and frappe.db.get_value(
+        "Item", doc.variant_of, "published_in_website"
+    ):
+        item_code = doc.variant_of
+
+    if not item_code:
+        return
+
+    item_cache = ItemVariantsCacheManager(item_code)
+    item_cache.rebuild_cache()
+
+
+def invalidate_cache_for_web_item(doc: Item):
+    """
+    Invalidate Website Item Group cache and rebuild ItemVariantsCacheManager
+    Args:
+        doc (Item): document against which cache should be cleared
+    """
     invalidate_cache_for(doc, doc.item_group)
 
     website_item_groups = list(
