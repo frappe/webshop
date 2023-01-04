@@ -1,3 +1,5 @@
+import './js/init'
+
 import './js/customer_reviews'
 import './js/product_ui/grid'
 import './js/product_ui/list'
