@@ -9,7 +9,7 @@
 	<div class="row">
 		<div class="col-md-12 item-card-group-section">
 			<div class="row products-list">
-					{% from "erpnext/templates/includes/macros.html" import wishlist_card %}
+					{% from "webshop/templates/includes/macros.html" import wishlist_card %}
 					{% for item in items %}
 						{{ wishlist_card(item, settings) }}
 					{% endfor %}
