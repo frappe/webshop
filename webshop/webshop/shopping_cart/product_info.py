@@ -13,7 +13,7 @@ from erpnext.utilities.product import (
     get_price,
     get_web_item_qty_in_stock,
 )
-from webshop.shopping_cart.cart import get_party
+from webshop.webshop.shopping_cart.cart import get_party
 
 
 @frappe.whitelist(allow_guest=True)
