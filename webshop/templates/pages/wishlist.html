@@ -9,7 +9,7 @@
 	<div class="row">
 		<div class="col-md-12 item-card-group-section">
 			<div class="row products-list">
-					{% from "erpnext/templates/includes/macros.html" import wishlist_card %}
+					{% from "webshop/templates/includes/macros.html" import wishlist_card %}
 					{% for item in items %}
 						{{ wishlist_card(item, settings) }}
 					{% endfor %}
@@ -19,7 +19,7 @@
 {% else %}
 	<div class="cart-empty frappe-card">
 		<div class="cart-empty-state">
-			<img src="/assets/erpnext/images/ui-states/cart-empty-state.png" alt="Empty Cart">
+			<img src="/assets/webshop/images/cart-empty-state.png" alt="Empty Cart">
 		</div>
 		<div class="cart-empty-message mt-4">{{ _('Wishlist is empty!') }}</p>
 	</div>

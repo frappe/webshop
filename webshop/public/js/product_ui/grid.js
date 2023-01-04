@@ -1,4 +1,4 @@
-erpnext.ProductGrid = class {
+webshop.ProductGrid = class {
 	/* Options:
 		- items: Items
 		- settings: Webshop Settings

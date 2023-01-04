@@ -45,7 +45,7 @@ def get_tabs(categories):
 		tab_values[f"tab_{index + 1}_title"] = frappe.unscrub(tab)
 		# pre-render cards for each tab
 		tab_values[f"tab_{index + 1}_content"] = frappe.render_template(
-			"erpnext/www/shop-by-category/category_card_section.html",
+			"webshop/www/shop-by-category/category_card_section.html",
 			{"data": categorical_data[tab], "type": tab},
 		)
 	return tab_values

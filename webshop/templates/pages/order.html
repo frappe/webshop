@@ -1,5 +1,5 @@
 {% extends "templates/web.html" %}
-{% from "erpnext/templates/includes/order/order_macros.html" import item_name_and_description %}
+{% from "webshop/templates/includes/order/order_macros.html" import item_name_and_description %}
 
 {% block breadcrumbs %}
 	{% include "templates/includes/breadcrumbs.html" %}
@@ -123,7 +123,7 @@
 
 			<!-- taxes -->
 			<div class="">
-				{% include "erpnext/templates/includes/order/order_taxes.html" %}
+				{% include "webshop/templates/includes/order/order_taxes.html" %}
 			</div>
 		</div>
 	</div>
