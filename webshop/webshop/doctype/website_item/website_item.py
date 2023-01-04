@@ -26,7 +26,7 @@ from erpnext.setup.doctype.item_group.item_group import (
     invalidate_cache_for,
 )
 from erpnext.utilities.product import get_price
-from webshop.shopping_cart.cart import get_party
+from webshop.webshop.shopping_cart.cart import get_party
 
 
 class WebsiteItem(WebsiteGenerator):

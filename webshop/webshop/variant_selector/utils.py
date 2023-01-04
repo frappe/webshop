@@ -9,7 +9,7 @@ from webshop.webshop.variant_selector.item_variants_cache import (
     ItemVariantsCacheManager,
 )
 from erpnext.utilities.product import get_price
-from webshop.shopping_cart.cart import get_party
+from webshop.webshop.shopping_cart.cart import get_party
 
 
 @frappe.whitelist(allow_guest=True)

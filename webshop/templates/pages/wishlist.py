@@ -7,7 +7,7 @@ from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 )
 from webshop.webshop.shopping_cart.cart import _set_price_list
 from erpnext.utilities.product import get_price
-from webshop.shopping_cart.cart import get_party
+from webshop.webshop.shopping_cart.cart import get_party
 
 
 def get_context(context):
