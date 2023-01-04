@@ -1,4 +1,4 @@
-erpnext.ProductView =  class {
+webshop.ProductView =  class {
 	/* Options:
 		- View Type
 		- Products Section Wrapper,
@@ -24,7 +24,7 @@ erpnext.ProductView =  class {
 		this.prepare_search();
 		this.prepare_view_toggler();
 
-		new erpnext.ProductSearch();
+		new webshop.ProductSearch();
 	}
 
 	prepare_view_toggler() {
@@ -101,7 +101,7 @@ erpnext.ProductView =  class {
 		let me = this;
 		this.prepare_product_area_wrapper("grid");
 
-		new erpnext.ProductGrid({
+		new webshop.ProductGrid({
 			items: items,
 			products_section: $("#products-grid-area"),
 			settings: settings,
@@ -113,7 +113,7 @@ erpnext.ProductView =  class {
 		let me = this;
 		this.prepare_product_area_wrapper("list");
 
-		new erpnext.ProductList({
+		new webshop.ProductList({
 			items: items,
 			products_section: $("#products-list-area"),
 			settings: settings,
@@ -494,7 +494,7 @@ erpnext.ProductView =  class {
 		let no_results_section = `
 			<div class="cart-empty frappe-card mt-4">
 				<div class="cart-empty-state">
-					<img src="/assets/erpnext/images/ui-states/cart-empty-state.png" alt="Empty Cart">
+					<img src="/assets/webshop/images/cart-empty-state.png" alt="Empty Cart">
 				</div>
 				<div class="cart-empty-message mt-4">${ __('No products found') }</p>
 			</div>

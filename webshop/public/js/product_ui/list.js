@@ -1,4 +1,4 @@
-erpnext.ProductList = class {
+webshop.ProductList = class {
 	/* Options:
 		- items: Items
 		- settings: Webshop Settings

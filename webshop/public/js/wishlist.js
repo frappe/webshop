@@ -183,7 +183,7 @@ $.extend(wishlist, {
 		$(".page_content").append(`
 			<div class="cart-empty frappe-card">
 				<div class="cart-empty-state">
-					<img src="/assets/erpnext/images/ui-states/cart-empty-state.png" alt="Empty Cart">
+					<img src="/assets/webshop/images/cart-empty-state.png" alt="Empty Cart">
 				</div>
 				<div class="cart-empty-message mt-4">${ __('Wishlist is empty !') }</p>
 			</div>
