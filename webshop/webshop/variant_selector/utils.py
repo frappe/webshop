@@ -111,10 +111,11 @@ def get_attributes_and_values(item_code):
 
 @frappe.whitelist(allow_guest=True)
 def get_next_attribute_and_values(item_code, selected_attributes):
-    """Find the count of Items that match the selected attributes.
-    Also, find the attribute values that are not applicable for further searching.
-    If less than equal to 10 items are found, return item_codes of those items.
-    If one item is matched exactly, return item_code of that item.
+    """
+    Find the count of Items that match the selected attributes. Also, find the
+    attribute values that are not applicable for further searching. If less
+    than equal to 10 items are found, return item_codes of those items. If one
+    item is matched exactly, return item_code of that item.
     """
     selected_attributes = frappe.parse_json(selected_attributes)
 
@@ -199,9 +200,6 @@ def get_items_with_selected_attributes(item_code, selected_attributes):
         items.append(set(filtered_items))
 
     return set.intersection(*items)
-
-
-# utilities
 
 
 def get_item_attributes(item_code):
