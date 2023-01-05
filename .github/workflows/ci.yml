@@ -90,6 +90,6 @@ jobs:
         working-directory: /home/runner/frappe-bench
         run: |
           bench --site test_site set-config allow_tests true
-          bench --site test_site run-tests --app webshop
+          bench --site test_site run-tests --app erpnext webshop
         env:
           TYPE: server
