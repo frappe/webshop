@@ -3,7 +3,7 @@
 # For license information, please see license.txt
 
 import json
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from erpnext.stock.doctype.item.item import Item
@@ -498,9 +498,10 @@ def check_if_user_is_customer(user=None):
 
 
 @frappe.whitelist()
-def make_website_item(doc: Item, save: bool = True):
-    "Make Website Item from Item. Used via Form UI or patch."
-
+def make_website_item(doc: str, save: bool = True):
+    """
+    Make Website Item from Item. Used via Form UI or patch.
+    """
     if not doc:
         return
 
