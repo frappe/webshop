@@ -8,6 +8,8 @@ app_email = "contact@frappe.io"
 app_license = "GNU General Public License (v3)"
 app_version = _version
 
+required_apps = ["payments", "erpnext"]
+
 web_include_js = "web.bundle.js"
 
 after_install = "webshop.setup.install.after_install"

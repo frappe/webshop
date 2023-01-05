@@ -70,6 +70,11 @@ jobs:
           mysql --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL character_set_server = 'utf8mb4'"
           mysql --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL collation_server = 'utf8mb4_unicode_ci'"
 
+      - name: Get Deps
+        working-directory: /home/runner/frappe-bench
+        run: |
+          bench get-app payments erpnext
+
       - name: Install
         working-directory: /home/runner/frappe-bench
         run: |
