@@ -55,7 +55,7 @@ doc_events = {
     },
     "Price List": {
         "validate": [
-            "webshop.webshop.crud_events.price_list.check_impact_on_shopping_cart.execute"
+            "webshop.webshop.crud_events.price_list.check_impact_on_cart.execute"
         ],
     },
     "Tax Rule": {
