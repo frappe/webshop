@@ -30,7 +30,7 @@ override_doctype_class = {
 }
 
 doctype_js = {
-    "Item": "public/js/overrides/item.js",
+    "Item": "public/js/override/item.js",
 }
 
 doc_events = {
@@ -55,7 +55,7 @@ doc_events = {
     },
     "Price List": {
         "validate": [
-            "webshop.webshop.crud_events.price_list.check_impact_on_shopping_cart.execute"
+            "webshop.webshop.crud_events.price_list.check_impact_on_cart.execute"
         ],
     },
     "Tax Rule": {

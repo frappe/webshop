@@ -1,10 +1,12 @@
 frappe.ui.form.on("Item", {
-    refresh: function() {
+    refresh: function(frm) {
 		if (!frm.doc.published_in_website) {
 			frm.add_custom_button(__("Publish in Website"), function() {
 				frappe.call({
 					method: "webshop.webshop.doctype.website_item.website_item.make_website_item",
-					args: {doc: frm.doc},
+					args: {
+						doc: frm.doc,
+					},
 					freeze: true,
 					freeze_message: __("Publishing Item ..."),
 					callback: function(result) {
@@ -22,12 +24,12 @@ frappe.ui.form.on("Item", {
 				});
 			}, __('Actions'));
 		} else {
-			frm.add_custom_button(__("Website Item"), function() {
+			frm.add_custom_button(__("View Website Item"), function() {
 				frappe.db.get_value("Website Item", {item_code: frm.doc.name}, "name", (d) => {
 					if (!d.name) frappe.throw(__("Website Item not found"));
 					frappe.set_route("Form", "Website Item", d.name);
 				});
-			}, __("View"));
+			});
 		}
     }
 })

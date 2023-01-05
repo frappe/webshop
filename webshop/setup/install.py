@@ -1,4 +1,18 @@
+import click
 import frappe
+
+from frappe import _
+from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
+
+
+def after_install():
+    copy_from_ecommerce_settings()
+    drop_ecommerce_settings()
+    remove_ecommerce_settings_doctype()
+    add_custom_fields()
+    navbar_add_products_link()
+    frappe.db.commit()
+    say_thanks()
 
 
 def copy_from_ecommerce_settings():
@@ -30,7 +44,42 @@ def remove_ecommerce_settings_doctype():
     frappe.qb.from_(table).delete().where(table.doctype == old_doctype).run()
 
 
-def after_install():
-    copy_from_ecommerce_settings()
-    drop_ecommerce_settings()
-    remove_ecommerce_settings_doctype()
+def add_custom_fields():
+    d = {
+        "Item": [
+            {
+                "default": 0,
+                "depends_on": "published_in_website",
+                "fieldname": "published_in_website",
+                "fieldtype": "Check",
+                "ignore_user_permissions": 1,
+                "insert_after": "default_manufacturer_part_no",
+                "label": "Published In Website",
+                "read_only": 1,
+            }
+        ]
+    }
+
+    return create_custom_fields(d)
+
+
+def navbar_add_products_link():
+    website_settings = frappe.get_single("Website Settings")
+
+    if not website_settings:
+        return
+
+    website_settings.append(
+        "top_bar_items",
+        {
+            "label": _("Products"),
+            "url": "/all-products",
+            "right": False,
+        },
+    )
+
+    return website_settings.save()
+
+
+def say_thanks():
+    click.secho("Thank you for installing Frappe Webshop!", color="green")
