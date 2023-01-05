@@ -30,7 +30,7 @@ override_doctype_class = {
 }
 
 doctype_js = {
-    "Item": "public/js/overrides/item.js",
+    "Item": "public/js/override/item.js",
 }
 
 doc_events = {

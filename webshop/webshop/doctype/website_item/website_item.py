@@ -498,9 +498,7 @@ def check_if_user_is_customer(user=None):
 
 
 @frappe.whitelist()
-def make_website_item(
-    doc: "Item", save: bool = True
-) -> Union["WebsiteItem", List[str]]:
+def make_website_item(doc: Item, save: bool = True):
     "Make Website Item from Item. Used via Form UI or patch."
 
     if not doc:
