@@ -39,6 +39,9 @@ doc_events = {
             "webshop.webshop.crud_events.item.update_website_item.execute",
             "webshop.webshop.crud_events.item.invalidate_item_variants_cache.execute",
         ],
+        "before_rename": [
+            "webshop.webshop.crud_events.item.validate_duplicate_website_item.execute",
+        ],
         "after_rename": [
             "webshop.webshop.crud_events.item.invalidate_item_variants_cache.execute",
         ],
