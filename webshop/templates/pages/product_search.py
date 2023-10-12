@@ -14,7 +14,7 @@ from webshop.webshop.redisearch_utils import (
 	is_redisearch_enabled,
 )
 from webshop.webshop.shopping_cart.product_info import set_product_info_for_website
-from erpnext.setup.doctype.item_group.item_group import get_item_for_list_in_html
+from webshop.webshop.doctype.override_doctype.item_group import get_item_for_list_in_html
 
 no_cache = 1
 

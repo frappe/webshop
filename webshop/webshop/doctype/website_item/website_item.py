@@ -21,7 +21,7 @@ from webshop.webshop.redisearch_utils import (
     update_index_for_item,
 )
 from webshop.webshop.shopping_cart.cart import _set_price_list
-from erpnext.setup.doctype.item_group.item_group import (
+from webshop.webshop.doctype.override_doctype.item_group import (
     get_parent_item_groups,
     invalidate_cache_for,
 )
