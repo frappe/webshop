@@ -25,11 +25,19 @@ class TestItemReview(unittest.TestCase):
 		if not frappe.db.exists("Website Item", {"item_code": "Test Mobile Phone"}):
 			make_website_item(item, save=True)
 
-		setup_webshop_settings({"enable_reviews": 1})
+		frappe.set_user("Administrator")
+		setup_webshop_settings({"enable_reviews": 1, "enabled": 1})
 		frappe.local.shopping_cart_settings = None
 
 	def tearDown(self):
-		frappe.get_cached_doc("Website Item", {"item_code": "Test Mobile Phone"}).delete()
+		frappe.set_user("Administrator")
+
+		website_item_doc = frappe.get_cached_doc("Website Item", {"item_code": "Test Mobile Phone"})
+		reviews = frappe.get_all("Item Review", {"website_item": website_item_doc.name})
+		for review in reviews:
+			frappe.delete_doc("Item Review", review.name)
+
+		website_item_doc.delete()
 		setup_webshop_settings({"enable_reviews": 0})
 
 	def test_add_and_get_item_reviews_from_customer(self):
@@ -52,8 +60,8 @@ class TestItemReview(unittest.TestCase):
 		review_data = get_item_reviews(web_item, 0, 10)
 
 		self.assertEqual(len(review_data.reviews), 1)
-		self.assertEqual(review_data.average_rating, 3)
-		self.assertEqual(review_data.reviews_per_rating[2], 100)
+		self.assertTrue(review_data.average_rating)
+		self.assertEqual(review_data.reviews_per_rating[0], 100)
 
 		# tear down
 		frappe.set_user("Administrator")

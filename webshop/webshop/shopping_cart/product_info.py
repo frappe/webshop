@@ -88,8 +88,6 @@ def get_product_info_for_website(item_code, skip_quotation_creation=False):
 			if item:
 				product_info["qty"] = item[0].qty
 
-	print(product_info)
-	print(cart_settings.as_dict())
 	return frappe._dict({"product_info": product_info, "cart_settings": cart_settings})
 
 

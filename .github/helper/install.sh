@@ -50,4 +50,5 @@ bench --site test_site reinstall --yes
 
 bench get-app webshop "${GITHUB_WORKSPACE}"
 bench --site test_site install-app webshop
+bench --site test_site set-config allow_tests true
 bench setup requirements --dev

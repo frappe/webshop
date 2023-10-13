@@ -1,4 +1,5 @@
 import frappe
+from frappe import _
 from urllib.parse import quote
 from frappe.utils import get_url
 from frappe.website.website_generator import WebsiteGenerator
@@ -15,13 +16,13 @@ class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 	)
 
 	def validate(self):
+		self.make_route()
 		WebsiteGenerator.validate(self)
 		super(WebshopItemGroup, self).validate()
-		self.make_route()
 
 	def on_update(self):
 		invalidate_cache_for(self)
-		super().on_update(self)
+		super(WebshopItemGroup, self).on_update()
 
 	def make_route(self):
 		"""Make website route"""
@@ -56,7 +57,12 @@ def get_item_for_list_in_html(context):
 
 
 def get_parent_item_groups(item_group_name, from_item=False):
-	base_nav_page = {"name": _("All Products"), "route": "/all-products"}
+	settings = frappe.get_cached_doc("Webshop Settings")
+
+	if settings.enable_field_filters:
+		base_nav_page = {"name": _("Shop by Category"), "route": "/shop-by-category"}
+	else:
+		base_nav_page = {"name": _("All Products"), "route": "/all-products"}
 
 	if from_item and frappe.request.environ.get("HTTP_REFERER"):
 		# base page after 'Home' will vary on Item page
@@ -94,3 +100,16 @@ def invalidate_cache_for(doc, item_group=None):
 		item_group_name = frappe.db.get_value("Item Group", d.get("name"))
 		if item_group_name:
 			clear_cache(frappe.db.get_value("Item Group", item_group_name, "route"))
+
+def get_child_groups_for_website(item_group_name, immediate=False, include_self=False):
+	"""Returns child item groups *excluding* passed group."""
+	item_group = frappe.get_cached_value("Item Group", item_group_name, ["lft", "rgt"], as_dict=1)
+	filters = {"lft": [">", item_group.lft], "rgt": ["<", item_group.rgt], "show_in_website": 1}
+
+	if immediate:
+		filters["parent_item_group"] = item_group_name
+
+	if include_self:
+		filters.update({"lft": [">=", item_group.lft], "rgt": ["<=", item_group.rgt]})
+
+	return frappe.get_all("Item Group", filters=filters, fields=["name", "route"], order_by="name")
