@@ -3,14 +3,14 @@ from frappe import _
 from frappe.utils import cint
 
 
-def execute(doc):
+def execute(doc, method=None):
     """
     If shopping cart is enabled and no tax rule exists for shopping cart, enable this one
     """
     if doc.use_for_shopping_cart:
         return
 
-    is_enabled = cint(frappe.db.get_single_value("Website Settings", "enabled"))
+    is_enabled = cint(frappe.db.get_single_value("Webshop Settings", "enabled"))
 
     if not is_enabled:
         return

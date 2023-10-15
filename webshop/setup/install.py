@@ -6,80 +6,213 @@ from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 
 
 def after_install():
-    copy_from_ecommerce_settings()
-    drop_ecommerce_settings()
-    remove_ecommerce_settings_doctype()
-    add_custom_fields()
-    navbar_add_products_link()
-    frappe.db.commit()
-    say_thanks()
+	run_patches()
+	copy_from_ecommerce_settings()
+	drop_ecommerce_settings()
+	remove_ecommerce_settings_doctype()
+	add_custom_fields()
+	navbar_add_products_link()
+	say_thanks()
 
 
 def copy_from_ecommerce_settings():
-    qb = frappe.qb
-    table = frappe.qb.Table("tabSingles")
-    old_doctype = "E Commerce Settings"
-    new_doctype = "Webshop Settings"
-    fields = ("field", "value")
+	if not frappe.db.table_exists("E Commerce Settings"):
+		return
 
-    entries = (
-        qb.from_(table)
-        .select(*fields)
-        .where(table.doctype == old_doctype)
-        .run(as_dict=True)
-    )
+	qb = frappe.qb
+	table = frappe.qb.Table("tabSingles")
+	old_doctype = "E Commerce Settings"
+	new_doctype = "Webshop Settings"
+	fields = ("field", "value")
 
-    for e in entries:
-        qb.into(table).insert(new_doctype, e.field, e.value).run()
+	entries = (
+		qb.from_(table)
+		.select(*fields)
+		.where(table.doctype == old_doctype)
+		.run(as_dict=True)
+	)
+
+	for e in entries:
+		qb.into(table).insert(new_doctype, e.field, e.value).run()
 
 
 def drop_ecommerce_settings():
-    frappe.delete_doc_if_exists("DocType", "E Commerce Settings", force=True)
+	frappe.delete_doc_if_exists("DocType", "E Commerce Settings", force=True)
 
 
 def remove_ecommerce_settings_doctype():
-    table = frappe.qb.Table("tabSingles")
-    old_doctype = "E Commerce Settings"
+	if not frappe.db.table_exists("E Commerce Settings"):
+		return
 
-    frappe.qb.from_(table).delete().where(table.doctype == old_doctype).run()
+	table = frappe.qb.Table("tabSingles")
+	old_doctype = "E Commerce Settings"
+
+	frappe.qb.from_(table).delete().where(table.doctype == old_doctype).run()
 
 
 def add_custom_fields():
-    d = {
-        "Item": [
-            {
-                "default": 0,
-                "depends_on": "published_in_website",
-                "fieldname": "published_in_website",
-                "fieldtype": "Check",
-                "ignore_user_permissions": 1,
-                "insert_after": "default_manufacturer_part_no",
-                "label": "Published In Website",
-                "read_only": 1,
-            }
-        ]
-    }
+	custom_fields = {
+		"Item": [
+			{
+				"default": 0,
+				"depends_on": "published_in_website",
+				"fieldname": "published_in_website",
+				"fieldtype": "Check",
+				"ignore_user_permissions": 1,
+				"insert_after": "default_manufacturer_part_no",
+				"label": "Published In Website",
+				"read_only": 1,
+			}
+		],
+		"Item Group": [
+			{
+				"fieldname": "custom_website_settings",
+				"fieldtype": "Section Break",
+				"label": "Website Settings",
+				"insert_after": "taxes",
+			},
+			{
+				"default": "0",
+				"description": "Make Item Group visible in website",
+				"fieldname": "show_in_website",
+				"fieldtype": "Check",
+				"label": "Show in Website",
+				"insert_after": "custom_website_settings",
+			},
+			{
+				"depends_on": "show_in_website",
+				"fieldname": "route",
+				"fieldtype": "Data",
+				"label": "Route",
+				"no_copy": 1,
+				"unique": 1,
+				"insert_after": "show_in_website",
+			},
+			{
+				"depends_on": "show_in_website",
+				"fieldname": "website_title",
+				"fieldtype": "Data",
+				"label": "Title",
+				"insert_after": "route",
+			},
+			{
+				"depends_on": "show_in_website",
+				"description": "HTML / Banner that will show on the top of product list.",
+				"fieldname": "description",
+				"fieldtype": "Text Editor",
+				"label": "Description",
+				"insert_after": "website_title",
+			},
+			{
+				"default": "0",
+				"depends_on": "show_in_website",
+				"description": "Include Website Items belonging to child Item Groups",
+				"fieldname": "include_descendants",
+				"fieldtype": "Check",
+				"label": "Include Descendants",
+				"insert_after": "website_title",
+			},
+			{
+				"fieldname": "column_break_16",
+				"fieldtype": "Column Break",
+				"insert_after": "include_descendants",
+			},
+			{
+				"depends_on": "show_in_website",
+				"fieldname": "weightage",
+				"fieldtype": "Int",
+				"label": "Weightage",
+				"insert_after": "column_break_16",
+			},
+			{
+				"depends_on": "show_in_website",
+				"description": "Show this slideshow at the top of the page",
+				"fieldname": "slideshow",
+				"fieldtype": "Link",
+				"label": "Slideshow",
+				"options": "Website Slideshow",
+				"insert_after": "weightage",
+			},
+			{
+				"depends_on": "show_in_website",
+				"fieldname": "website_specifications",
+				"fieldtype": "Table",
+				"label": "Website Specifications",
+				"options": "Item Website Specification",
+				"insert_after": "description",
+			},
+			{
+				"collapsible": 1,
+				"depends_on": "show_in_website",
+				"fieldname": "website_filters_section",
+				"fieldtype": "Section Break",
+				"label": "Website Filters",
+				"insert_after": "website_specifications",
+			},
+			{
+				"fieldname": "filter_fields",
+				"fieldtype": "Table",
+				"label": "Item Fields",
+				"options": "Website Filter Field",
+				"insert_after": "website_filters_section",
+			},
+			{
+				"fieldname": "filter_attributes",
+				"fieldtype": "Table",
+				"label": "Attributes",
+				"options": "Website Attribute",
+				"insert_after": "filter_fields",
+			},
+		]
+	}
 
-    return create_custom_fields(d)
-
+	return create_custom_fields(custom_fields)
 
 def navbar_add_products_link():
-    website_settings = frappe.get_single("Website Settings")
+	website_settings = frappe.get_single("Website Settings")
 
-    if not website_settings:
-        return
+	if not website_settings:
+		return
 
-    website_settings.append(
-        "top_bar_items",
-        {
-            "label": _("Products"),
-            "url": "/all-products",
-            "right": False,
-        },
-    )
+	website_settings.append(
+		"top_bar_items",
+		{
+			"label": _("Products"),
+			"url": "/all-products",
+			"right": False,
+		},
+	)
 
-    return website_settings.save()
+	return website_settings.save()
 
 
 def say_thanks():
-    click.secho("Thank you for installing Frappe Webshop!", color="green")
+	click.secho("Thank you for installing Frappe Webshop!", color="green")
+
+
+patches = [
+	"create_website_items",
+	"populate_e_commerce_settings",
+	"make_homepage_products_website_items",
+	"fetch_thumbnail_in_website_items",
+	"convert_to_website_item_in_item_card_group_template",
+	"shopping_cart_to_ecommerce"
+	"copy_custom_field_filters_to_website_item",
+]
+
+def run_patches():
+	# Customers migrating from v13 to v15 directly need to run all below patches
+
+	if frappe.db.table_exists("Website Item"):
+		return
+
+	frappe.flags.in_patch = True
+
+	try:
+		for patch in patches:
+			frappe.get_attr(f"webshop.patches.after_install.{patch}.execute")()
+
+	finally:
+		frappe.flags.in_patch = False
+
+

@@ -15,8 +15,9 @@ from webshop.webshop.doctype.webshop_settings.test_webshop_settings import (
 )
 from webshop.webshop.doctype.website_item.website_item import make_website_item
 from webshop.webshop.shopping_cart.product_info import get_product_info_for_website
-from erpnext.stock.doctype.item.item import DataValidationError
+from webshop.webshop.doctype.override_doctype.item import DataValidationError
 from erpnext.stock.doctype.item.test_item import make_item
+from webshop.webshop.doctype.override_doctype.item_group import get_parent_item_groups
 
 WEBITEM_DESK_TESTS = ("test_website_item_desk_item_sync", "test_publish_variant_and_template")
 WEBITEM_PRICE_TESTS = (
@@ -163,7 +164,7 @@ class TestWebsiteItem(unittest.TestCase):
 		second_web_item.save()
 
 		with self.assertRaises(DataValidationError):
-			frappe.rename_doc("Item", "Test First Item", "Test Second Item", merge=True)
+			frappe.rename_doc("Item", first_item.name, second_item.name, merge=True)
 
 		# tear down
 		second_web_item.delete()
@@ -175,8 +176,6 @@ class TestWebsiteItem(unittest.TestCase):
 
 	def test_website_item_breadcrumbs(self):
 		"Check if breadcrumbs include homepage, product listing navigation page, parent item group(s) and item group."
-		from erpnext.setup.doctype.item_group.item_group import get_parent_item_groups
-
 		item_code = "Test Breadcrumb Item"
 		item = make_item(
 			item_code,
@@ -196,8 +195,14 @@ class TestWebsiteItem(unittest.TestCase):
 
 		breadcrumbs = get_parent_item_groups(item.item_group)
 
+		settings = frappe.get_cached_doc("Webshop Settings")
+		if settings.enable_field_filters:
+			base_breadcrumb = "Shop by Category"
+		else:
+			base_breadcrumb = "All Products"
+
 		self.assertEqual(breadcrumbs[0]["name"], "Home")
-		self.assertEqual(breadcrumbs[1]["name"], "Shop by Category")
+		self.assertEqual(breadcrumbs[1]["name"], base_breadcrumb)
 		self.assertEqual(breadcrumbs[2]["name"], "_Test Item Group B")  # parent item group
 		self.assertEqual(breadcrumbs[3]["name"], "_Test Item Group B - 1")
 
@@ -227,7 +232,7 @@ class TestWebsiteItem(unittest.TestCase):
 		self.assertEqual(price_object.get("price_list_rate"), 750)
 		self.assertEqual(price_object.get("formatted_mrp"), "₹ 1,000.00")
 		self.assertEqual(price_object.get("formatted_price"), "₹ 750.00")
-		self.assertEqual(price_object.get("formatted_discount_percent"), "25%")
+		self.assertEqual(price_object.get("formatted_discount_percent"), "25.0%")
 
 		# switch to admin and disable show price
 		frappe.set_user("Administrator")
@@ -285,6 +290,10 @@ class TestWebsiteItem(unittest.TestCase):
 		2) Showing stock availability disabled
 		"""
 		item_code = "Test Mobile Phone"
+		user = frappe.session.user
+
+		frappe.set_user("Administrator")
+
 		create_regular_web_item()
 		setup_webshop_settings({"show_stock_availability": 1})
 
@@ -303,7 +312,7 @@ class TestWebsiteItem(unittest.TestCase):
 		# check if stock details are fetched and item not in stock with warehouse set
 		data = get_product_info_for_website(item_code, skip_quotation_creation=True)
 		self.assertFalse(bool(data.product_info["in_stock"]))
-		self.assertEqual(data.product_info["stock_qty"][0][0], 0)
+		self.assertEqual(data.product_info["stock_qty"], 0)
 
 		# disable show stock availability
 		setup_webshop_settings({"show_stock_availability": 0})
@@ -317,6 +326,7 @@ class TestWebsiteItem(unittest.TestCase):
 
 		# tear down
 		frappe.get_cached_doc("Website Item", {"item_code": "Test Mobile Phone"}).delete()
+		frappe.set_user(user)
 
 	def test_website_item_stock_when_in_stock(self):
 		"""
@@ -329,6 +339,9 @@ class TestWebsiteItem(unittest.TestCase):
 		from erpnext.stock.doctype.stock_entry.stock_entry_utils import make_stock_entry
 
 		item_code = "Test Mobile Phone"
+		user = frappe.session.user
+
+		frappe.set_user("Administrator")
 		create_regular_web_item()
 		setup_webshop_settings({"show_stock_availability": 1})
 		frappe.local.shopping_cart_settings = None
@@ -346,7 +359,7 @@ class TestWebsiteItem(unittest.TestCase):
 		# check if stock details are fetched and item is in stock with warehouse set
 		data = get_product_info_for_website(item_code, skip_quotation_creation=True)
 		self.assertTrue(bool(data.product_info["in_stock"]))
-		self.assertEqual(data.product_info["stock_qty"][0][0], 2)
+		self.assertEqual(data.product_info["stock_qty"], 2)
 
 		# unset warehouse
 		frappe.db.set_value("Website Item", {"item_code": item_code}, "website_warehouse", "")
@@ -370,6 +383,7 @@ class TestWebsiteItem(unittest.TestCase):
 		# tear down
 		stock_entry.cancel()
 		frappe.get_cached_doc("Website Item", {"item_code": "Test Mobile Phone"}).delete()
+		frappe.set_user(user)
 
 	def test_recommended_item(self):
 		"Check if added recommended items are fetched correctly."

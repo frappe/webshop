@@ -7,7 +7,7 @@ sitemap = 1
 def get_context(context):
 	context.body_class = "product-page"
 
-	settings = frappe.get_cached_doc("E Commerce Settings")
+	settings = frappe.get_cached_doc("Webshop Settings")
 	context.categories_enabled = settings.enable_field_filters
 
 	if context.categories_enabled:

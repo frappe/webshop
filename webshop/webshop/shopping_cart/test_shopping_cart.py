@@ -28,7 +28,6 @@ class TestShoppingCart(unittest.TestCase):
 
 	def setUp(self):
 		frappe.set_user("Administrator")
-		create_test_contact_and_address()
 		self.enable_shopping_cart()
 		if not frappe.db.exists("Website Item", {"item_code": "_Test Item"}):
 			make_website_item(frappe.get_cached_doc("Item", "_Test Item"))
@@ -46,48 +45,57 @@ class TestShoppingCart(unittest.TestCase):
 		frappe.db.sql("delete from `tabTax Rule`")
 
 	def test_get_cart_new_user(self):
-		self.login_as_new_user()
-
+		self.login_as_customer(
+			"test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer"
+		)
+		create_address_and_contact(
+			address_title="_Test Address for Customer 2",
+			first_name="_Test Contact for Customer 2",
+			email="test_contact_two_customer@example.com",
+			customer="_Test Customer 2",
+		)
 		# test if lead is created and quotation with new lead is fetched
-		quotation = _get_cart_quotation()
+		customer = frappe.get_doc("Customer", "_Test Customer 2")
+		quotation = _get_cart_quotation(party=customer)
 		self.assertEqual(quotation.quotation_to, "Customer")
 		self.assertEqual(
 			quotation.contact_person,
-			frappe.db.get_value("Contact", dict(email_id="test_cart_user@example.com")),
+			frappe.db.get_value("Contact", dict(email_id="test_contact_two_customer@example.com")),
 		)
 		self.assertEqual(quotation.contact_email, frappe.session.user)
 
 		return quotation
 
-	def test_get_cart_customer(self):
-		def validate_quotation():
+	def test_get_cart_customer(self, customer="_Test Customer 2"):
+		def validate_quotation(customer_name):
 			# test if quotation with customer is fetched
-			quotation = _get_cart_quotation()
+			party = frappe.get_doc("Customer", customer_name)
+			quotation = _get_cart_quotation(party=party)
 			self.assertEqual(quotation.quotation_to, "Customer")
-			self.assertEqual(quotation.party_name, "_Test Customer")
+			self.assertEqual(quotation.party_name, customer_name)
 			self.assertEqual(quotation.contact_email, frappe.session.user)
 			return quotation
 
-		self.login_as_customer(
-			"test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer"
-		)
-		validate_quotation()
-
-		self.login_as_customer()
-		quotation = validate_quotation()
-
+		quotation = validate_quotation(customer)
 		return quotation
 
 	def test_add_to_cart(self):
-		self.login_as_customer()
-
+		self.login_as_customer(
+			"test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer"
+		)
+		create_address_and_contact(
+			address_title="_Test Address for Customer 2",
+			first_name="_Test Contact for Customer 2",
+			email="test_contact_two_customer@example.com",
+			customer="_Test Customer 2",
+		)
 		# clear existing quotations
 		self.clear_existing_quotations()
 
 		# add first item
 		update_cart("_Test Item", 1)
 
-		quotation = self.test_get_cart_customer()
+		quotation = self.test_get_cart_customer("_Test Customer 2")
 
 		self.assertEqual(quotation.get("items")[0].item_code, "_Test Item")
 		self.assertEqual(quotation.get("items")[0].qty, 1)
@@ -95,7 +103,7 @@ class TestShoppingCart(unittest.TestCase):
 
 		# add second item
 		update_cart("_Test Item 2", 1)
-		quotation = self.test_get_cart_customer()
+		quotation = self.test_get_cart_customer("_Test Customer 2")
 		self.assertEqual(quotation.get("items")[1].item_code, "_Test Item 2")
 		self.assertEqual(quotation.get("items")[1].qty, 1)
 		self.assertEqual(quotation.get("items")[1].amount, 20)
@@ -108,7 +116,7 @@ class TestShoppingCart(unittest.TestCase):
 
 		# update first item
 		update_cart("_Test Item", 5)
-		quotation = self.test_get_cart_customer()
+		quotation = self.test_get_cart_customer("_Test Customer 2")
 		self.assertEqual(quotation.get("items")[0].item_code, "_Test Item")
 		self.assertEqual(quotation.get("items")[0].qty, 5)
 		self.assertEqual(quotation.get("items")[0].amount, 50)
@@ -121,7 +129,7 @@ class TestShoppingCart(unittest.TestCase):
 
 		# remove first item
 		update_cart("_Test Item", 0)
-		quotation = self.test_get_cart_customer()
+		quotation = self.test_get_cart_customer("_Test Customer 2")
 
 		self.assertEqual(quotation.get("items")[0].item_code, "_Test Item 2")
 		self.assertEqual(quotation.get("items")[0].qty, 1)
@@ -132,7 +140,17 @@ class TestShoppingCart(unittest.TestCase):
 	@unittest.skip("Flaky in CI")
 	def test_tax_rule(self):
 		self.create_tax_rule()
-		self.login_as_customer()
+
+		self.login_as_customer(
+			"test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer"
+		)
+		create_address_and_contact(
+			address_title="_Test Address for Customer 2",
+			first_name="_Test Contact for Customer 2",
+			email="test_contact_two_customer@example.com",
+			customer="_Test Customer 2",
+		)
+
 		quotation = self.create_quotation()
 
 		from erpnext.accounts.party import set_taxes
@@ -168,7 +186,6 @@ class TestShoppingCart(unittest.TestCase):
 	def test_add_item_variant_without_web_item_to_cart(self):
 		"Test adding Variants having no Website Items in cart via Template Web Item."
 		from erpnext.controllers.item_variant import create_variant
-		from webshop.webshop.doctype.website_item.website_item import make_website_item
 		from erpnext.stock.doctype.item.test_item import make_item
 
 		template_item = make_item(
@@ -205,7 +222,7 @@ class TestShoppingCart(unittest.TestCase):
 
 		self.assertEqual(quote_doctstatus, 0)
 
-		frappe.db.set_value("Webshop Settings", None, "save_quotations_as_draft", 0)
+		frappe.db.set_single_value("Webshop Settings", "save_quotations_as_draft", 0)
 		frappe.local.shopping_cart_settings = None
 		update_cart("_Test Item", 1)
 		quote_name = request_for_quotation()  # Request for Quote
@@ -253,7 +270,7 @@ class TestShoppingCart(unittest.TestCase):
 
 	# helper functions
 	def enable_shopping_cart(self):
-		settings = frappe.get_doc("Webshop Settings", "Webshop Settings")
+		settings = frappe.get_doc("Webshop Settings")
 
 		settings.update(
 			{
@@ -290,7 +307,7 @@ class TestShoppingCart(unittest.TestCase):
 		frappe.local.shopping_cart_settings = None
 
 	def disable_shopping_cart(self):
-		settings = frappe.get_doc("Webshop Settings", "Webshop Settings")
+		settings = frappe.get_doc("Webshop Settings")
 		settings.enabled = 0
 		settings.save()
 		frappe.local.shopping_cart_settings = None
@@ -320,7 +337,7 @@ class TestShoppingCart(unittest.TestCase):
 		if frappe.db.exists("User", email):
 			return
 
-		frappe.get_doc(
+		user = frappe.get_doc(
 			{
 				"doctype": "User",
 				"user_type": "Website User",
@@ -329,6 +346,40 @@ class TestShoppingCart(unittest.TestCase):
 				"first_name": first_name or email.split("@")[0],
 			}
 		).insert(ignore_permissions=True)
+
+		user.add_roles("Customer")
+
+
+def create_address_and_contact(**kwargs):
+	if not frappe.db.get_value("Address", {"address_title": kwargs.get("address_title")}):
+		frappe.get_doc(
+			{
+				"doctype": "Address",
+				"address_title": kwargs.get("address_title"),
+				"address_type": kwargs.get("address_type") or "Office",
+				"address_line1": kwargs.get("address_line1") or "Station Road",
+				"city": kwargs.get("city") or "_Test City",
+				"state": kwargs.get("state") or "Test State",
+				"country": kwargs.get("country") or "India",
+				"links": [
+					{"link_doctype": "Customer", "link_name": kwargs.get("customer") or "_Test Customer"}
+				],
+			}
+		).insert()
+
+	if not frappe.db.get_value("Contact", {"first_name": kwargs.get("first_name")}):
+		contact = frappe.get_doc(
+			{
+				"doctype": "Contact",
+				"first_name": kwargs.get("first_name"),
+				"links": [
+					{"link_doctype": "Customer", "link_name": kwargs.get("customer") or "_Test Customer"}
+				],
+			}
+		)
+		contact.add_email(kwargs.get("email") or "test_contact_customer@example.com", is_primary=True)
+		contact.add_phone(kwargs.get("phone") or "+91 0000000000", is_primary_phone=True)
+		contact.insert()
 
 
 test_dependencies = [

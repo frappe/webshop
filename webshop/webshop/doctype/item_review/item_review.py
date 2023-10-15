@@ -111,9 +111,9 @@ def add_item_review(web_item, title, rating, comment=None):
 		frappe.throw(_("You are not verified to write a review yet."), exc=UnverifiedReviewer)
 
 	if not frappe.db.exists("Item Review", {"user": frappe.session.user, "website_item": web_item}):
-		doc = frappe.get_doc(
+		doc = frappe.new_doc("Item Review")
+		doc.update(
 			{
-				"doctype": "Item Review",
 				"user": frappe.session.user,
 				"customer": get_customer(),
 				"website_item": web_item,
@@ -124,7 +124,7 @@ def add_item_review(web_item, title, rating, comment=None):
 			}
 		)
 		doc.published_on = datetime.today().strftime("%d %B %Y")
-		doc.insert()
+		doc.save()
 
 
 def get_customer(silent=False):

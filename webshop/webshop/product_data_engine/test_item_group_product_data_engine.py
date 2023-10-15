@@ -31,11 +31,15 @@ class TestItemGroupProductDataEngine(unittest.TestCase):
 		frappe.db.set_value("Item Group", "_Test Item Group B - 1", "show_in_website", 1)
 		frappe.db.set_value("Item Group", "_Test Item Group B - 2", "show_in_website", 1)
 
+		frappe.db.set_single_value("Webshop Settings", "products_per_page", 10)
+
 	def tearDown(self):
 		frappe.db.rollback()
 
 	def test_product_listing_in_item_group(self):
 		"Test if only products belonging to the Item Group are fetched."
+
+		frappe.db.set_value("Item Group", "_Test Item Group B", "include_descendants", 0)
 		result = get_product_filter_data(
 			query_args={
 				"field_filters": {},
@@ -132,14 +136,16 @@ class TestItemGroupProductDataEngine(unittest.TestCase):
 		        > _Test Item Group B - 1 [Level 2]
 		                > _Test Item Group B - 1 - 1 [Level 3]
 		"""
-		frappe.get_doc(
-			{  # create Level 3 nested child group
-				"doctype": "Item Group",
-				"is_group": 1,
-				"item_group_name": "_Test Item Group B - 1 - 1",
-				"parent_item_group": "_Test Item Group B - 1",
-			}
-		).insert()
+
+		if not frappe.db.exists("Item Group", "_Test Item Group B - 1 - 1"):
+			frappe.get_doc(
+				{  # create Level 3 nested child group
+					"doctype": "Item Group",
+					"is_group": 1,
+					"item_group_name": "_Test Item Group B - 1 - 1",
+					"parent_item_group": "_Test Item Group B - 1",
+				}
+			).insert()
 
 		create_regular_web_item(  # create an item belonging to level 3 item group
 			"Test Mobile F", item_args={"item_group": "_Test Item Group B - 1 - 1"}
