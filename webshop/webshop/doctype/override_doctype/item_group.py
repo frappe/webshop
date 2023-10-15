@@ -1,10 +1,11 @@
 import frappe
 from frappe import _
 from urllib.parse import quote
-from frappe.utils import get_url
+from frappe.utils import get_url, cint
 from frappe.website.website_generator import WebsiteGenerator
 from erpnext.setup.doctype.item_group.item_group import ItemGroup
 from frappe.website.utils import clear_cache
+from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
 
 class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 	nsm_parent_field = "parent_item_group"
@@ -44,6 +45,42 @@ class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 	def on_trash(self):
 		WebsiteGenerator.on_trash(self)
 		super(WebshopItemGroup, self).on_trash()
+
+	def get_context(self, context):
+		context.show_search = True
+		context.body_class = "product-page"
+		context.page_length = (
+			cint(frappe.db.get_single_value("Webshop Settings", "products_per_page")) or 6
+		)
+		context.search_link = "/product_search"
+
+		filter_engine = ProductFiltersBuilder(self.name)
+
+		context.field_filters = filter_engine.get_field_filters()
+		context.attribute_filters = filter_engine.get_attribute_filters()
+
+		context.update({"parents": get_parent_item_groups(self.parent_item_group), "title": self.name})
+
+		if self.slideshow:
+			values = {"show_indicators": 1, "show_controls": 0, "rounded": 1, "slider_name": self.slideshow}
+			slideshow = frappe.get_doc("Website Slideshow", self.slideshow)
+			slides = slideshow.get({"doctype": "Website Slideshow Item"})
+			for index, slide in enumerate(slides):
+				values[f"slide_{index + 1}_image"] = slide.image
+				values[f"slide_{index + 1}_title"] = slide.heading
+				values[f"slide_{index + 1}_subtitle"] = slide.description
+				values[f"slide_{index + 1}_theme"] = slide.get("theme") or "Light"
+				values[f"slide_{index + 1}_content_align"] = slide.get("content_align") or "Centre"
+				values[f"slide_{index + 1}_primary_action"] = slide.url
+
+			context.slideshow = values
+
+		context.no_breadcrumbs = False
+		context.title = self.website_title or self.name
+		context.name = self.name
+		context.item_group_name = self.item_group_name
+
+		return context
 
 def get_item_for_list_in_html(context):
 	# add missing absolute link in files
