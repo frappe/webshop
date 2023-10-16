@@ -34,6 +34,16 @@ def copy_from_ecommerce_settings():
 	for e in entries:
 		qb.into(table).insert(new_doctype, e.field, e.value).run()
 
+	for doctype in ["Website Filter Field", "Website Attribute"]:
+		table = qb.DocType(doctype)
+		query = (
+			qb.update(table)
+			.set(table.parent, new_doctype)
+			.set(table.parenttype, new_doctype)
+			.where(table.parent == old_doctype)
+		)
+
+		query.run()
 
 def has_ecommerce_fields() -> bool:
 	table = frappe.qb.Table("tabSingles")
