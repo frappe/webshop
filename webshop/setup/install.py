@@ -19,6 +19,8 @@ def copy_from_ecommerce_settings():
 	if not has_ecommerce_fields():
 		return
 
+	frappe.reload_doc("webshop", "doctype", "webshop_settings")
+
 	qb = frappe.qb
 	table = frappe.qb.Table("tabSingles")
 	old_doctype = "E Commerce Settings"
@@ -27,7 +29,7 @@ def copy_from_ecommerce_settings():
 	entries = (
 		qb.from_(table)
 		.select(table.field, table.value)
-		.where(table.doctype == old_doctype)
+		.where((table.doctype == old_doctype) & (table.field != "name"))
 		.run(as_dict=True)
 	)
 
