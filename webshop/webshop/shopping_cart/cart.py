@@ -89,9 +89,7 @@ def get_billing_addresses(party=None):
 @frappe.whitelist()
 def place_order():
 	quotation = _get_cart_quotation()
-	cart_settings = frappe.db.get_value(
-		"Webshop Settings", None, ["company", "allow_items_not_in_stock"], as_dict=1
-	)
+	cart_settings = frappe.get_cached_doc("Webshop Settings")
 	quotation.company = cart_settings.company
 
 	quotation.flags.ignore_permissions = True
@@ -104,9 +102,7 @@ def place_order():
 	if not (quotation.shipping_address_name or quotation.customer_address):
 		frappe.throw(_("Set Shipping Address or Billing Address"))
 
-	customer_group = frappe.db.get_value(
-		"Webshop Settings", None, "default_customer_group",
-	)
+	customer_group = cart_settings.default_customer_group
 
 	sales_order = frappe.get_doc(
 		_make_sales_order(
@@ -332,7 +328,6 @@ def guess_territory():
 
 	return (
 		territory
-		or frappe.db.get_value("Webshop Settings", None, "territory")
 		or get_root_of("Territory")
 	)
 
@@ -394,7 +389,7 @@ def _get_cart_quotation(party=None):
 	if quotation:
 		qdoc = frappe.get_doc("Quotation", quotation[0].name)
 	else:
-		company = frappe.db.get_value("Webshop Settings", None, ["company"])
+		company = frappe.db.get_single_value("Webshop Settings", "company")
 		qdoc = frappe.get_doc(
 			{
 				"doctype": "Quotation",
@@ -456,7 +451,7 @@ def apply_cart_settings(party=None, quotation=None):
 	if not quotation:
 		quotation = _get_cart_quotation(party)
 
-	cart_settings = frappe.get_doc("Webshop Settings")
+	cart_settings = frappe.get_cached_doc("Webshop Settings")
 
 	set_price_list_and_rate(quotation, cart_settings)
 
@@ -553,7 +548,7 @@ def get_party(user=None):
 			party_doctype = contact.links[0].link_doctype
 			party = contact.links[0].link_name
 
-	cart_settings = frappe.get_doc("Webshop Settings")
+	cart_settings = frappe.get_cached_doc("Webshop Settings")
 
 	debtors_account = ""
 
