@@ -10,6 +10,8 @@ app_version = _version
 
 required_apps = ["payments", "erpnext"]
 
+web_include_css = "webshop-web.bundle.css"
+
 web_include_js = "web.bundle.js"
 
 after_install = "webshop.setup.install.after_install"
