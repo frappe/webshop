@@ -16,18 +16,17 @@ def after_install():
 
 
 def copy_from_ecommerce_settings():
-	if not frappe.db.table_exists("E Commerce Settings"):
+	if not has_ecommerce_fields():
 		return
 
 	qb = frappe.qb
 	table = frappe.qb.Table("tabSingles")
 	old_doctype = "E Commerce Settings"
 	new_doctype = "Webshop Settings"
-	fields = ("field", "value")
 
 	entries = (
 		qb.from_(table)
-		.select(*fields)
+		.select(table.field, table.value)
 		.where(table.doctype == old_doctype)
 		.run(as_dict=True)
 	)
@@ -36,12 +35,25 @@ def copy_from_ecommerce_settings():
 		qb.into(table).insert(new_doctype, e.field, e.value).run()
 
 
+def has_ecommerce_fields() -> bool:
+	table = frappe.qb.Table("tabSingles")
+	query = (
+		frappe.qb.from_(table)
+		.select(table.field)
+		.where(table.doctype == "E Commerce Settings")
+		.limit(1)
+	)
+
+	data = query.run(as_dict=True)
+	return bool(data)
+
+
 def drop_ecommerce_settings():
 	frappe.delete_doc_if_exists("DocType", "E Commerce Settings", force=True)
 
 
 def remove_ecommerce_settings_doctype():
-	if not frappe.db.table_exists("E Commerce Settings"):
+	if not has_ecommerce_fields():
 		return
 
 	table = frappe.qb.Table("tabSingles")
