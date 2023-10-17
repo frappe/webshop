@@ -193,9 +193,8 @@ def add_custom_fields():
 	return create_custom_fields(custom_fields)
 
 def navbar_add_products_link():
-	website_settings = frappe.get_single("Website Settings")
-
-	if not website_settings:
+	website_settings = frappe.get_doc("Website Settings")
+	if website_settings.top_bar_items:
 		return
 
 	website_settings.append(
@@ -207,7 +206,7 @@ def navbar_add_products_link():
 		},
 	)
 
-	return website_settings.save()
+	website_settings.save()
 
 
 def say_thanks():
