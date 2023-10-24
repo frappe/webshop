@@ -28,7 +28,7 @@ my_account_context = "webshop.webshop.shopping_cart.utils.update_my_account_cont
 website_generators = ["Website Item", "Item Group"]
 
 override_doctype_class = {
-    "Payment Request": "webshop.webshop.override_doctype.payment_request.PaymentRequest",
+    "Payment Request": "webshop.webshop.doctype.override_doctype.payment_request.PaymentRequest",
     "Item Group": "webshop.webshop.doctype.override_doctype.item_group.WebshopItemGroup",
     "Item": "webshop.webshop.doctype.override_doctype.item.WebshopItem",
 }
