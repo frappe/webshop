@@ -1,10 +1,5 @@
 ## Frappe Webshop
-Open Source eCommerce Platform
-
-> Warning! This app is an effort to separate eCommerce module from
-> [ERPNext](https://github.com/frappe/erpnext/). Development is still ongoing,
-> and you might face unwanted issues.
-
+Frappe webshop is an Open Source eCommerce Platform
 ![Frappe Webshop](webshop.png)
 
 ## Installation
