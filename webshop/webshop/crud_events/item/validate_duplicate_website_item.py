@@ -8,7 +8,7 @@ class DataValidationError(frappe.ValidationError):
     pass
 
 
-def execute(doc, old_name, new_name, merge=False):
+def execute(doc, method=None, old_name=None, new_name=None, merge=False):
     """
     Block merge if both old and new items have website items against them.
     This is to avoid duplicate website items after merging.
