@@ -3,6 +3,16 @@
 {% set cart_settings = shopping_cart.cart_settings %}
 {% set product_info = shopping_cart.product_info %}
 
+{% macro show_price_display_suffix() %}
+	{%- if cart_settings.get("price_display_suffix") -%}
+		{%- if cart_settings.price_display_suffix == "Custom" -%}
+			<span class="price-display-suffix">{{ cart_settings.price_display_suffix_custom }}</span>
+		{%- else -%}
+			<span class="price-display-suffix">{{ _(cart_settings.price_display_suffix, context="Price Display Suffix") | e }}</span>
+		{%- endif -%}
+	{%- endif -%}
+{% endmacro %}
+
 <div class="item-cart row mt-2" data-variant-item-code="{{ item_code }}">
 	<div class="col-md-12">
 		<!-- Price and Availability -->
@@ -12,6 +22,7 @@
 			<div class="product-price">
 				<!-- Final Price -->
 				{{ price_info.formatted_price_sales_uom }}
+				{{ show_price_display_suffix() }}
 
 				<!-- Striked Price and Discount  -->
 				{% if price_info.formatted_mrp %}
