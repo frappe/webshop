@@ -82,6 +82,9 @@ class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 
 		return context
 
+	def has_website_permission(self, ptype, user, verbose=False):
+		return ptype == "read"
+
 def get_item_for_list_in_html(context):
 	# add missing absolute link in files
 	# user may forget it during upload
