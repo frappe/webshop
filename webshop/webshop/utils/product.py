@@ -1,4 +1,5 @@
 import frappe
+from frappe.query_builder.functions import IfNull
 from frappe.utils import getdate, nowdate
 
 from erpnext.stock.doctype.batch.batch import get_batch_qty
@@ -26,16 +27,26 @@ def get_web_item_qty_in_stock(item_code, item_warehouse_field, warehouse=None):
 
 	total_stock = 0.0
 	if warehouses:
+		qty_field = (
+			"actual_qty"
+			if frappe.db.get_single_value("Webshop Settings", "show_actual_qty")
+			else "projected_qty"
+		)
+
+		BIN = frappe.qb.DocType("Bin")
+		ITEM = frappe.qb.DocType("Item")
+		UOM = frappe.qb.DocType("UOM Conversion Detail")
+
 		for warehouse in warehouses:
-			stock_qty = frappe.db.sql(
-				"""
-				select S.actual_qty / IFNULL(C.conversion_factor, 1)
-				from tabBin S
-				inner join `tabItem` I on S.item_code = I.Item_code
-				left join `tabUOM Conversion Detail` C on I.sales_uom = C.uom and C.parent = I.Item_code
-				where S.item_code=%s and S.warehouse=%s""",
-				(item_code, warehouse),
-			)
+			stock_qty = (
+				frappe.qb.from_(BIN)
+				.select(BIN[qty_field] / IfNull(UOM.conversion_factor, 1))
+				.inner_join(ITEM)
+				.on(BIN.item_code == ITEM.item_code)
+				.left_join(UOM)
+				.on((ITEM.sales_uom == UOM.uom) & (UOM.parent == ITEM.item_code))
+				.where((BIN.item_code == item_code) & (BIN.warehouse == warehouse))
+			).run()
 
 			if stock_qty:
 				total_stock += adjust_qty_for_expired_items(item_code, stock_qty, warehouse)
