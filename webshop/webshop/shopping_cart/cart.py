@@ -573,6 +573,8 @@ def get_party(user=None):
 			}
 		)
 
+		customer.append("portal_users", {"user": user})
+
 		if debtors_account:
 			customer.update(
 				{

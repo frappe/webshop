@@ -13,4 +13,4 @@
     "host_name": "http://test_site:8000",
     "install_apps": ["payments", "erpnext"],
     "throttle_user_limit": 100
-}
+   }

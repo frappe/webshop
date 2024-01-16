@@ -233,7 +233,7 @@ def run_patches():
 
 	try:
 		for patch in patches:
-			frappe.get_attr(f"webshop.patches.after_install.{patch}.execute")()
+			frappe.get_attr(f"webshop.patches.{patch}.execute")()
 
 	finally:
 		frappe.flags.in_patch = False
