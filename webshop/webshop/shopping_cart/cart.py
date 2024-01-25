@@ -533,6 +533,7 @@ def set_taxes(quotation, cart_settings):
 	#
 	# 	# append taxes
 	quotation.append_taxes_from_master()
+	quotation.append_taxes_from_item_tax_template()
 
 
 def get_party(user=None):
