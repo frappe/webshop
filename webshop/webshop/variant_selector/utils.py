@@ -100,7 +100,7 @@ def get_attributes_and_values(item_code):
 	"""
 	for attr_name in attribute_list:
 		if attr_name not in ordered_attribute_value_map:
-			numeric_list = sorted([i for i in valid_options[attr_name] if i.isnumeric()], key=int)
+			numeric_list = sorted([i for i in valid_options[attr_name] if i.replace(".","").isnumeric()], key=float)
 			ordered_attribute_value_map[attr_name] = numeric_list
 
 	# build attribute values in idx order
