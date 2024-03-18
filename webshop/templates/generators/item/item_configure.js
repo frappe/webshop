@@ -99,7 +99,9 @@ class ItemConfigure {
 
 	show_range_input_for_all_fields() {
 		this.dialog.fields.forEach(f => {
-			this.show_range_input_if_applicable(f.fieldname);
+			if (!["Section Break", "Coulmn Break"].includes(f.fieldtype)) {
+				this.show_range_input_if_applicable(f.fieldname);
+			}
 		});
 	}
 
