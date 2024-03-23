@@ -453,6 +453,9 @@ def apply_cart_settings(party=None, quotation=None):
 
 	cart_settings = frappe.get_cached_doc("Webshop Settings")
 
+	if not cart_settings.enabled:
+		frappe.throw(_("Shopping Cart is disabled. Please enable it in the Webshop settings."))
+
 	set_price_list_and_rate(quotation, cart_settings)
 
 	quotation.run_method("calculate_taxes_and_totals")
