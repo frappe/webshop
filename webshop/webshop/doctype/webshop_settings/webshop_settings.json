@@ -15,6 +15,8 @@
   "hide_variants",
   "enable_variants",
   "show_price",
+  "price_display_suffix",
+  "price_display_suffix_custom",
   "column_break_9",
   "show_stock_availability",
   "show_quantity_in_website",
@@ -366,12 +368,25 @@
    "fieldtype": "Check",
    "label": "Enable Redisearch",
    "read_only_depends_on": "eval:!doc.is_redisearch_loaded"
+  },
+  {
+   "depends_on": "eval:doc.show_price",
+   "fieldname": "price_display_suffix",
+   "fieldtype": "Select",
+   "label": "Price Display Suffix",
+   "options": "\nExcl. Tax\nIncl. Tax\nCustom"
+  },
+  {
+   "depends_on": "eval:doc.show_price&&doc.price_display_suffix==\"Custom\"",
+   "fieldname": "price_display_suffix_custom",
+   "fieldtype": "Data",
+   "label": "Custom Price Display Suffix"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-04-01 18:35:56.106756",
+ "modified": "2024-01-09 13:09:55.609310",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Webshop Settings",
