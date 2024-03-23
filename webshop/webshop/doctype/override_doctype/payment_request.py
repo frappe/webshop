@@ -7,7 +7,9 @@ from erpnext.accounts.doctype.payment_request.payment_request import (
 
 
 class PaymentRequest(OriginalPaymentRequest):
-    def on_payment_authorized(self, status=None):
+
+    def on_payment_authorized_redirect(self, status=None):
+
         if not status:
             return
 
@@ -27,7 +29,6 @@ class PaymentRequest(OriginalPaymentRequest):
 
         if not cart_settings.enabled:
             return
-
         success_url = cart_settings.payment_success_url
         redirect_to = get_url("/orders/{0}".format(self.reference_name))
 
@@ -39,10 +40,17 @@ class PaymentRequest(OriginalPaymentRequest):
                     "My Account": "/me",
                 }
             ).get(success_url, "/me")
+        return redirect_to
+
+    def on_payment_authorized(self, status=None):
+
+        if not status:
+            return
+
+        if status not in ("Authorized", "Completed"):
+            return
 
         self.set_as_paid()
-
-        return redirect_to
 
     @staticmethod
     def get_gateway_details(args):
