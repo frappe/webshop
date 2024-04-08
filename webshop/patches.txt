@@ -3,3 +3,4 @@
 [post_model_sync]
 
 webshop.patches.add_homepage_field
+webshop.patches.enable_allow_to_guest_view_for_item_group
