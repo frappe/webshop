@@ -259,10 +259,12 @@ class ItemConfigure {
 
 	btn_clear_values() {
 		this.dialog.fields_list.forEach(f => {
-			f.df.options = f.df.options.map(option => {
-				option.disabled = false;
-				return option;
-			});
+			if (f.df?.options) {
+				f.df.options = f.df.options.map(option => {
+					option.disabled = false;
+					return option;
+				});
+			}
 		});
 		this.dialog.clear();
 		this.on_attribute_selection();
