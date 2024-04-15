@@ -9,13 +9,17 @@
 		{% if cart_settings.show_price and product_info.price %}
 			{% set price_info = product_info.price %}
 
-			<div class="product-price">
+			<div class="product-price" itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
 				<!-- Final Price -->
-				{{ price_info.formatted_price_sales_uom }}
+				{% if price_info.formatted_mrp %}
+					<span itemprop="lowPrice" content="{{ price_info.formatted_price_sales_uom }}">{{ price_info.formatted_price_sales_uom }}</span>
+				{% else %}
+					<span itemprop="highPrice" content="{{ price_info.formatted_price_sales_uom }}">{{ price_info.formatted_price_sales_uom }}</span>
+				{% endif %}
 
 				<!-- Striked Price and Discount  -->
 				{% if price_info.formatted_mrp %}
-					<small class="formatted-price">
+					<small itemprop="highPrice" class="formatted-price">
 						<s>MRP {{ price_info.formatted_mrp }}</s>
 					</small>
 					<small class="ml-1 formatted-price in-green">

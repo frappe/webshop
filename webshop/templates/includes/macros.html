@@ -12,7 +12,7 @@
 		{% if website_image %}
 			<img itemprop="image" class="website-image h-100 w-100" alt="{{ alt }}" src="{{ frappe.utils.quoted(website_image) | abs_url }}">
 		{% else %}
-			<div class="card-img-top no-image-item">
+			<div itemprop="image" class="card-img-top no-image-item">
 				{{ frappe.utils.get_abbr(alt) or "NA" }}
 			</div>
 		{% endif %}
@@ -46,9 +46,9 @@
 		<div class="col-md-{{ section.column_value }} mb-4">
 			<div class="card h-100 justify-content-between">
 				{% if card.image %}
-				<img class="card-img-top h-75" src="{{ card.image }}" loading="lazy" alt="{{ card.title }}"></img>
+				<img itemprop="image" class="card-img-top h-75" src="{{ card.image }}" loading="lazy" alt="{{ card.title }}"></img>
 				{% endif %}
-				<div class="card-body">
+				<div itemprop="image" class="card-body">
 					<h5 class="card-title">{{ card.title }}</h5>
 					<p class="card-subtitle mb-2 text-muted">{{ card.subtitle or '' }}</p>
 					<p class="card-text">{{ card.content or '' | truncate(140, True) }}</p>
@@ -151,9 +151,9 @@
 		<div class="card-img-container">
 			<a href="/{{ item.route or '#' }}" style="text-decoration: none;">
 				{% if item.image %}
-					<img class="card-img" src="{{ item.image }}" alt="{{ title }}">
+					<img itemprop="image" class="card-img" src="{{ item.image }}" alt="{{ title }}">
 				{% else %}
-					<div class="card-img-top no-image">
+					<div itemprop="image" class="card-img-top no-image">
 						{{ frappe.utils.get_abbr(title) }}
 					</div>
 				{% endif %}
@@ -176,7 +176,7 @@
 		<div class="product-title">{{ title or ''}}</div>
 		<div class="product-category">{{ item.item_group or '' }}</div>
 	</div>
-	<div class="product-price">
+	<div  class="product-price" itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
 		{{ item.get("formatted_price") or '' }}
 
 		{% if item.get("formatted_mrp") %}

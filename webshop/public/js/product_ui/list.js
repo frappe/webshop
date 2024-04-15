@@ -103,7 +103,7 @@ webshop.ProductList = class {
 			<div class="mt-2" style="color: var(--gray-600) !important; font-size: 13px;">
 				${ item.short_description || '' }
 			</div>
-			<div class="product-price">
+			<div class="product-price" itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
 				${ item.formatted_price || '' }
 		`;
 

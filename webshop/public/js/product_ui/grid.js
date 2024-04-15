@@ -41,7 +41,7 @@ webshop.ProductGrid = class {
 			return `
 				<div class="card-img-container">
 					<a href="/${ item.route || '#' }" style="text-decoration: none;">
-						<img class="card-img" src="${ image }" alt="${ title }">
+						<img itemprop="image" class="card-img" src="${ image }" alt="${ title }">
 					</a>
 				</div>
 			`;
@@ -77,7 +77,7 @@ webshop.ProductGrid = class {
 		}
 
 		body_html += `</div>`;
-		body_html += `<div class="product-category">${ item.item_group || '' }</div>`;
+		body_html += `<div class="product-category" itemprop="name">${ item.item_group || '' }</div>`;
 
 		if (item.formatted_price) {
 			body_html += this.get_price_html(item);
@@ -93,7 +93,7 @@ webshop.ProductGrid = class {
 	get_title(item, title) {
 		let title_html = `
 			<a href="/${ item.route || '#' }">
-				<div class="product-title">
+				<div class="product-title" itemprop="name">
 					${ title || '' }
 				</div>
 			</a>
@@ -123,7 +123,7 @@ webshop.ProductGrid = class {
 
 	get_price_html(item) {
 		let price_html = `
-			<div class="product-price">
+			<div class="product-price" itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
 				${ item.formatted_price || '' }
 		`;
 
