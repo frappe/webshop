@@ -53,19 +53,31 @@ def get_tabs(categories):
 
 def get_category_records(categories):
 	categorical_data = {}
+
 	for category in categories:
 		if category == "item_group":
 			categorical_data["item_group"] = frappe.db.get_all(
 				"Item Group",
-				filters={"parent_item_group": "All Item Groups", "show_in_website": 1},
+				filters={"show_in_website": 1},
 				fields=["name", "parent_item_group", "is_group", "image", "route"],
 			)
 		else:
 			doctype = frappe.unscrub(category)
 			fields = ["name"]
-			if frappe.get_meta(doctype, cached=True).get_field("image"):
+			meta = frappe.get_meta(doctype, cached=True)
+			if meta.get_field("image"):
 				fields += ["image"]
 
-			categorical_data[category] = frappe.db.get_all(doctype, fields=fields)
+			filters = {}
+			if meta.get_field("show_in_website"):
+				filters = {"show_in_website": 1}
+
+			elif meta.get_field("custom_show_in_website"):
+				filters = {"custom_show_in_website": 1}
+
+			if filters:
+				categorical_data[category] = frappe.db.get_all(doctype, fields=fields, filters=filters)
+			else:
+				categorical_data[category] = frappe.db.get_all(doctype, fields=fields)
 
 	return categorical_data
