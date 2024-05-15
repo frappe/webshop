@@ -106,7 +106,7 @@ def place_order():
 
 	sales_order = frappe.get_doc(
 		_make_sales_order(
-			quotation.name, ignore_permissions=True
+			quotation.name, customer_group=customer_group, ignore_permissions=True
 		)
 	)
 	sales_order.payment_schedule = []
