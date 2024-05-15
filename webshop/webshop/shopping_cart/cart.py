@@ -106,7 +106,7 @@ def place_order():
 
 	sales_order = frappe.get_doc(
 		_make_sales_order(
-			quotation.name, customer_group=customer_group, ignore_permissions=True
+			quotation.name, ignore_permissions=True
 		)
 	)
 	sales_order.payment_schedule = []
@@ -557,7 +557,14 @@ def get_party(user=None):
 		debtors_account = get_debtors_account(cart_settings)
 
 	if party:
-		return frappe.get_doc(party_doctype, party)
+		doc = frappe.get_doc(party_doctype, party)
+		if doc.doctype in ["Customer", "Supplier"]:
+			if not frappe.db.exists("Portal User", {"parent": doc.name, "user": user}):
+				doc.append("portal_users", {"user": user})
+				doc.flags.ignore_permissions = True
+				doc.save()
+
+		return doc
 
 	else:
 		if not cart_settings.enabled:
