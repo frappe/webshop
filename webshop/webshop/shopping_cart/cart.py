@@ -562,6 +562,7 @@ def get_party(user=None):
 			if not frappe.db.exists("Portal User", {"parent": doc.name, "user": user}):
 				doc.append("portal_users", {"user": user})
 				doc.flags.ignore_permissions = True
+				doc.flags.ignore_mandatory = True
 				doc.save()
 
 		return doc
