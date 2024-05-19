@@ -15,6 +15,25 @@
 					<td class="bill-content net-total text-right">{{ doc.get_formatted("net_total") }}</td>
 				</tr>
 
+				<!--BDivecha-->
+				<!-- shipping -->
+				<tr>
+					<div class="shipping-method-div">
+					<td class="bill-content net-total text-left"><label for="shipping-method">Shipping Method:</label></td>
+					<td class="bill-content net-total text-right"> 
+					<select class="shipping-method-select" id="shipping-method" name="shipping-method">
+					{% for d in shipping_rules %}
+						{% if d[0] == doc.shipping_rule %}
+							<option value="{{ d[0] }}" selected>{{ d[0] }}</option>
+						{% else %}
+							<option value="{{ d[0] }}">{{ d[0] }}</option>
+						{% endif %}
+					{% endfor %}
+					</select>
+					</td>
+					</div>
+				</tr>
+
 				<!-- taxes -->
 				{% for d in doc.taxes %}
 					{% if d.base_tax_amount %}

@@ -18,6 +18,16 @@ $.extend(shopping_cart, {
 		shopping_cart.bind_remove_cart_item();
 		shopping_cart.bind_change_notes();
 		shopping_cart.bind_coupon_code();
+		//BDivecha
+		shopping_cart.bind_change_shipping_method();
+	},
+
+	//BDivecha
+	bind_change_shipping_method: function(){
+		$(".shipping-method-select").on("change", function() {
+			shopping_cart.freeze();
+			shopping_cart.apply_shipping_rule($(this).val(), this);
+		});
 	},
 
 	bind_place_order: function() {
@@ -91,38 +101,39 @@ $.extend(shopping_cart, {
 		});
 	},
 
-	render_tax_row: function($cart_taxes, doc, shipping_rules) {
-		var shipping_selector;
-		if(shipping_rules) {
-			shipping_selector = '<select class="form-control">' + $.map(shipping_rules, function(rule) {
-				return '<option value="' + rule[0] + '">' + rule[1] + '</option>' }).join("\n") +
-			'</select>';
-		}
+	//BDivecha --commented this out
+	// render_tax_row: function($cart_taxes, doc, shipping_rules) {
+	// 	var shipping_selector;
+	// 	if(shipping_rules) {
+	// 		shipping_selector = '<select class="form-control">' + $.map(shipping_rules, function(rule) {
+	// 			return '<option value="' + rule[0] + '">' + rule[1] + '</option>' }).join("\n") +
+	// 		'</select>';
+	// 	}
 
-		var $tax_row = $(repl('<div class="row">\
-			<div class="col-md-9 col-sm-9">\
-				<div class="row">\
-					<div class="col-md-9 col-md-offset-3">' +
-					(shipping_selector || '<p>%(description)s</p>') +
-					'</div>\
-				</div>\
-			</div>\
-			<div class="col-md-3 col-sm-3 text-right">\
-				<p' + (shipping_selector ? ' style="margin-top: 5px;"' : "") + '>%(formatted_tax_amount)s</p>\
-			</div>\
-		</div>', doc)).appendTo($cart_taxes);
+	// 	var $tax_row = $(repl('<div class="row">\
+	// 		<div class="col-md-9 col-sm-9">\
+	// 			<div class="row">\
+	// 				<div class="col-md-9 col-md-offset-3">' +
+	// 				(shipping_selector || '<p>%(description)s</p>') +
+	// 				'</div>\
+	// 			</div>\
+	// 		</div>\
+	// 		<div class="col-md-3 col-sm-3 text-right">\
+	// 			<p' + (shipping_selector ? ' style="margin-top: 5px;"' : "") + '>%(formatted_tax_amount)s</p>\
+	// 		</div>\
+	// 	</div>', doc)).appendTo($cart_taxes);
 
-		if(shipping_selector) {
-			$tax_row.find('select option').each(function(i, opt) {
-				if($(opt).html() == doc.description) {
-					$(opt).attr("selected", "selected");
-				}
-			});
-			$tax_row.find('select').on("change", function() {
-				shopping_cart.apply_shipping_rule($(this).val(), this);
-			});
-		}
-	},
+	// 	if(shipping_selector) {
+	// 		$tax_row.find('select option').each(function(i, opt) {
+	// 			if($(opt).html() == doc.description) {
+	// 				$(opt).attr("selected", "selected");
+	// 			}
+	// 		});
+	// 		$tax_row.find('select').on("change", function() {
+	// 			shopping_cart.apply_shipping_rule($(this).val(), this);
+	// 		});
+	// 	}
+	// },
 
 	apply_shipping_rule: function(rule, btn) {
 		return frappe.call({
@@ -131,8 +142,13 @@ $.extend(shopping_cart, {
 			method: "webshop.webshop.shopping_cart.cart.apply_shipping_rule",
 			args: { shipping_rule: rule },
 			callback: function(r) {
-				if(!r.exc) {
-					shopping_cart.render(r.message);
+				//BDivecha
+				// if(!r.exc) {
+				// 	shopping_cart.render(r.message);
+				// }
+				if (r && r.message){
+					shopping_cart.unfreeze();
+					location.reload();
 				}
 			}
 		});

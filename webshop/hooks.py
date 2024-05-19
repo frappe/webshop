@@ -31,6 +31,7 @@ override_doctype_class = {
     "Payment Request": "webshop.webshop.doctype.override_doctype.payment_request.PaymentRequest",
     "Item Group": "webshop.webshop.doctype.override_doctype.item_group.WebshopItemGroup",
     "Item": "webshop.webshop.doctype.override_doctype.item.WebshopItem",
+    "Shipping Rule": "webshop.webshop.doctype.override_doctype.custom_shipping_rule.CustomShippingRule",
 }
 
 doctype_js = {
