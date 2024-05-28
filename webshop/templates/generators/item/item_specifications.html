@@ -4,14 +4,14 @@
 	<div class="col-md-11">
 		{% if not show_tabs %}
 			<div class="product-title mb-5 mt-4">
-				{{ _("Product Details") }}
+				Product Details
 			</div>
 		{% endif %}
 		<table class="table">
 		{% for d in website_specifications -%}
 			<tr>
-				<td class="spec-label">{{ _(d.label) }}</td>
-				<td class="spec-content">{{ _(d.description) }}</td>
+				<td class="spec-label">{{ d.label }}</td>
+				<td class="spec-content">{{ d.description }}</td>
 			</tr>
 		{%- endfor %}
 		</table>

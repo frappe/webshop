@@ -7,7 +7,7 @@
 	<div class="d-flex">
 		<!-- title -->
 		<div class="product-title col-11" itemprop="name">
-			{{ _(doc.web_item_name) }}
+			{{ doc.web_item_name }}
 		</div>
 
 		<!-- Wishlist -->
@@ -34,7 +34,7 @@
 		<span class="product-item-code" itemprop="name">
 			{{ _("Item Code") }}:
 		</span>
-		<span itemprop="name">{{ _(doc.item_code) }}</span>
+		<span itemprop="name">{{ doc.item_code }}</span>
 	</p>
 	{% if has_variants %}
 		<!-- configure template -->
@@ -46,9 +46,9 @@
 	<!-- description -->
 	<div class="product-description" itemprop="description">
 	{% if frappe.utils.strip_html(doc.web_long_description or '') %}
-		{{ _(doc.web_long_description) | safe }}
+		{{ doc.web_long_description | safe }}
 	{% elif frappe.utils.strip_html(doc.description or '')  %}
-		{{ _(doc.description) | safe }}
+		{{ doc.description | safe }}
 	{% else %}
 		{{ "" }}
 	{% endif  %}
