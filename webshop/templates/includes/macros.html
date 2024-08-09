@@ -212,17 +212,19 @@
 
 {%- macro ratings_with_title(avg_rating, title, size, rating_header_class, for_summary=False) -%}
 <div class="{{ 'd-flex' if not for_summary else '' }}">
-	<p class="mr-4 {{ rating_header_class }}">
-		<span>{{ title }}</span>
-	</p>
-	<div class="rating {{ 'ratings-pill' if for_summary else ''}}">
-		{% for i in range(1,6) %}
-			{% set fill_class = 'star-click' if i <= avg_rating else '' %}
-			<svg class="icon icon-{{ size }} {{ fill_class }}">
-				<use href="#icon-star"></use>
-			</svg>
-		{% endfor %}
-	</div>
+    <p class="mr-4 {{ rating_header_class }}">
+        <span>{{ title }}</span>
+    </p>
+    <div class="rating {{ 'ratings-pill' if for_summary else '' }}">
+        {% set scaled_rating = avg_rating * 5 %}
+        {% set floored_rating = scaled_rating | round(0, 'floor') %}
+        {% for i in range(1, 6) %}
+            {% set fill_class = 'star-click' if i <= floored_rating else '' %}
+            <svg class="icon icon-{{ size }} {{ fill_class }}">
+                <use href="#icon-star"></use>
+            </svg>
+        {% endfor %}
+    </div>
 </div>
 {%- endmacro -%}
 

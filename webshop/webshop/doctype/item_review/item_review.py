@@ -80,15 +80,22 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 		fields=["avg(rating) as average, count(*) as total"],
 	)[0]
 
-	data.average_rating = flt(rating_data.average, 1)
+	data.average_rating = flt(rating_data.average * 5, 1)
 	data.average_whole_rating = flt(data.average_rating, 0)
 
 	# get % of reviews per rating
 	reviews_per_rating = []
-	for i in range(1, 6):
-		count = frappe.db.get_all(
-			"Item Review", filters={"website_item": web_item, "rating": i}, fields=["count(*) as count"]
-		)[0].count
+
+	rating_ranges = [(0.1, 0.4), (0.4, 0.6), (0.6, 0.8), (0.8, 1.0), (1.0, 1.0)]
+
+	for start, end in rating_ranges:
+		count = frappe.db.count(
+			"Item Review",
+			filters={
+				"website_item": web_item,
+				"rating": ["between", [start, end]]
+			}
+		)
 
 		percent = flt((count / rating_data.total or 1) * 100, 0) if count else 0
 		reviews_per_rating.append(percent)
