@@ -86,6 +86,7 @@ def add_custom_fields():
 				"insert_after": "default_manufacturer_part_no",
 				"label": "Published In Website",
 				"read_only": 1,
+				"no_copy": 1,
 			}
 		],
 		"Item Group": [
