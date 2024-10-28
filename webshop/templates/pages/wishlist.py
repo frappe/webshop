@@ -85,6 +85,6 @@ def set_stock_price_details(items, settings, selling_price_list):
 			if item.formatted_mrp:
 				item.discount = price_details.get(
 					"formatted_discount_percent"
-				) or price_details.get("formatted_discount_rate")
+				) or price_details.get("formatted_discount_rate") or price_details.get("formatted_discount_amount")
 
 	return items

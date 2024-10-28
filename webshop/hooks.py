@@ -38,6 +38,10 @@ doctype_js = {
     "Homepage": "public/js/override/homepage.js",
 }
 
+override_whitelisted_methods = {
+    "webshop.webshop.doctype.website_item.website_item.make_website_item": "webshop.webshop.doctype.website_item.custom_website_item.make_website_item"
+}
+
 doc_events = {
     "Item": {
         "on_update": [

@@ -5,7 +5,12 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "site_name",
   "products_per_page",
+  "brand_logo",
+  "site_favicon",
+  "default_language",
+  "help_url",
   "filter_categories_section",
   "enable_field_filters",
   "filter_fields",
@@ -22,11 +27,14 @@
   "column_break_13",
   "show_apply_coupon_code_in_website",
   "show_contact_us_button",
+  "contact_us_label",
+  "contact_us_url",
   "show_attachments",
   "section_break_18",
   "company",
   "price_list",
   "enabled",
+  "add_to_cart_label",
   "store_page_docs",
   "column_break_21",
   "default_customer_group",
@@ -40,6 +48,7 @@
   "payment_success_url",
   "add_ons_section",
   "enable_wishlist",
+  "enable_i18n",
   "column_break_22",
   "enable_reviews",
   "column_break_23",
@@ -48,12 +57,30 @@
   "redisearch_warning",
   "search_index_fields",
   "is_redisearch_enabled",
+  "is_search_enabled",
   "is_redisearch_loaded",
   "shop_by_category_section",
   "slideshow",
   "guest_display_settings_section",
   "hide_price_for_guest",
-  "redirect_on_action"
+  "redirect_on_action",
+  "payment_setting_tab",
+  "website_payment_setting_section",
+  "enable_bank_transfer",
+  "section_break_uzqc",
+  "bank_title",
+  "payment_channels",
+  "mode_of_payment_for_bank",
+  "promptpay_qr_section",
+  "enable_promptpay_qr",
+  "section_break_bgza",
+  "payment_method_title",
+  "upload_your_promptpay_qr_image",
+  "mode_of_payment_for_qr",
+  "bank",
+  "column_break_pnbl",
+  "promptpay_account_name",
+  "promptpay_number"
  ],
  "fields": [
   {
@@ -366,12 +393,163 @@
    "fieldtype": "Check",
    "label": "Enable Redisearch",
    "read_only_depends_on": "eval:!doc.is_redisearch_loaded"
+  },
+  {
+   "fieldname": "brand_logo",
+   "fieldtype": "Attach Image",
+   "label": "Brand Logo"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_search_enabled",
+   "fieldtype": "Check",
+   "label": "Enable Search"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_i18n",
+   "fieldtype": "Check",
+   "label": "Enable Internationalization (I18N)"
+  },
+  {
+   "fieldname": "default_language",
+   "default": "en",
+   "fieldtype": "Link",
+   "label": "Default Language",
+   "options": "Language",
+   "reqd": 1
+  },
+  {
+   "depends_on": "show_contact_us_button",
+   "fieldname": "contact_us_label",
+   "fieldtype": "Data",
+   "label": "Contact us label",
+   "mandatory_depends_on": "show_contact_us_button"
+  },
+  {
+   "depends_on": "show_contact_us_button",
+   "fieldname": "contact_us_url",
+   "fieldtype": "Data",
+   "label": "Contact us URL",
+   "mandatory_depends_on": "show_contact_us_button"
+  },
+  {
+   "fieldname": "payment_setting_tab",
+   "fieldtype": "Tab Break",
+   "label": "Payment Setting"
+  },
+  {
+   "fieldname": "website_payment_setting_section",
+   "fieldtype": "Section Break",
+   "label": "Website Payment Setting"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_bank_transfer",
+   "fieldtype": "Check",
+   "label": "Enable Bank Transfer"
+  },
+  {
+   "depends_on": "enable_bank_transfer",
+   "fieldname": "section_break_uzqc",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "bank_title",
+   "fieldtype": "Data",
+   "label": "Payment Method Title"
+  },
+  {
+   "fieldname": "payment_channels",
+   "fieldtype": "Table",
+   "options": "Payment Channel"
+  },
+  {
+   "fieldname": "mode_of_payment_for_bank",
+   "fieldtype": "Link",
+   "label": "Mode Of payment for bank",
+   "options": "Mode of Payment"
+  },
+  {
+   "fieldname": "promptpay_qr_section",
+   "fieldtype": "Section Break",
+   "label": "PromptPay QR"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_promptpay_qr",
+   "fieldtype": "Check",
+   "label": "Enable PromptPay QR"
+  },
+  {
+   "depends_on": "enable_promptpay_qr",
+   "fieldname": "section_break_bgza",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "payment_method_title",
+   "fieldtype": "Data",
+   "label": "Payment Method Title"
+  },
+  {
+   "fieldname": "upload_your_promptpay_qr_image",
+   "fieldtype": "Attach Image",
+   "label": "Upload your PromptPay QR image"
+  },
+  {
+   "fieldname": "mode_of_payment_for_qr",
+   "fieldtype": "Link",
+   "label": "Mode of payment for Qr",
+   "options": "Mode of Payment"
+  },
+  {
+   "fieldname": "bank",
+   "fieldtype": "Link",
+   "label": "Bank",
+   "options": "Bank"
+  },
+  {
+   "fieldname": "column_break_pnbl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "promptpay_account_name",
+   "fieldtype": "Data",
+   "label": "PromptPay Account Name",
+   "mandatory_depends_on": "enable_promptpay_qr"
+  },
+  {
+   "fieldname": "promptpay_number",
+   "fieldtype": "Data",
+   "label": "PromptPay number",
+   "mandatory_depends_on": "enable_promptpay_qr"
+  },
+  {
+   "fieldname": "site_favicon",
+   "fieldtype": "Attach Image",
+   "label": "Site Favicon"
+  },
+  {
+   "fieldname": "site_name",
+   "fieldtype": "Data",
+   "label": "Site Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "help_url",
+   "fieldtype": "Data",
+   "label": "Help URL"
+  },
+  {
+   "fieldname": "add_to_cart_label",
+   "fieldtype": "Data",
+   "label": "Add To Cart Label"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2022-04-01 18:35:56.106756",
+ "modified": "2024-07-11 13:11:39.212717",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Webshop Settings",

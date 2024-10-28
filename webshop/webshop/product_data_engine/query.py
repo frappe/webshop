@@ -94,13 +94,14 @@ class ProductQuery:
 		# MySQL does not support offset without limit,
 		# frappe does not accept two parameters for limit
 		# https://dev.mysql.com/doc/refman/8.0/en/select.html#id4651989
+
 		count_items = frappe.db.get_all(
 			"Website Item",
 			filters=self.filters,
 			or_filters=self.or_filters,
 			limit_page_length=184467440737095516,
-			limit_start=start,  # get all items from this offset for total count ahead
-			order_by="ranking desc",
+			# limit_start=start,  # get all items from this offset for total count ahead
+			# order_by="ranking desc",
 		)
 		count = len(count_items)
 
@@ -119,6 +120,14 @@ class ProductQuery:
 			limit_start=start,
 			order_by="ranking desc",
 		)
+		
+		items_with_values = []
+		for item in items:
+			item_doc = frappe.get_doc("Website Item", item.name)
+			# custom_images = item_doc.get("custom_multipleimges", [])
+			# file_urls = [image.get("file_url") for image in custom_images]
+			# item["slider_images"] = file_urls
+			items_with_values.append(item)
 
 		return items, count
 
@@ -257,7 +266,7 @@ class ProductQuery:
 		if item.formatted_mrp:
 			item.discount = price_object.get("formatted_discount_percent") or price_object.get(
 				"formatted_discount_rate"
-			)
+			) or price_object.get("formatted_discount_amount")
 
 	def get_stock_availability(self, item):
 		"""Modify item object and add stock details."""

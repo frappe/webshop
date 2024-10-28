@@ -31,9 +31,8 @@ from webshop.webshop.shopping_cart.cart import get_party
 from webshop.webshop.variant_selector.item_variants_cache import (
     ItemVariantsCacheManager,
 )
-
-
-class WebsiteItem(WebsiteGenerator):
+from webshop.webshop.doctype.website_item.custom_website_item import CustomWebSiteItem
+class WebsiteItem(WebsiteGenerator,CustomWebSiteItem):
 	website = frappe._dict(
 		page_title_field="web_item_name",
 		condition_field="published",
@@ -80,6 +79,7 @@ class WebsiteItem(WebsiteGenerator):
 
 	def on_update(self):
 		invalidate_cache_for_web_item(self)
+
 		self.update_template_item()
 
 	def on_trash(self):
@@ -526,11 +526,32 @@ def make_website_item(doc, save=True):
 		"has_variants",
 		"variant_of",
 		"description",
+		"custom_return__refund_title",
+  		"custom_shipping_title",
+		"custom_shipping_description",
 	]
+
+	
 	for field in fields_to_map:
 		website_item.update({field: doc.get(field)})
 
+	website_item.short_description=doc.get("custom_short_description")
+	website_item.web_long_description=doc.get("description")
+	website_item.custom_long_description=doc.get("custom_return__refund_description")
+ 
+	# img_doc= frappe.get_doc("File","")
+	# const_img={
+	# 	"image": img_doc,
+	# 	"file_type": img_doc.file_type,
+	# 	"file_url": img_doc.file_url,
+	# 	"thumbnail_url": img_doc.thumbnail_url,
+	# 	"file_size": img_doc.file_size,
+	# }
+	# 	# website_item.custom_images=const_img
+	# frappe.msgprint(str(const_img))
 	# Needed for publishing/mapping via Form UI only
+	
+
 	if not frappe.flags.in_migrate and (
 		doc.get("image") and not website_item.website_image
 	):
@@ -540,7 +561,7 @@ def make_website_item(doc, save=True):
 		return website_item
 
 	website_item.save()
-
+	
 	# Add to search cache
 	insert_item_to_index(website_item)
 

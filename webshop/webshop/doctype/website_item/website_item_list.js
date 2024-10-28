@@ -16,5 +16,10 @@ frappe.listview_settings['Website Item'] = {
 		} else {
 			return [__("Not Published"), "grey", "published,=,0"];
 		}
-	}
+	},
+	
+	// onload(listview) {
+    //     $(".primary-action[data-label='Add Website Item']").css("display","none");
+    // },
+	
 };

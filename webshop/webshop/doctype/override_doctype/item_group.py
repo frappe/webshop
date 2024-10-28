@@ -150,3 +150,17 @@ def get_child_groups_for_website(item_group_name, immediate=False, include_self=
 		filters.update({"lft": [">=", item_group.lft], "rgt": ["<=", item_group.rgt]})
 
 	return frappe.get_all("Item Group", filters=filters, fields=["name", "route"], order_by="name")
+
+
+def get_children(group_name):
+    children = frappe.get_all("Item Group", filters={"parent_item_group": group_name,"show_in_website":"1"}, fields=["name"], order_by="name")
+    for child in children:
+        child['children'] = get_children(child['name'])
+    return children
+
+
+def get_main_groups_for_website():
+    main_groups = frappe.get_all("Item Group", filters={"parent_item_group": "All Item Groups","show_in_website":"1"}, fields=["name"], order_by="name")
+    for group in main_groups:
+        group['children'] = get_children(group['name'])
+    return main_groups

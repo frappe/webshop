@@ -11,6 +11,7 @@ from webshop.webshop.shopping_cart.cart import _get_cart_quotation, _set_price_l
 from erpnext.utilities.product import (get_price)
 from webshop.webshop.utils.product import (get_non_stock_item_status, get_web_item_qty_in_stock)
 from webshop.webshop.shopping_cart.cart import get_party
+from webshop.webshop.variant_selector.utils import get_attributes_and_values
 
 
 @frappe.whitelist(allow_guest=True)
@@ -60,12 +61,37 @@ def get_product_info_for_website(item_code, skip_quotation_creation=False):
 			stock_status = frappe._dict({"on_backorder": True})
 		else:
 			stock_status = get_web_item_qty_in_stock(item_code, "website_warehouse")
+	
+	fields = [ 
+           		"name",
+             	"item_code",
+              	"web_item_name",
+               "web_long_description",
+               "short_description",
+               "thumbnail",
+               "item_group",
+               "stock_uom",
+               "slideshow",
+               "website_images",
+               "website_specifications",
+               "has_variants",
+               "custom_return__refund_title",
+               "custom_long_description",
+               "custom_shipping_title",
+               "custom_shipping_description"
+    ]
+	values = frappe.get_cached_value("Website Item", {"item_code": item_code}, fields)
+	product = dict(zip(fields, values))
+	
+	if product["has_variants"]:
+		product["variant_attributes"] = get_attributes_and_values(item_code)	
 
 	product_info = {
 		"price": price,
 		"qty": 0,
 		"uom": frappe.db.get_value("Item", item_code, "stock_uom"),
 		"sales_uom": frappe.db.get_value("Item", item_code, "sales_uom"),
+		**product
 	}
 
 	if stock_status:
