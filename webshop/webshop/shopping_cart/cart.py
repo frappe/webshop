@@ -42,7 +42,7 @@ def get_cart_quotation(doc=None):
 
 	addresses = get_address_docs(party=party)
 
-	if not doc.customer_address and addresses:
+	if not doc.get("customer_address") and addresses:
 		update_cart_address("billing", addresses[0].name)
 
 	return {
