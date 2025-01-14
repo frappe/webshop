@@ -22,7 +22,7 @@
 {% macro media_image(website_image, name, css_class="") %}
 	<div class="product-image sidebar-image-wrapper {{ css_class }}">
 		{% if not website_image -%}
-		<div class="sidebar-standard-image"> <div class="standard-image" style="background-color: rgb(250, 251, 252);">{{name}}</div> </div>
+		<div class="sidebar-standard-image"> <div class="standard-image" style="background-color: rgb(250, 251, 252);">{{_(name)}}</div> </div>
 		{%- endif %}
 		{% if website_image -%}
 			<a href="{{ frappe.utils.quoted(website_image) }}">
@@ -39,7 +39,7 @@
 	{{ section.section_html }}
 {% elif section.section_based_on == 'Cards' %}
 <section class="container my-5">
-	<h3>{{ section.name }}</h3>
+	<h3>{{ _(section.name) }}</h3>
 
 	<div class="row">
 		{% for card in section.section_cards %}
@@ -50,7 +50,7 @@
 				{% endif %}
 				<div itemprop="image" class="card-body">
 					<h5 class="card-title">{{ _(card.title) }}</h5>
-					<p class="card-subtitle mb-2 text-muted">{{ card.subtitle or '' }}</p>
+					<p class="card-subtitle mb-2 text-muted">{{ _(card.subtitle) or '' }}</p>
 					<p class="card-text">{{ card.content or '' | truncate(140, True) }}</p>
 				</div>
 				<div class="card-body flex-grow-0">
@@ -134,7 +134,7 @@
 	</div>
 	{% if is_featured %}
 		<div class="product-description ellipsis text-muted" style="white-space: normal;">
-			{{ description or '' }}
+			{{ _(description) or '' }}
 		</div>
 	{% else %}
 		{% if template != "Product Card" %}
@@ -175,18 +175,18 @@
 {%- macro wishlist_card_body(item, title, settings) %}
 <div class="card-body card-body-flex text-left" style="width: 100%;">
 	<div class="mt-4">
-		<div class="product-title">{{ title or ''}}</div>
-		<div class="product-category">{{ item.item_group or '' }}</div>
+		<div class="product-title">{{ _(title) or ''}}</div>
+		<div class="product-category">{{ _(item.item_group) or '' }}</div>
 	</div>
 	<div  class="product-price" itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
 		{{ item.get("formatted_price") or '' }}
 
 		{% if item.get("formatted_mrp") %}
 			<small class="ml-1 striked-price">
-				<s>{{ item.formatted_mrp }}</s>
+				<s>{{ _(item.formatted_mrp) }}</s>
 			</small>
 			<small class="ml-1 product-info-green" >
-				{{ item.discount }} OFF
+				{{ _(item.discount) + " " + _("OFF")}}
 			</small>
 		{% endif %}
 	</div>
@@ -213,7 +213,7 @@
 {%- macro ratings_with_title(avg_rating, title, size, rating_header_class, for_summary=False) -%}
 <div class="{{ 'd-flex' if not for_summary else '' }}">
 	<p class="mr-4 {{ rating_header_class }}">
-		<span>{{ title }}</span>
+		<span>{{ _(title) }}</span>
 	</p>
 	<div class="rating {{ 'ratings-pill' if for_summary else ''}}">
 		{% for i in range(1,6) %}
@@ -286,7 +286,7 @@
 			<div class="review-signature mb-2">
 				<span class="reviewer">{{ _(review.customer) }}</span>
 				<span class="indicator grey" style="--text-on-gray: var(--gray-300);"></span>
-				<span class="reviewer">{{ review.published_on }}</span>
+				<span class="reviewer">{{ _(review.published_on) }}</span>
 			</div>
 		</div>
 	{% endfor %}
