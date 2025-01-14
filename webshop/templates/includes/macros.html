@@ -298,11 +298,11 @@
 	{%- set item_field =  field_filter[0] %}
 	{%- set values =  field_filter[1] %}
 	<div class="mb-4 filter-block pb-5">
-		<div class="filter-label mb-3">{{ item_field.label }}</div>
+		<div class="filter-label mb-3">{{ _(item_field.label) }}</div>
 
 		{% if values | len > 20 %}
 		<!-- show inline filter if values more than 20 -->
-		<input type="text" class="form-control form-control-sm mb-2 filter-lookup-input" placeholder="Search {{ item_field.label + 's' }}"/>
+		<input type="text" class="form-control form-control-sm mb-2 filter-lookup-input" placeholder="Search {{ _(item_field.label) + 's' }}"/>
 		{% endif %}
 
 		{% if values %}
@@ -316,7 +316,7 @@
 						data-filter-name="{{ item_field.fieldname }}"
 						data-filter-value="{{ value }}"
 						style="width: 14px !important">
-					<span class="label-area">{{ value }}</span>
+					<span class="label-area">{{ _(value) }}</span>
 				</label>
 			</div>
 			{% endfor %}
@@ -331,10 +331,10 @@
 {%- macro attribute_filter_section(filters)-%}
 {% for attribute in filters %}
 	<div class="mb-4 filter-block pb-5">
-		<div class="filter-label mb-3">{{ attribute.name }}</div>
+		<div class="filter-label mb-3">{{ _(attribute.name) }}</div>
 		{% if attribute.item_attribute_values | len > 20 %}
 		<!-- show inline filter if values more than 20 -->
-		<input type="text" class="form-control form-control-sm mb-2 filter-lookup-input" placeholder="Search {{ attribute.name + 's' }}"/>
+		<input type="text" class="form-control form-control-sm mb-2 filter-lookup-input" placeholder="Search {{ _(attribute.name) + 's' }}"/>
 		{% endif %}
 
 		{% if attribute.item_attribute_values %}
@@ -349,7 +349,7 @@
 						data-attribute-value="{{ attr_value }}"
 						style="width: 14px !important"
 						{% if attr_value.checked %} checked {% endif %}>
-						<span class="label-area">{{ attr_value }}</span>
+						<span class="label-area">{{ _(attr_value) }}</span>
 				</label>
 			</div>
 			{% endfor %}
@@ -388,7 +388,7 @@
 				{% if price.get('formatted_mrp') %}
 					<br>
 					<span class="striked-item-price">
-						<s>MRP {{ price.formatted_mrp }}</s>
+						<s>MRP {{ _(price.formatted_mrp) }}</s>
 					</span>
 					<span class="in-green">
 						- {{ price.get('formatted_discount_percent') or price.get('formatted_discount_rate')}}
