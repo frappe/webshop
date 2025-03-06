@@ -565,7 +565,7 @@ def get_party(user=None):
 
 		return doc
 
-	else:
+	elif not frappe.db.exists("Portal User", {"user": user}):
 		if not cart_settings.enabled:
 			frappe.local.flags.redirect_location = "/contact"
 			raise frappe.Redirect
