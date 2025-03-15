@@ -30,6 +30,9 @@ def get_product_filter_data(query_args=None):
 	"""
 	if isinstance(query_args, str):
 		query_args = json.loads(query_args)
+		
+	if query_args is None:
+		query_args = {}
 
 	query_args = frappe._dict(query_args)
 
