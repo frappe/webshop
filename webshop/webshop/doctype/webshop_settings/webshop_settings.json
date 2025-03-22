@@ -32,6 +32,7 @@
   "column_break_21",
   "default_customer_group",
   "quotation_series",
+  "allow_non_website_items_in_cart_quotation",
   "checkout_settings_section",
   "enable_checkout",
   "show_price_in_quotation",
@@ -373,12 +374,20 @@
    "fieldname": "login_required_to_view_products",
    "fieldtype": "Check",
    "label": "Login Required to View Products"
+  },
+  {
+   "default": "0",
+   "depends_on": "enabled",
+   "fieldname": "allow_non_website_items_in_cart_quotation",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Allow Non Website Items in Cart Quotation"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-12-16 16:22:51.445190",
+ "modified": "2025-03-22 13:01:51.906319",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Webshop Settings",
