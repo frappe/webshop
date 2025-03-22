@@ -11,74 +11,71 @@ on:
   schedule:
     # Run everday at midnight UTC / 5:30 IST
     - cron: "0 0 * * *"
+
 env:
-    WEBSHOP_BRANCH: ${{ github.base_ref || github.ref_name }}
+  WEBSHOP_BRANCH: ${{ github.base_ref || github.ref_name }}
 
 concurrency:
-  group: develop-${{ github.event.number }}
+  group: develop-webshop-${{ github.event.number }}
   cancel-in-progress: true
 
 jobs:
   tests:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
-
     strategy:
       fail-fast: false
-
     name: Server
-
+    
     services:
-      mysql:
+      redis-cache:
+        image: redis:alpine
+        ports:
+          - 13000:6379
+      redis-queue:
+        image: redis:alpine
+        ports:
+          - 11000:6379
+      mariadb:
         image: mariadb:10.6
         env:
-          MARIADB_ROOT_PASSWORD: 'root'
+          MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
         options: --health-cmd="mariadb-admin ping" --health-interval=5s --health-timeout=2s --health-retries=3
-
+    
     steps:
       - name: Clone
         uses: actions/checkout@v3
-
+      
+      - name: Find tests
+        run: |
+          echo "Finding tests"
+          grep -rn "def test" > /dev/null
+      
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-
+      
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 18
           check-latest: true
-
-      - name: Add to Hosts
-        run: echo "127.0.0.1 test_site" | sudo tee -a /etc/hosts
-
+      
       - name: Cache pip
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/*requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/*requirements.txt', '**/pyproject.toml', '**/setup.py', '**/setup.cfg') }}
           restore-keys: |
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
-      - name: Cache node modules
-        uses: actions/cache@v4
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
+      
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
+        run: 'echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT'
+      
       - uses: actions/cache@v4
         id: yarn-cache
         with:
@@ -86,23 +83,36 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-
-      - name: Install
+      
+      - name: Install MariaDB Client
+        run: sudo apt update && sudo apt-get install mariadb-client
+      
+      - name: Setup
         run: |
-          bash ${GITHUB_WORKSPACE}/.github/helper/install.sh
+          pip install frappe-bench
+          bench init --frappe-branch $WEBSHOP_BRANCH --skip-redis-config-generation --skip-assets --python "$(which python)" ~/frappe-bench
+          mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL character_set_server = 'utf8mb4'"
+          mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL collation_server = 'utf8mb4_unicode_ci'"
+      
+      - name: Install
+        working-directory: /home/runner/frappe-bench
+        run: |
+          bench get-app sa_ecom $GITHUB_WORKSPACE
+          bench setup requirements --dev
+          bench get-app erpnext --branch $WEBSHOP_BRANCH
+          bench get-app payments --branch $WEBSHOP_BRANCH
+          bench get-app $GITHUB_WORKSPACE --branch $WEBSHOP_BRANCH
+          bench new-site --db-root-password root --admin-password admin test_site
+          bench --site test_site install-app erpnext
+          bench --site test_site install-app webshop
+          bench build
         env:
-          BRANCH_TO_CLONE: ${{ env.WEBSHOP_BRANCH }}
-
-
+          CI: 'Yes'
+      
       - name: Run Tests
-        run: cd ~/frappe-bench/ && bench --site test_site run-tests --app webshop --coverage
+        working-directory: /home/runner/frappe-bench
+        run: |
+          bench --site test_site set-config allow_tests true
+          bench --site test_site run-tests --app sa_ecom
         env:
           TYPE: server
-          CI_BUILD_ID: ${{ github.run_id }}
-          ORCHESTRATOR_URL: http://test-orchestrator.frappe.io
-
-      - name: Upload coverage data
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-${{ matrix.container }}
-          path: /home/runner/frappe-bench/sites/coverage.xml
