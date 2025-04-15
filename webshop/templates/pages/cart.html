@@ -94,8 +94,14 @@
 					</div>
 				{% endif %}
 
-				<div class="mb-3 frappe-card p-5 payment-summary">
-					{% include "templates/includes/cart/cart_payment_summary.html" %}
+				<div class="mb-3 frappe-card p-5">
+					<div class="payment-summary">
+						{% include "templates/includes/cart/cart_payment_summary.html" %}
+					</div>
+
+					<div class="place-order">
+						{% include "templates/includes/cart/place_order.html" %}
+					</div>
 				</div>
 
 				{% include "templates/includes/cart/cart_address.html" %}

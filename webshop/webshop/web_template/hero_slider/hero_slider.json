@@ -83,31 +83,31 @@
   {
    "fieldname": "slide_2_image",
    "fieldtype": "Attach Image",
-   "label": "Image ",
+   "label": "Image",
    "reqd": 0
   },
   {
    "fieldname": "slide_2_title",
    "fieldtype": "Data",
-   "label": "Title ",
+   "label": "Title",
    "reqd": 0
   },
   {
    "fieldname": "slide_2_subtitle",
    "fieldtype": "Small Text",
-   "label": "Subtitle ",
+   "label": "Subtitle",
    "reqd": 0
   },
   {
    "fieldname": "slide_2_primary_action_label",
    "fieldtype": "Data",
-   "label": "Primary Action Label ",
+   "label": "Primary Action Label",
    "reqd": 0
   },
   {
    "fieldname": "slide_2_primary_action",
    "fieldtype": "Data",
-   "label": "Primary Action ",
+   "label": "Primary Action",
    "reqd": 0
   },
   {
