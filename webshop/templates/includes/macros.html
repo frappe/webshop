@@ -54,7 +54,7 @@
 					<p class="card-text">{{ card.content or '' | truncate(140, True) }}</p>
 				</div>
 				<div class="card-body flex-grow-0">
-					<a href="{{ card.route }}" class="card-link">{{ _('More details') }}</a>
+					<a href="{{ card.route }}" class="card-link">{{ _("More details") }}</a>
 				</div>
 			</div>
 		</div>
@@ -128,7 +128,7 @@
 	<div class="mt-4">
 		<a href="/{{ item.route or '#' }}">
 			<div class="product-title">
-				{{ title or '' }}
+				{{ _(title) or '' }}
 			</div>
 		</a>
 	</div>
@@ -138,7 +138,7 @@
 		</div>
 	{% else %}
 		{% if template != "Product Card" %}
-		<div class="product-category">{{ item.item_group or '' }}</div>
+		<div class="product-category">{{ _(item.item_group) or '' }}</div>
 		{% endif %}
 	{% endif %}
 </div>
@@ -193,7 +193,7 @@
 
 	{% if (item.available and settings.show_stock_availability) or (not settings.show_stock_availability) %}
 		<!-- Show move to cart button if in stock or if showing stock availability is disabled -->
-		<button data-item-code="{{ item.item_code}}"
+		<button data-item-code="{{ item.item_code }}"
 			class="btn btn-primary btn-add-to-cart-list btn-add-to-cart mt-2 w-100">
 			<span class="mr-2">
 				<svg class="icon icon-md">
@@ -249,11 +249,11 @@
 	<div class="rating-progress-bar-section col-4 ml-4">
 		{% for percent in reviews_per_rating %}
 			<div class="col-sm-4 small rating-bar-title">
-				{{ loop.index }} star
+				{{ loop.index }} {{ _("star") }}
 			</div>
 			<div class="row">
 				<div class="col-md-7">
-					<div class="progress rating-progress-bar" title="{{ percent }} % of reviews are {{ loop.index }} star">
+					<div class="progress rating-progress-bar" title="{{ percent }} % of reviews are {{ loop.index }} {{ _("star") }}">
 						<div class="progress-bar progress-bar-cosmetic" role="progressbar"
 							aria-valuenow="{{ percent }}"
 							aria-valuemin="0" aria-valuemax="100"
@@ -302,7 +302,7 @@
 
 		{% if values | len > 20 %}
 		<!-- show inline filter if values more than 20 -->
-		<input type="text" class="form-control form-control-sm mb-2 filter-lookup-input" placeholder="_('Search') {{ _(item_field.label) + 's' }}"/>
+		<input type="text" class="form-control form-control-sm mb-2 filter-lookup-input" placeholder="_("Search") {{ _(item_field.label) }}"/>
 		{% endif %}
 
 		{% if values %}
@@ -322,7 +322,7 @@
 			{% endfor %}
 		</div>
 		{% else %}
-		<i class="text-muted">{{ _('No values') }}</i>
+		<i class="text-muted">{{ _("No values") }}</i>
 		{% endif %}
 	</div>
 {% endfor %}
@@ -334,7 +334,7 @@
 		<div class="filter-label mb-3">{{ _(attribute.name) }}</div>
 		{% if attribute.item_attribute_values | len > 20 %}
 		<!-- show inline filter if values more than 20 -->
-		<input type="text" class="form-control form-control-sm mb-2 filter-lookup-input" placeholder="_('Search') {{ _(attribute.name) + 's' }}"/>
+		<input type="text" class="form-control form-control-sm mb-2 filter-lookup-input" placeholder="_("Search") {{ _(attribute.name) }}"/>
 		{% endif %}
 
 		{% if attribute.item_attribute_values %}
@@ -355,7 +355,7 @@
 			{% endfor %}
 		</div>
 		{% else %}
-		<i class="text-muted">{{ _('No values') }}</i>
+		<i class="text-muted">{{ _("No values") }}</i>
 		{% endif %}
 	</div>
 {% endfor %}
