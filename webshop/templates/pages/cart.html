@@ -84,10 +84,13 @@
 			<div class="cart-payment-addresses">
 				<!-- Apply Coupon Code  -->
 				{% set show_coupon_code = cart_settings.show_apply_coupon_code_in_website and cart_settings.enable_checkout %}
+				{% set coupon_code = doc.coupon_code if doc.coupon_code else "" %}
+
 				{% if show_coupon_code == 1%}
-					<div class="mb-3">
-						<div class="row no-gutters">
-							<input type="text" class="txtcoupon form-control mr-3 w-50 font-md" placeholder="Enter Coupon Code" name="txtcouponcode"  ></input>
+					{% include "templates/includes/cart/coupon_code.html" %}
+					<div class="mb-3 p-4">
+						<div class="row">
+							<input type="text" class="txtcoupon form-control mr-3 w-50 font-md" placeholder="{{ _("Enter" + (" alternative" if coupon_code else "") + " coupon code") }}" name="txtcouponcode"  ></input>
 							<button class="btn btn-primary btn-sm bt-coupon font-md">{{ _("Apply Coupon Code") }}</button>
 							<input type="hidden" class="txtreferral_sales_partner font-md" placeholder="Enter Sales Partner" name="txtreferral_sales_partner" type="text"></input>
 							</div>

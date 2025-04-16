@@ -1401,3 +1401,7 @@ body.product-page {
 	transform: translate3d(0, 0, 0);
 	pointer-events: auto;
 }
+
+.w-fit {
+	width: fit-content !important;
+}

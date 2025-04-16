@@ -784,6 +784,7 @@ def apply_coupon_code(applied_code, applied_referral_sales_partner):
 
 	validate_coupon_code(coupon_name)
 	quotation = _get_cart_quotation()
+	quotation.ignore_pricing_rule = 0
 	quotation.coupon_code = coupon_name
 	quotation.flags.ignore_permissions = True
 	quotation.save()
@@ -797,5 +798,22 @@ def apply_coupon_code(applied_code, applied_referral_sales_partner):
 			quotation.referral_sales_partner = sales_partner_name
 			quotation.flags.ignore_permissions = True
 			quotation.save()
+
+	return quotation
+
+ 
+@frappe.whitelist(allow_guest=True)
+def remove_coupon_code():
+	quotation = _get_cart_quotation()
+	quotation.coupon_code = ""
+	quotation.referral_sales_partner = ""
+	quotation.flags.ignore_permissions = True
+	quotation.save()
+
+	# reset discount amount if coupon code is removed (on desk it is done in client side)
+	if quotation.has_value_changed("coupon_code") and not quotation.coupon_code:
+		quotation.discount_amount = 0
+		quotation.ignore_pricing_rule = 1
+		quotation.save()
 
 	return quotation
