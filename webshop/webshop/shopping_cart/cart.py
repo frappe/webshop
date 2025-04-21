@@ -808,12 +808,14 @@ def remove_coupon_code():
 	quotation.coupon_code = ""
 	quotation.referral_sales_partner = ""
 	quotation.flags.ignore_permissions = True
-	quotation.save()
 
 	# reset discount amount if coupon code is removed (on desk it is done in client side)
+	# as we are enabling ignore_pricing_rule, so we also need to manually reset discount percentage
 	if quotation.has_value_changed("coupon_code") and not quotation.coupon_code:
 		quotation.discount_amount = 0
+		quotation.additional_discount_percentage = 0
 		quotation.ignore_pricing_rule = 1
-		quotation.save()
+
+	quotation.save()
 
 	return quotation
