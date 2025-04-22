@@ -1,10 +1,11 @@
 {% if coupon_code %}
-<h6 class="my-2">Already applied coupon code:</h6>
+<p class="h6">Coupon code</p>
 <div
-    class="cart-coupon-code flex gap-2 align-items-center bg-light w-fit rounded"
+    class="cart-coupon-code flex gap-2 align-items-center w-fit rounded mb-4"
+    style="border: 2px dashed #ccc;"
 >
-    <div class="p-2"> {{ coupon_code}} </div>
-    <button class="btn ml-4 bt-remove-coupon-code">
+    <div class="p-2 small"> {{ coupon_code}} </div>
+    <button class="btn bt-remove-coupon-code">
         <span>
             <svg
                 class="icon sm remove-cart-item-logo"
@@ -23,10 +24,5 @@
             </svg>
         </span>
     </button>
-</div>
-<div class="d-flex align-items-center text-muted my-1">
-    <hr class="flex-grow-1" />
-    <span class="px-2 text-uppercase">or</span>
-    <hr class="flex-grow-1" />
 </div>
 {% endif %}
