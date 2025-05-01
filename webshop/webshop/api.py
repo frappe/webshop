@@ -10,6 +10,7 @@ from frappe.utils import cint
 from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
 from webshop.webshop.product_data_engine.query import ProductQuery
 from webshop.webshop.doctype.override_doctype.item_group import get_child_groups_for_website
+from webshop.webshop.shopping_cart.cart import _get_cart_quotation
 
 
 @frappe.whitelist(allow_guest=True)
@@ -87,3 +88,25 @@ def get_product_filter_data(query_args=None):
 @frappe.whitelist(allow_guest=True)
 def get_guest_redirect_on_action():
 	return frappe.db.get_single_value("Webshop Settings", "redirect_on_action")
+
+
+@frappe.whitelist()
+def is_item_in_cart(item_code):
+	"""
+	Check if an item is in the user's cart.
+	
+	Args:
+		item_code (str): The item code to check
+		
+	Returns:
+		dict: Contains qty if item is in cart, 0 if not
+	"""
+	if frappe.session.user == "Guest":
+		return {"qty": 0}
+		
+	quotation = _get_cart_quotation()
+	quotation_items = quotation.get("items", {"item_code": item_code})
+	
+	if quotation_items:
+		return {"qty": quotation_items[0].qty}
+	return {"qty": 0}

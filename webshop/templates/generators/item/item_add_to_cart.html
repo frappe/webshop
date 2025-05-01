@@ -92,50 +92,93 @@
 		{% endif %}
 
 		<!-- Add to Cart / View in Cart, Contact Us -->
-		<div class="mt-6 mb-5">
-			<div class="mb-4 d-flex">
-				<!-- Add to Cart -->
-				{% if product_info.price and (cart_settings.allow_items_not_in_stock or product_info.get("in_stock")) %}
-					<a href="/cart" class="btn btn-light btn-view-in-cart hidden mr-2 font-md"
-						role="button">
-						{{  _("View in Cart") if cart_settings.enable_checkout else _("View in Quote") }}
-					</a>
-					<button
-						data-item-code="{{item_code}}"
-						class="btn btn-primary btn-add-to-cart mr-2 w-30-40"
-					>
-						<span class="mr-2">
-							<svg class="icon icon-md">
-								<use href="#icon-assets"></use>
-							</svg>
-						</span>
-						{{ _("Add to Cart") if cart_settings.enable_checkout else  _("Add to Quote") }}
-					</button>
-				{% endif %}
+        <div class="mb-2">
+            <div class="d-flex">
+                <!-- Add to Cart -->
+                {% if cart_settings.allow_items_not_in_stock or product_info.get("in_stock") %}
+                    <a href="/cart" class="btn btn-light btn-view-in-cart hidden mr-2 font-md"
+                       role="button">
+                        {{  _("View in Cart") if cart_settings.enable_checkout else _("View in Quote") }}
+                    </a>
+                    <div class="input-group number-spinner hidden mb-2">
+                            <span class="input-group-prepend d-sm-inline-block">
+                                <button class="btn cart-btn" data-dir="dwn">
+                                    {{ '–'}}
+                                </button>
+                            </span>
+                        <input class="form-control text-center cart-qty" value="1" data-item-code="{{ item_code }}"
+                               style="max-width: 70px;">
 
-				<!-- Contact Us -->
-				{% if cart_settings.show_contact_us_button %}
-					{% include "templates/generators/item/item_inquiry.html" %}
-				{% endif %}
-			</div>
-		</div>
+                        <span class="input-group-append d-sm-inline-block">
+                                <button class="btn cart-btn" data-dir="up" >
+                                    {{ '+'}}
+                                </button>
+                        </span>
+                        <button
+                                data-item-code="{{item_code}}"
+                                class="btn btn-primary btn-add-to-cart hidden mr-2 w-30-40"
+                        >
+                            <span class="mr-2">
+                                <svg class="icon icon-md">
+                                    <use href="#icon-assets"></use>
+                                </svg>
+                            </span>
+                            {{ _("Add to Cart") if cart_settings.enable_checkout else  _("Add to Quote") }}
+                        </button>
+                    </div>
+                {% endif %}
+            </div>
+            <!-- Contact Us -->
+            {% if cart_settings.show_contact_us_button %}
+                {% include "templates/generators/item/item_inquiry.html" %}
+            {% endif %}
+        </div>
 	</div>
 </div>
 
 <script>
 	frappe.ready(() => {
+		$('.page_content').on('click', '.cart-btn', (e) => {
+			const $btn = $(e.currentTarget);
+			const $input = $btn.closest('.number-spinner').find('.cart-qty');
+			const currentVal = parseInt($input.val()) || 0;
+			const dir = $btn.data('dir');
+			const max = parseInt($input.attr('max')) || Infinity;
+			const min = parseInt($input.attr('min')) || 1;
+			
+			let newVal = dir === 'up' ? currentVal + 1 : currentVal - 1;
+			newVal = Math.min(Math.max(newVal, min), max);
+			
+			$input.val(newVal).trigger('change');
+		});
+
+		frappe.call({
+			method: 'webshop.webshop.api.is_item_in_cart',
+			args: {
+				item_code: '{{ item_code }}'
+			},
+			callback: (r) => {
+				if (r.message && r.message.qty > 0) {
+					$('.btn-view-in-cart').removeClass('hidden');
+				} else {
+					$('.btn-add-to-cart, .number-spinner').removeClass('hidden');
+				}
+			}
+		});
+
 		$('.page_content').on('click', '.btn-add-to-cart', (e) => {
 			// Bind action on add to cart button
 			const $btn = $(e.currentTarget);
 			$btn.prop('disabled', true);
 			const item_code = $btn.data('item-code');
+			const quantity = parseInt($btn.closest('.item-cart').find('.cart-qty').val()) || 1;
 			webshop.webshop.shopping_cart.update_cart({
 				item_code,
-				qty: 1,
+				qty: quantity,
 				callback(r) {
 					$btn.prop('disabled', false);
 					if (r.message) {
-						$('.btn-add-to-cart, .btn-view-in-cart').toggleClass('hidden');
+						$('.btn-add-to-cart, .btn-view-in-cart, .number-spinner').toggleClass('hidden');
 					}
 				}
 			});
