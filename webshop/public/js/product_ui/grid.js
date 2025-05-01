@@ -116,7 +116,7 @@ webshop.ProductGrid = class {
 	get_cart_indicator(item) {
 		return `
 			<div class="cart-indicator ${item.in_cart ? '' : 'hidden'}" data-item-code="${ item.item_code }">
-				1
+				${ item.in_chart_amount }
 			</div>
 		`;
 	}

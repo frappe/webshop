@@ -234,7 +234,9 @@ class ProductQuery:
 			if self.settings.show_stock_availability:
 				self.get_stock_availability(item)
 
-			item.in_cart = item.item_code in cart_items
+			item.in_cart = any(i.item_code == item.item_code for i in cart_items)
+			item.in_chart_amount = sum(i.qty for i in cart_items if i.item_code == item.item_code)
+
 
 			item.wished = False
 			if frappe.db.exists(
@@ -299,9 +301,10 @@ class ProductQuery:
 			)
 			if quotation:
 				items = frappe.get_all(
-					"Quotation Item", fields=["item_code"], filters={"parent": quotation[0].get("name")}
+					"Quotation Item", 
+					fields=["item_code", "qty"], 
+					filters={"parent": quotation[0].get("name")}
 				)
-				items = [row.item_code for row in items]
 				return items
 
 		return []

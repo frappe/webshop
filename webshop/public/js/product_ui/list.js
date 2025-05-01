@@ -188,7 +188,7 @@ webshop.ProductList = class {
 				</div>
 
 				<div class="cart-indicator list-indicator ${item.in_cart ? '' : 'hidden'}">
-					1
+					${ item.in_chart_amount }
 				</div>
 
 				<a href="/cart">
