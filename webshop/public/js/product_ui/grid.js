@@ -170,7 +170,7 @@ webshop.ProductGrid = class {
 					</div>
 				</a>
 			`;
-		} else if (settings.enabled && (settings.allow_items_not_in_stock || item.in_cart)) {
+		} else if (settings.enabled && (settings.allow_items_not_in_stock || item.in_stock)) {
 			return `
 				<div style="display: flex; align-items: center;">
 					<!-- Add to Cart Button -->
