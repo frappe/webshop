@@ -226,10 +226,10 @@ def update_cart(item_code, qty,item_row_id=None, additional_notes=None, with_ite
 	if qty == 0:
 
 		quotation_items_filter_1 = frappe._dict({
-			"item_code": ["!=", item_code]
+			"name": ["!=", item_row_id]
 		})
-		if item_row_id:
-			quotation_items_filter_1['name'] = ["!=", item_row_id]
+		# if item_row_id:
+		# 	quotation_items_filter_1['name'] = ["!=", item_row_id]
 
 		quotation_items = quotation.get("items", quotation_items_filter_1)
 		if quotation_items:

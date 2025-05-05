@@ -87,7 +87,7 @@ $.extend(shopping_cart, {
 
 	bind_remove_cart_item: function() {
 		$(".cart-items").on("click", ".remove-cart-item", (e) => {
-			const $remove_cart_item_btn = $(e.currentTarget);
+			var $remove_cart_item_btn = $(e.currentTarget);
 			var item_code = $remove_cart_item_btn.data("item-code");
 			var item_row_id = $remove_cart_item_btn.data("item-row-id");
 
