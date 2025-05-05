@@ -90,7 +90,7 @@ def get_guest_redirect_on_action():
 	return frappe.db.get_single_value("Webshop Settings", "redirect_on_action")
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def is_item_in_cart(item_code):
 	"""
 	Check if an item is in the user's cart.
