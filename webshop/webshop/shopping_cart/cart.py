@@ -216,13 +216,22 @@ def update_new_line_cart(item_code, qty, additional_notes=None, with_items=False
 		return {"name": quotation.name}
 
 @frappe.whitelist()
-def update_cart(item_code, qty, additional_notes=None, with_items=False):
+def update_cart(item_code, qty,item_row_id=None, additional_notes=None, with_items=False):
+	print("item details:----->",item_code, item_row_id, qty)
 	quotation = _get_cart_quotation()
+	item_row_id = item_row_id if item_row_id else None
 
 	empty_card = False
 	qty = flt(qty)
 	if qty == 0:
-		quotation_items = quotation.get("items", {"item_code": ["!=", item_code]})
+
+		quotation_items_filter_1 = frappe._dict({
+			"item_code": ["!=", item_code]
+		})
+		if item_row_id:
+			quotation_items_filter_1['name'] = ["!=", item_row_id]
+
+		quotation_items = quotation.get("items", quotation_items_filter_1)
 		if quotation_items:
 			quotation.set("items", quotation_items)
 		else:
@@ -232,8 +241,14 @@ def update_cart(item_code, qty, additional_notes=None, with_items=False):
 		warehouse = frappe.get_cached_value(
 			"Website Item", {"item_code": item_code}, "website_warehouse"
 		)
+		quotation_items_filter_2 = frappe._dict({
+			"item_code": item_code
+		})
+		if item_row_id:
+			quotation_items_filter_2['name'] = item_row_id
 
-		quotation_items = quotation.get("items", {"item_code": item_code})
+		quotation_items = quotation.get("items", quotation_items_filter_2)
+		print("quotation_items:----->",quotation_items)
 		if not quotation_items:
 			quotation.append(
 				"items",

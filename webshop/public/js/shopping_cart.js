@@ -91,7 +91,8 @@ $.extend(shopping_cart, {
 					item_code: opts.item_code,
 					qty: opts.qty,
 					additional_notes: opts.additional_notes !== undefined ? opts.additional_notes : undefined,
-					with_items: opts.with_items || 0
+					with_items: opts.with_items || 0,
+					item_row_id: opts.item_row_id
 				},
 				btn: opts.btn,
 				callback: function(r) {
@@ -181,13 +182,14 @@ $.extend(shopping_cart, {
 		}
 	},
 
-	shopping_cart_update: function({item_code, qty, cart_dropdown, additional_notes}) {
+	shopping_cart_update: function({item_code, qty, cart_dropdown, additional_notes, item_row_id}) {
 		shopping_cart.update_cart({
 			item_code,
 			qty,
 			additional_notes,
 			with_items: 1,
 			btn: this,
+			item_row_id: item_row_id,
 			callback: function(r) {
 				if(!r.exc) {
 					$(".cart-items").html(r.message.items);

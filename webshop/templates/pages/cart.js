@@ -37,8 +37,9 @@ $.extend(shopping_cart, {
 		// bind update button
 		$(".cart-items").on("change", ".cart-qty", function() {
 			var item_code = $(this).attr("data-item-code");
+			var item_row_id = $(this).attr("data-item-row-id");
 			var newVal = $(this).val();
-			shopping_cart.shopping_cart_update({item_code, qty: newVal});
+			shopping_cart.shopping_cart_update({item_code, qty: newVal,item_row_id: item_row_id,});
 		});
 
 		$(".cart-items").on('click', '.number-spinner button', function () {
@@ -58,10 +59,12 @@ $.extend(shopping_cart, {
 
 			let notes = input.closest("td").siblings().find(".notes").text().trim();
 			var item_code = input.attr("data-item-code");
+			var item_row_id = input.attr("data-item-row-id");
 			shopping_cart.shopping_cart_update({
 				item_code,
 				qty: newVal,
-				additional_notes: notes
+				additional_notes: notes,
+				item_row_id: item_row_id,
 			});
 		});
 	},
@@ -70,12 +73,14 @@ $.extend(shopping_cart, {
 		$('.cart-items').on('change', 'textarea', function() {
 			const $textarea = $(this);
 			const item_code = $textarea.attr('data-item-code');
+			var item_row_id = $textarea.attr('data-item-row-id');
 			const qty = $textarea.closest('tr').find('.cart-qty').val();
 			const notes = $textarea.val();
 			shopping_cart.shopping_cart_update({
 				item_code,
 				qty,
-				additional_notes: notes
+				additional_notes: notes,
+				item_row_id: item_row_id,
 			});
 		});
 	},
@@ -84,9 +89,11 @@ $.extend(shopping_cart, {
 		$(".cart-items").on("click", ".remove-cart-item", (e) => {
 			const $remove_cart_item_btn = $(e.currentTarget);
 			var item_code = $remove_cart_item_btn.data("item-code");
+			var item_row_id = $remove_cart_item_btn.data("item-row-id");
 
 			shopping_cart.shopping_cart_update({
 				item_code: item_code,
+				item_row_id: item_row_id,
 				qty: 0
 			});
 		});
