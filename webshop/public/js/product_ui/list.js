@@ -20,6 +20,8 @@ webshop.ProductList = class {
 		let me = this;
 		let html = `<br><br>`;
 
+		console.log("items:----->",this.items)
+
 		this.items.forEach(item => {
 			let title = item.web_item_name || item.item_name || item.item_code || "";
 			title =  title.length > 200 ? title.substr(0, 200) + "..." : title;
@@ -160,7 +162,7 @@ webshop.ProductList = class {
 				</svg>
 			</div>
 		`;
-	}
+	}	
 
 	get_primary_button(item, settings) {
 		if (item.has_variants) {
@@ -171,40 +173,48 @@ webshop.ProductList = class {
 					</div>
 				</a>
 			`;
-		} else if (settings.enabled && (settings.allow_items_not_in_stock || item.in_stock)) {
+		} else if (settings.enabled && (settings.allow_items_not_in_stock || item.in_cart)) {
 			return `
-				<div id="${ item.name }" class="btn
-					btn-sm btn-primary btn-add-to-cart-list mb-0
-					${ item.in_cart ? 'hidden' : '' }"
-					data-item-code="${ item.item_code }"
-					style="margin-top: 0px !important; max-height: 30px; float: right;
-						padding: 0.25rem 1rem; min-width: 135px;">
-					<span class="mr-2">
-						<svg class="icon icon-md">
-							<use href="#icon-assets"></use>
-						</svg>
-					</span>
-					${ settings.enable_checkout ? __("Add to Cart") :  __("Add to Quote") }
-				</div>
-
-				<div class="cart-indicator list-indicator ${item.in_cart ? '' : 'hidden'}">
-					1
-				</div>
-
-				<a href="/cart">
-					<div id="${ item.name }" class="btn
-						btn-sm btn-primary btn-add-to-cart-list
-						ml-4 go-to-cart mb-0 mt-0
-						${ item.in_cart ? '' : 'hidden' }"
+				<div style="display: flex; align-items: center;">
+					<!-- Add to Cart Button -->
+					<div id="${ item.name }-add-to-cart" class="btn
+						btn-sm btn-primary btn-add-to-cart-list mb-0"
 						data-item-code="${ item.item_code }"
-						style="padding: 0.25rem 1rem; min-width: 135px;">
-						${ settings.enable_checkout ? __("Go to Cart") :  __("Go to Quote") }
+						style="margin-top: 0px !important; max-height: 30px; margin-right: 8px;
+							padding: 0.25rem 1rem; min-width: 135px;">
+						<span class="mr-2">
+							<svg class="icon icon-md">
+								<use href="#icon-assets"></use>
+							</svg>
+						</span>
+						${ settings.enable_checkout ? __("Add to Cart") : __("Add to Quote") }
 					</div>
-				</a>
+	
+					<!-- Cart Quantity Indicator -->
+					<div class="cart-indicator list-indicator ${item.in_cart ? '' : 'hidden'}" 
+						style="margin-right: 8px;">
+						${ item.qty_in_cart || 1 }
+					</div>
+	
+					<!-- Go to Cart Button -->
+
+					<a href="/cart">
+						<div id="${ item.name }-go-to-cart" class="btn
+							btn-sm btn-primary btn-add-to-cart-list
+							ml-4 go-to-cart mb-0 mt-0
+							${ item.in_cart ? '' : 'hidden' }"
+							data-item-code="${ item.item_code }"
+							style="padding: 0.25rem 1rem; min-width: 135px;">
+							${ settings.enable_checkout ? __("Go to Cart") :  __("Go to Quote") }
+						</div>
+					</a>
+				</div>
 			`;
 		} else {
-			return ``;
+			return '';
 		}
 	}
+	
+	
 
 };

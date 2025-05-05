@@ -205,7 +205,15 @@ class ItemConfigure {
 				</span>
 				${__("Add to Cart")}
 			</button>
-		` : '';
+		` : `<button data-item-code="${one_item}"
+				class="btn btn-primary btn-add-to-cart w-100"
+				data-action="btn_add_to_cart"
+			>
+				<span class="mr-2">
+					${frappe.utils.icon('assets', 'md')}
+				</span>
+				${__("Add to Cart")}
+			</button>`;
 
 		const items_found = filtered_items_count === 1 ?
 			__('{0} item found.', [filtered_items_count]) :
