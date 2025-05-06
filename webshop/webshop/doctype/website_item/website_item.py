@@ -346,6 +346,7 @@ class WebsiteItem(WebsiteGenerator):
 			self.item_code, skip_quotation_creation=True
 		)
 
+	@frappe.whitelist()
 	def copy_specification_from_item_group(self):
 		self.set("website_specifications", [])
 		if self.item_group:
@@ -368,7 +369,7 @@ class WebsiteItem(WebsiteGenerator):
 
 	def get_tabs(self):
 		tab_values = {}
-		tab_values["tab_1_title"] = "Product Details"
+		tab_values["tab_1_title"] = _("Product Details")
 		tab_values["tab_1_content"] = frappe.render_template(
 			"templates/generators/item/item_specifications.html",
 			{
@@ -545,3 +546,32 @@ def make_website_item(doc, save=True):
 	insert_item_to_index(website_item)
 
 	return [website_item.name, website_item.web_item_name]
+
+@frappe.whitelist()
+def has_website_permission_for_website_item(doc, ptype, user, verbose=False):
+	# Check item group permissions for website
+
+	if user == "Administrator":
+		return True
+
+	if frappe.has_permission("Website Item", ptype=ptype, doc=doc, user=user):
+		return True
+
+	if not frappe.db.get_single_value("Webshop Settings", "login_required_to_view_products"):
+		return True
+
+	return False
+
+@frappe.whitelist()
+def has_website_permission_for_item_group(doc, ptype, user, verbose=False):
+	# Check item group permissions for website
+	if user == "Administrator":
+		return True
+
+	if frappe.has_permission("Item Group", ptype=ptype, doc=doc, user=user):
+		return True
+
+	if not frappe.db.get_single_value("Webshop Settings", "login_required_to_view_products"):
+		return True
+
+	return False

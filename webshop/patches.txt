@@ -4,3 +4,4 @@
 
 webshop.patches.add_homepage_field #09-05-2024
 webshop.patches.enable_allow_to_guest_view_for_item_group
+webshop.patches.clear_cache_for_item_group_route

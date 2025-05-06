@@ -9,7 +9,9 @@ frappe.ui.form.on("Webshop Settings", {
 		}
 
 		frm.set_query('payment_gateway_account', function() {
-			return { 'filters': { 'payment_channel': "Email" } };
+			return { 'filters': { 
+				'payment_channel': ['in', ["Email", "Phone"]] 
+			 } };
 		});
 	},
 	refresh: function(frm) {

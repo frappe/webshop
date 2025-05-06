@@ -53,6 +53,7 @@ def get_tabs(categories):
 
 def get_category_records(categories):
 	categorical_data = {}
+	website_item_meta = frappe.get_meta("Website Item", cached=True)
 
 	for category in categories:
 		if category == "item_group":
@@ -62,8 +63,18 @@ def get_category_records(categories):
 				fields=["name", "parent_item_group", "is_group", "image", "route"],
 			)
 		else:
-			doctype = frappe.unscrub(category)
+			field_type = website_item_meta.get_field(category).fieldtype
+
+			if field_type == "Table MultiSelect":
+				child_doc = website_item_meta.get_field(category).options
+				for field in frappe.get_meta(child_doc, cached=True).fields:
+					if field.fieldtype == "Link" and field.reqd:
+						doctype = field.options
+			else:
+				doctype = website_item_meta.get_field(category).options
+
 			fields = ["name"]
+
 			meta = frappe.get_meta(doctype, cached=True)
 			if meta.get_field("image"):
 				fields += ["image"]
@@ -75,9 +86,13 @@ def get_category_records(categories):
 			elif meta.get_field("custom_show_in_website"):
 				filters = {"custom_show_in_website": 1}
 
-			if filters:
-				categorical_data[category] = frappe.db.get_all(doctype, fields=fields, filters=filters)
-			else:
-				categorical_data[category] = frappe.db.get_all(doctype, fields=fields)
+			try:
+				if filters:
+					categorical_data[category] = frappe.db.get_all(doctype, fields=fields, filters=filters)
+				else:
+					categorical_data[category] = frappe.db.get_all(doctype, fields=fields)
+
+			except BaseException:
+				frappe.throw(_("DocType {} not found").format(doctype))
 
 	return categorical_data

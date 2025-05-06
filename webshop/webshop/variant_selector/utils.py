@@ -93,6 +93,16 @@ def get_attributes_and_values(item_code):
 	for iv in item_attribute_values:
 		ordered_attribute_value_map.setdefault(iv.parent, []).append(iv.attribute_value)
 
+	"""Numeric attributes are not stored in the Item Attribute Value table.
+	However, they are included in valid_options. If they are not found in ordered_attribute_value_map
+	sort and add them to it. This does not include the entire range if there is no
+	product associated with specific number. Only possible values are returned.
+	"""
+	for attr_name in attribute_list:
+		if attr_name not in ordered_attribute_value_map:
+			numeric_list = sorted([i for i in valid_options[attr_name] if i.replace(".","").isnumeric()], key=float)
+			ordered_attribute_value_map[attr_name] = numeric_list
+
 	# build attribute values in idx order
 	for attr in attributes:
 		valid_attribute_values = valid_options.get(attr.attribute, [])

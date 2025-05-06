@@ -4,6 +4,9 @@ from webshop.webshop.doctype.website_item.website_item import make_website_item
 
 
 def execute():
+	if frappe.get_all("Website Item", limit=1):
+		return
+
 	frappe.reload_doc("webshop", "doctype", "website_item")
 	frappe.reload_doc("webshop", "doctype", "website_item_tabbed_section")
 	frappe.reload_doc("webshop", "doctype", "website_offer")
