@@ -1,0 +1,28 @@
+{% if coupon_code %}
+<p class="h6">Coupon code</p>
+<div
+    class="cart-coupon-code flex gap-2 align-items-center w-fit rounded mb-4"
+    style="border: 2px dashed #ccc;"
+>
+    <div class="px-2 py-1 small"> {{ coupon_code}} </div>
+    <button class="btn bt-remove-coupon-code">
+        <span>
+            <svg
+                class="icon sm remove-cart-item-logo"
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                xmlns="http://www.w3.org/2000/svg"
+                id="icon-close"
+            >
+                <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M4.146 11.217a.5.5 0 1 0 .708.708l3.182-3.182 3.181 3.182a.5.5 0 1 0 .708-.708l-3.182-3.18 3.182-3.182a.5.5 0 1 0-.708-.708l-3.18 3.181-3.183-3.182a.5.5 0 0 0-.708.708l3.182 3.182-3.182 3.181z"
+                    stroke-width="0"
+                ></path>
+            </svg>
+        </span>
+    </button>
+</div>
+{% endif %}

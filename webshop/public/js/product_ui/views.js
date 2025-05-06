@@ -188,7 +188,7 @@ webshop.ProductView =  class {
 			<div class="input-group col-8 p-0">
 				<div class="dropdown w-100" id="dropdownMenuSearch">
 					<input type="search" name="query" id="search-box" class="form-control font-md"
-						placeholder="Search for Products"
+						placeholder="${__("Search for Products")}"
 						aria-label="Product" aria-describedby="button-addon2">
 					<div class="search-icon">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
@@ -488,7 +488,7 @@ webshop.ProductView =  class {
 	render_no_products_section(error=false) {
 		let error_section = `
 			<div class="mt-4 w-100 alert alert-error font-md">
-				Something went wrong. Please refresh or contact us.
+				${ __("Something went wrong. Please refresh or contact us.") }
 			</div>
 		`;
 		let no_results_section = `
@@ -496,7 +496,7 @@ webshop.ProductView =  class {
 				<div class="cart-empty-state">
 					<img src="/assets/webshop/images/cart-empty-state.png" alt="Empty Cart">
 				</div>
-				<div class="cart-empty-message mt-4">${ __('No products found') }</p>
+				<div class="cart-empty-message mt-4">${ __("No products found") }</p>
 			</div>
 		`;
 

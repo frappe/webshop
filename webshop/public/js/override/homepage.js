@@ -1,10 +1,10 @@
 frappe.ui.form.on('Homepage', {
 	setup: function(frm) {
-		frm.fields_dict['products'].grid.get_field('item_code').get_query = function() {
+		frm.set_query('item_code', 'products', function() {
 			return {
 				filters: {'published': 1}
-			}
-		}
+			};
+		});
 	},
 });
 

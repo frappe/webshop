@@ -50,7 +50,7 @@ $(() => {
 							}
 						});
 					},
-					primary_action_label: __('Submit')
+					primary_action_label: __("Submit")
 				});
 				d.show();
 			});

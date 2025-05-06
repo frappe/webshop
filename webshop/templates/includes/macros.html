@@ -10,7 +10,7 @@
 {% macro product_image(website_image, css_class="product-image", alt="", no_border=False) %}
 	<div class="{{ 'border' if not no_border else ''}} text-center rounded {{ css_class }}" style="overflow: hidden;">
 		{% if website_image %}
-			<img itemprop="image" class="website-image h-100 w-100" alt="{{ alt }}" src="{{ frappe.utils.quoted(website_image) | abs_url }}">
+			<img itemprop="image" class="website-image h-100 w-100" alt="{{ _(alt) }}" src="{{ frappe.utils.quoted(website_image) | abs_url }}">
 		{% else %}
 			<div itemprop="image" class="card-img-top no-image-item">
 				{{ frappe.utils.get_abbr(alt) or "NA" }}
@@ -22,7 +22,7 @@
 {% macro media_image(website_image, name, css_class="") %}
 	<div class="product-image sidebar-image-wrapper {{ css_class }}">
 		{% if not website_image -%}
-		<div class="sidebar-standard-image"> <div class="standard-image" style="background-color: rgb(250, 251, 252);">{{name}}</div> </div>
+		<div class="sidebar-standard-image"> <div class="standard-image" style="background-color: rgb(250, 251, 252);">{{_(name)}}</div> </div>
 		{%- endif %}
 		{% if website_image -%}
 			<a href="{{ frappe.utils.quoted(website_image) }}">
@@ -39,18 +39,18 @@
 	{{ section.section_html }}
 {% elif section.section_based_on == 'Cards' %}
 <section class="container my-5">
-	<h3>{{ section.name }}</h3>
+	<h3>{{ _(section.name) }}</h3>
 
 	<div class="row">
 		{% for card in section.section_cards %}
 		<div class="col-md-{{ section.column_value }} mb-4">
 			<div class="card h-100 justify-content-between">
 				{% if card.image %}
-				<img itemprop="image" class="card-img-top h-75" src="{{ card.image }}" loading="lazy" alt="{{ card.title }}"></img>
+				<img itemprop="image" class="card-img-top h-75" src="{{ card.image }}" loading="lazy" alt="{{ _(card.title) }}"></img>
 				{% endif %}
 				<div itemprop="image" class="card-body">
-					<h5 class="card-title">{{ card.title }}</h5>
-					<p class="card-subtitle mb-2 text-muted">{{ card.subtitle or '' }}</p>
+					<h5 class="card-title">{{ _(card.title) }}</h5>
+					<p class="card-subtitle mb-2 text-muted">{{ _(card.subtitle) or '' }}</p>
 					<p class="card-text">{{ card.content or '' | truncate(140, True) }}</p>
 				</div>
 				<div class="card-body flex-grow-0">
@@ -83,7 +83,7 @@
 		{% if image %}
 		<div class="row no-gutters">
 			<div class="col-md-5 ml-4">
-				<img class="card-img" src="{{ image }}" alt="{{ title }}">
+				<img class="card-img" src="{{ image }}" alt="{{ _(title) }}">
 			</div>
 			<div class="col-md-6">
 				{{ item_card_body(title, description, item, is_featured, align,template) }}
@@ -102,7 +102,7 @@
 		{% if image %}
 			<div class="card-img-container">
 				<a href="/{{ item.route or '#' }}" style="text-decoration: none;">
-					<img class="card-img" src="{{ image }}" alt="{{ title }}">
+					<img class="card-img" src="{{ image }}" alt="{{ _(title )}}">
 				</a>
 			</div>
 		{% else %}
@@ -134,7 +134,7 @@
 	</div>
 	{% if is_featured %}
 		<div class="product-description ellipsis text-muted" style="white-space: normal;">
-			{{ description or '' }}
+			{{ _(description) or '' }}
 		</div>
 	{% else %}
 		{% if template != "Product Card" %}
@@ -153,7 +153,7 @@
 		<div class="card-img-container">
 			<a href="/{{ item.route or '#' }}" style="text-decoration: none;">
 				{% if item.image %}
-					<img itemprop="image" class="card-img" src="{{ item.image }}" alt="{{ title }}">
+					<img itemprop="image" class="card-img" src="{{ item.image }}" alt="{{ _(title) }}">
 				{% else %}
 					<div itemprop="image" class="card-img-top no-image">
 						{{ frappe.utils.get_abbr(title) }}
@@ -175,18 +175,18 @@
 {%- macro wishlist_card_body(item, title, settings) %}
 <div class="card-body card-body-flex text-left" style="width: 100%;">
 	<div class="mt-4">
-		<div class="product-title">{{ title or ''}}</div>
-		<div class="product-category">{{ item.item_group or '' }}</div>
+		<div class="product-title">{{ _(title) or ''}}</div>
+		<div class="product-category">{{ _(item.item_group) or '' }}</div>
 	</div>
 	<div  class="product-price" itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
 		{{ item.get("formatted_price") or '' }}
 
 		{% if item.get("formatted_mrp") %}
 			<small class="ml-1 striked-price">
-				<s>{{ item.formatted_mrp }}</s>
+				<s>{{ _(item.formatted_mrp) }}</s>
 			</small>
 			<small class="ml-1 product-info-green" >
-				{{ item.discount }} OFF
+				{{ _(item.discount) + " " + _("OFF")}}
 			</small>
 		{% endif %}
 	</div>
@@ -213,11 +213,11 @@
 {%- macro ratings_with_title(avg_rating, title, size, rating_header_class, for_summary=False) -%}
 <div class="{{ 'd-flex' if not for_summary else '' }}">
 	<p class="mr-4 {{ rating_header_class }}">
-		<span>{{ title }}</span>
+		<span>{{ _(title) }}</span>
 	</p>
 	<div class="rating {{ 'ratings-pill' if for_summary else ''}}">
 		{% for i in range(1,6) %}
-			{% set fill_class = 'star-click' if i <= avg_rating else '' %}
+		{% set fill_class = 'star-click' if i <= avg_rating*5 else '' %}
 			<svg class="icon icon-{{ size }} {{ fill_class }}">
 				<use href="#icon-star"></use>
 			</svg>
@@ -239,7 +239,7 @@
 		<!-- Ratings Summary -->
 		{% if reviews %}
 			{% set rating_title = frappe.utils.cstr(average_rating) + " " + _("out of 5") if not for_summary else ''%}
-			{{ ratings_with_title(average_whole_rating, rating_title, "md", "rating-summary-title", for_summary) }}
+			{{ ratings_with_title(average_whole_rating/5, rating_title, "md", "rating-summary-title", for_summary) }}
 		{% endif %}
 
 		<div class="mt-2">{{ frappe.utils.cstr(average_rating or 0) + " " + _("out of 5") }}</div>
@@ -276,17 +276,17 @@
 	{% for review in reviews %}
 		<div class="mb-3 review">
 			{{ ratings_with_title(review.rating, _(review.review_title), "sm", "user-review-title") }}
-
-			<div class="product-description mb-4">
-				<p>
-					{{ _(review.comment) }}
-				</p>
-			</div>
-
+			{% if review.comment %}
+				<div class="product-description mb-4">
+					<p>
+						{{ _(review.comment) }}
+					</p>
+				</div>
+			{% endif %}
 			<div class="review-signature mb-2">
 				<span class="reviewer">{{ _(review.customer) }}</span>
 				<span class="indicator grey" style="--text-on-gray: var(--gray-300);"></span>
-				<span class="reviewer">{{ review.published_on }}</span>
+				<span class="reviewer">{{ _(review.published_on) }}</span>
 			</div>
 		</div>
 	{% endfor %}
@@ -298,11 +298,11 @@
 	{%- set item_field =  field_filter[0] %}
 	{%- set values =  field_filter[1] %}
 	<div class="mb-4 filter-block pb-5">
-		<div class="filter-label mb-3">{{ item_field.label }}</div>
+		<div class="filter-label mb-3">{{ _(item_field.label) }}</div>
 
 		{% if values | len > 20 %}
 		<!-- show inline filter if values more than 20 -->
-		<input type="text" class="form-control form-control-sm mb-2 filter-lookup-input" placeholder="Search {{ item_field.label + 's' }}"/>
+		<input type="text" class="form-control form-control-sm mb-2 filter-lookup-input" placeholder="_('Search') {{ _(item_field.label) + 's' }}"/>
 		{% endif %}
 
 		{% if values %}
@@ -316,7 +316,7 @@
 						data-filter-name="{{ item_field.fieldname }}"
 						data-filter-value="{{ value }}"
 						style="width: 14px !important">
-					<span class="label-area">{{ value }}</span>
+					<span class="label-area">{{ _(value) }}</span>
 				</label>
 			</div>
 			{% endfor %}
@@ -331,10 +331,10 @@
 {%- macro attribute_filter_section(filters)-%}
 {% for attribute in filters %}
 	<div class="mb-4 filter-block pb-5">
-		<div class="filter-label mb-3">{{ attribute.name }}</div>
+		<div class="filter-label mb-3">{{ _(attribute.name) }}</div>
 		{% if attribute.item_attribute_values | len > 20 %}
 		<!-- show inline filter if values more than 20 -->
-		<input type="text" class="form-control form-control-sm mb-2 filter-lookup-input" placeholder="Search {{ attribute.name + 's' }}"/>
+		<input type="text" class="form-control form-control-sm mb-2 filter-lookup-input" placeholder="_('Search') {{ _(attribute.name) + 's' }}"/>
 		{% endif %}
 
 		{% if attribute.item_attribute_values %}
@@ -349,7 +349,7 @@
 						data-attribute-value="{{ attr_value }}"
 						style="width: 14px !important"
 						{% if attr_value.checked %} checked {% endif %}>
-						<span class="label-area">{{ attr_value }}</span>
+						<span class="label-area">{{ _(attr_value) }}</span>
 				</label>
 			</div>
 			{% endfor %}
@@ -388,7 +388,7 @@
 				{% if price.get('formatted_mrp') %}
 					<br>
 					<span class="striked-item-price">
-						<s>MRP {{ price.formatted_mrp }}</s>
+						<s>MRP {{ _(price.formatted_mrp) }}</s>
 					</span>
 					<span class="in-green">
 						- {{ price.get('formatted_discount_percent') or price.get('formatted_discount_rate')}}

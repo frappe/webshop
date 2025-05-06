@@ -59,7 +59,7 @@
 	<!-- Recommended Items -->
 	{% if show_recommended_items %}
 		<div class="mt-4 col-3 recommended-item-section">
-			<span class="recommendation-header">Recommended</span>
+			<span class="recommendation-header">{{ _("Recommended") }}</span>
 			<div class="product-container mt-2 recommendation-container">
 				{% for item in recommended_items %}
 					{{ recommended_item_row(item) }}

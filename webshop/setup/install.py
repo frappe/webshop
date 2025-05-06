@@ -86,6 +86,7 @@ def add_custom_fields():
 				"insert_after": "default_manufacturer_part_no",
 				"label": "Published In Website",
 				"read_only": 1,
+				"no_copy": 1,
 			}
 		],
 		"Item Group": [
@@ -189,6 +190,18 @@ def add_custom_fields():
 			},
 		]
 	}
+
+	frappe.make_property_setter(
+		{
+			"doctype": "Item Group",
+			"doctype_or_field": "DocType",
+			"fieldname": "allow_guest_to_view",
+			"property": "allow_guest_to_view",
+			"value": 1,
+			"property_type": "Check"
+		},
+		is_system_generated=True,
+	)
 
 	return create_custom_fields(custom_fields)
 
