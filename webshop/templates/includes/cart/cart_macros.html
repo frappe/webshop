@@ -20,3 +20,39 @@
 	</div>
 </div>
 {% endmacro %}
+
+{% macro quantity_input(item) %}
+<div class="d-flex">
+	{% set disabled = 'disabled' if item.is_free_item else '' %}
+	<div class="input-group number-spinner mt-2 mt-lg-1 mb-0 mb-lg-4">
+		<span class="input-group-prepend d-sm-inline-block">
+			<button class="btn cart-btn" data-dir="dwn" {{ disabled }}>
+				{{ '–' if not item.is_free_item else ''}}
+			</button>
+		</span>
+
+		<input class="form-control text-center cart-qty" value="{{ item.get_formatted('qty') }}" data-item-code="{{ item.item_code }}"
+			style="max-width: 70px;" {{ disabled }}>
+
+		<span class="input-group-append d-sm-inline-block">
+			<button class="btn cart-btn" data-dir="up" {{ disabled }}>
+				{{ '+' if not item.is_free_item else ''}}
+			</button>
+		</span>
+	</div>
+
+	<div>
+		{% if not item.is_free_item %}
+			<div class="remove-cart-item column-sm-view d-flex" data-item-code="{{ item.item_code }}">
+				<span>
+					<svg class="icon sm remove-cart-item-logo"
+						width="18" height="18" viewBox="0 0 18 18"
+						xmlns="http://www.w3.org/2000/svg" id="icon-close">
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M4.146 11.217a.5.5 0 1 0 .708.708l3.182-3.182 3.181 3.182a.5.5 0 1 0 .708-.708l-3.182-3.18 3.182-3.182a.5.5 0 1 0-.708-.708l-3.18 3.181-3.183-3.182a.5.5 0 0 0-.708.708l3.182 3.182-3.182 3.181z" stroke-width="0"></path>
+					</svg>
+				</span>
+			</div>
+		{% endif %}
+	</div>
+</div>
+{% endmacro %}
