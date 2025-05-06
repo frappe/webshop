@@ -17,13 +17,13 @@
 
 				<!-- taxes -->
 				{% for d in doc.taxes %}
-					{% if d.base_tax_amount %}
+					{% if d.tax_amount %}
 						<tr>
 							<td class="bill-label">
 								{{ d.description }}
 							</td>
 							<td class="bill-content text-right">
-								{{ d.get_formatted("base_tax_amount") }}
+								{{ d.get_formatted("tax_amount") }}
 							</td>
 						</tr>
 					{% endif %}
@@ -50,16 +50,6 @@
 					<td class="bill-content net-total text-right">{{ doc.get_formatted("grand_total") }}</td>
 				</tr>
 			</table>
-		{% endif %}
-
-		{% if cart_settings.enable_checkout %}
-			<button class="btn btn-primary btn-place-order font-md w-100" type="button">
-				{{ _('Place Order') }}
-			</button>
-		{% else %}
-			<button class="btn btn-primary btn-request-for-quotation font-md w-100" type="button">
-				{{ _('Request for Quote') }}
-			</button>
 		{% endif %}
 	</div>
 </div>

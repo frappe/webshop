@@ -1,0 +1,10 @@
+{%- from "webshop/templates/includes/macros.html" import item_card -%}
+
+<div class="section-with-cards item-card-group-section">
+    <div class="container">
+        <div class="row">
+            {%- set item_doc = frappe.get_doc("Website Item", values["item"]) -%}
+            {{ item_card(item=item_doc, is_featured=values["featured"], is_full_width=True, align="Center", template="Product Card") }}
+        </div>
+    </div>
+</div>

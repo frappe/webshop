@@ -20,9 +20,6 @@ class PaymentRequest(OriginalPaymentRequest):
         if frappe.local.session.user == "Guest":
             return
 
-        if self.payment_channel == "Phone":
-            return
-
         cart_settings = frappe.get_doc("Webshop Settings")
 
         if not cart_settings.enabled:

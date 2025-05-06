@@ -8,7 +8,7 @@
    "fieldname": "item",
    "fieldtype": "Link",
    "label": "Item",
-   "options": "Item",
+   "options": "Website Item",
    "reqd": 0
   },
   {
@@ -20,7 +20,7 @@
   }
  ],
  "idx": 0,
- "modified": "2023-10-16 18:02:11.801746",
+ "modified": "2024-06-17 15:15:09.902754",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Product Card",
