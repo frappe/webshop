@@ -488,7 +488,7 @@ webshop.ProductView =  class {
 	render_no_products_section(error=false) {
 		let error_section = `
 			<div class="mt-4 w-100 alert alert-error font-md">
-				Something went wrong. Please refresh or contact us.
+				${ __("Something went wrong. Please refresh or contact us.") }
 			</div>
 		`;
 		let no_results_section = `
@@ -496,7 +496,7 @@ webshop.ProductView =  class {
 				<div class="cart-empty-state">
 					<img src="/assets/webshop/images/cart-empty-state.png" alt="Empty Cart">
 				</div>
-				<div class="cart-empty-message mt-4">${ __('No products found') }</p>
+				<div class="cart-empty-message mt-4">${ __("No products found") }</p>
 			</div>
 		`;
 

@@ -164,7 +164,7 @@ webshop.ProductSearch = class {
 		let recents = this.getRecentSearches();
 
 		if (!recents.length) {
-			this.recents_container.html(`<span class=""text-muted">No searches yet.</span>`);
+			this.recents_container.html(`<span class=""text-muted">${ __("No searches yet.") }</span>`);
 			return;
 		}
 

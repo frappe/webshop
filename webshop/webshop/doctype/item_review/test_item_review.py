@@ -52,7 +52,7 @@ class TestItemReview(unittest.TestCase):
 
 		# post review on "Test Mobile Phone"
 		try:
-			add_item_review(web_item, "Great Product", 3, "Would recommend this product")
+			add_item_review(web_item, "Great Product", 4, "Would recommend this product")
 			review_name = frappe.db.get_value("Item Review", {"website_item": web_item})
 		except Exception:
 			self.fail(f"Error while publishing review for {web_item}")

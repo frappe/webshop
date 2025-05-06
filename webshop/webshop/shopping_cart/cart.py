@@ -102,8 +102,6 @@ def place_order():
 	if not (quotation.shipping_address_name or quotation.customer_address):
 		frappe.throw(_("Set Shipping Address or Billing Address"))
 
-	customer_group = cart_settings.default_customer_group
-
 	sales_order = frappe.get_doc(
 		_make_sales_order(
 			quotation.name, ignore_permissions=True
@@ -567,7 +565,7 @@ def get_party(user=None):
 
 		return doc
 
-	else:
+	elif not frappe.db.exists("Portal User", {"user": user}):
 		if not cart_settings.enabled:
 			frappe.local.flags.redirect_location = "/contact"
 			raise frappe.Redirect
@@ -605,6 +603,13 @@ def get_party(user=None):
 		contact.insert(ignore_permissions=True)
 
 		return customer
+	else:
+		customer = frappe.db.get_value(
+			"Portal User", {"user": user}, ["parent"]
+		)
+
+		if frappe.db.exists("Customer", customer):
+			return frappe.get_doc("Customer", customer)
 
 
 def get_debtors_account(cart_settings):
@@ -779,6 +784,7 @@ def apply_coupon_code(applied_code, applied_referral_sales_partner):
 
 	validate_coupon_code(coupon_name)
 	quotation = _get_cart_quotation()
+	quotation.ignore_pricing_rule = 0
 	quotation.coupon_code = coupon_name
 	quotation.flags.ignore_permissions = True
 	quotation.save()
@@ -792,5 +798,23 @@ def apply_coupon_code(applied_code, applied_referral_sales_partner):
 			quotation.referral_sales_partner = sales_partner_name
 			quotation.flags.ignore_permissions = True
 			quotation.save()
+
+	return quotation
+
+ 
+@frappe.whitelist(allow_guest=True)
+def remove_coupon_code():
+	quotation = _get_cart_quotation()
+	quotation.coupon_code = ""
+	quotation.referral_sales_partner = ""
+	quotation.flags.ignore_permissions = True
+
+	# reset discount amount if coupon code is removed (on desk it is done in client side)
+	# as we are enabling ignore_pricing_rule, so we also need to manually reset discount percentage
+	quotation.discount_amount = 0
+	quotation.additional_discount_percentage = 0
+	quotation.ignore_pricing_rule = 1
+
+	quotation.save()
 
 	return quotation

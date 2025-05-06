@@ -37,7 +37,7 @@
 		<div class="form-column col-sm-6">
 			<div class="page-header-actions-block" data-html-block="header-actions">
 				<p>
-					{% if doc.doctype != "Sales Invoice" or doc.outstanding_amount > 0 %}
+					{% if enabled_checkout and (doc.doctype != "Sales Invoice" or doc.outstanding_amount > 0) %}
 					<a href="/api/method/erpnext.accounts.doctype.payment_request.payment_request.make_payment_request?dn={{ doc.name }}&dt={{ doc.doctype }}&submit_doc=1&order_type=Shopping Cart"
 						class="btn btn-primary btn-sm" id="pay-for-order">
 						{{ _("Pay") }} {{doc.get_formatted("grand_total") }}
