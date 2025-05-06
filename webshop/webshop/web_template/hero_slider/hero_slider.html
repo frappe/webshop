@@ -10,15 +10,15 @@
 	'': theme == 'Light',
 }) -%}
 <div class="carousel-item {{ 'active' if index=='1' else ''}}" style="height: 450px;">
-	<img class="d-block h-100 w-100" style="object-fit: cover;" src="{{ image }}" alt="{{ title }}">
+	<img class="d-block h-100 w-100" style="object-fit: cover;" src="{{ image }}" alt="{{ _(title) }}">
 	{%- if title or subtitle -%}
 	<div class="carousel-body container d-flex {{ align_class }}">
 		<div class="carousel-content align-self-center">
-			{%- if title -%}<h1 class="{{ heading_class }}">{{ title }}</h1>{%- endif -%}
-			{%- if subtitle -%}<p class="{{ heading_class }} mt-2">{{ subtitle }}</p>{%- endif -%}
+			{%- if title -%}<h1 class="{{ heading_class }}">{{ _(title) }}</h1>{%- endif -%}
+			{%- if subtitle -%}<p class="{{ heading_class }} mt-2">{{ _(subtitle) }}</p>{%- endif -%}
 			{%- if action -%}
 			<a href="{{ action }}" class="btn btn-primary mt-3">
-				{{ label }}
+				{{ _(label) }}
 			</a>
 			{%- endif -%}
 		</div>
@@ -62,7 +62,7 @@
 				<path d="M11.625 3.75L6.375 9L11.625 14.25" stroke="#4C5A67" stroke-linecap="round" stroke-linejoin="round"/>
 			</svg>
 		</div>
-		<span class="sr-only">Previous</span>
+		<span class="sr-only">{{ _("Previous") }}</span>
 	</a>
 	<a class="carousel-control-next" href="#{{ hero_slider_id }}" role="button" data-slide="next">
 		<div class="carousel-control">
@@ -70,7 +70,7 @@
 				<path d="M6.375 14.25L11.625 9L6.375 3.75" stroke="#4C5A67" stroke-linecap="round" stroke-linejoin="round"/>
 			</svg>
 		</div>
-		<span class="sr-only">Next</span>
+		<span class="sr-only">{{ _("Next") }}</span>
 	</a>
 	{%- endif -%}
 </div>

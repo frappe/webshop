@@ -31,7 +31,7 @@ def get_product_filter_data(query_args=None):
 	if isinstance(query_args, str):
 		query_args = json.loads(query_args)
 
-	query_args = frappe._dict(query_args)
+	query_args = frappe._dict(query_args or {})
 
 	if query_args:
 		search = query_args.get("search")

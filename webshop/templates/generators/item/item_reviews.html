@@ -50,10 +50,10 @@
 			let d = new frappe.ui.Dialog({
 				title: __("Write a Review"),
 				fields: [
-					{fieldname: "title", fieldtype: "Data", label: "Headline", reqd: 1},
-					{fieldname: "rating", fieldtype: "Rating", label: "Overall Rating", reqd: 1},
+					{fieldname: "title", fieldtype: "Data", label: __("Headline"), reqd: 1},
+					{fieldname: "rating", fieldtype: "Rating", label: __("Overall Rating"), reqd: 1},
 					{fieldtype: "Section Break"},
-					{fieldname: "comment", fieldtype: "Small Text", label: "Your Review"}
+					{fieldname: "comment", fieldtype: "Small Text", label: __("Your Review")}
 				],
 				primary_action: function() {
 					var data = d.get_values();
@@ -80,7 +80,7 @@
 						}
 					});
 				},
-				primary_action_label: __('Submit')
+				primary_action_label: __("Submit")
 			});
 			d.show();
 		});
