@@ -131,8 +131,13 @@ class ProductFiltersBuilder:
 			attribute_value_map.setdefault(d.attribute, []).append(d.attribute_value)
 
 		out = []
-		for name, values in attribute_value_map.items():
-			out.append(frappe._dict(name=name, item_attribute_values=values))
+		for attribute in attributes:
+			if attribute not in attribute_value_map:
+				continue
+
+			values = attribute_value_map[attribute]
+			out.append(frappe._dict(name=attribute, item_attribute_values=values))
+
 		return out
 
 	def get_discount_filters(self, discounts):
