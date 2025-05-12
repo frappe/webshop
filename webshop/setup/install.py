@@ -6,6 +6,7 @@ from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 
 
 def after_install():
+	run_add_homepage_field_patch()
 	run_patches()
 	copy_from_ecommerce_settings()
 	drop_ecommerce_settings()
@@ -234,12 +235,21 @@ patches = [
 	"convert_to_website_item_in_item_card_group_template",
 	"shopping_cart_to_ecommerce",
 	"copy_custom_field_filters_to_website_item",
-	"add_homepage_field",
 ]
+
+def run_add_homepage_field_patch():
+	# This is a mandatory patch that needs to be run.
+	# It adds necessary custom fields in the Homepage doctype (for v15) which prevents override/homepage.js from misbehaving
+	frappe.flags.in_patch = True
+
+	try:
+		frappe.get_attr("webshop.patches.add_homepage_field.execute")()
+
+	finally:
+		frappe.flags.in_patch = False
 
 def run_patches():
 	# Customers migrating from v13 to v15 directly need to run all below patches
-
 	if frappe.db.table_exists("Website Item"):
 		return
 
