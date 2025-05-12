@@ -23,7 +23,6 @@ on_session_creation = [
 update_website_context = [
     "webshop.webshop.shopping_cart.utils.update_website_context",
 ]
-my_account_context = "webshop.webshop.shopping_cart.utils.update_my_account_context"
 
 website_generators = ["Website Item", "Item Group"]
 
