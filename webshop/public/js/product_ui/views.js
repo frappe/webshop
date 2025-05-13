@@ -204,6 +204,15 @@ webshop.ProductView =  class {
 				</div>
 			</div>
 		`);
+		$("#search-box").on("keypress", function (e) {
+			if (e.which === 13) {
+				e.preventDefault();
+				const query = $(this).val().trim();
+				if (query) {
+					window.location.href = `/search?q=${encodeURIComponent(query)}`;
+				}
+			}
+		});		
 	}
 
 	render_view_toggler() {

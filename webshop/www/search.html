@@ -1,0 +1,101 @@
+{% extends "templates/web.html" %}
+
+{% block title %}نتائج البحث{% endblock %}
+
+{% block page_content %}
+
+<style>
+	body {
+	background-color: #F8F8F8;
+}
+
+.item-card {
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	text-decoration: none;
+	color: inherit;
+	transition: all 0.3s ease;
+	height: 100%;
+}
+
+.item-card .item-image {
+	position: relative;
+	width: 100%;
+	padding-top: 100%;
+	background-color: #f3f3f3;
+	overflow: hidden;
+}
+
+.item-card .item-image img {
+	position: absolute;
+	top: 0; left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.item-card .no-image {
+	position: absolute;
+	top: 0; left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 2rem;
+	color: #999;
+	background-color: #f3f3f3;
+}
+
+.item-card .item-card-body {
+	padding: 1rem;
+}
+
+.item-card .item-title {
+	font-weight: 600;
+	margin-bottom: 0.5rem;
+}
+
+.list-view .item-card.list {
+	flex-direction: row;
+	align-items: center;
+	height: auto;
+}
+
+.list-view .item-card.list .item-image {
+	width: 120px;
+	height: 120px;
+	padding-top: 0;
+	flex-shrink: 0;
+	margin: 20px;
+}
+
+.list-view .item-card.list .item-image img,
+.list-view .item-card.list .no-image {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	object-fit: cover;
+	font-size: 1.5rem;
+	padding: 1rem;
+}
+
+.list-view .item-card.list .item-card-body {
+	padding: 1rem;
+}
+
+</style>
+<div class="search-results-wrapper container mt-5">
+	<h3 class="mb-4 text-center">Search results for: "<span id="search-query" style="color: blue;"></span>"</h3>
+	<div id="results" class="row"></div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="/assets/webshop/js/search.js"></script>
+{% endblock %}
