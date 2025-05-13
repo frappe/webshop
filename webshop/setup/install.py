@@ -234,7 +234,7 @@ patches = [
 	"convert_to_website_item_in_item_card_group_template",
 	"shopping_cart_to_ecommerce",
 	"copy_custom_field_filters_to_website_item",
-	"add_homepage_field_patch"
+	"add_homepage_field"
 ]
 
 def run_patches():
