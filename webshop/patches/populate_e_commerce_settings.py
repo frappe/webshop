@@ -1,6 +1,7 @@
 import frappe
 from frappe.utils import cint
 
+from webshop.webshop.utils.setup import has_ecommerce_fields
 
 def execute():
 	frappe.reload_doc("webshop", "doctype", "webshop_settings")
@@ -34,7 +35,9 @@ def execute():
 		"save_quotations_as_draft",
 	]
 
-	settings = frappe.get_doc("E Commerce Settings")
+	settings_doctype = "E Commerce Settings" if has_ecommerce_fields() else "Webshop Settings"
+
+	settings = frappe.get_doc(settings_doctype)
 
 	def map_into_e_commerce_settings(doctype, fields):
 		singles = frappe.qb.DocType("Singles")
@@ -63,6 +66,6 @@ def execute():
 		frappe.db.set_value(
 			doctype,
 			{"parent": "Products Settings"},
-			{"parenttype": "E Commerce Settings", "parent": "E Commerce Settings"},
+			{"parenttype": settings_doctype, "parent": settings_doctype},
 			update_modified=False,
 		)
