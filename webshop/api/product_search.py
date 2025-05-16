@@ -3,7 +3,8 @@
 import frappe
 from frappe import _
 
-@frappe.whitelist()
+# @frappe.whitelist()
+@frappe.whitelist(allow_guest = True)
 def product_search(q):
 	if not q:
 		return []

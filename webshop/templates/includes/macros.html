@@ -302,7 +302,7 @@
 
 		{% if values | len > 20 %}
 		<!-- show inline filter if values more than 20 -->
-		<input type="text" class="form-control form-control-sm mb-2 filter-lookup-input" placeholder="_('Search') {{ _(item_field.label) + 's' }}"/>
+		<input type="text" class="form-control form-control-sm mb-2 filter-lookup-input" placeholder="{{ _(item_field.label) + 's' }}"/>
 		{% endif %}
 
 		{% if values %}
