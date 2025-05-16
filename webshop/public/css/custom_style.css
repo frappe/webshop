@@ -1,0 +1,10 @@
+.page-header-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.filters-section{
+    background-color: white;
+    padding: 20px;
+}

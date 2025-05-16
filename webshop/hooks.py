@@ -10,9 +10,18 @@ app_version = _version
 
 required_apps = ["payments", "erpnext"]
 
-web_include_css = "webshop-web.bundle.css"
+# web_include_css = "webshop-web.bundle.css"
+
+web_include_css = [ 
+    "webshop-web.bundle.css",
+    "/assets/webshop/css/custom_style.css"
+]
 
 web_include_js = "web.bundle.js"
+
+# app_include_css = [ 
+#     "/assets/webshop/css/custom_style.css"
+# ]
 
 app_include_js = [
 	"/assets/webshop/js/search.js"
