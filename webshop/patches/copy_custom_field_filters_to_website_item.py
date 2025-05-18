@@ -1,6 +1,7 @@
 import frappe
 from frappe.custom.doctype.custom_field.custom_field import create_custom_field
 
+from webshop.webshop.utils.setup import has_ecommerce_fields
 
 def execute():
 	"Add Field Filters, that are not standard fields in Website Item, as Custom Fields."
@@ -41,7 +42,9 @@ def execute():
 
 		return table_multiselect_data
 
-	settings = frappe.get_doc("E Commerce Settings")
+	settings_doctype = "E Commerce Settings" if has_ecommerce_fields() else "Webshop Settings"
+
+	settings = frappe.get_doc(settings_doctype)
 
 	if not (settings.enable_field_filters or settings.filter_fields):
 		return
