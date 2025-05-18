@@ -158,7 +158,9 @@ def delete_item_from_index(website_item_doc):
 def delete_from_ac_dict(website_item_doc):
 	"""Removes this items's name from autocomplete dictionary"""
 	ac = frappe.cache().ft()
-	ac.sugdel(website_item_doc.web_item_name)
+	# ac.sugdel(website_item_doc.web_item_name)
+	ac.sugdel("autocomplete_key", website_item_doc.web_item_name)
+
 
 
 @if_redisearch_enabled
