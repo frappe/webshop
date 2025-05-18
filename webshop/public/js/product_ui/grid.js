@@ -22,15 +22,30 @@ webshop.ProductGrid = class {
 		let me = this;
 		let html = ``;
 
-		this.items.forEach(item => {
-			let title = item.web_item_name || item.item_name || item.item_code || "";
-			title =  title.length > 90 ? title.substr(0, 90) + "..." : title;
+		// this.items.forEach(item => {
+		// 	let title = item.web_item_name || item.item_name || item.item_code || "";
+		// 	title =  title.length > 90 ? title.substr(0, 90) + "..." : title;
 
-			html += `<div class="col-sm-4 item-card"><div class="card text-left">`;
-			html += me.get_image_html(item, title);
-			html += me.get_card_body_html(item, title, me.settings);
-			html += `</div></div>`;
-		});
+		// 	html += `<div class="col-sm-4 item-card"><div class="card text-left">`;
+		// 	html += me.get_image_html(item, title);
+		// 	html += me.get_card_body_html(item, title, me.settings);
+		// 	html += `</div></div>`;
+		// });
+
+		
+	this.items.forEach(item => {
+		if (me.settings.hide_unavailable_items && !item.in_stock) {
+			return;
+		}
+
+		let title = item.web_item_name || item.item_name || item.item_code || "";
+		title =  title.length > 90 ? title.substr(0, 90) + "..." : title;
+
+		html += `<div class="col-sm-4 item-card"><div class="card text-left">`;
+		html += me.get_image_html(item, title);
+		html += me.get_card_body_html(item, title, me.settings);
+		html += `</div></div>`;
+	});
 
 		let $product_wrapper = this.products_section;
 		$product_wrapper.append(html);

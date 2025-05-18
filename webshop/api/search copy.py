@@ -17,7 +17,7 @@ def product_search(q):
 		["web_item_name", "like", f"%{q}%"]
 	]
 
-	raw_items = frappe.get_all(
+	items = frappe.get_all(
 		"Website Item",
 		fields=["name", "item_code", "item_name", "item_group", "website_image", "web_item_name", "route"],
 		or_filters=or_filters,
@@ -25,16 +25,14 @@ def product_search(q):
 		limit_page_length=20
 	)
 
-	hide_unavailable = frappe.db.get_single_value("Webshop Settings", "hide_unavailable_items") or 0
-
-	visible_items = []
-
-	for item in raw_items:
+	for item in items:
 		item_doc = frappe.get_doc("Item", item.item_code)
 
+		# جلب المخزون من الـ Website Item نفسه أو إعدادات النظام
 		warehouse = frappe.db.get_value("Website Item", item.name, "website_warehouse") or \
 		            frappe.db.get_single_value("Stock Settings", "default_warehouse")
 
+		# جلب الكمية المتوفرة
 		actual_qty = 0
 		if item.item_code and warehouse:
 			actual_qty = frappe.db.get_value("Bin", {
@@ -42,8 +40,8 @@ def product_search(q):
 				"warehouse": warehouse
 			}, "actual_qty") or 0
 
-		updated_item = item.copy()
-		updated_item.update({
+		# تحديث خصائص المنتج بالمخزون
+		item.update({
 			"stock_qty": flt(actual_qty),
 			"in_stock": actual_qty > 0,
 			"is_stock": item_doc.is_stock_item,
@@ -51,10 +49,4 @@ def product_search(q):
 			"has_variants": item_doc.has_variants
 		})
 
-		if hide_unavailable:
-			if updated_item["in_stock"] or updated_item["on_backorder"]:
-				visible_items.append(updated_item)
-		else:
-			visible_items.append(updated_item)
-
-	return visible_items
+	return items

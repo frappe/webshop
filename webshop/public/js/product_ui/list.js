@@ -23,6 +23,10 @@ webshop.ProductList = class {
 		let html = `<br><br>`;
 
 		this.items.forEach(item => {
+			if (me.settings.hide_unavailable_items && !item.in_stock) {
+				return;
+			}
+			
 			let title = item.web_item_name || item.item_name || item.item_code || "";
 			title =  title.length > 200 ? title.substr(0, 200) + "..." : title;
 
