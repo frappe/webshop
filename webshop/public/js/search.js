@@ -11,7 +11,7 @@ frappe.ready(() => {
 	if (searchInput) searchInput.style.display = "none";
 
 	frappe.call({
-		method: "webshop.api.product_search.product_search",
+		method: "webshop.api.search.product_search",
 		args: { q: query },
 		callback: function (r) {
 			const results = r.message || [];
@@ -53,14 +53,44 @@ frappe.ready(() => {
 								${title}
 							</a>
 							<div class="item-group text-muted">${item_group}</div>
+							<div class="stock-info mt-1">
+								${get_stock_availability(item, { show_stock_availability: true })}
+							</div>
 						</div>
 					</div>
 				`;
 
 				container.appendChild(card);
-
-
 			}
 		}
 	});
 });
+
+function get_stock_availability(item, settings) {
+	if (settings.show_stock_availability && !item.has_variants) {
+		if (item.on_backorder) {
+			return `
+				<span class="out-of-stock mb-2 mt-1" style="color: var(--primary-color)">
+					${ __("Available on backorder") }
+				</span>
+			`;
+		} else if (!item.in_stock) {
+			return `
+				<span class="out-of-stock mb-2 mt-1">
+					${ __("Out of stock") }
+				</span>
+			`;
+		} else {
+			let qty_display = `${ __("In stock") }`;
+			if (item.stock_qty) {
+				qty_display += ` (${item.stock_qty})`;
+			}
+			return `
+				<span class="in-stock in-green has-stock mb-2 mt-1" style="font-size: 14px;">
+					${qty_display}
+				</span>
+			`;
+		}
+	}
+	return ``;
+}

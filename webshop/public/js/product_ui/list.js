@@ -1,3 +1,5 @@
+window.webshop = window.webshop || {};
+
 webshop.ProductList = class {
 	/* Options:
 		- items: Items
@@ -138,16 +140,22 @@ webshop.ProductList = class {
 					<br>
 					<span class="out-of-stock mt-2">${ __("Out of stock") }</span>
 				`;
-			} else if (item.is_stock) {
+			} else {
+				let qty_display = `${ __("In stock") }`;
+				if (item.stock_qty) {
+					qty_display += ` (${item.stock_qty})`;
+				}
 				return `
 					<br>
-					<span class="in-stock in-green has-stock mt-2"
-						style="font-size: 14px;">${ __("In stock") }</span>
+					<span class="out-of-stock in-green mt-2" style="font-size: 14px;">
+						${qty_display}
+					</span>
 				`;
 			}
 		}
 		return ``;
 	}
+
 
 	get_wishlist_icon(item) {
 		let icon_class = item.wished ? "wished" : "not-wished";

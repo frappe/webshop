@@ -1,3 +1,5 @@
+window.webshop = window.webshop || {};
+
 webshop.ProductGrid = class {
 	/* Options:
 		- items: Items
@@ -155,11 +157,21 @@ webshop.ProductGrid = class {
 						${ __("Out of stock") }
 					</span>
 				`;
+			} else {
+				let qty_display = `${ __("In stock") }`;
+				if (item.stock_qty) {
+					qty_display += ` (${item.stock_qty})`;
+				}
+				return `
+					<span class="out-of-stock mb-2 mt-1 in-green" style="font-size: 14px;">
+						${qty_display}
+					</span>
+				`;
 			}
 		}
-
 		return ``;
 	}
+
 
 	get_primary_button(item, settings) {
 		if (item.has_variants) {
