@@ -2,6 +2,8 @@ import frappe
 
 
 def execute():
+	if not frappe.db.exists("DocType", "Homepage"):
+		return
 	homepage = frappe.get_doc("Homepage")
 
 	for row in homepage.products:
