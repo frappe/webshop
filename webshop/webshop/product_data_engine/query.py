@@ -23,6 +23,7 @@ class ProductQuery:
 	def __init__(self):
 		self.settings = frappe.get_doc("Webshop Settings")
 		self.page_length = self.settings.products_per_page or 20
+		self.sort_order = "ranking desc" # New
 
 		self.or_filters = []
 		self.filters = [["published", "=", 1]]
@@ -42,6 +43,27 @@ class ProductQuery:
 			"ranking",
 			"on_backorder",
 		]
+
+	def set_sort_order(self, sort_by):
+		sort_map = {
+			"Last Updated On Asc": "modified asc",
+			"Last Updated On Desc": "modified desc",
+			"Website Item Name Asc": "item_name asc",
+			"Website Item Name Desc": "item_name desc",
+			"ID Asc": "name asc",
+			"ID Desc": "name desc",
+			"Created On Asc": "creation asc",
+			"Created On Desc": "creation desc",
+			"Most Used": "ranking desc",
+			"Route": "route",
+			"Item Code Asc": "item_code asc",
+			"Item Code Desc": "item_code desc",
+			"Item Group Asc": "item_group asc",
+			"Item Group Desc": "item_group desc",
+		}
+
+		self.sort_order = sort_map.get(sort_by, "ranking desc")
+
 
 	def query(self, attributes=None, fields=None, search_term=None, start=0, item_group=None):
 		"""
@@ -100,7 +122,8 @@ class ProductQuery:
 			or_filters=self.or_filters,
 			limit_page_length=184467440737095516,
 			limit_start=start,  # get all items from this offset for total count ahead
-			order_by="ranking desc",
+			order_by=self.sort_order,
+			# order_by="ranking desc",
 		)
 		count = len(count_items)
 
@@ -117,7 +140,8 @@ class ProductQuery:
 			or_filters=self.or_filters,
 			limit_page_length=page_length,
 			limit_start=start,
-			order_by="ranking desc",
+			order_by=self.sort_order,
+			# order_by="ranking desc",
 		)
 
 		return items, count

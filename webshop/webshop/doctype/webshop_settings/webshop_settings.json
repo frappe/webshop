@@ -15,6 +15,7 @@
   "hide_variants",
   "enable_variants",
   "show_price",
+  "sort_by",
   "column_break_9",
   "login_required_to_view_products",
   "show_stock_availability",
@@ -390,13 +391,19 @@
    "fieldname": "hide_unavailable_items",
    "fieldtype": "Check",
    "label": " Hide Unavailable Items"
+  },
+  {
+   "fieldname": "sort_by",
+   "fieldtype": "Select",
+   "label": "Sort By",
+   "options": "\nLast Updated On Asc\nLast Updated On Desc\nWebsite Item Name Asc\nWebsite Item Name Desc\nID Asc\nID Desc\nCreated On Asc\nCreated On Desc\nMost Used\nRoute\nItem Code Asc\nItem Code Desc\nItem Group Asc\nItem Group Desc"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-05-18 17:46:31.931243",
+ "modified": "2025-05-19 13:38:51.119954",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Webshop Settings",
