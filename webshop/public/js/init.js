@@ -3,7 +3,6 @@ if (!frappe.boot) frappe.boot = {};
 
 frappe.ready(() => {
 	if (window.innerWidth < 768 && !document.querySelector(".mobile-bottom-nav")) {
-
 		const footerHTML = `
 			<div class="mobile-bottom-nav">
 				<a href="/shop-by-category" class="nav-item">
@@ -35,65 +34,47 @@ frappe.ready(() => {
 			</div>
 		`;
 		document.body.insertAdjacentHTML("beforeend", footerHTML);
-
-		// مزامنة مع العدادات الأصلية
-		syncNavCountsToFooter();
-
-		// تحديث بعد الإضافة للسلة
-		document.body.addEventListener("click", (e) => {
-			const btn = e.target.closest(".btn-add-to-cart-list");
-			if (btn) {
-				setTimeout(syncNavCountsToFooter, 1000);
-			}
-		});
-
-		// استخدام الكود الأصلي للنظام للإضافة للمفضلة
-		document.body.addEventListener("click", (e) => {
-			const icon = e.target.closest(".like-action");
-			if (icon && icon.dataset.itemCode) {
-				e.preventDefault();
-				e.stopPropagation();
-				// تفعيل الحدث بنفس الكود المستخدم في النظام
-				icon.click();
-				setTimeout(syncNavCountsToFooter, 800);
-			}
-		});
-
-		// تحديث دوري
-		setInterval(syncNavCountsToFooter, 10000);
 	}
+
+	document.body.addEventListener("click", (e) => {
+		const btn = e.target.closest(".btn-add-to-cart-list");
+		if (btn) {
+			setTimeout(syncNavCountsToFooter, 1000);
+		}
+	});
+
+	document.body.addEventListener("click", (e) => {
+		const icon = e.target.closest(".like-action");
+		if (icon && icon.dataset.itemCode) {
+			e.preventDefault();
+			e.stopPropagation();
+			icon.click();
+			setTimeout(syncNavCountsToFooter, 800);
+		}
+	});
+
+	setInterval(syncNavCountsToFooter, 10000);
+	syncNavCountsToFooter();
 });
 
 function syncNavCountsToFooter() {
-	// مزامنة العداد مع السلة
 	const cartTop = document.querySelector("#cart-count");
 	const cartMobile = document.querySelector("#cart-count-mobile");
 	const cartLi = document.querySelector(".mobile-bottom-nav .cart-icon");
 	if (cartTop && cartMobile) {
 		const val = parseInt(cartTop.innerText || "0");
 		cartMobile.innerText = val;
-		if (val > 0) {
-			cartMobile.style.display = 'inline-block';
-			cartLi && cartLi.classList.remove("hidden");
-		} else {
-			cartMobile.style.display = 'none';
-			cartLi && cartLi.classList.add("hidden");
-		}
+		cartLi?.classList.toggle("hidden", val === 0);
+		cartMobile.style.display = val > 0 ? "inline-block" : "none";
 	}
 
-	// مزامنة العداد مع المفضلة
 	const wishTop = document.querySelector("#wish-count");
 	const wishMobile = document.querySelector("#wish-count-mobile");
 	const wishLi = document.querySelector(".mobile-bottom-nav .wishlist-icon");
 	if (wishTop && wishMobile) {
 		const val = parseInt(wishTop.innerText || "0");
 		wishMobile.innerText = val;
-		if (val > 0) {
-			wishMobile.style.display = 'inline-block';
-			wishLi && wishLi.classList.remove("hidden");
-		} else {
-			wishMobile.style.display = 'none';
-			wishLi && wishLi.classList.add("hidden");
-		}
+		wishLi?.classList.toggle("hidden", val === 0);
+		wishMobile.style.display = val > 0 ? "inline-block" : "none";
 	}
 }
