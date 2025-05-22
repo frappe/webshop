@@ -1,10 +1,74 @@
 .page-header-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-.filters-section{
-    background-color: white;
-    padding: 20px;
+.filters-section {
+	background-color: white;
+	padding: 20px;
+}
+
+/* ========== Mobile Bottom Nav ========== */
+.mobile-bottom-nav {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 9999;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	background: #ffffff;
+	border-top: 1px solid #ddd;
+	box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05);
+	padding: 6px 0;
+	font-size: 12px;
+}
+
+.mobile-bottom-nav .nav-item {
+	text-align: center;
+	flex: 1;
+	color: #444;
+	text-decoration: none;
+	position: relative;
+}
+
+.mobile-bottom-nav .nav-item svg.icon,
+.mobile-bottom-nav .nav-item .icon-sm,
+.mobile-bottom-nav .nav-item .icon-svg {
+	width: 20px;
+	height: 20px;
+	fill: #333;
+	margin-bottom: 2px;
+	display: block;
+}
+
+/* ========== Badges ========== */
+.cart-badge,
+.shopping-badge {
+	position: absolute;
+	top: -4px;
+	right: 10px;
+	background-color: #e60023;
+	color: white;
+	font-size: 10px;
+	font-weight: bold;
+	padding: 2px 6px;
+	border-radius: 999px;
+	line-height: 1;
+	min-width: 18px;
+	text-align: center;
+	display: none;
+}
+
+/* ========== Animation on Add ========== */
+.bounce {
+	animation: bounce 0.4s ease;
+}
+
+@keyframes bounce {
+	0% { transform: scale(1); }
+	50% { transform: scale(1.2); }
+	100% { transform: scale(1); }
 }
