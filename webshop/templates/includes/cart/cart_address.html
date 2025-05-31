@@ -70,38 +70,38 @@ frappe.ready(() => {
 
 	$('.btn-new-address').click(() => {
 		const d = new frappe.ui.Dialog({
-			title: {{ _("New Address") }},
+			title: '{{_("New Address") }}',
 			fields: [
 				{
-					label: {{ _("Address Title") }},
+					label: '{{ _("Address Title") }}',
 					fieldname: 'address_title',
 					fieldtype: 'Data',
 					reqd: 1
 				},
 				{
-					label: {{ _("Address Line 1") }},
+					label: '{{ _("Address Line 1") }}',
 					fieldname: 'address_line1',
 					fieldtype: 'Data',
 					reqd: 1
 				},
 				{
-					label: {{ _("Address Line 2") }},
+					label: '{{ _("Address Line 2") }}',
 					fieldname: 'address_line2',
 					fieldtype: 'Data'
 				},
 				{
-					label: {{ _("City/Town") }},
+					label: '{{ _("City/Town") }}',
 					fieldname: 'city',
 					fieldtype: 'Data',
 					reqd: 1
 				},
 				{
-					label: {{ _("State") }},
+					label: '{{ _("State") }}',
 					fieldname: 'state',
 					fieldtype: 'Data'
 				},
 				{
-					label: {{ _("Country") }},
+					label: '{{ _("Country") }}',
 					fieldname: 'country',
 					fieldtype: 'Link',
 					options: 'Country',
@@ -114,7 +114,7 @@ frappe.ready(() => {
 					width: "50%"
 				},
 				{
-					label: {{ _("Address Type") }},
+					label: '{{ _("Address Type") }}',
 					fieldname: 'address_type',
 					fieldtype: 'Select',
 					options: [
@@ -124,18 +124,18 @@ frappe.ready(() => {
 					reqd: 1
 				},
 				{
-					label: {{ _("Postal Code") }},
+					label: '{{ _("Postal Code") }}',
 					fieldname: 'pincode',
 					fieldtype: 'Data'
 				},
 				{
 					fieldname: "phone",
 					fieldtype: "Data",
-					label: {{ _("Phone") }},
+					label: '{{ _("Phone") }}',
 					reqd: 1
 				},
 			],
-			primary_action_label: {{ _("Save") }},
+			primary_action_label: '{{ _("Save") }}',
 			primary_action: (values) => {
 				frappe.call('webshop.webshop.shopping_cart.cart.add_new_address', { doc: values })
 					.then(r => {
