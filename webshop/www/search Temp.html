@@ -1,0 +1,46 @@
+{% extends "templates/web.html" %}
+{% from "webshop/templates/includes/macros.html" import attribute_filter_section, field_filter_section, discount_range_filters %}
+
+{% block title %}{{ _("نتائج البحث") }}{% endblock %}
+
+{% block header %}
+<div class="mb-6">{{ _("نتائج البحث عن: ") }} "{{ query or '' }}"</div>
+{% endblock header %}
+
+{% block page_content %}
+<div class="row">
+	<!-- Items section -->
+	<div id="product-listing" class="col-12 order-2 col-md-9 order-md-2 item-card-group-section">
+		<!-- المنتجات ستُعرض هنا عبر grid.js / list.js -->
+	</div>
+
+	<!-- Filters Section -->
+	<div class="col-12 order-1 col-md-3 order-md-1">
+		<div class="collapse d-md-block mr-4 filters-section" id="product-filters">
+			<div class="d-flex justify-content-between align-items-center mb-5 title-section">
+				<div class="mb-4 filters-title">{{ _('Filters') }}</div>
+				<a class="mb-4 clear-filters" href="/all-products">{{ _('Clear All') }}</a>
+			</div>
+			<!-- field filters -->
+			{% if field_filters %}
+				{{ _(field_filter_section(field_filters)) }}
+			{% endif %}
+
+			<!-- attribute filters -->
+			{% if attribute_filters %}
+				{{ _(attribute_filter_section(attribute_filters)) }}
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<script>
+	window.search_items = {{ products_json | tojson | safe }};
+	window.webshop_settings = {{ webshop_settings_json | tojson | safe }};
+</script>
+
+<!-- تضمين ملفات الجافاسكربت -->
+<script src="/assets/webshop/js/product_ui/grid.js"></script>
+<script src="/assets/webshop/js/product_ui/list.js"></script>
+<script src="/assets/webshop/js/search.js"></script>
+{% endblock %}

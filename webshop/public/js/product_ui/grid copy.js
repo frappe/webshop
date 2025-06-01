@@ -186,8 +186,6 @@ webshop.ProductGrid = class {
 		}
 		return ``;
 	}
-
-
 	get_primary_button(item, settings) {
 		if (item.has_variants) {
 			return `

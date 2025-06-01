@@ -152,9 +152,8 @@ webshop.ProductView =  class {
 		if (this.products) {
 			let paging_html = `
 				<div class="row product-paging-area mt-5">
-					<div class="col-3">
-					</div>
-					<div class="col-9 text-right">
+					<div class="col-1"></div>
+					<div class="col-10 text-right">
 			`;
 			let query_params = frappe.utils.get_query_params();
 			let start = query_params.start ? cint(JSON.parse(query_params.start)) : 0;
@@ -176,7 +175,8 @@ webshop.ProductView =  class {
 				</button>
 			`;
 
-			paging_html += `</div></div>`;
+			paging_html += `</div>
+			<div class="col-1"></div></div>`;
 
 			$(".page_content").append(paging_html);
 			this.bind_paging_action();
@@ -204,6 +204,15 @@ webshop.ProductView =  class {
 				</div>
 			</div>
 		`);
+		$("#search-box").on("keypress", function (e) {
+			if (e.which === 13) {
+				e.preventDefault();
+				const query = $(this).val().trim();
+				if (query) {
+					window.location.href = `/search?q=${encodeURIComponent(query)}`;
+				}
+			}
+		});		
 	}
 
 	render_view_toggler() {

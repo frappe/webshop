@@ -63,10 +63,29 @@ def get_product_data(search=None, start=0, limit=12):
 	return frappe.db.sql(query, {"search": search}, as_dict=1)  # nosemgrep
 
 
+# @frappe.whitelist(allow_guest=True)
+# def search(query):
+# 	product_results = product_search(query)
+# 	category_results = get_category_suggestions(query)
+
+# 	return {
+# 		"product_results": product_results.get("results") or [],
+# 		"category_results": category_results.get("results") or [],
+# 	}
+
 @frappe.whitelist(allow_guest=True)
 def search(query):
 	product_results = product_search(query)
 	category_results = get_category_suggestions(query)
+
+	webshop_settings = frappe.get_single("Webshop Settings")
+	hide_unavailable = webshop_settings.hide_unavailable_items
+
+	if hide_unavailable:
+		product_results["results"] = [
+			item for item in product_results["results"]
+			if frappe.utils.cint(item.get("actual_qty") or 0) > 0
+		]
 
 	return {
 		"product_results": product_results.get("results") or [],

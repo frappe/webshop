@@ -8,18 +8,28 @@
 
 {% block page_content %}
 <div class="row">
+	<!-- Filter Button (Mobile Only) -->
+	<div  id="filters-btn" class="d-md-none text-end mb-3">
+		<button class="btn" onclick="openFilterDialog()">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="icon icon-sm bi bi-funnel" viewBox="0 0 16 16">
+				<path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+			</svg>
+		</button>
+	</div>
+
 	<!-- Items section -->
 	<div id="product-listing" class="col-12 order-2 col-md-9 order-md-2 item-card-group-section">
 		<!-- Rendered via JS -->
 	</div>
 
-	<!-- Filters Section -->
-	<div class="col-12 order-1 col-md-3 order-md-1">
-		<div class="collapse d-md-block mr-4 filters-section" id="product-filters">
+	<!-- Filters Section (Desktop Only) -->
+	<div class="col-12 order-1 col-md-3 order-md-1 d-none d-md-block">
+		<div class="mr-4 filters-section" id="product-filters">
 			<div class="d-flex justify-content-between align-items-center mb-5 title-section">
-				<div class="mb-4 filters-title" > {{ _('Filters') }} </div>
+				<div class="mb-4 filters-title">{{ _('Filters') }}</div>
 				<a class="mb-4 clear-filters" href="/all-products">{{ _('Clear All') }}</a>
 			</div>
+
 			<!-- field filters -->
 			{% if field_filters %}
 				{{ _(field_filter_section(field_filters)) }}
@@ -30,9 +40,53 @@
 				{{ _(attribute_filter_section(attribute_filters)) }}
 			{% endif %}
 		</div>
-
 	</div>
 </div>
+
+<!-- Mobile Filter Modal -->
+<div class="modal fade" id="mobileFilterModal" tabindex="-1" aria-labelledby="mobileFilterModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content p-3">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mobileFilterModalLabel">{{ _('Filters') }}</h5>
+        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="{{ _('Close') }}">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="icon icon-sm bi bi-x-circle" viewBox="0 0 16 16">
+				<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+				<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+			</svg>
+		</button>
+      </div>
+      <div class="modal-body">
+        <!-- Paste your existing filters here -->
+        <div class="filters-section">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="filters-title">{{ _('Filters') }}</div>
+			<button type="button" class="btn btn-sm btn-primary btn-applay" data-bs-dismiss="modal" aria-label="{{ _('Close') }}">
+				{{ _("Apply") }}
+			</button>
+            <a class="btn btn-sm btn-secondary clear-filters" href="/all-products">{{ _('Clear All') }}</a>
+          </div>
+          {% if field_filters %}
+            {{ _(field_filter_section(field_filters)) }}
+          {% endif %}
+
+          {% if attribute_filters %}
+            {{ _(attribute_filter_section(attribute_filters)) }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+	function openFilterDialog() {
+		const modal = new bootstrap.Modal(document.getElementById('mobileFilterModal'));
+		modal.show();
+	}
+</script>
+
 
 <script>
 	frappe.ready(() => {
@@ -47,5 +101,7 @@
 		});
 	});
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 {% endblock %}
