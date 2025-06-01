@@ -21,17 +21,32 @@ $.extend(shopping_cart, {
 		shopping_cart.bind_remove_coupon_code();
 	},
 
-	bind_place_order: function() {
-		$(".btn-place-order").on("click", function() {
-			shopping_cart.place_order(this);
+	bind_place_order: function () {
+		$(".btn-place-order").off("click").on("click", function (e) {
+			e.preventDefault();
+			const btn = this;
+			frappe.confirm(
+				"Are you sure you want to place this order?",
+				function () {
+					shopping_cart.place_order(btn);
+				}
+			);
 		});
 	},
 
-	bind_request_quotation: function() {
-		$('.btn-request-for-quotation').on('click', function() {
-			shopping_cart.request_quotation(this);
+	bind_request_quotation: function () {
+		$(".btn-request-for-quotation").off("click").on("click", function (e) {
+			e.preventDefault();
+			const btn = this;
+			frappe.confirm(
+				"Are you sure you want to request a quotation?",
+				function () {
+					shopping_cart.request_quotation(btn);
+				}
+			);
 		});
 	},
+
 
 	bind_change_qty: function() {
 		// bind update button
