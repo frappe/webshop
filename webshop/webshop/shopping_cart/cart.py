@@ -739,7 +739,7 @@ def get_shipping_rules(quotation=None, cart_settings=None):
 				.on(sr.name == sr_country.parent)
 				.select(sr.name)
 				.distinct()
-				.where((sr_country.country == country) & (sr.disabled != 1))
+				.where((sr_country.country == country) & (sr.disabled != 1) & (sr.shipping_rule_type == "Selling"))
 			)
 			result = query.run(as_list=True)
 			shipping_rules = [x[0] for x in result]
