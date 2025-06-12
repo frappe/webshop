@@ -5,7 +5,7 @@ from frappe import _
 import json
 from frappe.utils.data import flt
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest = True)
 def product_search(q):
 	if not q:
 		return []
