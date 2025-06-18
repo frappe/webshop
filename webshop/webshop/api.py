@@ -257,13 +257,7 @@ def get_product_filter_data(query_args=None):
 			"Website Item", item.get("name"), "website_warehouse"
 		)
 
-		actual_qty = 0
-		if item_code and website_warehouse:
-			actual_qty = frappe.db.get_value(
-				"Bin",
-				{"item_code": item_code, "warehouse": website_warehouse},
-				"actual_qty"
-			) or 0
+		actual_qty = get_total_stock_qty(item_code, website_warehouse)
 
 		item["actual_qty"] = flt(actual_qty)
 		item["stock_qty"] = flt(actual_qty)
@@ -280,6 +274,28 @@ def get_product_filter_data(query_args=None):
 		"sub_categories": sub_categories,
 		"items_count": result["items_count"],
 	}
+
+
+def get_total_stock_qty(item_code, warehouse=None):
+	"""حساب الكمية الكلية بناءً على شروط المستودع"""
+	from erpnext.stock.doctype.warehouse.warehouse import get_child_warehouses
+
+	# تحديد المستودعات
+	if warehouse:
+		if frappe.get_cached_value("Warehouse", warehouse, "is_group"):
+			warehouses = get_child_warehouses(warehouse)
+		else:
+			warehouses = [warehouse]
+	else:
+		warehouses = frappe.db.get_all("Warehouse", filters={"is_group": 0}, pluck="name")
+
+	total_qty = 0.0
+
+	for wh in warehouses:
+		qty = frappe.db.get_value("Bin", {"item_code": item_code, "warehouse": wh}, "actual_qty")
+		total_qty += flt(qty) or 0.0
+
+	return total_qty
 
 
 @frappe.whitelist(allow_guest=True)

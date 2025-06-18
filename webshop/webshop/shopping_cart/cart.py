@@ -722,34 +722,13 @@ def get_applicable_shipping_rules(party=None, quotation=None):
 
 
 def get_shipping_rules(quotation=None, cart_settings=None):
-	webshop_settings = frappe.get_cached_doc("Webshop Settings")
-
 	if not quotation:
 		quotation = _get_cart_quotation()
-		if not quotation:
-			return []
 
 	shipping_rules = []
-	if not quotation.shipping_address_name:
-		return []
-
-	country = frappe.db.get_value("Address", quotation.shipping_address_name, "country")
-	if not country:
-		return []
-
-	sr_country = frappe.qb.DocType("Shipping Rule Country")
-	sr = frappe.qb.DocType("Shipping Rule")
-
-	query = (
-		frappe.qb.from_(sr_country)
-		.join(sr)
-		.on(sr.name == sr_country.parent)
-		.select(sr.name)
-		.distinct()
-		.where(
-			(sr_country.country == country)
-			& (sr.disabled != 1)
-			& (sr.company == webshop_settings.company)
+	if quotation.shipping_address_name:
+		country = frappe.db.get_value(
+			"Address", quotation.shipping_address_name, "country"
 		)
 		if country:
 			sr_country = frappe.qb.DocType("Shipping Rule Country")
