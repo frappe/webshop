@@ -58,3 +58,4 @@ def product_search(q):
 			visible_items.append(updated_item)
 
 	return visible_items
+8

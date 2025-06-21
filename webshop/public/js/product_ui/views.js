@@ -4,11 +4,31 @@ webshop.ProductView =  class {
 		- Products Section Wrapper,
 		- Item Group: If its an Item Group page
 	*/
+	// constructor(options) {
+	// 	Object.assign(this, options);
+	// 	this.preference = this.view_type;
+	// 	this.make();
+	// 	this.search_text = "";
+	// }
+// Updated By Osama
 	constructor(options) {
 		Object.assign(this, options);
-		this.preference = this.view_type;
+
+		const isMobileOrTablet = window.innerWidth < 768;
+
+		const savedPreference = localStorage.getItem("product_view");
+
+		if (!savedPreference && isMobileOrTablet) {
+			this.preference = "Grid View"; // أو "List View" حسب الزر
+			localStorage.setItem("product_view", this.preference);
+		} else {
+			this.preference = savedPreference || this.view_type;
+		}
+
 		this.make();
+		this.search_text = "";
 	}
+
 
 	make(from_filters=false) {
 		this.products_section.empty();
@@ -24,7 +44,7 @@ webshop.ProductView =  class {
 		this.prepare_search();
 		this.prepare_view_toggler();
 
-		new webshop.ProductSearch();
+		// new webshop.ProductSearch();
 	}
 
 	prepare_view_toggler() {
@@ -141,8 +161,10 @@ webshop.ProductView =  class {
 			field_filters: field_filters,
 			attribute_filters: attribute_filters,
 			item_group: this.item_group,
+			search: this.search_text || "",
 			start: filters.start || null,
 			from_filters: this.from_filters || false
+
 		};
 	}
 
@@ -183,37 +205,71 @@ webshop.ProductView =  class {
 		}
 	}
 
+	// prepare_search() {
+	// 	$(".toolbar").append(`
+	// 		<div class="input-group col-8 p-0">
+	// 			<div class="dropdown w-100" id="dropdownMenuSearch">
+	// 				<input type="search" name="query" id="search-box" class="form-control font-md"
+	// 					placeholder="${__("Search for Products")}"
+	// 					aria-label="Product" aria-describedby="button-addon2">
+	// 				<div class="search-icon">
+	// 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+	// 						fill="none"
+	// 						stroke="currentColor" stroke-width="2" stroke-linecap="round"
+	// 						stroke-linejoin="round"
+	// 						class="feather feather-search">
+	// 						<circle cx="11" cy="11" r="8"></circle>
+	// 						<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+	// 					</svg>
+	// 				</div>
+	// 				<!-- Results dropdown rendered in product_search.js -->
+	// 			</div>
+	// 		</div>
+	// 	`);
+	// 	$("#search-box").on("keypress", function (e) {
+	// 		if (e.which === 13) {
+	// 			e.preventDefault();
+	// 			const query = $(this).val().trim();
+	// 			if (query) {
+	// 				window.location.href = `/search?q=${encodeURIComponent(query)}`;
+	// 			}
+	// 		}
+	// 	});		
+	// }
+// Updated By Osama
 	prepare_search() {
-		$(".toolbar").append(`
-			<div class="input-group col-8 p-0">
-				<div class="dropdown w-100" id="dropdownMenuSearch">
-					<input type="search" name="query" id="search-box" class="form-control font-md"
-						placeholder="${__("Search for Products")}"
-						aria-label="Product" aria-describedby="button-addon2">
-					<div class="search-icon">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor" stroke-width="2" stroke-linecap="round"
-							stroke-linejoin="round"
-							class="feather feather-search">
-							<circle cx="11" cy="11" r="8"></circle>
-							<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-						</svg>
-					</div>
-					<!-- Results dropdown rendered in product_search.js -->
+	$(".toolbar").append(`
+		<div class="input-group col-8 p-0">
+			<div class="dropdown w-100" id="dropdownMenuSearch">
+				<input type="search" name="query" id="search-box" class="form-control font-md"
+					placeholder="${__("Search for Products")}"
+					aria-label="Product" aria-describedby="button-addon2">
+				<div class="search-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor" stroke-width="2" stroke-linecap="round"
+						stroke-linejoin="round"
+						class="feather feather-search">
+						<circle cx="11" cy="11" r="8"></circle>
+						<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+					</svg>
 				</div>
 			</div>
-		`);
-		$("#search-box").on("keypress", function (e) {
-			if (e.which === 13) {
-				e.preventDefault();
-				const query = $(this).val().trim();
-				if (query) {
-					window.location.href = `/search?q=${encodeURIComponent(query)}`;
-				}
-			}
-		});		
-	}
+		</div>
+	`);
+
+	const me = this;
+
+	// 🔍 بحث حي مع تأخير بسيط لمنع كثرة الاستعلامات
+	$("#search-box").on("input", frappe.utils.debounce(function () {
+		const query = $(this).val().trim();
+
+		me.search_text = query;
+
+		me.make(true);
+	}, 900)); 
+}
+
 
 	render_view_toggler() {
 		$(".toolbar").append(`<div class="toggle-container col-4 p-0"></div>`);
