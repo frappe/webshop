@@ -7,10 +7,11 @@ import json
 import frappe
 from frappe.utils import cint
 
+from webshop.webshop.doctype.webshop_settings.webshop_settings import get_shopping_cart_settings
 from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
 from webshop.webshop.product_data_engine.query import ProductQuery
 from webshop.webshop.doctype.override_doctype.item_group import get_child_groups_for_website
-
+from webshop.webshop.shopping_cart.cart import get_party
 
 @frappe.whitelist(allow_guest=True)
 def get_product_filter_data(query_args=None):
@@ -87,3 +88,136 @@ def get_product_filter_data(query_args=None):
 @frappe.whitelist(allow_guest=True)
 def get_guest_redirect_on_action():
 	return frappe.db.get_single_value("Webshop Settings", "redirect_on_action")
+
+@frappe.whitelist(allow_guest=True)
+def get_item_group_details(item_group):
+	"""
+	Returns details of the given Item Group.
+	"""
+	all_filters = ProductFiltersBuilder().get_field_filters()
+	all_item_groups_allowed_in_website = []
+	if not all_filters:
+		frappe.throw(
+			("No filters are defined for the website. Please define filters in Webshop Settings."),
+			frappe.DoesNotExistError,
+		)
+	for filter in all_filters:
+		all_item_groups_allowed_in_website.extend(filter[1])
+	# print("all_item_groups_allowed_in_website", all_item_groups_allowed_in_website, item_group)
+	if item_group not in all_item_groups_allowed_in_website:
+		frappe.throw(
+			("Item Group {0} is not allowed in the website.").format(item_group),
+			frappe.DoesNotExistError,
+		)
+	item_group_doc = frappe.get_doc("Item Group", item_group)
+	return {
+		"item_group_name": item_group_doc.item_group_name,
+		"description": item_group_doc.description,
+		"image": item_group_doc.image,
+	}
+
+@frappe.whitelist(allow_guest=True)
+def get_webshop_homepage_content():
+	"""
+	Returns the content of the Webshop Homepage.
+	"""
+	content = frappe.get_doc("Webshop Homepage")
+	hero_image = content.hero_image
+	collections = content.homepage_collections
+	additional_details = content.additional_details
+	details_for_collections = []
+	for collection in collections:
+		details = get_item_group_details(collection.item_group)
+		details_for_collections.append({
+			"item_group": collection.item_group,
+			"description": details["description"],
+			"image": details["image"],
+			"url": f"/collections/{collection.item_group}",
+		})
+	# print({
+	# 	"hero_image": hero_image,
+	# 	"collections": details_for_collections,
+	# 	"additional_details": additional_details,
+	# })
+	return {
+		"hero_image": hero_image,
+		"collections": details_for_collections,
+		"additional_details": additional_details,
+	}
+
+
+@frappe.whitelist()
+def get_all_quotations(party=None):
+    if not party:
+        party = get_party()
+    quotations = frappe.get_all(
+		"Quotation",
+		fields=["name", "total_qty", "transaction_date", "grand_total", "status"],
+		filters={
+			"party_name": party.name,
+			"contact_email": frappe.session.user,
+			"order_type": "Shopping Cart",
+			"docstatus": 1,
+		},
+		order_by="modified desc",
+	)
+    # all_quotes = []
+    # for quotation in quotations:
+    #     print("price: ", quotation.get_formatted("grand_total"))
+    return quotations
+
+@frappe.whitelist()
+def get_quotation_info(name, party=None):
+	if not party:
+		party = get_party()
+	qdoc =  frappe.get_doc("Quotation", name)
+	if not qdoc:
+		frappe.throw("Quotation not found", frappe.DoesNotExistError)
+	if qdoc.party_name != party.name:
+		frappe.throw("Quotation does not belong to this party", frappe.PermissionError)
+	if qdoc.contact_email != frappe.session.user:
+		frappe.throw("Quotation does not belong to this user", frappe.PermissionError)
+	# print(qdoc.get("items",[]))
+	return qdoc
+
+
+@frappe.whitelist()
+def get_all_orders(party=None):
+    if not party:
+        party = get_party()
+    orders = frappe.get_all(
+		"Sales Order",
+		fields=["name", "total_qty", "transaction_date", "grand_total", "status"],
+		filters={
+			"customer": party.name,
+			"contact_email": frappe.session.user,
+			"order_type": "Shopping Cart",
+			"docstatus": 1,
+		},
+		order_by="modified desc",
+	)
+    return orders
+
+@frappe.whitelist()
+def get_order_info(name, party=None):
+	if not party:
+		party = get_party()
+	qdoc =  frappe.get_doc("Sales Order", name)
+	if not qdoc:
+		frappe.throw("Order not found", frappe.DoesNotExistError)
+	if qdoc.customer_name != party.name:
+		frappe.throw("Order does not belong to this party", frappe.PermissionError)
+	if qdoc.contact_email != frappe.session.user:
+		frappe.throw("Order does not belong to this user", frappe.PermissionError)
+	# print(qdoc.get("items",[]))
+	return {"doc": qdoc, "cart_settings": frappe.get_cached_doc("Webshop Settings")}
+
+
+@frappe.whitelist(allow_guest=True)
+def test_redirect():
+	"""
+	Test redirect functionality.
+	"""
+	frappe.local.response["type"] = "redirect"
+	frappe.local.response["location"] = "/landing"
+	return "hi"

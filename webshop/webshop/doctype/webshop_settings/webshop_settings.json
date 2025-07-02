@@ -387,8 +387,8 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-03-22 13:01:51.906319",
- "modified_by": "Administrator",
+ "modified": "2025-05-28 23:06:14.477226",
+ "modified_by": "sntn@admin.com",
  "module": "Webshop",
  "name": "Webshop Settings",
  "owner": "Administrator",
@@ -408,6 +408,7 @@
    "role": "All"
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

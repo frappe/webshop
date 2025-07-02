@@ -27,10 +27,13 @@ class ProductFiltersBuilder:
 		fields = [
 			web_item_meta.get_field(field) for field in filter_fields if web_item_meta.has_field(field)
 		]
+		print("fields", fields)
 
 		for df in fields:
+			print("df", df.fieldname, df.fieldtype)
 			item_filters, item_or_filters = {"published": 1}, []
 			link_doctype_values = self.get_filtered_link_doctype_records(df)
+			print("link_doctype_values", link_doctype_values)
 
 			if df.fieldtype == "Link":
 				if self.item_group:
@@ -70,6 +73,7 @@ class ProductFiltersBuilder:
 			else:
 				# table multiselect
 				values = list(link_doctype_values)
+				print("values", values)
 
 			# Remove None
 			if None in values:
@@ -77,6 +81,8 @@ class ProductFiltersBuilder:
 
 			if values:
 				filter_data.append([df, values])
+		
+		print("ff", filter_data)
 
 		return filter_data
 
@@ -87,10 +93,14 @@ class ProductFiltersBuilder:
 		Returns:
 		        set: A set containing valid record names
 		"""
+		print("get_filtered_link_doctype_records", field.fieldname, field.fieldtype)
 		link_doctype = field.get_link_doctype()
+		print("link_doctype", link_doctype)
 		meta = frappe.get_meta(link_doctype, cached=True) if link_doctype else None
+		print("meta", meta)
 		if meta:
 			filters = self.get_link_doctype_filters(meta)
+			print("filters", filters)
 			link_doctype_values = set(d.name for d in frappe.get_all(link_doctype, filters))
 
 		return link_doctype_values if meta else set()

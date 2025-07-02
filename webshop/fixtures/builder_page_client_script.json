@@ -1,0 +1,492 @@
+[
+ {
+  "builder_script": "JavaScript-284f6",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-05-29 03:03:30.655933",
+  "name": "076t7slruj",
+  "parent": "page-0651c896",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-284f6",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-05 16:10:48.523182",
+  "name": "2f5n87f0iv",
+  "parent": "page-0651c896",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-284f6",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-06 08:39:09.045831",
+  "name": "5iih4pc9h5",
+  "parent": "page-0651c896",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-284f6",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-06 08:39:09.046230",
+  "name": "5iit1gkfi0",
+  "parent": "page-0651c896",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "restore-scroll",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-16 11:21:12.569380",
+  "name": "rf199bp3nc",
+  "parent": "page-0811a941",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-284f6",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-06 09:16:30.657446",
+  "name": "rf2gvjdqbn",
+  "parent": "page-0651c896",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "full-screen-hero-image-lg",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-16 18:20:22.126086",
+  "name": "rf215fh58k",
+  "parent": "page-c7c326c4",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "CSS-fe577",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-07-02 12:41:55.315323",
+  "name": "2f593irjlq",
+  "parent": "page-5ba56ee5",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "CSS-f7d27",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-25 13:07:46.728292",
+  "name": "29q6ch4r0q",
+  "parent": "page-f9b64a30",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-dbf78",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-14 23:30:42.011934",
+  "name": "s9s0qdi2gr",
+  "parent": "page-8bf6247a",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-dbf78-7dec6",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 10:27:54.089492",
+  "name": "99c086jatk",
+  "parent": "page-1fd81843",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-dbf78-7dec6-8d7d4",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 00:02:47.068502",
+  "name": "mvchopnkoj",
+  "parent": "page-eae56113",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-dbf78-7dec6-10fd4",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 00:48:15.861015",
+  "name": "0rra1gqipg",
+  "parent": "page-2e17025e",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-53113",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-25 00:47:37.433254",
+  "name": "93fvg42nkl",
+  "parent": "page-0cb7997b",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-53113-cbedd",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-25 12:36:15.612334",
+  "name": "rumvul57bs",
+  "parent": "page-7dac61d6",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-c7178",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-25 15:12:19.585730",
+  "name": "83ft780493",
+  "parent": "page-96a65fd3",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-624c1",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-25 16:21:07.206227",
+  "name": "eh1v9tj6of",
+  "parent": "page-3fcbeae9",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "multi-select-js",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-16 11:21:12.569380",
+  "name": "rf12ghkk9u",
+  "parent": "page-0811a941",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-284f6",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-06 09:16:30.657735",
+  "name": "rf2rb5ef3o",
+  "parent": "page-0651c896",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-becfa",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-16 18:20:22.126086",
+  "name": "gqlakso3r6",
+  "parent": "page-c7c326c4",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-7a479",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-07-02 12:41:55.315323",
+  "name": "bkr7ib43i8",
+  "parent": "page-5ba56ee5",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "cart item qty handler",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-25 13:07:46.728292",
+  "name": "8ptt5jk0l2",
+  "parent": "page-f9b64a30",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-d6423",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-14 23:30:42.011934",
+  "name": "e6iletlmrr",
+  "parent": "page-8bf6247a",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "clean-br-2",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 10:27:54.089492",
+  "name": "n2pbjc06rg",
+  "parent": "page-1fd81843",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-c4688-91a70",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 00:02:47.068502",
+  "name": "mvcqo9cp29",
+  "parent": "page-eae56113",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "clean-br",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 00:48:15.861015",
+  "name": "0rrsffqmdp",
+  "parent": "page-2e17025e",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "multi-select-css",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-16 11:21:12.569380",
+  "name": "rf12amcf7r",
+  "parent": "page-0811a941",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-284f6",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-06 09:16:30.658012",
+  "name": "rf2s8f6ja4",
+  "parent": "page-0651c896",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "coupon code handler",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-25 13:07:46.728292",
+  "name": "vc7ptoiacg",
+  "parent": "page-f9b64a30",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-732e5",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 10:27:54.089492",
+  "name": "ur37g2ijma",
+  "parent": "page-1fd81843",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-732e5-28030",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 00:02:47.068502",
+  "name": "mvcocnobci",
+  "parent": "page-eae56113",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-732e5-51a0c",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 00:48:15.861015",
+  "name": "0rro7v5tgt",
+  "parent": "page-2e17025e",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "remove-options-wrapper-div",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-16 11:21:12.569380",
+  "name": "rf1r28dr8b",
+  "parent": "page-0811a941",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-284f6",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-06 09:16:30.658298",
+  "name": "rf2gfq2ik6",
+  "parent": "page-0651c896",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "place order",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-25 13:07:46.728292",
+  "name": "mddmlha239",
+  "parent": "page-f9b64a30",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "CSS-fd18c",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 10:27:54.089492",
+  "name": "058b0gb7r9",
+  "parent": "page-1fd81843",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "CSS-fd18c-bf652",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 00:02:47.068502",
+  "name": "mvcfltudsd",
+  "parent": "page-eae56113",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "CSS-fd18c-f9e67",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 00:48:15.861015",
+  "name": "0rr1t9u4kq",
+  "parent": "page-2e17025e",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "option-content-population",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-16 11:21:12.569380",
+  "name": "rf1el3bgqh",
+  "parent": "page-0811a941",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "select-addr-post",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 10:27:54.089492",
+  "name": "6siesd3fel",
+  "parent": "page-1fd81843",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "select-addr-post-dd1a6",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 00:02:47.068502",
+  "name": "mvcjerkom0",
+  "parent": "page-eae56113",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "select-addr-post-2c1ee",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 00:48:15.861015",
+  "name": "0rrl88mr75",
+  "parent": "page-2e17025e",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "optoin-selec-on-filter",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-16 11:21:12.569380",
+  "name": "rf1cekatb9",
+  "parent": "page-0811a941",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "go-back-button",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 10:27:54.089492",
+  "name": "ea3re263st",
+  "parent": "page-1fd81843",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "go-back-button-b0679",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 00:02:47.068502",
+  "name": "mvc8j11j3u",
+  "parent": "page-eae56113",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "go-back-button-9346b",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 00:48:15.861015",
+  "name": "0rrd6a38pv",
+  "parent": "page-2e17025e",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "option-content-population",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-16 11:21:12.569380",
+  "name": "rf1f67bj14",
+  "parent": "page-0811a941",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "edit-address-redirect",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 10:27:54.089492",
+  "name": "v0g7v025j7",
+  "parent": "page-1fd81843",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "edit-address-redirect-07f31",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-06-15 00:48:15.861015",
+  "name": "0rr1bvv83v",
+  "parent": "page-2e17025e",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ }
+]

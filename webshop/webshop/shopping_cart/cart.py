@@ -15,6 +15,7 @@ from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 )
 from webshop.webshop.utils.product import get_web_item_qty_in_stock
 from erpnext.selling.doctype.quotation.quotation import _make_sales_order
+import json
 
 
 class WebsitePriceListMissingError(frappe.ValidationError):
@@ -51,6 +52,7 @@ def get_cart_quotation(doc=None):
 		"billing_addresses": get_billing_addresses(party),
 		"shipping_rules": get_applicable_shipping_rules(party),
 		"cart_settings": frappe.get_cached_doc("Webshop Settings"),
+		"prices": get_formatted_prices(doc),
 	}
 
 
@@ -365,6 +367,12 @@ def decorate_quotation_doc(doc):
 
 	return doc
 
+
+def get_formatted_prices(doc):
+	prices = {}
+	for d in doc.get("items", []):
+		prices[d.item_code] = {"amount" : d.get_formatted("amount"), "rate": d.get_formatted("rate")}
+	return prices
 
 def _get_cart_quotation(party=None):
 	"""Return the open Quotation of type "Shopping Cart" or make a new one"""
@@ -818,3 +826,18 @@ def remove_coupon_code():
 	quotation.save()
 
 	return quotation
+
+@frappe.whitelist(allow_guest=True)
+def can_access_cart():
+	"""
+	Check if the user can access the cart.
+	This is a simple check to see if the user is logged in.
+	"""
+	print(frappe.session)
+	if frappe.session.user == "Guest":
+		return False
+	webshop_settings = frappe.get_cached_doc("Webshop Settings")
+	# print(webshop_settings.as_dict(), "webshop_settings")
+	if not webshop_settings.enabled:
+		return False
+	return True

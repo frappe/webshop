@@ -13,7 +13,7 @@ from frappe import _
 from frappe.utils import cint, cstr, flt, random_string
 from frappe.website.doctype.website_slideshow.website_slideshow import get_slideshow
 from frappe.website.website_generator import WebsiteGenerator
-
+from webshop.webshop.shopping_cart.product_info  import get_product_info_for_website
 from webshop.webshop.doctype.item_review.item_review import get_item_reviews
 from webshop.webshop.redisearch_utils import (
     delete_item_from_index,
@@ -32,6 +32,10 @@ from webshop.webshop.variant_selector.item_variants_cache import (
     ItemVariantsCacheManager,
 )
 
+def get_slideshow_slides(slideshow):
+	slideshow = frappe.get_cached_doc("Website Slideshow", slideshow)
+	slides = slideshow.get({"doctype": "Website Slideshow Item"})
+	return slides
 
 class WebsiteItem(WebsiteGenerator):
 	website = frappe._dict(
@@ -575,3 +579,37 @@ def has_website_permission_for_item_group(doc, ptype, user, verbose=False):
 		return True
 
 	return False
+
+@frappe.whitelist(allow_guest=True)
+def get_item_details(item_code, user):
+	"""
+	Returns details of the given Item.
+	"""
+	# print("get_item_details", item_code, user)
+	if not has_website_permission_for_website_item(item_code, "read", user):
+		frappe.throw(_("You do not have permission to view this item."), title=_("Permission Denied"))
+	if not item_code:
+		frappe.throw(_("Item Code is required"), title=_("Mandatory"))
+	# print("item_code", item_code)
+	item = frappe.get_doc("Website Item", item_code)
+	item = item.as_dict()
+	slideshow = item["slideshow"]
+	if slideshow:
+		item["slideshow"] = get_slideshow_slides(slideshow)
+		item["slideshow"].insert(0, {
+			"image": item["website_image"],
+		})
+	else:
+		item["slideshow"] = [{
+			"image": item["website_image"],
+		}]
+	if not item.published:
+		frappe.throw(_("Item {0} is not published in the website.").format(item_code))
+	product_and_cart_info = get_product_info_for_website(item["item_code"], skip_quotation_creation=True)
+	item["price_and_stock"] = product_and_cart_info["product_info"]
+	item["cart_settings"] = product_and_cart_info["cart_settings"]
+	for product in item["recommended_items"]:
+		product_and_cart_info = get_product_info_for_website(product["item_code"], skip_quotation_creation=True)
+		product["price_and_stock"] = product_and_cart_info["product_info"]
+
+	return item

@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-06-06 10:00:35.672441",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "hero_image",
+  "homepage_collections",
+  "additional_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "hero_image",
+   "fieldtype": "Attach Image",
+   "label": "Hero Image"
+  },
+  {
+   "fieldname": "homepage_collections",
+   "fieldtype": "Table MultiSelect",
+   "label": "Homepage Collections",
+   "options": "Website Item Group"
+  },
+  {
+   "fieldname": "additional_details",
+   "fieldtype": "HTML Editor",
+   "label": "Additional Details"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-06-06 13:24:04.524494",
+ "modified_by": "Administrator",
+ "module": "Webshop",
+ "name": "Webshop Homepage",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

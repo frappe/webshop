@@ -70,6 +70,15 @@ def get_item_codes_by_attributes(attribute_filters, template_item_code=None):
 	return res
 
 
+def get_image_for_varaint(item_code):
+	"""Get the image for the variant item."""
+	print("get_image_for_varaint", item_code)
+	if not frappe.db.exists("Website Item", {"item_code": item_code}):
+		print("get_image_for_varaint: No Website Item found for", item_code)
+		return frappe.get_cached_value("Item", item_code, "image")
+	return frappe.get_cached_value("Website Item", {"item_code": item_code}, "website_image")
+
+
 @frappe.whitelist(allow_guest=True)
 def get_attributes_and_values(item_code):
 	"""Build a list of attributes and their possible values.
@@ -174,6 +183,7 @@ def get_next_attribute_and_values(item_code, selected_attributes):
 		if product_info:
 			product_info["is_stock_item"] = frappe.get_cached_value("Item", exact_match[0], "is_stock_item")
 			product_info["allow_items_not_in_stock"] = cint(cart_settings.allow_items_not_in_stock)
+			product_info["image"] = get_image_for_varaint(exact_match[0])
 	else:
 		product_info = None
 
