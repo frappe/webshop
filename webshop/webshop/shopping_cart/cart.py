@@ -12,6 +12,7 @@ from frappe.utils.nestedset import get_root_of
 from erpnext.accounts.utils import get_account_name
 from webshop.webshop.doctype.webshop_settings.webshop_settings import (
     get_shopping_cart_settings,
+    is_cart_enabled,
 )
 from webshop.webshop.utils.product import get_web_item_qty_in_stock
 from erpnext.selling.doctype.quotation.quotation import _make_sales_order
@@ -841,3 +842,11 @@ def can_access_cart():
 	if not webshop_settings.enabled:
 		return False
 	return True
+
+@frappe.whitelist(allow_guest=True)
+def should_redirect_on_cart():
+    if(is_cart_enabled()):
+        return False
+    else:
+        frappe.local.flags.redirect_location = "/landing"
+        raise frappe.Redirect
