@@ -65,10 +65,10 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
-  "modified": "2025-06-25 16:59:15.467819",
-  "name": "JavaScript-624c1",
-  "public_url": "/files/page_scripts/JavaScript-624c1-0bf5014a6a.js?v=e323490b97",
-  "script": "// Write your script here\nconst getSampleRedirect = async (item_code, qty) => {\n    console.log(\"placing order\");\n    const url = `${page_data.url}/api/v2/method/webshop.webshop.api.test_redirect`;\n\n    try {\n        const response = await fetch(url, {\n            method: \"GET\",\n            redirect: 'manual' // Important: Tell fetch not to follow redirects\n        });\n        console.log({response})\n\n        if (response.status === 302) {\n            const redirectURL = response.headers.get('Location');\n            if (redirectURL) {\n                window.location.href = redirectURL; // Manually redirect\n            } else {\n                console.error(\"Redirect URL not found in response headers.\");\n            }\n        } else {\n            console.warn(\"Unexpected response status:\", response.status);\n        }\n\n    } catch (err) {\n        console.error(\"Update error:\", err);\n    }\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", getSampleRedirect);\n\n",
+  "modified": "2025-07-03 17:25:23.097778",
+  "name": "wishlist-handlers",
+  "public_url": "/files/page_scripts/JavaScript-36936-690032deda.js?v=d156942b82",
+  "script": "// Write your script here\n// const baseUrlForWishList = `${page_data.url}/api/v2/method/webshop.webshop.doctype.wishlist.wishlist`; (deos not work as page_data is not available before domcontentload)\nconst midUrlForWishList = `/api/v2/method/webshop.webshop.doctype.wishlist.wishlist`;\n\nconst addToWishList = () => {\n  console.log(\"Adding to wishlist\");\n  fetch(`${page_data.url}${midUrlForWishList}.add_to_wishlist`, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ item_code: page_data?.code }),\n  })\n    .then((res) => {\n      if (res.ok && !res.redirected) {\n        console.log(\"Added to wishlist!\", res);\n        window.location.reload();\n      } else if(res.redirected) {\n          window.location.href = res.url\n      }else console.log(\"Oops!\", res);\n    })\n    .catch((err) => {\n      console.error(err);\n    });\n};\n\nconst removeFromWishlist = () => {\n  console.log(\"Removing from wishlist\");\n  fetch(`${page_data.url}${midUrlForWishList}.remove_from_wishlist`, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ item_code: page_data?.code }),\n  })\n    .then((res) => {\n      if (res.ok) {\n        console.log(\"Removed from wishlist!\", res), window.location.reload();\n      } else console.log(\"Oops!\", res);\n    })\n    .catch((err) => {\n      console.error(err);\n    });\n};\nconst bindWishlistButtonActions = () => {\n  const addToWishlistButton = document.getElementById(\"add-to-wishlist\");\n  if (addToWishlistButton) {\n    addToWishlistButton.addEventListener(\"click\", addToWishList);\n  }\n  const removeFromWishlistButton = document.getElementById(\n    \"remove-from-wishlist\"\n  );\n  if (removeFromWishlistButton) {\n    removeFromWishlistButton.addEventListener(\"click\", removeFromWishlist);\n  }\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", bindWishlistButtonActions);\n",
   "script_type": "JavaScript"
  },
  {
@@ -87,6 +87,15 @@
   "name": "edit-address-redirect",
   "public_url": "/files/page_scripts/JavaScript-19d09-93417784b1.js?v=e3cef47261",
   "script": "// Write your script here\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  document.querySelectorAll(\".edit-address\").forEach((div) => {\n    div.addEventListener(\"click\", () => {\n      window.location.assign(\"/address/\" + div.id)\n    });\n  });\n});\n",
+  "script_type": "JavaScript"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
+  "modified": "2025-07-03 23:45:12.887689",
+  "name": "JavaScript-803df",
+  "public_url": "/files/page_scripts/JavaScript-803df-7ff07845fc.js?v=a95fc590d5",
+  "script": "// Write your script here\nconst removeFromWishlist = (item_code) => {\n  console.log(\"Removing from wishlist\");\n  fetch(`${page_data.url}/api/v2/method/webshop.webshop.doctype.wishlist.wishlist.remove_from_wishlist`, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ item_code }),\n  })\n    .then((res) => {\n      if (res.ok) {\n        console.log(\"Removed from wishlist!\", res), window.location.reload();\n      } else console.log(\"Oops!\", res);\n    })\n    .catch((err) => {\n      console.error(err);\n    });\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  const removeButtons = document.querySelectorAll(\".remove-from-wishlist\");\n\n  removeButtons.forEach((button) => {\n    button.addEventListener(\"click\", function (event) {\n      event.stopPropagation(); // Stop event propagation\n      event.preventDefault();\n\n      const itemId = this.id; // Get the ID of the button\n      removeFromWishlist(itemId); // Call the removeFromWishlist function\n    });\n  });\n});\n",
   "script_type": "JavaScript"
  },
  {
@@ -272,15 +281,6 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
-  "modified": "2025-06-14 20:00:19.654363",
-  "name": "coupon code handler",
-  "public_url": "/files/page_scripts/JavaScript-a7f7c-f5677b2bc0.js?v=ad6decf505",
-  "script": "// Write your script here\nconst removeCouponCode = async () => {\n  console.log(\"removing coupon code...\");\n  const url = `${page_data.url}/api/v2/method/webshop.webshop.shopping_cart.cart.remove_coupon_code`;\n  let response = await fetch(url, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n  });\n  window.location.reload();\n};\n\nconst applyCouponCode = async () => {\n  console.log(\"adding coupon code...\");\n  const couponCode = document.querySelector(\"#coupon-code-input\").value;\n  const url = `${page_data.url}/api/v2/method/webshop.webshop.shopping_cart.cart.apply_coupon_code`;\n  let response = await fetch(url, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({\n      applied_code: couponCode,\n      applied_referral_sales_partner: \"\", // not sure what to put here\n    }),\n  });\n  if(!response.ok){\n      const body = await response.json()\n      alert(body.errors[0]?.message || \"Something went wrong!\");\n      return;\n  }\n  console.log(response)\n  window.location.reload()\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  const addButton = document.querySelector(\"#add-coupon-code\");\n  addButton ? addButton.addEventListener(\"click\", applyCouponCode) : \"\";\n\n  const removeButton = document.querySelector(\"#remove-coupon-code\");\n  removeButton ? removeButton.addEventListener(\"click\", removeCouponCode) : \"\";\n});\n",
-  "script_type": "JavaScript"
- },
- {
-  "docstatus": 0,
-  "doctype": "Builder Client Script",
   "modified": "2025-06-24 19:39:25.419783",
   "name": "JavaScript-53113-cbedd",
   "public_url": "/files/page_scripts/JavaScript-53113-c54cdb3fa5.js?v=c57f086005",
@@ -290,10 +290,28 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
+  "modified": "2025-06-25 16:59:15.467819",
+  "name": "JavaScript-624c1",
+  "public_url": "/files/page_scripts/JavaScript-624c1-0bf5014a6a.js?v=e323490b97",
+  "script": "// Write your script here\nconst getSampleRedirect = async (item_code, qty) => {\n    console.log(\"placing order\");\n    const url = `${page_data.url}/api/v2/method/webshop.webshop.api.test_redirect`;\n\n    try {\n        const response = await fetch(url, {\n            method: \"GET\",\n            redirect: 'manual' // Important: Tell fetch not to follow redirects\n        });\n        console.log({response})\n\n        if (response.status === 302) {\n            const redirectURL = response.headers.get('Location');\n            if (redirectURL) {\n                window.location.href = redirectURL; // Manually redirect\n            } else {\n                console.error(\"Redirect URL not found in response headers.\");\n            }\n        } else {\n            console.warn(\"Unexpected response status:\", response.status);\n        }\n\n    } catch (err) {\n        console.error(\"Update error:\", err);\n    }\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", getSampleRedirect);\n\n",
+  "script_type": "JavaScript"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
   "modified": "2025-06-15 11:52:13.719985",
   "name": "optoin-selec-on-filter",
   "public_url": "/files/page_scripts/JavaScript-4727f-8a231f3a7f.js?v=7f6e04ac6e",
   "script": "// Write your script here\ndocument.addEventListener(\n  \"DOMContentLoaded\",\n  () => {\n    console.log(page_data);\n    filters = page_data;\n    Object.entries(filters).forEach(([key, values]) => {\n      const select = document.querySelector(`select[name=\"${key}\"]`);\n      if (!select) return;\n\n      Array.from(select.options).forEach((option) => {\n        option.selected = values.includes(option.value);\n      });\n    });\n  },\n  5\n);\n",
+  "script_type": "JavaScript"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
+  "modified": "2025-06-14 20:00:19.654363",
+  "name": "coupon code handler",
+  "public_url": "/files/page_scripts/JavaScript-a7f7c-f5677b2bc0.js?v=ad6decf505",
+  "script": "// Write your script here\nconst removeCouponCode = async () => {\n  console.log(\"removing coupon code...\");\n  const url = `${page_data.url}/api/v2/method/webshop.webshop.shopping_cart.cart.remove_coupon_code`;\n  let response = await fetch(url, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n  });\n  window.location.reload();\n};\n\nconst applyCouponCode = async () => {\n  console.log(\"adding coupon code...\");\n  const couponCode = document.querySelector(\"#coupon-code-input\").value;\n  const url = `${page_data.url}/api/v2/method/webshop.webshop.shopping_cart.cart.apply_coupon_code`;\n  let response = await fetch(url, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({\n      applied_code: couponCode,\n      applied_referral_sales_partner: \"\", // not sure what to put here\n    }),\n  });\n  if(!response.ok){\n      const body = await response.json()\n      alert(body.errors[0]?.message || \"Something went wrong!\");\n      return;\n  }\n  console.log(response)\n  window.location.reload()\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  const addButton = document.querySelector(\"#add-coupon-code\");\n  addButton ? addButton.addEventListener(\"click\", applyCouponCode) : \"\";\n\n  const removeButton = document.querySelector(\"#remove-coupon-code\");\n  removeButton ? removeButton.addEventListener(\"click\", removeCouponCode) : \"\";\n});\n",
   "script_type": "JavaScript"
  },
  {

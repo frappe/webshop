@@ -613,3 +613,22 @@ def get_item_details(item_code, user):
 		product["price_and_stock"] = product_and_cart_info["product_info"]
 
 	return item
+
+@frappe.whitelist(allow_guest=True)
+def if_item_wishlisted(item_code):
+    if frappe.session.user == "Guest":
+        return False
+    print("if_item_wishlisted", item_code, frappe.session.user, frappe.db.exists(
+        "Wishlist Item",
+        {"item_code": item_code, "parent": frappe.session.user},
+    ))
+    wished = False
+    if frappe.db.exists(
+        "Wishlist Item",
+        {"item_code": item_code, "parent": frappe.session.user},
+    ):
+        wished = True
+    else:
+        print("Not wished")
+    print("if_item_wishlisted", item_code, wished, frappe.session.user)
+    return wished

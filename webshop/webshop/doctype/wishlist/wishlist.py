@@ -10,9 +10,14 @@ class Wishlist(Document):
 	pass
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def add_to_wishlist(item_code):
 	"""Insert Item into wishlist."""
+
+	if frappe.session.user == "Guest":
+		frappe.local.response["type"] = "redirect"
+		frappe.local.response["location"] = "/login"
+		raise frappe.Redirect
 
 	if frappe.db.exists("Wishlist Item", {"item_code": item_code, "parent": frappe.session.user}):
 		return

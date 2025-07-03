@@ -212,12 +212,24 @@ def get_order_info(name, party=None):
 	# print(qdoc.get("items",[]))
 	return {"doc": qdoc, "cart_settings": frappe.get_cached_doc("Webshop Settings")}
 
-
 @frappe.whitelist(allow_guest=True)
-def test_redirect():
-	"""
-	Test redirect functionality.
-	"""
-	frappe.local.response["type"] = "redirect"
-	frappe.local.response["location"] = "/landing"
-	return "hi"
+def get_wishlist_items():
+    if frappe.session.user == "Guest":
+        frappe.local.flags.redirect_location = "/login"
+        raise frappe.Redirect
+    if not frappe.db.exists("Wishlist", frappe.session.user):
+        return []
+    return frappe.db.get_all(
+		"Wishlist Item",
+		filters={"parent": frappe.session.user},
+		fields=[
+			"web_item_name",
+			"item_code",
+			"item_name",
+			"website_item",
+			"warehouse",
+			"image",
+			"item_group",
+			"route",
+		],
+	)
