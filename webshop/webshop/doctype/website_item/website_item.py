@@ -611,7 +611,9 @@ def get_item_details(item_code, user):
 	for product in item["recommended_items"]:
 		product_and_cart_info = get_product_info_for_website(product["item_code"], skip_quotation_creation=True)
 		product["price_and_stock"] = product_and_cart_info["product_info"]
-
+	if item["cart_settings"].get("enable_reviews"):
+		reviews_data = get_item_reviews(item_code)
+		item["reviews_and_ratings"] = reviews_data
 	return item
 
 @frappe.whitelist(allow_guest=True)

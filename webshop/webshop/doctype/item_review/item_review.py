@@ -29,6 +29,12 @@ class ItemReview(Document):
 		# regenerate cache on review deletion
 		reviews_dict = get_queried_reviews(self.website_item)
 		set_reviews_in_cache(self.website_item, reviews_dict)
+  
+	def on_update(self):
+		# regenerate cache on review update
+		print("Updating review cache for", self.website_item)
+		reviews_dict = get_queried_reviews(self.website_item)
+		set_reviews_in_cache(self.website_item, reviews_dict)
 
 
 @frappe.whitelist()
@@ -109,10 +115,13 @@ def add_item_review(web_item, title, rating, comment=None):
 	if frappe.session.user == "Guest":
 		# guest user should not reach here ideally in the case they do via an API, throw error
 		frappe.throw(_("You are not verified to write a review yet."), exc=UnverifiedReviewer)
-
 	if not frappe.db.exists("Item Review", {"user": frappe.session.user, "website_item": web_item}):
 		doc = frappe.new_doc("Item Review")
-		doc.update(
+		
+	else:
+		doc = frappe.get_doc("Item Review", {"user": frappe.session.user, "website_item": web_item})
+		print("Updating existing review", doc)
+	doc.update(
 			{
 				"user": frappe.session.user,
 				"customer": get_customer(),
@@ -123,9 +132,20 @@ def add_item_review(web_item, title, rating, comment=None):
 				"comment": comment,
 			}
 		)
-		doc.published_on = datetime.today().strftime("%d %B %Y")
-		doc.save()
+	doc.published_on = datetime.today().strftime("%d %B %Y")
+	doc.save()
 
+@frappe.whitelist()
+def delete_item_review(web_item):
+	"""Delete an Item Review by a user if exists."""
+	if frappe.session.user == "Guest":
+		# guest user should not reach here ideally in the case they do via an API, throw error
+		frappe.throw(_("You are not verified to delete a review yet."), exc=UnverifiedReviewer)
+
+	if not frappe.db.exists("Item Review", {"user": frappe.session.user, "website_item": web_item}):
+		frappe.throw(_("You have not written a review for this item yet."))
+	doc = frappe.get_doc("Item Review", {"user": frappe.session.user, "website_item": web_item})
+	doc.delete()
 
 def get_customer(silent=False):
 	"""
@@ -151,3 +171,11 @@ def get_customer(silent=False):
 		frappe.throw(
 			_("You are not a verified customer yet. Please contact us to proceed."), exc=UnverifiedReviewer
 		)
+
+@frappe.whitelist(allow_guest=True)
+def check_if_allowed():
+    if frappe.session.user == "Guest":
+        frappe.local.response["type"] = "redirect"
+        frappe.local.response["location"] = "/login"
+        raise frappe.Redirect
+    return frappe.get_cached_doc("Webshop Settings").enable_reviews or False

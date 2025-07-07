@@ -73,7 +73,7 @@
   "builder_script": "CSS-fe577",
   "docstatus": 0,
   "doctype": "Builder Page Client Script",
-  "modified": "2025-07-03 17:07:56.139606",
+  "modified": "2025-07-08 03:18:15.166225",
   "name": "2f593irjlq",
   "parent": "page-5ba56ee5",
   "parentfield": "client_scripts",
@@ -200,10 +200,10 @@
   "parenttype": "Builder Page"
  },
  {
-  "builder_script": "JavaScript-7a479",
+  "builder_script": "variant-selection-handler",
   "docstatus": 0,
   "doctype": "Builder Page Client Script",
-  "modified": "2025-07-03 17:07:56.139606",
+  "modified": "2025-07-08 03:18:15.166225",
   "name": "bkr7ib43i8",
   "parent": "page-5ba56ee5",
   "parentfield": "client_scripts",
@@ -293,7 +293,7 @@
   "builder_script": "wishlist-handlers",
   "docstatus": 0,
   "doctype": "Builder Page Client Script",
-  "modified": "2025-07-03 17:07:56.139606",
+  "modified": "2025-07-08 03:18:15.166225",
   "name": "1mhkk9v29a",
   "parent": "page-5ba56ee5",
   "parentfield": "client_scripts",
@@ -360,6 +360,16 @@
   "parenttype": "Builder Page"
  },
  {
+  "builder_script": "progress-bar-width",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-07-08 03:18:15.166225",
+  "name": "i5c8hr9pha",
+  "parent": "page-5ba56ee5",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
   "builder_script": "place order",
   "docstatus": 0,
   "doctype": "Builder Page Client Script",
@@ -410,6 +420,16 @@
   "parenttype": "Builder Page"
  },
  {
+  "builder_script": "modal-handler",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-07-08 03:18:15.166225",
+  "name": "hjt6ep91ls",
+  "parent": "page-5ba56ee5",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
   "builder_script": "select-addr-post",
   "docstatus": 0,
   "doctype": "Builder Page Client Script",
@@ -446,6 +466,16 @@
   "modified": "2025-07-03 15:03:56.776129",
   "name": "rf1cekatb9",
   "parent": "page-0811a941",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "rating-stars",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-07-08 03:18:15.166225",
+  "name": "ije424cg6i",
+  "parent": "page-5ba56ee5",
   "parentfield": "client_scripts",
   "parenttype": "Builder Page"
  },
@@ -490,6 +520,16 @@
   "parenttype": "Builder Page"
  },
  {
+  "builder_script": "set-star-rating",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-07-08 03:18:15.166225",
+  "name": "jvgrkcid83",
+  "parent": "page-5ba56ee5",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
   "builder_script": "edit-address-redirect",
   "docstatus": 0,
   "doctype": "Builder Page Client Script",
@@ -506,6 +546,16 @@
   "modified": "2025-06-15 00:48:15.861015",
   "name": "0rr1bvv83v",
   "parent": "page-2e17025e",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "handle-review",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-07-08 03:18:15.166225",
+  "name": "s3ti5a92a1",
+  "parent": "page-5ba56ee5",
   "parentfield": "client_scripts",
   "parenttype": "Builder Page"
  }
