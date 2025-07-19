@@ -150,21 +150,43 @@ webshop.ProductView =  class {
 		`);
 	}
 
+	// get_query_filters() {
+	// 	const filters = frappe.utils.get_query_params();
+	// 	let {field_filters, attribute_filters} = filters;
+
+	// 	field_filters = field_filters ? JSON.parse(field_filters) : {};
+	// 	attribute_filters = attribute_filters ? JSON.parse(attribute_filters) : {};
+
+	// 	return {
+	// 		field_filters: field_filters,
+	// 		attribute_filters: attribute_filters,
+	// 		item_group: this.item_group,
+	// 		search: this.search_text || "",
+	// 		start: filters.start || null,
+	// 		from_filters: this.from_filters || false
+
+	// 	};
+	// }
+
 	get_query_filters() {
 		const filters = frappe.utils.get_query_params();
-		let {field_filters, attribute_filters} = filters;
+		let { field_filters, attribute_filters } = filters;
 
-		field_filters = field_filters ? JSON.parse(field_filters) : {};
-		attribute_filters = attribute_filters ? JSON.parse(attribute_filters) : {};
+		if (this.search_text && this.search_text.trim()) {
+			field_filters = {};
+			attribute_filters = {};
+		} else {
+			field_filters = field_filters ? JSON.parse(field_filters) : {};
+			attribute_filters = attribute_filters ? JSON.parse(attribute_filters) : {};
+		}
 
 		return {
 			field_filters: field_filters,
 			attribute_filters: attribute_filters,
-			item_group: this.item_group,
+			item_group: this.search_text ? null : this.item_group, // تجاهل group لو كان بحث
 			search: this.search_text || "",
 			start: filters.start || null,
 			from_filters: this.from_filters || false
-
 		};
 	}
 
@@ -257,6 +279,8 @@ webshop.ProductView =  class {
 			</div>
 		</div>
 	`);
+
+	$("#search-box").val(this.search_text)
 
 	const me = this;
 
