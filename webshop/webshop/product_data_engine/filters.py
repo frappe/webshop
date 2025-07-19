@@ -1,6 +1,7 @@
 # Copyright (c) 2021, Frappe Technologies Pvt. Ltd. and Contributors
 # License: GNU General Public License v3. See license.txt
 import frappe
+from frappe import _
 from frappe.utils import floor
 
 
@@ -157,7 +158,7 @@ class ProductFiltersBuilder:
 		max_range = (max_range + 10) if max_range != max_range_absolute else max_range  # 60
 
 		for discount in range(min_range, (max_range + 1), 10):
-			label = f"{discount}% and below"
+			label = _("{0}% and below").format(discount)
 			discount_filters.append([discount, label])
 
 		return discount_filters
