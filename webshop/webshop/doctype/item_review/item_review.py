@@ -37,15 +37,15 @@ class ItemReview(Document):
 		set_reviews_in_cache(self.website_item, reviews_dict)
 
 
-@frappe.whitelist()
-def get_item_reviews(web_item, start=0, end=10, data=None):
+@frappe.whitelist(allow_guest=True)
+def get_item_reviews(web_item, start=0, page_length=10, data=None, sort_by=None, sort_order=None):
 	"Get Website Item Review Data."
-	start, end = cint(start), cint(end)
+	start, page_length = cint(start), cint(page_length)
 	settings = get_shopping_cart_settings()
 
 	# Get cached reviews for first page (start=0)
 	# avoid cache when page is different
-	from_cache = not bool(start)
+	from_cache = not bool(start) and page_length == 10 and not sort_by and not sort_order
 
 	if not data:
 		data = frappe._dict()
@@ -55,14 +55,14 @@ def get_item_reviews(web_item, start=0, end=10, data=None):
 		if from_cache and reviews_cache:
 			data = reviews_cache
 		else:
-			data = get_queried_reviews(web_item, start, end, data)
+			data = get_queried_reviews(web_item, start, page_length, data, sort_by, sort_order)
 			if from_cache:
 				set_reviews_in_cache(web_item, data)
 
 	return data
 
 
-def get_queried_reviews(web_item, start=0, end=10, data=None):
+def get_queried_reviews(web_item, start=0, page_length=10, data=None, sort_by=None, sort_order=None):
 	"""
 	Query Website Item wise reviews and cache if needed.
 	Cache stores only first page of reviews i.e. 10 reviews maximum.
@@ -71,13 +71,14 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 	"""
 	if not data:
 		data = frappe._dict()
-
+	sort_combined = f"{sort_by} {sort_order}" if sort_by and sort_order else None
 	data.reviews = frappe.db.get_all(
 		"Item Review",
 		filters={"website_item": web_item},
 		fields=["*"],
 		limit_start=start,
-		limit_page_length=end,
+		limit_page_length=page_length,
+		order_by=sort_combined,
 	)
 
 	rating_data = frappe.db.get_all(
@@ -108,6 +109,25 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 def set_reviews_in_cache(web_item, reviews_dict):
 	frappe.cache().hset("item_reviews", web_item, reviews_dict)
 
+@frappe.whitelist(allow_guest=True)
+def get_user_specific_review(web_item):
+	"""
+	Get reviews by the logged in user for a specific item.
+	"""
+	if frappe.session.user == "Guest":
+		return None
+
+	review = frappe.db.get_value(
+		"Item Review",
+		{
+      		"website_item": web_item,
+        	"user": frappe.session.user,
+         	"customer": get_customer()
+        },
+		["*"],
+		as_dict=True,
+	)
+	return review
 
 @frappe.whitelist()
 def add_item_review(web_item, title, rating, comment=None):

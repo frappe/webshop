@@ -581,7 +581,7 @@ def has_website_permission_for_item_group(doc, ptype, user, verbose=False):
 	return False
 
 @frappe.whitelist(allow_guest=True)
-def get_item_details(item_code, user):
+def get_item_details(item_code, user, short=False):
 	"""
 	Returns details of the given Item.
 	"""
@@ -591,8 +591,13 @@ def get_item_details(item_code, user):
 	if not item_code:
 		frappe.throw(_("Item Code is required"), title=_("Mandatory"))
 	# print("item_code", item_code)
-	item = frappe.get_doc("Website Item", item_code)
+	try:
+		item = frappe.get_doc("Website Item", item_code)
+	except frappe.DoesNotExistError:
+		return None
 	item = item.as_dict()
+	if short:
+		return item
 	slideshow = item["slideshow"]
 	if slideshow:
 		item["slideshow"] = get_slideshow_slides(slideshow)

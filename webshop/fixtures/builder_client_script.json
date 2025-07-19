@@ -173,15 +173,6 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
-  "modified": "2025-07-08 02:39:25.828046",
-  "name": "handle-review",
-  "public_url": "/files/page_scripts/JavaScript-ea84e-e9335d834a.js?v=aa3f9dd2d0",
-  "script": "// Write your script here\nconst midUrlForReview = `/api/v2/method/webshop.webshop.doctype.item_review.item_review`;\n\nconst checkIfAllowed = () => {\n  let resolveFunc;\n  let rejectFunc;\n  let promise = new Promise((resolve, reject) => {\n    // Store the resolve and reject functions\n    resolveFunc = resolve;\n    rejectFunc = reject;\n  });\n  fetch(`${page_data.url}${midUrlForReview}.check_if_allowed`, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ item_code: page_data?.code }),\n  })\n    .then((res) => {\n      if (res.ok && !res.redirected) {\n        console.log(\"Yes adding reviews is allowed!\");\n        resolveFunc(true);\n      } else if (res.redirected) {\n        window.location.href = res.url;\n      } else console.log(\"Oops!\", res);\n      rejectFunc(false);\n    })\n    .catch((err) => {\n      console.error(err);\n    });\n  return promise;\n};\n\nfunction getSelectedRatingValue() {\n  // Get all radio inputs within the rating group\n  var radioInputs = document.querySelectorAll(\"#half-stars .rating__input\");\n\n  // Iterate through the radio inputs to find the checked one\n  for (var i = 0; i < radioInputs.length; i++) {\n    if (radioInputs[i].checked) {\n      return radioInputs[i].value;\n    }\n  }\n\n  // If no radio button is checked, return null or a default value\n  return null;\n}\n\nconst saveReview = async () => {\n  const url = `${page_data.url}${midUrlForReview}.add_item_review`;\n  const title = document.getElementById(\"rating-title-input\")?.value;\n  const comment = document.getElementById(\"rating-comment-input\")?.value;\n  const web_item = page_data.web_item_code;\n  const rating = getSelectedRatingValue() / 5;\n  if (!title.trim() || !rating) {\n    alert(\"Please enter required items!\");\n    return;\n  }\n  let res = await fetch(url, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ web_item, title, comment, rating }),\n  });\n  if (res.ok && !res.redirected) {\n    console.log(\"Review added!\");\n    window.location.reload();\n  } else if (res.redirected) {\n    window.location.href = res.url;\n  } else {\n    console.log(\"Oops!\", res);\n  }\n};\n\nconst deleteReview = async () => {\n  const url = `${page_data.url}${midUrlForReview}.delete_item_review`;\n  const web_item = page_data.web_item_code;\n\n  let res = await fetch(url, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ web_item }),\n  });\n  if (res.ok && !res.redirected) {\n    console.log(\"Review deleted!\");\n    window.location.reload();\n  } else if (res.redirected) {\n    window.location.href = res.url;\n  } else {\n    console.log(\"Oops!\", res);\n  }\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  document.querySelectorAll(\".open-rating-input\").forEach((elem) => {\n    elem.addEventListener(\"click\", async () => {\n      let res = await checkIfAllowed();\n      if (res) loadModal(\"rating-input\");\n    });\n  });\n  const reviewSaveButton = document.getElementById(\"review-save\");\n  if (reviewSaveButton) {\n    reviewSaveButton.addEventListener(\"click\", saveReview);\n  }\n  const reviewDeleteButton = document.getElementById(\"review-delete\");\n  if (reviewDeleteButton) {\n    reviewDeleteButton.addEventListener(\"click\", deleteReview);\n  }\n});\n",
-  "script_type": "JavaScript"
- },
- {
-  "docstatus": 0,
-  "doctype": "Builder Client Script",
   "modified": "2025-06-14 23:08:10.659692",
   "name": "CSS-fd18c",
   "public_url": "/files/page_styles/CSS-fd18c-0ce3c4c321.css?v=4236e50a5d",
@@ -196,15 +187,6 @@
   "public_url": "/files/page_styles/CSS-fd18c-0ce3c4c321.css?v=e594b7eb34",
   "script": "/* Write your CSS here */\n.selected {\n    background-color: #e7e7e7;\n    border-width: 1.5px;\n}",
   "script_type": "CSS"
- },
- {
-  "docstatus": 0,
-  "doctype": "Builder Client Script",
-  "modified": "2025-07-08 01:55:28.131452",
-  "name": "set-star-rating",
-  "public_url": "/files/page_scripts/JavaScript-e32bf-47194d81e4.js?v=00470e1a91",
-  "script": "// Write your script here\nfunction setStarRating(rating) {\n  // Get all radio inputs within the rating group\n  var radioInputs = document.querySelectorAll(\"#half-stars .rating__input\");\n\n  // Uncheck all radio inputs\n  radioInputs.forEach(function (input) {\n    input.checked = false;\n  });\n\n  // Find the radio input that matches the given rating and check it\n  radioInputs.forEach(function (input) {\n    if (input.value == rating) {\n      input.checked = true;\n    }\n  });\n}\n\n\ndocument.addEventListener(\"DOMContentLoaded\",() => {\n    rating = page_data.my_rating;\n    setStarRating(rating);\n})",
-  "script_type": "JavaScript"
  },
  {
   "docstatus": 0,
@@ -326,6 +308,24 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
+  "modified": "2025-07-20 03:06:15.187403",
+  "name": "page-handler",
+  "public_url": "/files/page_scripts/JavaScript-b4621-53e81dc22b.js?v=17ca34eb8f",
+  "script": "// Write your script here\nfunction handlePageTurn(increment) {\n  // Get the current query parameters\n  const queryParams = new URLSearchParams(window.location.search);\n\n  // Get the current page value, default to 1 if not set\n  let page = queryParams.get(\"page\");\n  if (page === null) {\n    page = 1;\n  } else {\n    page = parseInt(page);\n  }\n\n  // Increment the page value\n  if (increment) page += 1;\n  else page -= 1;\n\n  // Set the new page value in the query parameters\n  queryParams.set(\"page\", page);\n\n  // Update the URL with the new query parameters\n  const newUrl = window.location.pathname + \"?\" + queryParams.toString();\n\n  // Reload the page with the new URL\n  window.location.href = newUrl;\n}\n\ndocument.addEventListener(\"DOMContentLoaded\", function () {\n  // Get the button element by its ID\n  const nextPageButton = document.getElementById(\"nextPageButton\");\n\n  // Add an event listener for clicks on the button\n  nextPageButton ? nextPageButton.addEventListener(\"click\", () => handlePageTurn(true)) : \"\";\n});\n\ndocument.addEventListener(\"DOMContentLoaded\", function () {\n  // Get the button element by its ID\n  const prevPageButton = document.getElementById(\"prevPageButton\");\n\n  // Add an event listener for clicks on the button\n  prevPageButton ? prevPageButton.addEventListener(\"click\", () => handlePageTurn(false)) : \"\";\n});\n",
+  "script_type": "JavaScript"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
+  "modified": "2025-07-20 03:14:33.810347",
+  "name": "order-handler",
+  "public_url": "/files/page_scripts/JavaScript-e36a9-0a96b5c9d8.js?v=8941ee0312",
+  "script": "// Write your script here\ndocument.addEventListener(\"DOMContentLoaded\", function () {\n  // Get the button element by its ID\n  const orderToggleButton = document.getElementById(\"orderToggleBtn\");\n\n  // Add an event listener for clicks on the button\n  orderToggleButton.addEventListener(\"click\", function () {\n    // Get the current query parameters\n    const queryParams = new URLSearchParams(window.location.search);\n\n    // Get the current order value, default to 'asc' if not set\n    let order = queryParams.get(\"order\");\n    let sortBy = queryParams.get(\"sort_by\");\n    if (!sortBy) {\n      alert(\"Select a field to sort by!\");\n      return;\n    }\n    if (order === \"asc\") {\n      queryParams.set(\"order\", \"desc\");\n    } else {\n      queryParams.set(\"order\", \"asc\");\n    }\n\n    // Update the URL with the new query parameters\n    const newUrl = window.location.pathname + \"?\" + queryParams.toString();\n\n    // Reload the page with the new URL\n    window.location.href = newUrl;\n  });\n});\n",
+  "script_type": "JavaScript"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
   "modified": "2025-06-05 13:32:07.245583",
   "name": "restore-scroll",
   "public_url": "/files/page_scripts/JavaScript-2f3e9-d298e6cd31.js?v=d632f82eb9",
@@ -344,11 +344,29 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
+  "modified": "2025-07-20 02:12:34.333074",
+  "name": "CSS-e4497",
+  "public_url": "/files/page_styles/CSS-e4497-3b896e46b5.css?v=3b53bd0a07",
+  "script": "/* Write your CSS here */\nselect {\n    font-size: 12px;\n}",
+  "script_type": "CSS"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
   "modified": "2025-06-05 12:26:10.342565",
   "name": "multi-select-css",
   "public_url": "/files/page_styles/CSS-40d01-71e9109d2f.css?v=11cb3783d0",
   "script": "/* Write your CSS here */\n.multi-select {\n  display: flex;\n  box-sizing: border-box;\n  flex-direction: column;\n  position: relative;\n  width: 100%;\n  user-select: none;\n}\n.multi-select .multi-select-header {\n  border: 1px solid #dee2e6;\n  padding: 7px 30px 7px 12px;\n  overflow: hidden;\n  gap: 7px;\n  min-height: 45px;\n}\n.multi-select .multi-select-header::after {\n  content: \"\";\n  display: block;\n  position: absolute;\n  top: 50%;\n  right: 15px;\n  transform: translateY(-50%);\n  background-image: url(\"https://ucarecdn.com/279e3230-335f-4fda-8889-7048837a483c/\");\n  height: 12px;\n  width: 12px;\n}\n.multi-select .multi-select-header.multi-select-header-active {\n  border-color: #cdcdcd;\n}\n.multi-select .multi-select-header.multi-select-header-active::after {\n  transform: translateY(-50%) rotate(180deg);\n}\n.multi-select\n  .multi-select-header.multi-select-header-active\n  + .multi-select-options {\n  display: flex;\n}\n.multi-select .multi-select-header .multi-select-header-placeholder {\n  color: #65727e;\n}\n.multi-select .multi-select-header .multi-select-header-option {\n  display: inline-flex;\n  align-items: center;\n  background-color: #f3f4f7;\n  font-size: 14px;\n  padding: 3px 8px;\n  border-radius: 5px;\n}\n.multi-select .multi-select-header .multi-select-header-max {\n  font-size: 14px;\n  color: #65727e;\n}\n.multi-select .multi-select-options {\n  display: none;\n  box-sizing: border-box;\n  flex-flow: wrap;\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  z-index: 999;\n  margin-top: 5px;\n  padding: 5px;\n  background-color: #fff;\n  border-radius: 5px;\n  max-height: 200px;\n  overflow-y: auto;\n  overflow-x: hidden;\n  width: fit-content;\n  border: 1px solid #cdcdcd;\n}\n.multi-select .multi-select-options::-webkit-scrollbar {\n  width: 3px;\n}\n.multi-select .multi-select-options::-webkit-scrollbar-track {\n  background: #f0f1f3;\n}\n.multi-select .multi-select-options::-webkit-scrollbar-thumb {\n  background: #cdcfd1;\n}\n.multi-select .multi-select-options::-webkit-scrollbar-thumb:hover {\n  background: #b2b6b9;\n}\n.multi-select .multi-select-options .multi-select-option,\n.multi-select .multi-select-options .multi-select-all {\n  padding: 4px 12px;\n  height: 42px;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option\n  .multi-select-option-radio,\n.multi-select\n  .multi-select-options\n  .multi-select-all\n  .multi-select-option-radio {\n  margin-right: 14px;\n  height: 14px;\n  width: 14px;\n  border: 1px solid #ced4da;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option\n  .multi-select-option-text,\n.multi-select\n  .multi-select-options\n  .multi-select-all\n  .multi-select-option-text {\n  box-sizing: border-box;\n  flex: 1;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  color: inherit;\n  font-size: 16px;\n  line-height: 20px;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option.multi-select-selected\n  .multi-select-option-radio,\n.multi-select\n  .multi-select-options\n  .multi-select-all.multi-select-selected\n  .multi-select-option-radio {\n  border-color: #000;\n  background-color: #000;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option.multi-select-selected\n  .multi-select-option-radio::after,\n.multi-select\n  .multi-select-options\n  .multi-select-all.multi-select-selected\n  .multi-select-option-radio::after {\n  content: \"\";\n  display: block;\n  width: 4px;\n  height: 9px;\n  margin: 0 33%;\n  border: solid #fff;\n  border-width: 0 0.1em 0.1em 0;\n  transform: rotate(45deg);\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option.multi-select-selected\n  .multi-select-option-text,\n.multi-select\n  .multi-select-options\n  .multi-select-all.multi-select-selected\n  .multi-select-option-text {\n  color: #000;\n}\n.multi-select .multi-select-options .multi-select-option:hover,\n.multi-select .multi-select-options .multi-select-option:active,\n.multi-select .multi-select-options .multi-select-all:hover,\n.multi-select .multi-select-options .multi-select-all:active {\n  background-color: #f3f4f7;\n}\n.multi-select .multi-select-options .multi-select-all {\n  border-bottom: 1px solid #f1f3f5;\n  border-radius: 0;\n}\n.multi-select .multi-select-options .multi-select-search {\n  padding: 7px 10px;\n  border: 1px solid #dee2e6;\n  border-radius: 5px;\n  margin: 10px 10px 5px 10px;\n  width: 100%;\n  outline: none;\n  font-size: 16px;\n}\n.multi-select .multi-select-options .multi-select-search::placeholder {\n  color: #b2b5b9;\n}\n.multi-select .multi-select-header,\n.multi-select .multi-select-option,\n.multi-select .multi-select-all {\n  display: flex;\n  box-sizing: border-box;\n  align-items: center;\n  border-radius: 5px;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  width: 100%;\n  font-size: 16px;\n  color: #212529;\n}\n.multi-select-all {\n  width: 100% !important;\n}\n",
   "script_type": "CSS"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
+  "modified": "2025-07-20 03:12:07.961996",
+  "name": "sort_by-handler",
+  "public_url": "/files/page_scripts/JavaScript-df1ca-610e79ec1a.js?v=913560c452",
+  "script": "document.addEventListener(\"DOMContentLoaded\", function () {\n  // Get the select element by its ID\n  const selectElement = document.getElementById(\"sortBySelect\"); // replace 'yourSelectId' with the actual id of your select tag\n\n  // Add an event listener for changes to the select element\n  selectElement.addEventListener(\"change\", function () {\n    // Get the selected option's value\n    const selectedOption =\n      this.options[this.selectedIndex].textContent.toLowerCase();\n\n    // Construct the query parameters\n    const queryParams = new URLSearchParams(window.location.search);\n    queryParams.set(\"sort_by\", selectedOption);\n    if (!queryParams.get(\"order\")) {\n      queryParams.set(\"order\", \"desc\");\n    }\n\n    // Update the URL with the new query parameters\n    const newUrl = window.location.pathname + \"?\" + queryParams.toString();\n\n    // Reload the page with the new URL\n    window.location.href = newUrl;\n  });\n\n  // Initialize the select element based on the current query parameters\n  const queryParams = new URLSearchParams(window.location.search);\n  const sortBy = queryParams.get(\"sort_by\");\n\n  if (sortBy === \"rating\" || sortBy === \"date\") {\n    const options = selectElement.querySelectorAll(\"option\");\n    for (let i = 0; i < options.length; i++) {\n      if (options[i].textContent.toLowerCase() === sortBy) {\n        options[i].selected = true;\n        break;\n      }\n    }\n  }\n});\n",
+  "script_type": "JavaScript"
  },
  {
   "docstatus": 0,
@@ -371,6 +389,15 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
+  "modified": "2025-07-08 01:55:28.131452",
+  "name": "set-star-rating",
+  "public_url": "/files/page_scripts/JavaScript-e32bf-47194d81e4.js?v=00470e1a91",
+  "script": "// Write your script here\nfunction setStarRating(rating) {\n  // Get all radio inputs within the rating group\n  var radioInputs = document.querySelectorAll(\"#half-stars .rating__input\");\n\n  // Uncheck all radio inputs\n  radioInputs.forEach(function (input) {\n    input.checked = false;\n  });\n\n  // Find the radio input that matches the given rating and check it\n  radioInputs.forEach(function (input) {\n    if (input.value == rating) {\n      input.checked = true;\n    }\n  });\n}\n\n\ndocument.addEventListener(\"DOMContentLoaded\",() => {\n    rating = page_data.my_rating;\n    setStarRating(rating);\n})",
+  "script_type": "JavaScript"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
   "modified": "2025-05-29 19:46:55.027323",
   "name": "full-screen-hero-image-lg",
   "public_url": "/files/page_styles/CSS-68422-beedafd232.css?v=c30a00a89e",
@@ -380,19 +407,10 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
-  "modified": "2025-07-07 23:35:35.322194",
-  "name": "rating-stars",
-  "public_url": "/files/page_styles/CSS-6b0ba-5499e0bc71.css?v=13cdedfedb",
-  "script": "/*https://codepen.io/andreacrawford/pen/NvqJXW*/\n/*  \n *  Pure CSS star rating that works without reversing order\n *  of inputs\n *  -------------------------------------------------------\n *  NOTE: For the styling to work, there needs to be a radio\n *        input selected by default. There also needs to be a\n *        radio input before the first star, regardless of\n *        whether you offer a 'no rating' or 0 stars option\n *  \n *  This codepen uses FontAwesome icons\n */\n#half-stars {\n  /* use display:inline-flex to prevent whitespace issues. alternatively, you can put all the children of .rating-group on a single line */\n  /* make hover effect work properly in IE */\n  /* hide radio inputs */\n  /* set icon padding and size */\n  /* add padding and positioning to half star labels */\n  /* set default star color */\n  /* set color of none icon when unchecked */\n  /* if none icon is checked, make it red */\n  /* if any input is checked, make its following siblings grey */\n  /* make all stars orange on rating group hover */\n  /* make hovered input's following siblings grey on hover */\n  /* make none icon grey on rating group hover */\n  /* make none icon red on hover */\n}\n#half-stars .rating-group {\n  display: inline-flex;\n}\n#half-stars .rating__icon {\n  pointer-events: none;\n}\n#half-stars .rating__input {\n  position: absolute !important;\n  left: -9999px !important;\n}\n#half-stars .rating__label {\n  cursor: pointer;\n  /* if you change the left/right padding, update the margin-right property of .rating__label--half as well. */\n  padding: 0 0.1em;\n  font-size: 2rem;\n}\n#half-stars .rating__label--half {\n  padding-right: 0;\n  margin-right: -0.6em;\n  z-index: 2;\n}\n#half-stars .rating__icon--star {\n  color: black;\n}\n#half-stars .rating__icon--none {\n  color: #eee;\n}\n#half-stars .rating__input--none:checked + .rating__label .rating__icon--none {\n  color: red;\n}\n#half-stars .rating__input:checked ~ .rating__label .rating__icon--star {\n  color: #ddd;\n}\n#half-stars .rating-group:hover .rating__label .rating__icon--star,\n#half-stars .rating-group:hover .rating__label--half .rating__icon--star {\n  color: black;\n}\n#half-stars .rating__input:hover ~ .rating__label .rating__icon--star,\n#half-stars .rating__input:hover ~ .rating__label--half .rating__icon--star {\n  color: #ddd;\n}\n#half-stars .rating-group:hover .rating__input--none:not(:hover) + .rating__label .rating__icon--none {\n  color: #eee;\n}\n#half-stars .rating__input--none:hover + .rating__label .rating__icon--none {\n  color: red;\n}",
-  "script_type": "CSS"
- },
- {
-  "docstatus": 0,
-  "doctype": "Builder Client Script",
-  "modified": "2025-07-08 00:09:14.447229",
-  "name": "modal-handler",
-  "public_url": "/files/page_scripts/JavaScript-93aca-9c12e8630d.js?v=d1f2d0ed96",
-  "script": "// Write your script here\nconst loadModal = (modalContentId) => {\n  const modalBg = document.getElementById(\"modal-bg\");\n  modalBg.style.top = 0;\n  modalBg.style.bottom = 0;\n  const modalContent = document.getElementById(modalContentId);\n  if (modalContent) {\n    try {\n      const hiddenModalContentWrapper = document.getElementById(\n        \"hidden-modal-contents-wrapper\"\n      );\n      hiddenModalContentWrapper.removeChild(modalContent);\n      modalBg.appendChild(modalContent);\n    } catch (err) {\n      console.error(\"Error while showing modal:\" ,err);\n    }\n  }\n};\n\nconst hideModal = (modalContentId) => {\n  const modalBg = document.getElementById(\"modal-bg\");\n  modalBg.style.top = \"unset\";\n  modalBg.style.bottom = \"-110vh\";\n  const modalContent = document.getElementById(modalContentId);\n  if (modalContent) {\n    try {\n      const hiddenModalContentWrapper = document.getElementById(\n        \"hidden-modal-contents-wrapper\"\n      );\n      modalBg.removeChild(modalContent);\n      hiddenModalContentWrapper.appendChild(modalContent);\n    } catch (err) {\n      console.error(\"Error while hiding modal:\" ,err);\n    }\n  }\n};\n\n\ndocument.addEventListener(\"DOMContentLoaded\",() => {\n    const allCloseModalButtons = document.querySelectorAll(\".close-modal\")\n    for(const button of allCloseModalButtons){\n        button.addEventListener(\"click\",() => {\n            hideModal(button.dataset.modalId)\n        })\n    }\n})",
+  "modified": "2025-07-08 02:39:25.828046",
+  "name": "handle-review",
+  "public_url": "/files/page_scripts/JavaScript-ea84e-e9335d834a.js?v=aa3f9dd2d0",
+  "script": "// Write your script here\nconst midUrlForReview = `/api/v2/method/webshop.webshop.doctype.item_review.item_review`;\n\nconst checkIfAllowed = () => {\n  let resolveFunc;\n  let rejectFunc;\n  let promise = new Promise((resolve, reject) => {\n    // Store the resolve and reject functions\n    resolveFunc = resolve;\n    rejectFunc = reject;\n  });\n  fetch(`${page_data.url}${midUrlForReview}.check_if_allowed`, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ item_code: page_data?.code }),\n  })\n    .then((res) => {\n      if (res.ok && !res.redirected) {\n        console.log(\"Yes adding reviews is allowed!\");\n        resolveFunc(true);\n      } else if (res.redirected) {\n        window.location.href = res.url;\n      } else console.log(\"Oops!\", res);\n      rejectFunc(false);\n    })\n    .catch((err) => {\n      console.error(err);\n    });\n  return promise;\n};\n\nfunction getSelectedRatingValue() {\n  // Get all radio inputs within the rating group\n  var radioInputs = document.querySelectorAll(\"#half-stars .rating__input\");\n\n  // Iterate through the radio inputs to find the checked one\n  for (var i = 0; i < radioInputs.length; i++) {\n    if (radioInputs[i].checked) {\n      return radioInputs[i].value;\n    }\n  }\n\n  // If no radio button is checked, return null or a default value\n  return null;\n}\n\nconst saveReview = async () => {\n  const url = `${page_data.url}${midUrlForReview}.add_item_review`;\n  const title = document.getElementById(\"rating-title-input\")?.value;\n  const comment = document.getElementById(\"rating-comment-input\")?.value;\n  const web_item = page_data.web_item_code;\n  const rating = getSelectedRatingValue() / 5;\n  if (!title.trim() || !rating) {\n    alert(\"Please enter required items!\");\n    return;\n  }\n  let res = await fetch(url, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ web_item, title, comment, rating }),\n  });\n  if (res.ok && !res.redirected) {\n    console.log(\"Review added!\");\n    window.location.reload();\n  } else if (res.redirected) {\n    window.location.href = res.url;\n  } else {\n    console.log(\"Oops!\", res);\n  }\n};\n\nconst deleteReview = async () => {\n  const url = `${page_data.url}${midUrlForReview}.delete_item_review`;\n  const web_item = page_data.web_item_code;\n\n  let res = await fetch(url, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ web_item }),\n  });\n  if (res.ok && !res.redirected) {\n    console.log(\"Review deleted!\");\n    window.location.reload();\n  } else if (res.redirected) {\n    window.location.href = res.url;\n  } else {\n    console.log(\"Oops!\", res);\n  }\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  document.querySelectorAll(\".open-rating-input\").forEach((elem) => {\n    elem.addEventListener(\"click\", async () => {\n      let res = await checkIfAllowed();\n      if (res) loadModal(\"rating-input\");\n    });\n  });\n  const reviewSaveButton = document.getElementById(\"review-save\");\n  if (reviewSaveButton) {\n    reviewSaveButton.addEventListener(\"click\", saveReview);\n  }\n  const reviewDeleteButton = document.getElementById(\"review-delete\");\n  if (reviewDeleteButton) {\n    reviewDeleteButton.addEventListener(\"click\", deleteReview);\n  }\n});\n",
   "script_type": "JavaScript"
  },
  {
@@ -434,6 +452,33 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
+  "modified": "2025-07-08 00:09:14.447229",
+  "name": "modal-handler",
+  "public_url": "/files/page_scripts/JavaScript-93aca-9c12e8630d.js?v=d1f2d0ed96",
+  "script": "// Write your script here\nconst loadModal = (modalContentId) => {\n  const modalBg = document.getElementById(\"modal-bg\");\n  modalBg.style.top = 0;\n  modalBg.style.bottom = 0;\n  const modalContent = document.getElementById(modalContentId);\n  if (modalContent) {\n    try {\n      const hiddenModalContentWrapper = document.getElementById(\n        \"hidden-modal-contents-wrapper\"\n      );\n      hiddenModalContentWrapper.removeChild(modalContent);\n      modalBg.appendChild(modalContent);\n    } catch (err) {\n      console.error(\"Error while showing modal:\" ,err);\n    }\n  }\n};\n\nconst hideModal = (modalContentId) => {\n  const modalBg = document.getElementById(\"modal-bg\");\n  modalBg.style.top = \"unset\";\n  modalBg.style.bottom = \"-110vh\";\n  const modalContent = document.getElementById(modalContentId);\n  if (modalContent) {\n    try {\n      const hiddenModalContentWrapper = document.getElementById(\n        \"hidden-modal-contents-wrapper\"\n      );\n      modalBg.removeChild(modalContent);\n      hiddenModalContentWrapper.appendChild(modalContent);\n    } catch (err) {\n      console.error(\"Error while hiding modal:\" ,err);\n    }\n  }\n};\n\n\ndocument.addEventListener(\"DOMContentLoaded\",() => {\n    const allCloseModalButtons = document.querySelectorAll(\".close-modal\")\n    for(const button of allCloseModalButtons){\n        button.addEventListener(\"click\",() => {\n            hideModal(button.dataset.modalId)\n        })\n    }\n})",
+  "script_type": "JavaScript"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
+  "modified": "2025-07-19 14:23:53.644222",
+  "name": "ratings-progress-bar-handler",
+  "public_url": "/files/page_scripts/JavaScript-9e1a7-a4630309c7.js?v=dd7d1d7d0c",
+  "script": "// Write your script here\n// Write your script here\ndocument.addEventListener(\"DOMContentLoaded\", function() {\n    // Select all divs with the class 'rating-bars'\n    var divs = document.querySelectorAll('div.rating-bars');\n\n    // Iterate over each div and set its width\n    divs.forEach(function(div) {\n        var width = div.getAttribute('data-width');\n        if (width !== null) {\n            div.style.width = width + '%'; // Assuming data-width is in percentage\n        }\n    });\n});\n",
+  "script_type": "JavaScript"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
+  "modified": "2025-07-07 23:35:35.322194",
+  "name": "rating-stars",
+  "public_url": "/files/page_styles/CSS-6b0ba-5499e0bc71.css?v=13cdedfedb",
+  "script": "/*https://codepen.io/andreacrawford/pen/NvqJXW*/\n/*  \n *  Pure CSS star rating that works without reversing order\n *  of inputs\n *  -------------------------------------------------------\n *  NOTE: For the styling to work, there needs to be a radio\n *        input selected by default. There also needs to be a\n *        radio input before the first star, regardless of\n *        whether you offer a 'no rating' or 0 stars option\n *  \n *  This codepen uses FontAwesome icons\n */\n#half-stars {\n  /* use display:inline-flex to prevent whitespace issues. alternatively, you can put all the children of .rating-group on a single line */\n  /* make hover effect work properly in IE */\n  /* hide radio inputs */\n  /* set icon padding and size */\n  /* add padding and positioning to half star labels */\n  /* set default star color */\n  /* set color of none icon when unchecked */\n  /* if none icon is checked, make it red */\n  /* if any input is checked, make its following siblings grey */\n  /* make all stars orange on rating group hover */\n  /* make hovered input's following siblings grey on hover */\n  /* make none icon grey on rating group hover */\n  /* make none icon red on hover */\n}\n#half-stars .rating-group {\n  display: inline-flex;\n}\n#half-stars .rating__icon {\n  pointer-events: none;\n}\n#half-stars .rating__input {\n  position: absolute !important;\n  left: -9999px !important;\n}\n#half-stars .rating__label {\n  cursor: pointer;\n  /* if you change the left/right padding, update the margin-right property of .rating__label--half as well. */\n  padding: 0 0.1em;\n  font-size: 2rem;\n}\n#half-stars .rating__label--half {\n  padding-right: 0;\n  margin-right: -0.6em;\n  z-index: 2;\n}\n#half-stars .rating__icon--star {\n  color: black;\n}\n#half-stars .rating__icon--none {\n  color: #eee;\n}\n#half-stars .rating__input--none:checked + .rating__label .rating__icon--none {\n  color: red;\n}\n#half-stars .rating__input:checked ~ .rating__label .rating__icon--star {\n  color: #ddd;\n}\n#half-stars .rating-group:hover .rating__label .rating__icon--star,\n#half-stars .rating-group:hover .rating__label--half .rating__icon--star {\n  color: black;\n}\n#half-stars .rating__input:hover ~ .rating__label .rating__icon--star,\n#half-stars .rating__input:hover ~ .rating__label--half .rating__icon--star {\n  color: #ddd;\n}\n#half-stars .rating-group:hover .rating__input--none:not(:hover) + .rating__label .rating__icon--none {\n  color: #eee;\n}\n#half-stars .rating__input--none:hover + .rating__label .rating__icon--none {\n  color: red;\n}",
+  "script_type": "CSS"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
   "modified": "2025-06-11 15:59:28.141910",
   "name": "CSS-f7d27",
   "public_url": "/files/page_styles/CSS-f7d27-62ba887f21.css?v=2ca214ae54",
@@ -443,19 +488,19 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
-  "modified": "2025-07-06 02:37:41.593634",
-  "name": "progress-bar-width",
-  "public_url": "/files/page_scripts/JavaScript-e27cd-aabb0f2410.js?v=3a6e7f4976",
-  "script": "// Write your script here\ndocument.addEventListener(\"DOMContentLoaded\", function() {\n    // Select all divs with the class 'rating-bars'\n    var divs = document.querySelectorAll('div.rating-bars');\n\n    // Iterate over each div and set its width\n    divs.forEach(function(div) {\n        var width = div.getAttribute('data-width');\n        if (width !== null) {\n            div.style.width = width + '%'; // Assuming data-width is in percentage\n        }\n    });\n});\n",
+  "modified": "2025-07-08 02:00:20.815998",
+  "name": "wishlist-handlers",
+  "public_url": "/files/page_scripts/JavaScript-36936-690032deda.js?v=afdffd8cc8",
+  "script": "// Write your script here\n// const baseUrlForWishList = `${page_data.url}/api/v2/method/webshop.webshop.doctype.wishlist.wishlist`; (deos not work as page_data is not available before domcontentload)\nconst midUrlForWishList = `/api/v2/method/webshop.webshop.doctype.wishlist.wishlist`;\n\nconst addToWishList = () => {\n  console.log(\"Adding to wishlist\");\n  fetch(`${page_data.url}${midUrlForWishList}.add_to_wishlist`, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ item_code: page_data?.code }),\n  })\n    .then((res) => {\n      if (res.ok && !res.redirected) {\n        console.log(\"Yes adding reviews is allowed!\", res);\n      } else if(res.redirected) {\n          window.location.href = res.url\n      }else console.log(\"Oops!\", res);\n    })\n    .catch((err) => {\n      console.error(err);\n    });\n};\n\nconst removeFromWishlist = () => {\n  console.log(\"Removing from wishlist\");\n  fetch(`${page_data.url}${midUrlForWishList}.remove_from_wishlist`, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ item_code: page_data?.code }),\n  })\n    .then((res) => {\n      if (res.ok) {\n        console.log(\"Removed from wishlist!\", res), window.location.reload();\n      } else console.log(\"Oops!\", res);\n    })\n    .catch((err) => {\n      console.error(err);\n    });\n};\nconst bindWishlistButtonActions = () => {\n  const addToWishlistButton = document.getElementById(\"add-to-wishlist\");\n  if (addToWishlistButton) {\n    addToWishlistButton.addEventListener(\"click\", addToWishList);\n  }\n  const removeFromWishlistButton = document.getElementById(\n    \"remove-from-wishlist\"\n  );\n  if (removeFromWishlistButton) {\n    removeFromWishlistButton.addEventListener(\"click\", removeFromWishlist);\n  }\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", bindWishlistButtonActions);\n",
   "script_type": "JavaScript"
  },
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
-  "modified": "2025-07-08 02:00:20.815998",
-  "name": "wishlist-handlers",
-  "public_url": "/files/page_scripts/JavaScript-36936-690032deda.js?v=afdffd8cc8",
-  "script": "// Write your script here\n// const baseUrlForWishList = `${page_data.url}/api/v2/method/webshop.webshop.doctype.wishlist.wishlist`; (deos not work as page_data is not available before domcontentload)\nconst midUrlForWishList = `/api/v2/method/webshop.webshop.doctype.wishlist.wishlist`;\n\nconst addToWishList = () => {\n  console.log(\"Adding to wishlist\");\n  fetch(`${page_data.url}${midUrlForWishList}.add_to_wishlist`, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ item_code: page_data?.code }),\n  })\n    .then((res) => {\n      if (res.ok && !res.redirected) {\n        console.log(\"Yes adding reviews is allowed!\", res);\n      } else if(res.redirected) {\n          window.location.href = res.url\n      }else console.log(\"Oops!\", res);\n    })\n    .catch((err) => {\n      console.error(err);\n    });\n};\n\nconst removeFromWishlist = () => {\n  console.log(\"Removing from wishlist\");\n  fetch(`${page_data.url}${midUrlForWishList}.remove_from_wishlist`, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ item_code: page_data?.code }),\n  })\n    .then((res) => {\n      if (res.ok) {\n        console.log(\"Removed from wishlist!\", res), window.location.reload();\n      } else console.log(\"Oops!\", res);\n    })\n    .catch((err) => {\n      console.error(err);\n    });\n};\nconst bindWishlistButtonActions = () => {\n  const addToWishlistButton = document.getElementById(\"add-to-wishlist\");\n  if (addToWishlistButton) {\n    addToWishlistButton.addEventListener(\"click\", addToWishList);\n  }\n  const removeFromWishlistButton = document.getElementById(\n    \"remove-from-wishlist\"\n  );\n  if (removeFromWishlistButton) {\n    removeFromWishlistButton.addEventListener(\"click\", removeFromWishlist);\n  }\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", bindWishlistButtonActions);\n",
+  "modified": "2025-07-06 02:37:41.593634",
+  "name": "progress-bar-width",
+  "public_url": "/files/page_scripts/JavaScript-e27cd-aabb0f2410.js?v=3a6e7f4976",
+  "script": "// Write your script here\ndocument.addEventListener(\"DOMContentLoaded\", function() {\n    // Select all divs with the class 'rating-bars'\n    var divs = document.querySelectorAll('div.rating-bars');\n\n    // Iterate over each div and set its width\n    divs.forEach(function(div) {\n        var width = div.getAttribute('data-width');\n        if (width !== null) {\n            div.style.width = width + '%'; // Assuming data-width is in percentage\n        }\n    });\n});\n",
   "script_type": "JavaScript"
  },
  {
