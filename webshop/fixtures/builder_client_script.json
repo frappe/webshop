@@ -56,15 +56,6 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
-  "modified": "2025-06-25 15:14:12.044109",
-  "name": "JavaScript-c7178",
-  "public_url": "/files/page_scripts/JavaScript-c7178-d50f8828e3.js?v=599917e618",
-  "script": "// Write your script here\nconst attachPaymentLink = async (item_code, qty) => {\n  console.log(\"creating payment link\");\n  doc = page_data.doc\n  const url = `${page_data.url}/api/method/erpnext.accounts.doctype.payment_request.payment_request.make_payment_request?dn=${ doc.name }&dt=${ doc.doctype }&submit_doc=1&order_type=Shopping Cart`;\n  const payButton = document.getElementById(\"pay-button\")\n    if(payButton){\n        payButton.href = url\n        console.log(\"payment link attached\")\n    } else {\n        console.log(\"payment button not found\")\n    }\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", attachPaymentLink)",
-  "script_type": "JavaScript"
- },
- {
-  "docstatus": 0,
-  "doctype": "Builder Client Script",
   "modified": "2025-06-14 23:46:04.401184",
   "name": "go-back-button-b0679",
   "public_url": "/files/page_scripts/JavaScript-e0de0-30bb8203c7.js?v=2ae7a92665",
@@ -78,6 +69,15 @@
   "name": "edit-address-redirect",
   "public_url": "/files/page_scripts/JavaScript-19d09-93417784b1.js?v=e3cef47261",
   "script": "// Write your script here\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  document.querySelectorAll(\".edit-address\").forEach((div) => {\n    div.addEventListener(\"click\", () => {\n      window.location.assign(\"/address/\" + div.id)\n    });\n  });\n});\n",
+  "script_type": "JavaScript"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
+  "modified": "2025-06-25 15:14:12.044109",
+  "name": "JavaScript-c7178",
+  "public_url": "/files/page_scripts/JavaScript-c7178-d50f8828e3.js?v=599917e618",
+  "script": "// Write your script here\nconst attachPaymentLink = async (item_code, qty) => {\n  console.log(\"creating payment link\");\n  doc = page_data.doc\n  const url = `${page_data.url}/api/method/erpnext.accounts.doctype.payment_request.payment_request.make_payment_request?dn=${ doc.name }&dt=${ doc.doctype }&submit_doc=1&order_type=Shopping Cart`;\n  const payButton = document.getElementById(\"pay-button\")\n    if(payButton){\n        payButton.href = url\n        console.log(\"payment link attached\")\n    } else {\n        console.log(\"payment button not found\")\n    }\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", attachPaymentLink)",
   "script_type": "JavaScript"
  },
  {
@@ -119,15 +119,6 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
-  "modified": "2025-07-03 23:45:12.887689",
-  "name": "JavaScript-803df",
-  "public_url": "/files/page_scripts/JavaScript-803df-7ff07845fc.js?v=a95fc590d5",
-  "script": "// Write your script here\nconst removeFromWishlist = (item_code) => {\n  console.log(\"Removing from wishlist\");\n  fetch(`${page_data.url}/api/v2/method/webshop.webshop.doctype.wishlist.wishlist.remove_from_wishlist`, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ item_code }),\n  })\n    .then((res) => {\n      if (res.ok) {\n        console.log(\"Removed from wishlist!\", res), window.location.reload();\n      } else console.log(\"Oops!\", res);\n    })\n    .catch((err) => {\n      console.error(err);\n    });\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  const removeButtons = document.querySelectorAll(\".remove-from-wishlist\");\n\n  removeButtons.forEach((button) => {\n    button.addEventListener(\"click\", function (event) {\n      event.stopPropagation(); // Stop event propagation\n      event.preventDefault();\n\n      const itemId = this.id; // Get the ID of the button\n      removeFromWishlist(itemId); // Call the removeFromWishlist function\n    });\n  });\n});\n",
-  "script_type": "JavaScript"
- },
- {
-  "docstatus": 0,
-  "doctype": "Builder Client Script",
   "modified": "2025-06-14 22:25:55.737858",
   "name": "JavaScript-d6423",
   "public_url": "/files/page_scripts/JavaScript-d6423-ef911ebde5.js?v=8fb28c975c",
@@ -155,6 +146,15 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
+  "modified": "2025-06-15 00:44:37.202809",
+  "name": "select-addr-post",
+  "public_url": "/files/page_scripts/JavaScript-6644a-26257117d1.js?v=52278eb0ed",
+  "script": "// Write your script here\nasync function selectAddress() {\n  if (!page_data?.selected) {\n    alert(\"No Address Selected!\");\n    return;\n  }\n  const data = {\n    address_type: \"shipping\",\n    address_name: page_data.selected,\n  };\n  const url = `${page_data.url}/api/v2/method/webshop.webshop.shopping_cart.cart.update_cart_address`;\n  let response = await fetch(url, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify(data),\n  });\n  console.log(await response.json());\n  if (!response.ok) {\n    alert(response.errors[0]?.message || \"Something went wrong\");\n    return;\n  }\n  console.log(\"Address selected, you will now be redirected to cart!\");\n  window.location.href = \"/cart-new\";\n}\n\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  document.querySelector(\"#select-address\").addEventListener(\"click\", () => {\n    selectAddress()\n  });\n});\n",
+  "script_type": "JavaScript"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
   "modified": "2025-06-15 10:55:13.667522",
   "name": "JavaScript-becfa",
   "public_url": "/files/page_scripts/JavaScript-becfa-cab891e248.js?v=7cd6fb9583",
@@ -164,10 +164,10 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
-  "modified": "2025-06-15 00:44:37.202809",
-  "name": "select-addr-post",
-  "public_url": "/files/page_scripts/JavaScript-6644a-26257117d1.js?v=52278eb0ed",
-  "script": "// Write your script here\nasync function selectAddress() {\n  if (!page_data?.selected) {\n    alert(\"No Address Selected!\");\n    return;\n  }\n  const data = {\n    address_type: \"shipping\",\n    address_name: page_data.selected,\n  };\n  const url = `${page_data.url}/api/v2/method/webshop.webshop.shopping_cart.cart.update_cart_address`;\n  let response = await fetch(url, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify(data),\n  });\n  console.log(await response.json());\n  if (!response.ok) {\n    alert(response.errors[0]?.message || \"Something went wrong\");\n    return;\n  }\n  console.log(\"Address selected, you will now be redirected to cart!\");\n  window.location.href = \"/cart-new\";\n}\n\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  document.querySelector(\"#select-address\").addEventListener(\"click\", () => {\n    selectAddress()\n  });\n});\n",
+  "modified": "2025-07-03 23:45:12.887689",
+  "name": "JavaScript-803df",
+  "public_url": "/files/page_scripts/JavaScript-803df-7ff07845fc.js?v=a95fc590d5",
+  "script": "// Write your script here\nconst removeFromWishlist = (item_code) => {\n  console.log(\"Removing from wishlist\");\n  fetch(`${page_data.url}/api/v2/method/webshop.webshop.doctype.wishlist.wishlist.remove_from_wishlist`, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ item_code }),\n  })\n    .then((res) => {\n      if (res.ok) {\n        console.log(\"Removed from wishlist!\", res), window.location.reload();\n      } else console.log(\"Oops!\", res);\n    })\n    .catch((err) => {\n      console.error(err);\n    });\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  const removeButtons = document.querySelectorAll(\".remove-from-wishlist\");\n\n  removeButtons.forEach((button) => {\n    button.addEventListener(\"click\", function (event) {\n      event.stopPropagation(); // Stop event propagation\n      event.preventDefault();\n\n      const itemId = this.id; // Get the ID of the button\n      removeFromWishlist(itemId); // Call the removeFromWishlist function\n    });\n  });\n});\n",
   "script_type": "JavaScript"
  },
  {
@@ -227,15 +227,6 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
-  "modified": "2025-06-22 02:21:58.411852",
-  "name": "JavaScript-53113",
-  "public_url": "/files/page_scripts/JavaScript-53113-c54cdb3fa5.js?v=703109703b",
-  "script": "//",
-  "script_type": "JavaScript"
- },
- {
-  "docstatus": 0,
-  "doctype": "Builder Client Script",
   "modified": "2025-06-15 00:48:45.653539",
   "name": "clean-br-2",
   "public_url": "/files/page_scripts/JavaScript-c4688-00dd79dbbc.js?v=e70b4268e0",
@@ -258,6 +249,15 @@
   "name": "clean-br",
   "public_url": "/files/page_scripts/JavaScript-c4688-00dd79dbbc.js?v=d0864334d2",
   "script": "// Write your script here\n// function cleanBrTags(html) {\n//   return html\n//     .replace(/(<br>\\s*){2,}/g, \"<br>\") // collapse multiple <br>\n//     .replace(/(<br>\\s*)+$/g, \"\"); // remove trailing <br>\n// }\n// document.addEventListener(\"DOMContentLoaded\", () => {\n//   document.querySelectorAll(\".details\").forEach((el) => {\n//     el.innerHTML = cleanBrTags(el.innerHTML);\n//   });\n// });\n",
+  "script_type": "JavaScript"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
+  "modified": "2025-06-22 02:21:58.411852",
+  "name": "JavaScript-53113",
+  "public_url": "/files/page_scripts/JavaScript-53113-c54cdb3fa5.js?v=703109703b",
+  "script": "//",
   "script_type": "JavaScript"
  },
  {
@@ -299,42 +299,6 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
-  "modified": "2025-06-25 16:59:15.467819",
-  "name": "JavaScript-624c1",
-  "public_url": "/files/page_scripts/JavaScript-624c1-0bf5014a6a.js?v=e323490b97",
-  "script": "// Write your script here\nconst getSampleRedirect = async (item_code, qty) => {\n    console.log(\"placing order\");\n    const url = `${page_data.url}/api/v2/method/webshop.webshop.api.test_redirect`;\n\n    try {\n        const response = await fetch(url, {\n            method: \"GET\",\n            redirect: 'manual' // Important: Tell fetch not to follow redirects\n        });\n        console.log({response})\n\n        if (response.status === 302) {\n            const redirectURL = response.headers.get('Location');\n            if (redirectURL) {\n                window.location.href = redirectURL; // Manually redirect\n            } else {\n                console.error(\"Redirect URL not found in response headers.\");\n            }\n        } else {\n            console.warn(\"Unexpected response status:\", response.status);\n        }\n\n    } catch (err) {\n        console.error(\"Update error:\", err);\n    }\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", getSampleRedirect);\n\n",
-  "script_type": "JavaScript"
- },
- {
-  "docstatus": 0,
-  "doctype": "Builder Client Script",
-  "modified": "2025-07-20 03:06:15.187403",
-  "name": "page-handler",
-  "public_url": "/files/page_scripts/JavaScript-b4621-53e81dc22b.js?v=17ca34eb8f",
-  "script": "// Write your script here\nfunction handlePageTurn(increment) {\n  // Get the current query parameters\n  const queryParams = new URLSearchParams(window.location.search);\n\n  // Get the current page value, default to 1 if not set\n  let page = queryParams.get(\"page\");\n  if (page === null) {\n    page = 1;\n  } else {\n    page = parseInt(page);\n  }\n\n  // Increment the page value\n  if (increment) page += 1;\n  else page -= 1;\n\n  // Set the new page value in the query parameters\n  queryParams.set(\"page\", page);\n\n  // Update the URL with the new query parameters\n  const newUrl = window.location.pathname + \"?\" + queryParams.toString();\n\n  // Reload the page with the new URL\n  window.location.href = newUrl;\n}\n\ndocument.addEventListener(\"DOMContentLoaded\", function () {\n  // Get the button element by its ID\n  const nextPageButton = document.getElementById(\"nextPageButton\");\n\n  // Add an event listener for clicks on the button\n  nextPageButton ? nextPageButton.addEventListener(\"click\", () => handlePageTurn(true)) : \"\";\n});\n\ndocument.addEventListener(\"DOMContentLoaded\", function () {\n  // Get the button element by its ID\n  const prevPageButton = document.getElementById(\"prevPageButton\");\n\n  // Add an event listener for clicks on the button\n  prevPageButton ? prevPageButton.addEventListener(\"click\", () => handlePageTurn(false)) : \"\";\n});\n",
-  "script_type": "JavaScript"
- },
- {
-  "docstatus": 0,
-  "doctype": "Builder Client Script",
-  "modified": "2025-07-20 03:14:33.810347",
-  "name": "order-handler",
-  "public_url": "/files/page_scripts/JavaScript-e36a9-0a96b5c9d8.js?v=8941ee0312",
-  "script": "// Write your script here\ndocument.addEventListener(\"DOMContentLoaded\", function () {\n  // Get the button element by its ID\n  const orderToggleButton = document.getElementById(\"orderToggleBtn\");\n\n  // Add an event listener for clicks on the button\n  orderToggleButton.addEventListener(\"click\", function () {\n    // Get the current query parameters\n    const queryParams = new URLSearchParams(window.location.search);\n\n    // Get the current order value, default to 'asc' if not set\n    let order = queryParams.get(\"order\");\n    let sortBy = queryParams.get(\"sort_by\");\n    if (!sortBy) {\n      alert(\"Select a field to sort by!\");\n      return;\n    }\n    if (order === \"asc\") {\n      queryParams.set(\"order\", \"desc\");\n    } else {\n      queryParams.set(\"order\", \"asc\");\n    }\n\n    // Update the URL with the new query parameters\n    const newUrl = window.location.pathname + \"?\" + queryParams.toString();\n\n    // Reload the page with the new URL\n    window.location.href = newUrl;\n  });\n});\n",
-  "script_type": "JavaScript"
- },
- {
-  "docstatus": 0,
-  "doctype": "Builder Client Script",
-  "modified": "2025-06-05 13:32:07.245583",
-  "name": "restore-scroll",
-  "public_url": "/files/page_scripts/JavaScript-2f3e9-d298e6cd31.js?v=d632f82eb9",
-  "script": "// Write your script here\nwindow.addEventListener(\"load\", () => {\n  const scrollPos = localStorage.getItem(\"scrollPos\");\n  if (scrollPos !== null) {\n    window.scrollTo(0, parseInt(scrollPos));\n  }\n});\n\nwindow.addEventListener(\"scroll\", () => {\n  localStorage.setItem(\"scrollPos\", window.scrollY);\n});",
-  "script_type": "JavaScript"
- },
- {
-  "docstatus": 0,
-  "doctype": "Builder Client Script",
   "modified": "2025-06-14 23:30:04.577116",
   "name": "JavaScript-dbf78",
   "public_url": "/files/page_scripts/JavaScript-dbf78-398ba32c8f.js?v=e1bd3bbb8b",
@@ -353,11 +317,47 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
+  "modified": "2025-07-20 03:14:33.810347",
+  "name": "order-handler",
+  "public_url": "/files/page_scripts/JavaScript-e36a9-0a96b5c9d8.js?v=8941ee0312",
+  "script": "// Write your script here\ndocument.addEventListener(\"DOMContentLoaded\", function () {\n  // Get the button element by its ID\n  const orderToggleButton = document.getElementById(\"orderToggleBtn\");\n\n  // Add an event listener for clicks on the button\n  orderToggleButton.addEventListener(\"click\", function () {\n    // Get the current query parameters\n    const queryParams = new URLSearchParams(window.location.search);\n\n    // Get the current order value, default to 'asc' if not set\n    let order = queryParams.get(\"order\");\n    let sortBy = queryParams.get(\"sort_by\");\n    if (!sortBy) {\n      alert(\"Select a field to sort by!\");\n      return;\n    }\n    if (order === \"asc\") {\n      queryParams.set(\"order\", \"desc\");\n    } else {\n      queryParams.set(\"order\", \"asc\");\n    }\n\n    // Update the URL with the new query parameters\n    const newUrl = window.location.pathname + \"?\" + queryParams.toString();\n\n    // Reload the page with the new URL\n    window.location.href = newUrl;\n  });\n});\n",
+  "script_type": "JavaScript"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
+  "modified": "2025-07-20 03:06:15.187403",
+  "name": "page-handler",
+  "public_url": "/files/page_scripts/JavaScript-b4621-53e81dc22b.js?v=17ca34eb8f",
+  "script": "// Write your script here\nfunction handlePageTurn(increment) {\n  // Get the current query parameters\n  const queryParams = new URLSearchParams(window.location.search);\n\n  // Get the current page value, default to 1 if not set\n  let page = queryParams.get(\"page\");\n  if (page === null) {\n    page = 1;\n  } else {\n    page = parseInt(page);\n  }\n\n  // Increment the page value\n  if (increment) page += 1;\n  else page -= 1;\n\n  // Set the new page value in the query parameters\n  queryParams.set(\"page\", page);\n\n  // Update the URL with the new query parameters\n  const newUrl = window.location.pathname + \"?\" + queryParams.toString();\n\n  // Reload the page with the new URL\n  window.location.href = newUrl;\n}\n\ndocument.addEventListener(\"DOMContentLoaded\", function () {\n  // Get the button element by its ID\n  const nextPageButton = document.getElementById(\"nextPageButton\");\n\n  // Add an event listener for clicks on the button\n  nextPageButton ? nextPageButton.addEventListener(\"click\", () => handlePageTurn(true)) : \"\";\n});\n\ndocument.addEventListener(\"DOMContentLoaded\", function () {\n  // Get the button element by its ID\n  const prevPageButton = document.getElementById(\"prevPageButton\");\n\n  // Add an event listener for clicks on the button\n  prevPageButton ? prevPageButton.addEventListener(\"click\", () => handlePageTurn(false)) : \"\";\n});\n",
+  "script_type": "JavaScript"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
   "modified": "2025-06-05 12:26:10.342565",
   "name": "multi-select-css",
   "public_url": "/files/page_styles/CSS-40d01-71e9109d2f.css?v=11cb3783d0",
   "script": "/* Write your CSS here */\n.multi-select {\n  display: flex;\n  box-sizing: border-box;\n  flex-direction: column;\n  position: relative;\n  width: 100%;\n  user-select: none;\n}\n.multi-select .multi-select-header {\n  border: 1px solid #dee2e6;\n  padding: 7px 30px 7px 12px;\n  overflow: hidden;\n  gap: 7px;\n  min-height: 45px;\n}\n.multi-select .multi-select-header::after {\n  content: \"\";\n  display: block;\n  position: absolute;\n  top: 50%;\n  right: 15px;\n  transform: translateY(-50%);\n  background-image: url(\"https://ucarecdn.com/279e3230-335f-4fda-8889-7048837a483c/\");\n  height: 12px;\n  width: 12px;\n}\n.multi-select .multi-select-header.multi-select-header-active {\n  border-color: #cdcdcd;\n}\n.multi-select .multi-select-header.multi-select-header-active::after {\n  transform: translateY(-50%) rotate(180deg);\n}\n.multi-select\n  .multi-select-header.multi-select-header-active\n  + .multi-select-options {\n  display: flex;\n}\n.multi-select .multi-select-header .multi-select-header-placeholder {\n  color: #65727e;\n}\n.multi-select .multi-select-header .multi-select-header-option {\n  display: inline-flex;\n  align-items: center;\n  background-color: #f3f4f7;\n  font-size: 14px;\n  padding: 3px 8px;\n  border-radius: 5px;\n}\n.multi-select .multi-select-header .multi-select-header-max {\n  font-size: 14px;\n  color: #65727e;\n}\n.multi-select .multi-select-options {\n  display: none;\n  box-sizing: border-box;\n  flex-flow: wrap;\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  z-index: 999;\n  margin-top: 5px;\n  padding: 5px;\n  background-color: #fff;\n  border-radius: 5px;\n  max-height: 200px;\n  overflow-y: auto;\n  overflow-x: hidden;\n  width: fit-content;\n  border: 1px solid #cdcdcd;\n}\n.multi-select .multi-select-options::-webkit-scrollbar {\n  width: 3px;\n}\n.multi-select .multi-select-options::-webkit-scrollbar-track {\n  background: #f0f1f3;\n}\n.multi-select .multi-select-options::-webkit-scrollbar-thumb {\n  background: #cdcfd1;\n}\n.multi-select .multi-select-options::-webkit-scrollbar-thumb:hover {\n  background: #b2b6b9;\n}\n.multi-select .multi-select-options .multi-select-option,\n.multi-select .multi-select-options .multi-select-all {\n  padding: 4px 12px;\n  height: 42px;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option\n  .multi-select-option-radio,\n.multi-select\n  .multi-select-options\n  .multi-select-all\n  .multi-select-option-radio {\n  margin-right: 14px;\n  height: 14px;\n  width: 14px;\n  border: 1px solid #ced4da;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option\n  .multi-select-option-text,\n.multi-select\n  .multi-select-options\n  .multi-select-all\n  .multi-select-option-text {\n  box-sizing: border-box;\n  flex: 1;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  color: inherit;\n  font-size: 16px;\n  line-height: 20px;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option.multi-select-selected\n  .multi-select-option-radio,\n.multi-select\n  .multi-select-options\n  .multi-select-all.multi-select-selected\n  .multi-select-option-radio {\n  border-color: #000;\n  background-color: #000;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option.multi-select-selected\n  .multi-select-option-radio::after,\n.multi-select\n  .multi-select-options\n  .multi-select-all.multi-select-selected\n  .multi-select-option-radio::after {\n  content: \"\";\n  display: block;\n  width: 4px;\n  height: 9px;\n  margin: 0 33%;\n  border: solid #fff;\n  border-width: 0 0.1em 0.1em 0;\n  transform: rotate(45deg);\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option.multi-select-selected\n  .multi-select-option-text,\n.multi-select\n  .multi-select-options\n  .multi-select-all.multi-select-selected\n  .multi-select-option-text {\n  color: #000;\n}\n.multi-select .multi-select-options .multi-select-option:hover,\n.multi-select .multi-select-options .multi-select-option:active,\n.multi-select .multi-select-options .multi-select-all:hover,\n.multi-select .multi-select-options .multi-select-all:active {\n  background-color: #f3f4f7;\n}\n.multi-select .multi-select-options .multi-select-all {\n  border-bottom: 1px solid #f1f3f5;\n  border-radius: 0;\n}\n.multi-select .multi-select-options .multi-select-search {\n  padding: 7px 10px;\n  border: 1px solid #dee2e6;\n  border-radius: 5px;\n  margin: 10px 10px 5px 10px;\n  width: 100%;\n  outline: none;\n  font-size: 16px;\n}\n.multi-select .multi-select-options .multi-select-search::placeholder {\n  color: #b2b5b9;\n}\n.multi-select .multi-select-header,\n.multi-select .multi-select-option,\n.multi-select .multi-select-all {\n  display: flex;\n  box-sizing: border-box;\n  align-items: center;\n  border-radius: 5px;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  width: 100%;\n  font-size: 16px;\n  color: #212529;\n}\n.multi-select-all {\n  width: 100% !important;\n}\n",
   "script_type": "CSS"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
+  "modified": "2025-06-25 16:59:15.467819",
+  "name": "JavaScript-624c1",
+  "public_url": "/files/page_scripts/JavaScript-624c1-0bf5014a6a.js?v=e323490b97",
+  "script": "// Write your script here\nconst getSampleRedirect = async (item_code, qty) => {\n    console.log(\"placing order\");\n    const url = `${page_data.url}/api/v2/method/webshop.webshop.api.test_redirect`;\n\n    try {\n        const response = await fetch(url, {\n            method: \"GET\",\n            redirect: 'manual' // Important: Tell fetch not to follow redirects\n        });\n        console.log({response})\n\n        if (response.status === 302) {\n            const redirectURL = response.headers.get('Location');\n            if (redirectURL) {\n                window.location.href = redirectURL; // Manually redirect\n            } else {\n                console.error(\"Redirect URL not found in response headers.\");\n            }\n        } else {\n            console.warn(\"Unexpected response status:\", response.status);\n        }\n\n    } catch (err) {\n        console.error(\"Update error:\", err);\n    }\n};\n\ndocument.addEventListener(\"DOMContentLoaded\", getSampleRedirect);\n\n",
+  "script_type": "JavaScript"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
+  "modified": "2025-06-05 13:32:07.245583",
+  "name": "restore-scroll",
+  "public_url": "/files/page_scripts/JavaScript-2f3e9-d298e6cd31.js?v=d632f82eb9",
+  "script": "// Write your script here\nwindow.addEventListener(\"load\", () => {\n  const scrollPos = localStorage.getItem(\"scrollPos\");\n  if (scrollPos !== null) {\n    window.scrollTo(0, parseInt(scrollPos));\n  }\n});\n\nwindow.addEventListener(\"scroll\", () => {\n  localStorage.setItem(\"scrollPos\", window.scrollY);\n});",
+  "script_type": "JavaScript"
  },
  {
   "docstatus": 0,
@@ -371,19 +371,19 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
-  "modified": "2025-06-05 08:35:06.588160",
-  "name": "option-content-population",
-  "public_url": "/files/page_scripts/JavaScript-9937d-ffc093d4f4.js?v=5c40c521b3",
-  "script": "// Write your script here\ndocument.querySelectorAll('option').forEach(option => {\n  if (option.hasAttribute('value')) {\n    option.textContent = option.getAttribute('value');\n  }\n});\n",
+  "modified": "2025-06-14 22:28:05.995715",
+  "name": "select-addr-call",
+  "public_url": "/files/page_scripts/JavaScript-d6423-ef911ebde5.js?v=9ebf30991b",
+  "script": "// Write your script here\nasync function saveAddress(event) {\n  event.preventDefault();\n  const form = event.target;\n  const formData = new FormData(form);\n  const jsonData = {};\n\n  for (const [key, value] of formData.entries()) {\n    jsonData[key] = value;\n  }\n  const url = `${page_data.url}/api/v2/method/webshop.webshop.shopping_cart.cart.add_new_address`;\n  let response = await fetch(url, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ doc: jsonData }),\n  });\n  console.log(await response.json());\n  if(!response.ok){\n      alert(response.errors[0]?.message || \"Something went wrong\");\n      return;\n  }\n  alert(\"Address added, you will now be redirected to cart!\");\n  window.location.href = '/cart-new';\n}\n",
   "script_type": "JavaScript"
  },
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
-  "modified": "2025-06-14 22:28:05.995715",
-  "name": "select-addr-call",
-  "public_url": "/files/page_scripts/JavaScript-d6423-ef911ebde5.js?v=9ebf30991b",
-  "script": "// Write your script here\nasync function saveAddress(event) {\n  event.preventDefault();\n  const form = event.target;\n  const formData = new FormData(form);\n  const jsonData = {};\n\n  for (const [key, value] of formData.entries()) {\n    jsonData[key] = value;\n  }\n  const url = `${page_data.url}/api/v2/method/webshop.webshop.shopping_cart.cart.add_new_address`;\n  let response = await fetch(url, {\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"X-Frappe-CSRF-Token\": frappe.csrf_token,\n    },\n    body: JSON.stringify({ doc: jsonData }),\n  });\n  console.log(await response.json());\n  if(!response.ok){\n      alert(response.errors[0]?.message || \"Something went wrong\");\n      return;\n  }\n  alert(\"Address added, you will now be redirected to cart!\");\n  window.location.href = '/cart-new';\n}\n",
+  "modified": "2025-06-05 08:35:06.588160",
+  "name": "option-content-population",
+  "public_url": "/files/page_scripts/JavaScript-9937d-ffc093d4f4.js?v=5c40c521b3",
+  "script": "// Write your script here\ndocument.querySelectorAll('option').forEach(option => {\n  if (option.hasAttribute('value')) {\n    option.textContent = option.getAttribute('value');\n  }\n});\n",
   "script_type": "JavaScript"
  },
  {
@@ -461,20 +461,20 @@
  {
   "docstatus": 0,
   "doctype": "Builder Client Script",
-  "modified": "2025-07-19 14:23:53.644222",
-  "name": "ratings-progress-bar-handler",
-  "public_url": "/files/page_scripts/JavaScript-9e1a7-a4630309c7.js?v=dd7d1d7d0c",
-  "script": "// Write your script here\n// Write your script here\ndocument.addEventListener(\"DOMContentLoaded\", function() {\n    // Select all divs with the class 'rating-bars'\n    var divs = document.querySelectorAll('div.rating-bars');\n\n    // Iterate over each div and set its width\n    divs.forEach(function(div) {\n        var width = div.getAttribute('data-width');\n        if (width !== null) {\n            div.style.width = width + '%'; // Assuming data-width is in percentage\n        }\n    });\n});\n",
-  "script_type": "JavaScript"
- },
- {
-  "docstatus": 0,
-  "doctype": "Builder Client Script",
   "modified": "2025-07-07 23:35:35.322194",
   "name": "rating-stars",
   "public_url": "/files/page_styles/CSS-6b0ba-5499e0bc71.css?v=13cdedfedb",
   "script": "/*https://codepen.io/andreacrawford/pen/NvqJXW*/\n/*  \n *  Pure CSS star rating that works without reversing order\n *  of inputs\n *  -------------------------------------------------------\n *  NOTE: For the styling to work, there needs to be a radio\n *        input selected by default. There also needs to be a\n *        radio input before the first star, regardless of\n *        whether you offer a 'no rating' or 0 stars option\n *  \n *  This codepen uses FontAwesome icons\n */\n#half-stars {\n  /* use display:inline-flex to prevent whitespace issues. alternatively, you can put all the children of .rating-group on a single line */\n  /* make hover effect work properly in IE */\n  /* hide radio inputs */\n  /* set icon padding and size */\n  /* add padding and positioning to half star labels */\n  /* set default star color */\n  /* set color of none icon when unchecked */\n  /* if none icon is checked, make it red */\n  /* if any input is checked, make its following siblings grey */\n  /* make all stars orange on rating group hover */\n  /* make hovered input's following siblings grey on hover */\n  /* make none icon grey on rating group hover */\n  /* make none icon red on hover */\n}\n#half-stars .rating-group {\n  display: inline-flex;\n}\n#half-stars .rating__icon {\n  pointer-events: none;\n}\n#half-stars .rating__input {\n  position: absolute !important;\n  left: -9999px !important;\n}\n#half-stars .rating__label {\n  cursor: pointer;\n  /* if you change the left/right padding, update the margin-right property of .rating__label--half as well. */\n  padding: 0 0.1em;\n  font-size: 2rem;\n}\n#half-stars .rating__label--half {\n  padding-right: 0;\n  margin-right: -0.6em;\n  z-index: 2;\n}\n#half-stars .rating__icon--star {\n  color: black;\n}\n#half-stars .rating__icon--none {\n  color: #eee;\n}\n#half-stars .rating__input--none:checked + .rating__label .rating__icon--none {\n  color: red;\n}\n#half-stars .rating__input:checked ~ .rating__label .rating__icon--star {\n  color: #ddd;\n}\n#half-stars .rating-group:hover .rating__label .rating__icon--star,\n#half-stars .rating-group:hover .rating__label--half .rating__icon--star {\n  color: black;\n}\n#half-stars .rating__input:hover ~ .rating__label .rating__icon--star,\n#half-stars .rating__input:hover ~ .rating__label--half .rating__icon--star {\n  color: #ddd;\n}\n#half-stars .rating-group:hover .rating__input--none:not(:hover) + .rating__label .rating__icon--none {\n  color: #eee;\n}\n#half-stars .rating__input--none:hover + .rating__label .rating__icon--none {\n  color: red;\n}",
   "script_type": "CSS"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Client Script",
+  "modified": "2025-07-19 14:23:53.644222",
+  "name": "ratings-progress-bar-handler",
+  "public_url": "/files/page_scripts/JavaScript-9e1a7-a4630309c7.js?v=dd7d1d7d0c",
+  "script": "// Write your script here\n// Write your script here\ndocument.addEventListener(\"DOMContentLoaded\", function() {\n    // Select all divs with the class 'rating-bars'\n    var divs = document.querySelectorAll('div.rating-bars');\n\n    // Iterate over each div and set its width\n    divs.forEach(function(div) {\n        var width = div.getAttribute('data-width');\n        if (width !== null) {\n            div.style.width = width + '%'; // Assuming data-width is in percentage\n        }\n    });\n});\n",
+  "script_type": "JavaScript"
  },
  {
   "docstatus": 0,
