@@ -8,7 +8,7 @@ from frappe import _
 from frappe.utils.redis_wrapper import RedisWrapper
 from redis import ResponseError
 from redis.commands.search.field import TagField, TextField
-from redis.commands.search.indexDefinition import IndexDefinition
+from redis.commands.search.index_definition import IndexDefinition
 from redis.commands.search.suggestion import Suggestion
 
 WEBSITE_ITEM_INDEX = "website_items_index"
