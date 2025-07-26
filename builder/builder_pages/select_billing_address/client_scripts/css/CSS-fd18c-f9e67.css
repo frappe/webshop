@@ -1,0 +1,5 @@
+/* Write your CSS here */
+.selected {
+    background-color: #e7e7e7;
+    border-width: 1.5px;
+}

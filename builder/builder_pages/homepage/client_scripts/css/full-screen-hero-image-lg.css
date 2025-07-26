@@ -1,0 +1,9 @@
+/* Write your CSS here */
+@media (min-width: 1024px) {
+  .hero-image {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    object-position: center;
+  }
+}
