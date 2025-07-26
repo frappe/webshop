@@ -84,6 +84,54 @@ def get_product_filter_data(query_args=None):
 		"items_count": result["items_count"],
 	}
 
+@frappe.whitelist(allow_guest=True)
+def get_product_filter_data_for_item_groups(item_groups=None, item_groups_mapping=None, page=0):
+	"""
+	Returns filtered products for specific Item Groups.
+
+	Args:
+		item_groups (list): List of valid Item Group names
+		item_groups_mapping (dict): Mapping of item groups to their respective filters
+	Returns:
+		list: List of Website Items that belong to all specified item groups
+	"""
+	page = cint(page) if page else 0
+	engine = ProductQuery()
+	page_length = engine.settings.products_per_page or 20
+	if not item_groups:
+		return get_product_filter_data(query_args={"start": (page - 1) * page_length})
+
+	select_clause = ','.join([f"wi.{field}" for field in engine.fields])
+	group_clause = ','.join([frappe.db.escape(item) for item in item_groups])
+	having_clause = " and ".join([f"SUM(wig.item_group IN ({','.join([frappe.db.escape(item) for item in item_groups])})) > 0" for key, item_groups in item_groups_mapping.items()])
+	query = f"""
+		SELECT {select_clause}
+		FROM `tabWebsite Item` wi
+		INNER JOIN `tabWebsite Item Group` wig ON wi.name = wig.parent
+		WHERE wig.parentfield = 'custom_website_item_groups_multiselect'
+		AND wig.item_group IN ({group_clause})
+		GROUP BY wi.name
+		HAVING {having_clause}
+		ORDER BY wi.ranking DESC
+		LIMIT {page_length + 1} OFFSET {(page - 1) * page_length}
+	"""
+ 
+	result = frappe.db.sql(query, as_dict=1)
+ 	# sort combined results by ranking
+	result = sorted(result, key=lambda x: x.get("ranking"), reverse=True)
+	if engine.settings.enabled:
+		cart_items = engine.get_cart_items()
+
+		result, discount_list = engine.add_display_details(result, [], cart_items)
+	print("result", result, len(result), page_length)
+	return {
+		"items": result[:page_length] or [],
+		"filters": {},
+		"settings": engine.settings,
+		"sub_categories": [],
+		"items_count": frappe.db.count("Website Item"),
+		"has_more_items": len(result) > page_length,
+	}
 
 @frappe.whitelist(allow_guest=True)
 def get_guest_redirect_on_action():

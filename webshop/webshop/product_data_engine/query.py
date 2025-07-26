@@ -120,7 +120,6 @@ class ProductQuery:
 			order_by="ranking desc",
 			distinct=True,
 			group_by="name",
-			# having="count(distinct item_group) > 1",
 		)
 
 		return items, count
