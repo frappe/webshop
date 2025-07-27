@@ -1,4 +1,6 @@
-// Write your script here
+// --------------------------------------------------
+// Set the initial rating for star-rating input
+// --------------------------------------------------
 function setStarRating(rating) {
   // Get all radio inputs within the rating group
   var radioInputs = document.querySelectorAll("#half-stars .rating__input");

@@ -1,4 +1,11 @@
+// --------------------------------------------------
+// Variant selection and cart handling
+// --------------------------------------------------
+
 let insertedVariantImage = false;
+
+// main idead is to fetch (if exists) the image of the variant being selected
+// and dynamically place it at the beginning of the slideshow
 
 function duplicateNode(selector, newAttributes = {}) {
   const original = document.querySelector(selector);
@@ -21,6 +28,7 @@ function duplicateNode(selector, newAttributes = {}) {
 }
 
 function removeDuplicatedNode(attributeSelector) {
+  // as item was inserted at the beginning of the list, removing first element works
   const node = document.querySelector(attributeSelector);
   if (node) {
     node.remove();
@@ -35,7 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const selects = document.querySelectorAll("select.attribute-select");
 
   selects.forEach(function (select) {
-    console.log("here", page_data);
     select.addEventListener("change", function () {
       const selectedAttributes = {};
 
@@ -52,7 +59,9 @@ document.addEventListener("DOMContentLoaded", function () {
       )}&item_code=${encodeURIComponent(itemCode)}`;
 
       console.log("Fetching:", url);
-
+      // based on selected attribute, fetch next probable ones and see if exact match is found
+      // if some attributes are incompatible with other ones, make sure once one attribute is selected only
+      // compatible attributes are selectable
       fetch(url)
         .then((response) => {
           if (!response.ok)
@@ -112,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   document.title = page_data.name;
-  console.log(document.title, page_data.name, "here");
   page_data.has_variant
     ? (document.querySelector("#add-to-cart").disabled = true)
     : "";

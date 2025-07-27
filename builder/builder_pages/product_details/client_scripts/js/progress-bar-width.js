@@ -1,4 +1,7 @@
-// Write your script here
+// --------------------------------------------------
+// Add progress bar fill to the rating-bars
+// --------------------------------------------------
+
 document.addEventListener("DOMContentLoaded", function() {
     // Select all divs with the class 'rating-bars'
     var divs = document.querySelectorAll('div.rating-bars');

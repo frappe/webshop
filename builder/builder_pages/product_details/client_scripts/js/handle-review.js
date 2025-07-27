@@ -1,4 +1,7 @@
-// Write your script here
+// --------------------------------------------------
+// Add/Update/Delete reviews
+// --------------------------------------------------
+
 const midUrlForReview = `/api/v2/method/webshop.webshop.doctype.item_review.item_review`;
 
 const checkIfAllowed = () => {

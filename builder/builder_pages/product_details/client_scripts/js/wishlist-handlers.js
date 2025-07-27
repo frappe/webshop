@@ -1,5 +1,7 @@
-// Write your script here
-// const baseUrlForWishList = `${page_data.url}/api/v2/method/webshop.webshop.doctype.wishlist.wishlist`; (deos not work as page_data is not available before domcontentload)
+// ------------------------------------------------
+// Handle adding to/removing from wishlist
+// ------------------------------------------------
+
 const midUrlForWishList = `/api/v2/method/webshop.webshop.doctype.wishlist.wishlist`;
 
 const addToWishList = () => {
@@ -14,9 +16,10 @@ const addToWishList = () => {
   })
     .then((res) => {
       if (res.ok && !res.redirected) {
-        console.log("Yes adding reviews is allowed!", res);
+        console.log("Added to wishlist! Reloading page.", res);
         window.location.reload();
       } else if (res.redirected) {
+        console.log("Redirecting (probably because not logged in).")
         window.location.href = res.url;
       } else console.log("Oops!", res);
     })
@@ -45,6 +48,7 @@ const removeFromWishlist = () => {
       console.error(err);
     });
 };
+
 const bindWishlistButtonActions = () => {
   const addToWishlistButton = document.getElementById("add-to-wishlist");
   if (addToWishlistButton) {
