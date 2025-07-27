@@ -1,0 +1,38 @@
+.transition-all {
+  transition-property: all;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}
+
+.transparent {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.transparent #cart-icon-svg{
+    color: white !important;
+}
+
+.opaque {
+  background-color: white;
+  color: black;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.opaque #cart-icon {
+  color: black !important;
+}
+
+
+.force-visible {
+  background-color: white !important;
+  color: black !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+}

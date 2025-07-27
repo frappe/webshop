@@ -1,0 +1,24 @@
+[
+    {
+        "attributes": {},
+        "baseStyles": {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "column",
+            "flexShrink": 0,
+            "flexWrap": "wrap"
+        },
+        "blockId": "root",
+        "children": [],
+        "classes": [],
+        "customAttributes": {},
+        "dataKey": null,
+        "draggable": false,
+        "element": "div",
+        "mobileStyles": {},
+        "originalElement": "body",
+        "parentBlock": null,
+        "rawStyles": {},
+        "tabletStyles": {}
+    }
+]

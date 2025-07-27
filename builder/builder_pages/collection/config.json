@@ -1,0 +1,19 @@
+{
+    "name": "page-e3c8341c",
+    "modified_by": "Administrator",
+    "published": 1,
+    "page_name": "page-e3c8341c",
+    "route": "collections/:id",
+    "dynamic_route": 1,
+    "is_template": 0,
+    "template_name": null,
+    "preview": "/files/page-e3c8341c-preview.webp?v=6850d",
+    "favicon": null,
+    "page_title": "Collection",
+    "meta_description": null,
+    "meta_image": null,
+    "authenticated_access": 0,
+    "disable_indexing": 0,
+    "project_folder": null,
+    "doctype": "Builder Page"
+}
