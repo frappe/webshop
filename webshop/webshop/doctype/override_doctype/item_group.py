@@ -152,4 +152,4 @@ def get_child_groups_for_website(item_group_name, immediate=False, include_self=
 	if include_self:
 		filters.update({"lft": [">=", item_group.lft], "rgt": ["<=", item_group.rgt]})
 
-	return frappe.get_all("Item Group", filters=filters, fields=["name", "route"], order_by="name")
+	return frappe.get_all("Item Group", filters=filters, fields=["name", "route", "is_group"], order_by="name")

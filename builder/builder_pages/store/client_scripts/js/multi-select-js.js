@@ -468,7 +468,7 @@ class MultiSelect {
   }
 }
 
-setTimeout(() => {
+const loadMultiSelectUI = () => {
   document.querySelectorAll("[data-multi-select]").forEach((select) => {
     let obj = new MultiSelect(select, {
       onChange: (value, text, option) => {
@@ -496,4 +496,28 @@ setTimeout(() => {
 //     window.scrollTo({ top: y });
 //     window.scrollTo({ top: y, behavior: "smooth" });
 //   }
-}, 275);
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const selectList = document.querySelectorAll(`.multi-select-filter`);
+  if (!selectList) return;
+  for (const select of selectList) {
+    const key = select.getAttribute('name')
+    select.setAttribute("id", key.toLowerCase());
+    select.setAttribute("name", key.toLowerCase());
+    select.setAttribute("data-placeholder", key);
+  }
+
+  setTimeout(() => {
+    filters = page_data;
+    Object.entries(filters).forEach(([key, values]) => {
+      const select = document.querySelector(`select[name="${key}"]`);
+      if (!select) return;
+      Array.from(select.options).forEach((option) => {
+        option.selected = values.includes(option.value);
+      });
+    });
+    loadMultiSelectUI()
+  }, 0);
+});

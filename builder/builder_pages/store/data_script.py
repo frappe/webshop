@@ -1,19 +1,7 @@
-data.filters = {
-    "Type": [{"value": "Sofa"}, {"value": "Arm Chair"}],
-    "Collection": [
-        {"value": "Scandinavian Simplicity"},
-        {"value": "Modern Luxe"},
-        {"value": "Boho Chic"},
-        {"value": "Timeless Classics"},
-    ],
-    "Category": [
-        {"value": "Three seater"},
-        {"value": "One seater"},
-        {"value": "Two seater"},
-    ],
-}
+filter_res = frappe.call("webshop.webshop.api.get_webshop_groups")
 # we need to make this reactive
-filter_types = ["category", "collection", "type"]
+filter_types = [group.lower() for group in filter_res["top_groups"]]
+data.filter_mapping = filter_res["child_groups_per_node"]
 filters = []
 filter_map = {}
 for key, value in frappe.form_dict.items():

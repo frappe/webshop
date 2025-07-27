@@ -587,9 +587,11 @@ def get_item_details(item_code, user, short=False):
 	"""
 	# print("get_item_details", item_code, user)
 	if not has_website_permission_for_website_item(item_code, "read", user):
-		frappe.throw(_("You do not have permission to view this item."), title=_("Permission Denied"))
+		frappe.local.flags.redirect_location = "/login"
+		raise frappe.Redirect
 	if not item_code:
-		frappe.throw(_("Item Code is required"), title=_("Mandatory"))
+		frappe.local.flags.redirect_location = "/"
+		raise frappe.Redirect
 	# print("item_code", item_code)
 	try:
 		item = frappe.get_doc("Website Item", item_code)

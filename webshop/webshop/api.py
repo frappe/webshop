@@ -85,6 +85,23 @@ def get_product_filter_data(query_args=None):
 	}
 
 @frappe.whitelist(allow_guest=True)
+def get_webshop_groups():
+    all_groups = get_child_groups_for_website("Webshop", immediate=True)
+    node_groups = [group for group in all_groups if group.get("is_group")]
+    child_groups_per_node = []
+    for group in node_groups:
+        child_groups = get_child_groups_for_website(group.get("name"), immediate=True)
+        print("child_groups", child_groups, group.get("name"))
+        child_groups_per_node.append({
+			"name": group.get("name"),
+			"child_groups": child_groups,
+		})
+    return {
+		"top_groups": [group.get("name") for group in node_groups],
+		"child_groups_per_node": child_groups_per_node,
+	}
+
+@frappe.whitelist(allow_guest=True)
 def get_product_filter_data_for_item_groups(item_groups=None, item_groups_mapping=None, page=0):
 	"""
 	Returns filtered products for specific Item Groups.
@@ -95,6 +112,11 @@ def get_product_filter_data_for_item_groups(item_groups=None, item_groups_mappin
 	Returns:
 		list: List of Website Items that belong to all specified item groups
 	"""
+	if frappe.db.get_single_value("Webshop Settings", "login_required_to_view_products"):
+		if frappe.session.user == "Guest":
+			# redirect to login page if user is not logged in
+			frappe.local.flags.redirect_location = "/login"
+			raise frappe.Redirect
 	page = cint(page) if page else 0
 	engine = ProductQuery()
 	page_length = engine.settings.products_per_page or 20
@@ -281,3 +303,7 @@ def get_wishlist_items():
 			"route",
 		],
 	)
+
+@frappe.whitelist(allow_guest=True)
+def get_wishlist():
+    pass
