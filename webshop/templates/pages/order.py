@@ -38,19 +38,20 @@ def get_context(context):
 	if not frappe.has_website_permission(context.doc):
 		frappe.throw(_("Not Permitted"), frappe.PermissionError)
 
-	# check for the loyalty program of the customer
-	customer_loyalty_program = frappe.db.get_value(
-		"Customer", context.doc.customer_name, "loyalty_program"
-	)
-	if customer_loyalty_program:
-		from erpnext.accounts.doctype.loyalty_program.loyalty_program import (
-			get_loyalty_program_details_with_points,
+	if context.doc.get("customer"):
+		# check for the loyalty program of the customer
+		customer_loyalty_program = frappe.db.get_value(
+			"Customer", context.doc.customer, "loyalty_program"
 		)
+		if customer_loyalty_program:
+			from erpnext.accounts.doctype.loyalty_program.loyalty_program import (
+				get_loyalty_program_details_with_points,
+			)
 
-		loyalty_program_details = get_loyalty_program_details_with_points(
-			context.doc.customer_name, customer_loyalty_program
-		)
-		context.available_loyalty_points = int(loyalty_program_details.get("loyalty_points"))
+			loyalty_program_details = get_loyalty_program_details_with_points(
+				context.doc.customer, customer_loyalty_program
+			)
+			context.available_loyalty_points = int(loyalty_program_details.get("loyalty_points"))
 
 	# show Make Purchase Invoice button based on permission
 	context.show_make_pi_button = frappe.has_permission("Purchase Invoice", "create")
