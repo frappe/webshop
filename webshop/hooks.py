@@ -13,6 +13,7 @@ required_apps = ["payments", "erpnext", "builder"]
 web_include_css = "webshop-web.bundle.css"
 
 web_include_js = "web.bundle.js"
+app_include_js = "app.bundle.js"
 
 after_install = "webshop.setup.install.after_install"
 on_logout = "webshop.webshop.shopping_cart.utils.clear_cart_count"

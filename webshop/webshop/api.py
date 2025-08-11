@@ -7,6 +7,7 @@ import json
 import frappe
 from frappe.utils import cint
 
+from requests import options
 from webshop.webshop.doctype.webshop_settings.webshop_settings import get_shopping_cart_settings
 from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
 from webshop.webshop.product_data_engine.query import ProductQuery
@@ -304,6 +305,56 @@ def get_wishlist_items():
 		],
 	)
 
-@frappe.whitelist(allow_guest=True)
-def get_wishlist():
-    pass
+@frappe.whitelist()
+def get_item_attribute_details(item_code):
+    item = frappe.get_doc("Item", item_code)
+    if not item:
+        frappe.throw("Item not found", frappe.DoesNotExistError)
+    attributes = item.attributes
+    attribute_details = {}
+    for attr in attributes:
+        attribute_values = []
+        attribute_doc = frappe.get_doc("Item Attribute", attr.attribute)
+        if attribute_doc:
+            attribute_values = attribute_doc.get("item_attribute_values", [])
+        attribute_details[attr.attribute] = attribute_values
+    return attribute_details
+
+@frappe.whitelist()
+def create_slideshow(name, image_urls):
+    print(frappe.session.user, frappe.session.csrf_token, "Creating slideshow with images:", image_urls)
+    if not image_urls:
+        frappe.throw("No images provided", frappe.ValidationError)
+    new_slideshow = frappe.new_doc("Website Slideshow")
+    new_slideshow.slideshow_name = name
+    new_slideshow.slideshow_items = []
+    for image in image_urls:
+        new_slideshow_item = frappe.new_doc("Website Slideshow Item")
+        new_slideshow_item.image = image
+        new_slideshow.slideshow_items.append(new_slideshow_item)
+    new_slideshow.insert()
+    return {"name": new_slideshow.name}
+
+@frappe.whitelist()
+def create_variant_selection(name, for_item, attributes):
+    print(frappe.session.user, frappe.session.csrf_token, "Creating variant selection for:", name)
+    if not attributes or not isinstance(attributes, dict):
+        frappe.throw("Invalid attributes format provided", frappe.ValidationError)
+    
+    new_variant_selection = frappe.new_doc("Variant Selection")
+    new_variant_selection.group_name = name
+    new_variant_selection.for_item = for_item
+    new_variant_selection.item_variant_selection = []
+    
+    for attribute_name, attribute_values in attributes.items():
+        if not isinstance(attribute_values, list):
+            frappe.throw(f"Attribute values for '{attribute_name}' must be a list", frappe.ValidationError)
+            
+        for value in attribute_values:
+            new_item_variant_attribute = frappe.new_doc("Item Variant Attribute")
+            new_item_variant_attribute.attribute = attribute_name
+            new_item_variant_attribute.attribute_value = value
+            new_variant_selection.item_variant_selection.append(new_item_variant_attribute)
+    
+    new_variant_selection.insert()
+    return {"name": new_variant_selection.name}

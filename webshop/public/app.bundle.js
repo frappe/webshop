@@ -1,0 +1,1 @@
+import "./js/file_uploader_custom/file_uploader_custom.bundle";

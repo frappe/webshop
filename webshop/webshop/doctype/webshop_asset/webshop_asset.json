@@ -1,0 +1,43 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-08-06 15:22:07.324999",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "for_attribute",
+  "slideshow"
+ ],
+ "fields": [
+  {
+   "fieldname": "for_attribute",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "For Attribute",
+   "options": "Variant Selection"
+  },
+  {
+   "fieldname": "slideshow",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Slideshow",
+   "options": "Website Slideshow",
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-08-07 17:05:41.762814",
+ "modified_by": "Administrator",
+ "module": "Webshop",
+ "name": "Webshop Asset",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
