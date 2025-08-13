@@ -15,7 +15,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "For Attribute",
-   "options": "Variant Selection"
+   "options": "Variant Selection",
+   "reqd": 1
   },
   {
    "fieldname": "slideshow",
@@ -30,7 +31,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-08-07 17:05:41.762814",
+ "modified": "2025-08-12 12:48:55.398896",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Webshop Asset",

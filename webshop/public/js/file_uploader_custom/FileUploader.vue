@@ -253,53 +253,54 @@
             @hide-web-link="show_web_link = false"
         />
     </div>
-    <div v-if="!loading_attribute_details" class="attribute-selection-area">
-        <h5 class="attribute-heading">Product Attributes</h5>
-        <div
-            v-for="(values, attribute_name) in attribute_data"
-            :key="attribute_name"
-            class="attribute-group"
-        >
-            <div class="attribute-name">{{ attribute_name }}:</div>
-            <div class="attribute-values">
-                <label
-                    v-for="value in values"
-                    :key="value.attribute_value"
-                    class="attribute-value-option"
-                    :class="{
-                        disabled: isOptionDisabled(
-                            attribute_name,
-                            value.attribute_value
-                        ),
-                    }"
-                >
-                    <input
-                        type="checkbox"
-                        :value="value.attribute_value"
-                        v-model="selectedAttributes[attribute_name]"
-                        @change="
-                            (event) =>
-                                updateSelectedAttributes(
-                                    attribute_name,
-                                    value.attribute_value,
-                                    value.abbr,
-                                    event.target.checked
-                                )
-                        "
-                        :disabled="
-                            isOptionDisabled(
+    <div v-if="!for_main">
+        <div v-if="!loading_attribute_details" class="attribute-selection-area">
+            <h5 class="attribute-heading">Product Attributes</h5>
+            <div
+                v-for="(values, attribute_name) in attribute_data"
+                :key="attribute_name"
+                class="attribute-group"
+            >
+                <div class="attribute-name">{{ attribute_name }}:</div>
+                <div class="attribute-values">
+                    <label
+                        v-for="value in values"
+                        :key="value.attribute_value"
+                        class="attribute-value-option"
+                        :class="{
+                            disabled: isOptionDisabled(
                                 attribute_name,
                                 value.attribute_value
-                            )
-                        "
-                    />
-                    <span class="attribute-value-label">{{
-                        value.attribute_value
-                    }}</span>
-                </label>
+                            ),
+                        }"
+                    >
+                        <input
+                            type="checkbox"
+                            :value="value.attribute_value"
+                            v-model="selectedAttributes[attribute_name]"
+                            @change="
+                                (event) =>
+                                    updateSelectedAttributes(
+                                        attribute_name,
+                                        value.attribute_value,
+                                        value.abbr,
+                                        event.target.checked
+                                    )
+                            "
+                            :disabled="
+                                isOptionDisabled(
+                                    attribute_name,
+                                    value.attribute_value
+                                )
+                            "
+                        />
+                        <span class="attribute-value-label">{{
+                            value.attribute_value
+                        }}</span>
+                    </label>
+                </div>
             </div>
-        </div>
-        <!-- <div
+            <!-- <div
             v-if="Object.keys(selectedAttributes).length > 0"
             class="selected-attributes"
         >
@@ -313,9 +314,10 @@
                 </li>
             </ul>
         </div> -->
-    </div>
-    <div v-else class="attribute-loading">
-        <span>Loading attribute details...</span>
+        </div>
+        <div v-else class="attribute-loading">
+            <span>Loading attribute details...</span>
+        </div>
     </div>
 </template>
 
@@ -394,12 +396,26 @@ const props = defineProps({
     },
     add_to_table: {
         type: Function,
-        required: true,
     },
     dialog: {
         type: Object,
         required: true,
-    }
+    },
+    // TODO: fix names
+    for_main: {
+        type: Boolean,
+        default: false,
+    },
+    main_assets: {
+        type: String,
+    },
+    main_asset_images: {
+        type: Array,
+        default: () => [],
+    },
+    set_main: {
+        type: Function,
+    },
 });
 
 // variables
@@ -1018,10 +1034,13 @@ async function fetchAllAttributeDetails() {
 }
 
 async function createSlideshow() {
-    const slideshowName = [
-        props.item_code,
-        variant_selection_name_list.value.sort().join("-"),
-    ].join("-");
+    const slideshowName = props.for_main
+        ? `${props.item_code}-webshop`
+        : [
+              props.item_code,
+              variant_selection_name_list.value.sort().join("-"),
+              "webshop",
+          ].join("-");
     const imageUrls = [];
     console.log("Creating slideshow with name:", slideshowName, fileDocs.value);
     for (const file of fileDocs.value) {
@@ -1080,6 +1099,37 @@ async function createVariantSelectionItem() {
     }
 }
 
+async function updateSlideshow() {
+    const slideshowName = `${props.item_code}-webshop`;
+    const imageUrls = [];
+    console.log("Updating slideshow with name:", slideshowName, fileDocs.value);
+    for (const file of fileDocs.value) {
+        console.log("File URL:", file.file_url);
+        if (file.file_url) {
+            imageUrls.push(file.file_url);
+        }
+    }
+    console.log("Image URLs:", imageUrls, props.main_asset_images);
+    let resp = await fetch(`/api/method/webshop.webshop.api.update_slideshow`, {
+        method: "POST",
+        body: JSON.stringify({
+            name: slideshowName,
+            image_urls: [...imageUrls, ...props.main_asset_images],
+        }),
+        headers: {
+            "Content-Type": "application/json",
+            "X-Frappe-CSRF-Token": frappe.csrf_token,
+        },
+    });
+    if (resp.ok) {
+        let data = await resp.json();
+        console.log("Slideshow created successfully:", data);
+        return data.message;
+    } else {
+        await handleErrorReporting(resp);
+    }
+}
+
 // watcher
 watch(
     files,
@@ -1105,17 +1155,26 @@ watch(
         console.log("File documents changed:", newvalue);
         if (newvalue.length > 0 && upload_complete.value) {
             // Handle the case when there are new file documents
-            let slide_show_response = await createSlideshow();
-            let variant_response = await createVariantSelectionItem();
-            console.log("Slideshow response:", slide_show_response);
-            console.log("Variant response:", variant_response);
-            if (variant_response && slide_show_response) {
-                props.add_to_table(
-                    variant_response?.name,
-                    slide_show_response?.name
-                );
-                close_dialog.value = true;
+            if (props.for_main) {
+                if (props.main_assets) {
+                    await updateSlideshow();
+                } else {
+                    await createSlideshow();
+                }
+                props.set_main(`${props.item_code}-webshop`);
+            } else {
+                let slide_show_response = await createSlideshow();
+                let variant_response = await createVariantSelectionItem();
+                console.log("Slideshow response:", slide_show_response);
+                console.log("Variant response:", variant_response);
+                if (variant_response && slide_show_response) {
+                    props.add_to_table(
+                        variant_response?.name,
+                        slide_show_response?.name
+                    );
+                }
             }
+            close_dialog.value = true;
         }
     },
     { deep: true }

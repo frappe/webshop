@@ -336,6 +336,22 @@ def create_slideshow(name, image_urls):
     return {"name": new_slideshow.name}
 
 @frappe.whitelist()
+def update_slideshow(name, image_urls):
+    print(frappe.session.user, frappe.session.csrf_token, "Updating slideshow:", name)
+    if not image_urls:
+        frappe.throw("No images provided", frappe.ValidationError)
+    slideshow = frappe.get_doc("Website Slideshow", name)
+    if not slideshow:
+        frappe.throw("Slideshow not found", frappe.DoesNotExistError)
+    slideshow.slideshow_items = []
+    for image in image_urls:
+        new_slideshow_item = frappe.new_doc("Website Slideshow Item")
+        new_slideshow_item.image = image
+        slideshow.slideshow_items.append(new_slideshow_item)
+    slideshow.save()
+    return {"name": slideshow.name}
+
+@frappe.whitelist()
 def create_variant_selection(name, for_item, attributes):
     print(frappe.session.user, frappe.session.csrf_token, "Creating variant selection for:", name)
     if not attributes or not isinstance(attributes, dict):

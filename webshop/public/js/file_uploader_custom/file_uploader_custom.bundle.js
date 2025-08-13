@@ -27,7 +27,11 @@ class FileUploader {
 		allow_toggle_optimize,
 		allow_google_drive,
 		item_code,
-		add_to_table
+		add_to_table,
+		for_main,
+		main_assets,
+		main_asset_images,
+		set_main
 	} = {}) {
 		frm && frm.attachments.max_reached(true);
 
@@ -70,7 +74,11 @@ class FileUploader {
 			allow_google_drive,
 			item_code,
 			add_to_table,
-			dialog: this.dialog
+			dialog,
+			for_main,
+			main_assets,
+			main_asset_images,
+			set_main,
 		});
 		SetVueGlobals(app);
 		this.uploader = app.mount(this.wrapper);
