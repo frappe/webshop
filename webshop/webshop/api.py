@@ -352,6 +352,27 @@ def update_slideshow(name, image_urls):
     return {"name": slideshow.name}
 
 @frappe.whitelist()
+def delete_from_slideshow(name, image_url):
+    print(frappe.session.user, frappe.session.csrf_token, "Deleting image from slideshow:", name)
+    if not image_url:
+        frappe.throw("No image URL provided", frappe.ValidationError)
+    slideshow = frappe.get_doc("Website Slideshow", name)
+    if not slideshow:
+        frappe.throw("Slideshow not found", frappe.DoesNotExistError)
+    slideshow.slideshow_items = [item for item in slideshow.slideshow_items if item.image != image_url]
+    slideshow.save()
+    return {"name": slideshow.name}
+
+@frappe.whitelist()
+def delete_slideshow(name):
+    print(frappe.session.user, frappe.session.csrf_token, "Deleting slideshow:", name)
+    slideshow = frappe.get_doc("Website Slideshow", name)
+    if not slideshow:
+        frappe.throw("Slideshow not found", frappe.DoesNotExistError)
+    slideshow.delete()
+    return {"name": slideshow.name}
+
+@frappe.whitelist()
 def create_variant_selection(name, for_item, attributes):
     print(frappe.session.user, frappe.session.csrf_token, "Creating variant selection for:", name)
     if not attributes or not isinstance(attributes, dict):
@@ -374,3 +395,12 @@ def create_variant_selection(name, for_item, attributes):
     
     new_variant_selection.insert()
     return {"name": new_variant_selection.name}
+
+@frappe.whitelist()
+def delete_variant_selection(name):
+    print(frappe.session.user, frappe.session.csrf_token, "Deleting variant selection:", name)
+    variant_selection = frappe.get_doc("Variant Selection", name)
+    if not variant_selection:
+        frappe.throw("Variant selection not found", frappe.DoesNotExistError)
+    variant_selection.delete()
+    return {"name": variant_selection.name}

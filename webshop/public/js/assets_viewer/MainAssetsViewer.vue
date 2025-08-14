@@ -1,9 +1,12 @@
 <template>
     <div class="wrapper">
         <div class="foreground delete">
-            <button v-html="frappe.utils.icon('delete', 'sm')"></button>
+            <button
+                @click="deleteImage"
+                v-html="frappe.utils.icon('delete', 'sm')"
+            ></button>
         </div>
-        <img class="image-preview" :src="image" alt="ki" />
+        <img class="image-preview" :src="image" alt="" />
     </div>
 </template>
 
@@ -11,7 +14,36 @@
 import { defineProps } from "vue";
 let props = defineProps({
     image: String,
+    item_code: String,
 });
+
+let emit = defineEmits(["delete"]);
+async function deleteImage() {
+    let dialog = new frappe.ui.Dialog({
+        title: "Confirm Deletion",
+        fields: [
+            {
+                fieldtype: "HTML",
+                options: `<p>Are you sure you want to delete this image?</p>`,
+            },
+        ],
+        primary_action_label: "Delete",
+        primary_action: async () => {
+            console.log("Delete image:", props.image);
+            let resp = await frappe.call({
+                method: "webshop.webshop.api.delete_from_slideshow",
+                type: "POST",
+                args: {
+                    name: `${props.item_code}-webshop-generated`,
+                    image_url: props.image,
+                },
+            });
+            console.log("Delete response:", resp);
+            emit("delete");
+            dialog.hide();
+        },
+    }).show();
+}
 </script>
 
 <style scoped>

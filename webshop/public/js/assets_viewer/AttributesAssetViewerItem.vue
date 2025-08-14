@@ -53,11 +53,16 @@ let props = defineProps({
     slideshow: String,
 });
 
+let emits = defineEmits(["delete"]);
+
 let variantAttribute = ref(null);
 let slideshowImages = ref(null);
 
 async function fetchVariantAttribute() {
-    let resp = await frappe.db.get_doc("Variant Selection", props.for_attribute);
+    let resp = await frappe.db.get_doc(
+        "Variant Selection",
+        props.for_attribute
+    );
     console.log("Fetched Variant Attribute:", resp);
     variantAttribute.value = resp.item_variant_selection;
 }
@@ -75,7 +80,20 @@ function editGroup() {
 
 function deleteGroup() {
     console.log("Delete group clicked");
-    // TODO: Implement delete functionality
+    let dialog = new frappe.ui.Dialog({
+        title: "Confirm Deletion",
+        fields: [
+            {
+                fieldtype: "HTML",
+                options: `<p>Are you sure you want to delete this attribute?</p>`,
+            },
+        ],
+        primary_action_label: "Delete",
+        primary_action: async () => {
+            emits("delete", props.for_attribute);
+            dialog.hide();
+        },
+    }).show();
 }
 
 onMounted(() => {

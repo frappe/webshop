@@ -6,6 +6,8 @@
                 v-for="value in all_main_images"
                 :key="value.name"
                 :image="value.image"
+                :item_code="item_code"
+                @delete="refreshForm"
             />
             <div class="add-new-image">
                 <button
@@ -37,6 +39,7 @@
                 :key="value.id"
                 :for_attribute="value.for_attribute"
                 :slideshow="value.slideshow"
+                @delete="deleteFromAssetTable"
             />
         </div>
         <div v-else class="no-rows-placeholder">
@@ -53,6 +56,7 @@ let props = defineProps({
     rows: Array,
     frm: Object,
     item_code: String,
+    deleteFromAssetTable: Function,
 });
 
 let loading_attribute_details = ref(false);
@@ -90,10 +94,12 @@ function addImage() {
         make_attachments_public: true,
         frm,
         for_main: true,
-        main_assets: frm.doc.main_assets,
+        main_assets: frm.doc.slideshow,
         main_asset_images: all_main_images.value.map((item) => item.image),
         set_main: (name) => {
-            frm.set_value("main_assets", name);
+            // TODO: maintain separation of concern
+            frm.set_value("slideshow", name);
+            frm.save()
             frm.refresh();
         },
     });
@@ -127,7 +133,7 @@ async function fetchAllAttributeDetails() {
 }
 
 async function getMainSlideshow() {
-    let website_slideshow_name = props.frm.doc.main_assets;
+    let website_slideshow_name = props.frm.doc.slideshow;
     if (website_slideshow_name) {
         let resp = await frappe.db.get_doc(
             "Website Slideshow",
@@ -137,13 +143,13 @@ async function getMainSlideshow() {
         all_main_images.value = resp.slideshow_items;
     } else {
         console.warn("No main slideshow found for item code:", props.item_code);
-        all_main_images.value = [];
+        all_main_images.value = []
     }
 }
 
-async function addToMainSlideshow() {
-    let slideshow_items = await getMainSlideshow();
-    console.log("Adding to Main Slideshow:", slideshow_items);
+function refreshForm() {
+    console.log("Refreshing form after deletion");
+    props.frm.refresh();
 }
 
 onMounted(() => {
