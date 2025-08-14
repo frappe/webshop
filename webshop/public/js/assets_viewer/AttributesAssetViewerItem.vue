@@ -32,11 +32,11 @@
             </div>
         </div>
         <div class="column-actions">
-            <button
+            <!-- <button
                 class="btn btn-sm"
                 @click="editGroup"
                 v-html="frappe.utils.icon('edit', 'sm')"
-            ></button>
+            ></button> -->
             <button
                 class="btn btn-sm"
                 @click="deleteGroup"

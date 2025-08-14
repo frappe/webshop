@@ -31,8 +31,10 @@
                 v-html="frappe.utils.icon('add', 'sm')"
             ></button>
         </h4>
-        <div v-if="rows && rows.length" v-for="value in rows" :key="value.id">
+        <div v-if="rows && rows.length" class="attribute-images">
             <AssetViewerItem
+                v-for="value in rows"
+                :key="value.id"
                 :for_attribute="value.for_attribute"
                 :slideshow="value.slideshow"
             />
@@ -173,5 +175,11 @@ onMounted(() => {
 .add-new-image button {
     background: transparent;
     border: none;
+}
+
+.attribute-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
 }
 </style>
