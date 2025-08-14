@@ -74,7 +74,7 @@ class FileUploader {
 			allow_google_drive,
 			item_code,
 			add_to_table,
-			dialog,
+			dialog: this.dialog,
 			for_main,
 			main_assets,
 			main_asset_images,
