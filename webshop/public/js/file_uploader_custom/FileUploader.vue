@@ -1035,11 +1035,11 @@ async function fetchAllAttributeDetails() {
 
 async function createSlideshow() {
     const slideshowName = props.for_main
-        ? `${props.item_code}-webshop`
+        ? `${props.item_code}-webshop-generated` // TODO: use a shared variable const to maintain such constant literals
         : [
               props.item_code,
               variant_selection_name_list.value.sort().join("-"),
-              "webshop",
+              "webshop-generated",
           ].join("-");
     const imageUrls = [];
     console.log("Creating slideshow with name:", slideshowName, fileDocs.value);
@@ -1074,6 +1074,7 @@ async function createVariantSelectionItem() {
     const name = [
         props.item_code,
         variant_selection_name_list.value.sort().join("-"),
+        "webshop-generated",
     ].join("-");
     let resp = await fetch(
         `/api/method/webshop.webshop.api.create_variant_selection`,
@@ -1100,7 +1101,7 @@ async function createVariantSelectionItem() {
 }
 
 async function updateSlideshow() {
-    const slideshowName = `${props.item_code}-webshop`;
+    const slideshowName = `${props.item_code}-webshop-generated`;
     const imageUrls = [];
     console.log("Updating slideshow with name:", slideshowName, fileDocs.value);
     for (const file of fileDocs.value) {
@@ -1161,7 +1162,7 @@ watch(
                 } else {
                     await createSlideshow();
                 }
-                props.set_main(`${props.item_code}-webshop`);
+                props.set_main(`${props.item_code}-webshop-generated`);
             } else {
                 let slide_show_response = await createSlideshow();
                 let variant_response = await createVariantSelectionItem();
