@@ -69,7 +69,7 @@ class FileUploader {
 			make_attachments_public,
 			allow_web_link,
 			allow_take_photo,
-			allow_toggle_private,
+			allow_toggle_private: false,
 			allow_toggle_optimize,
 			allow_google_drive,
 			item_code,
@@ -87,18 +87,18 @@ class FileUploader {
 			this.uploader.wrapper_ready = true;
 		}
 
-		watch(
-			() => this.uploader.files,
-			(files) => {
-				let all_private = files.every((file) => file.private);
-				if (this.dialog) {
-					this.dialog.set_secondary_action_label(
-						all_private ? __("Set all public") : __("Set all private")
-					);
-				}
-			},
-			{ deep: true }
-		);
+		// watch(
+		// 	() => this.uploader.files,
+		// 	(files) => {
+		// 		let all_private = files.every((file) => file.private);
+		// 		if (this.dialog) {
+		// 			this.dialog.set_secondary_action_label(
+		// 				all_private ? __("Set all public") : __("Set all private")
+		// 			);
+		// 		}
+		// 	},
+		// 	{ deep: true }
+		// );
 
 		watch(
 			() => this.uploader.trigger_upload,
