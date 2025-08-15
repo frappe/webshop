@@ -631,6 +631,22 @@ function check_restrictions(file) {
     return is_correct_type && valid_file_size;
 }
 function upload_files(dialog) {
+    if (!variant_selection_name_list.value.length) {
+        let warning_dialog = new frappe.ui.Dialog({
+            title: __("No Variant Selected"),
+            fields: [
+                {
+                    fieldtype: "HTML",
+                    options: `<p>Please select a variant before uploading files.</p>`,
+                },
+            ],
+            primary_action_label: __("OK"),
+            primary_action: () => {
+                warning_dialog.hide();
+            },
+        }).show();
+        return;
+    }
     if (show_file_browser.value) {
         return upload_via_file_browser();
     }
