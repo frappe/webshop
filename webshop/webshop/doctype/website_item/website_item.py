@@ -90,6 +90,7 @@ class WebsiteItem(WebsiteGenerator):
 		super(WebsiteItem, self).on_trash()
 		delete_item_from_index(self)
 		self.publish_unpublish_desk_item(publish=False)
+		# TODO: delete variant selection and webshop assets for the website item
 
 	def validate_duplicate_website_item(self):
 		existing_web_item = frappe.db.exists(

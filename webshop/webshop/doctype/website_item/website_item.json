@@ -9,13 +9,13 @@
  "field_order": [
   "item_details_tab",
   "naming_series",
-  "web_item_name",
+  "item_code",
   "route",
   "has_variants",
   "variant_of",
   "published",
   "column_break_3",
-  "item_code",
+  "web_item_name",
   "item_name",
   "item_group",
   "stock_uom",
@@ -27,12 +27,6 @@
   "column_break_24",
   "on_backorder",
   "website_information_tab",
-  "display_section",
-  "website_image",
-  "website_image_alt",
-  "column_break_13",
-  "slideshow",
-  "thumbnail",
   "section_break_17",
   "short_description",
   "web_long_description",
@@ -54,10 +48,18 @@
   "website_item_groups",
   "advanced_display_section",
   "website_content",
-  "assets_management_tab",
-  "asset_management_ui_wrapper",
+  "media_management_tab",
+  "display_section",
+  "website_image",
+  "website_image_alt",
+  "column_break_13",
+  "slideshow",
+  "thumbnail",
   "assets",
-  "main_assets"
+  "section_break_bvid",
+  "asset_management_ui_wrapper",
+  "section_break_rzag",
+  "item_code_warning_info"
  ],
  "fields": [
   {
@@ -254,6 +256,7 @@
   {
    "fieldname": "display_section",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Display Images"
   },
   {
@@ -366,14 +369,8 @@
    "label": "Website Information"
   },
   {
-   "fieldname": "assets_management_tab",
-   "fieldtype": "Tab Break",
-   "label": "Assets Management"
-  },
-  {
    "fieldname": "assets",
    "fieldtype": "Table",
-   "hidden": 1,
    "label": "Assets",
    "options": "Webshop Asset"
   },
@@ -384,11 +381,24 @@
    "options": "<div id=\"website-item-asset-management-ui-wrapper\"></div>"
   },
   {
-   "fieldname": "main_assets",
-   "fieldtype": "Link",
-   "hidden": 1,
-   "label": "Main Assets",
-   "options": "Website Slideshow"
+   "depends_on": "eval: doc.item_code",
+   "fieldname": "section_break_bvid",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "media_management_tab",
+   "fieldtype": "Tab Break",
+   "label": "Media Management"
+  },
+  {
+   "depends_on": "eval: !doc.item_code",
+   "fieldname": "section_break_rzag",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "item_code_warning_info",
+   "fieldtype": "HTML",
+   "options": "Please choose an Item first."
   }
  ],
  "has_web_view": 1,
@@ -396,7 +406,7 @@
  "index_web_pages_for_search": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2025-08-13 13:13:28.942899",
+ "modified": "2025-08-15 20:36:03.202340",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Website Item",
