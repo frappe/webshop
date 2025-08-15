@@ -99,7 +99,7 @@ function addImage() {
         set_main: (name) => {
             // TODO: maintain separation of concern
             frm.set_value("slideshow", name);
-            frm.save()
+            frm.save();
             frm.refresh();
         },
     });
@@ -107,6 +107,7 @@ function addImage() {
 
 async function fetchAllAttributeDetails() {
     console.log("Fetching attribute details for code:", props.item_code);
+    if (!props.item_code) return;
     let attribute_details = {};
     try {
         let resp = await frappe.call({
@@ -143,7 +144,7 @@ async function getMainSlideshow() {
         all_main_images.value = resp.slideshow_items;
     } else {
         console.warn("No main slideshow found for item code:", props.item_code);
-        all_main_images.value = []
+        all_main_images.value = [];
     }
 }
 

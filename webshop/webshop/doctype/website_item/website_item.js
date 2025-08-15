@@ -56,4 +56,8 @@ frappe.ui.form.on("Website Item", {
     set_meta_tags: (frm) => {
         frappe.utils.set_meta_tag(frm.doc.route);
     },
+
+    item_code: (frm) => {
+        frm.refresh();
+    },
 });
