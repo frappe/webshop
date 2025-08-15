@@ -32,6 +32,8 @@ from webshop.webshop.variant_selector.item_variants_cache import (
     ItemVariantsCacheManager,
 )
 
+from webshop.webshop.api import (delete_slideshow, delete_variant_selection)
+
 def get_slideshow_slides(slideshow):
 	slideshow = frappe.get_cached_doc("Website Slideshow", slideshow)
 	slides = slideshow.get({"doctype": "Website Slideshow Item"})
@@ -90,7 +92,12 @@ class WebsiteItem(WebsiteGenerator):
 		super(WebsiteItem, self).on_trash()
 		delete_item_from_index(self)
 		self.publish_unpublish_desk_item(publish=False)
-		# TODO: delete variant selection and webshop assets for the website item
+	
+	def after_delete(self):
+		for asset in self.assets:
+			delete_variant_selection(asset.for_attribute)
+			delete_slideshow(asset.slideshow)
+		delete_slideshow(self.slideshow)
 
 	def validate_duplicate_website_item(self):
 		existing_web_item = frappe.db.exists(
