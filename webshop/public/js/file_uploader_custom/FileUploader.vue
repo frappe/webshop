@@ -631,7 +631,7 @@ function check_restrictions(file) {
     return is_correct_type && valid_file_size;
 }
 function upload_files(dialog) {
-    if (!variant_selection_name_list.value.length) {
+    if (!props.for_main && !variant_selection_name_list.value.length) {
         let warning_dialog = new frappe.ui.Dialog({
             title: __("No Variant Selected"),
             fields: [
