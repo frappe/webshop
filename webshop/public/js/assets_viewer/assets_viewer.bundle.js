@@ -42,7 +42,6 @@ class AssetViewer {
                 ? frm.doc.assets.filter((asset) => asset.for_attribute !== name)
                 : null
         );
-        // TODO: add confirmation
         frm.refresh_field("assets");
         await frm.save();
         await frm.refresh();

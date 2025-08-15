@@ -85,7 +85,7 @@ function deleteGroup() {
         fields: [
             {
                 fieldtype: "HTML",
-                options: `<p>Are you sure you want to delete this attribute?</p>`,
+                options: `<p>Are you sure you want to delete this media related to this attribute?</p>`,
             },
         ],
         primary_action_label: "Delete",
