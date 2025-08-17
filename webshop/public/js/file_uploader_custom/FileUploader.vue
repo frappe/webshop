@@ -443,6 +443,7 @@ let attribute_data = ref({});
 let selectedAttributes = ref({});
 let fileDocs = ref([]);
 let variant_selection_name_list = ref([]);
+let web_upload_complete = ref(false);
 // created
 if (props.allow_take_photo) {
     allow_take_photo.value = window.navigator.mediaDevices;
@@ -689,9 +690,12 @@ function upload_via_web_link() {
     }
     file_url = decodeURI(file_url);
     close_dialog.value = true;
-    return upload_file({
-        file_url,
-    });
+    return upload_file(
+        {
+            file_url,
+        },
+        -1
+    );
 }
 function return_as_dataurl() {
     let promises = files.value.map((file) =>
@@ -748,14 +752,16 @@ function upload_file(file, i) {
                     }
 
                     if (
-                        i == files.value.length - 1 &&
-                        files.value.every((file) => file.request_succeeded)
+                        i == -1 ||
+                        (i == files.value.length - 1 &&
+                            files.value.every((file) => file.request_succeeded))
                     ) {
                         // close_dialog.value = true;
                         console.log(
                             "All files uploaded successfully:",
                             fileDocs.value
                         );
+                        web_upload_complete.value = true;
                     }
                 } else if (xhr.status === 403) {
                     file.failed = true;
@@ -1170,7 +1176,10 @@ watch(
     fileDocs,
     async (newvalue, oldvalue) => {
         console.log("File documents changed:", newvalue);
-        if (newvalue.length > 0 && upload_complete.value) {
+        if (
+            newvalue.length > 0 &&
+            (upload_complete.value || web_upload_complete.value)
+        ) {
             // Handle the case when there are new file documents
             if (props.for_main) {
                 if (props.main_assets) {

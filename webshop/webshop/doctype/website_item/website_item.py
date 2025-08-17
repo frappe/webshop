@@ -97,7 +97,8 @@ class WebsiteItem(WebsiteGenerator):
 		for asset in self.assets:
 			delete_variant_selection(asset.for_attribute)
 			delete_slideshow(asset.slideshow)
-		delete_slideshow(self.slideshow)
+		if self.slideshow and self.slideshow.endswith("webshop-generated"):
+			delete_slideshow(self.slideshow)
 
 	def validate_duplicate_website_item(self):
 		existing_web_item = frappe.db.exists(
@@ -611,9 +612,10 @@ def get_item_details(item_code, user, short=False):
 	slideshow = item["slideshow"]
 	if slideshow:
 		item["slideshow"] = get_slideshow_slides(slideshow)
-		item["slideshow"].insert(0, {
-			"image": item["website_image"],
-		})
+		if item["website_image"]:
+			item["slideshow"].insert(0, {
+				"image": item["website_image"],
+   			})
 	else:
 		item["slideshow"] = [{
 			"image": item["website_image"],

@@ -44,6 +44,16 @@ frappe.ui.form.on("Website Item", {
             frm: frm,
             item_code: frm.doc.item_code,
         });
+        frm.set_query("website_item_groups_multiselect", () => {
+            return {
+                filters: {
+                    parent_item_group: [
+                        "descendants of (inclusive)",
+                        "Webshop",
+                    ],
+                },
+            };
+        });
     },
 
     copy_from_item_group: (frm) => {

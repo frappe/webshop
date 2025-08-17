@@ -3,19 +3,15 @@
 
 frappe.ui.form.on("Webshop Homepage", {
     refresh(frm) {
-        console.log("Website Item Group form refreshed");
         frm.set_query("item_group", "homepage_collections", () => {
             return {
                 filters: {
-                    parent_item_group: "Webshop",
+                    parent_item_group: [
+                        "descendants of (inclusive)",
+                        "Webshop",
+                    ],
                 },
             };
         });
     },
-});
-
-frappe.ui.form.on("Website Item Group", {
-    onload(frm){
-        console.log("Website Item Groupie form loaded");
-    }
 });

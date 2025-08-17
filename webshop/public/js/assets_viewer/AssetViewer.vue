@@ -1,6 +1,6 @@
 <template>
     <div class="asset-group-row">
-        <h4 style="font-weight: 400">Images:</h4>
+        <h4 style="font-weight: 400">More Product Images:</h4>
         <div class="image-previews">
             <MainAssetsViewer
                 v-for="value in all_main_images"
