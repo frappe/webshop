@@ -131,7 +131,7 @@ def get_product_filter_data_for_item_groups(item_groups=None, item_groups_mappin
 		SELECT {select_clause}
 		FROM `tabWebsite Item` wi
 		INNER JOIN `tabWebsite Item Group` wig ON wi.name = wig.parent
-		WHERE wig.parentfield = 'custom_website_item_groups_multiselect'
+		WHERE wig.parentfield = 'website_item_groups_multiselect'
 		AND wig.item_group IN ({group_clause})
 		GROUP BY wi.name
 		HAVING {having_clause}
