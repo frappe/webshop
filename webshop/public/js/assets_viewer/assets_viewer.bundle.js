@@ -4,7 +4,7 @@ import { watch } from "vue";
 
 // TODO: add try...catch
 class AssetViewer {
-    constructor({ wrapper, frm, item_code } = {}) {
+    constructor({ wrapper, frm, item_code, web_item_code } = {}) {
         console.log(frm.doc.assets, "Assets");
         if (!wrapper) {
             console.warn(
@@ -19,6 +19,7 @@ class AssetViewer {
             rows: frm.doc.assets,
             frm: frm,
             item_code,
+            web_item_code,
             deleteFromAssetTable: this.deleteFromAssetTable.bind(this),
         });
         SetVueGlobals(app);

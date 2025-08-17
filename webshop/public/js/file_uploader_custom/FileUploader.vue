@@ -394,6 +394,9 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    web_item_code: {
+        type: String,
+    },
     add_to_table: {
         type: Function,
     },
@@ -440,6 +443,7 @@ let wrapper_ready = ref(false);
 
 let loading_attribute_details = ref(true);
 let attribute_data = ref({});
+let available_attributes = ref({});
 let selectedAttributes = ref({});
 let fileDocs = ref([]);
 let variant_selection_name_list = ref([]);
@@ -931,9 +935,12 @@ function isOptionDisabled(attribute_name, value) {
     // If there's any selected value for this attribute and it's not this value,
     // then this option should be disabled
     return (
-        selectedAttributes.value[attribute_name] &&
-        selectedAttributes.value[attribute_name].length > 0 &&
-        !selectedAttributes.value[attribute_name].includes(value)
+        (selectedAttributes.value[attribute_name] &&
+            selectedAttributes.value[attribute_name].length > 0 &&
+            !selectedAttributes.value[attribute_name].includes(value)) ||
+        !available_attributes.value[attribute_name] ||
+        !available_attributes.value[attribute_name].length > 0 ||
+        !available_attributes.value[attribute_name].includes(value)
     );
 }
 
@@ -1019,6 +1026,34 @@ function updateSelectedAttributes(attribute_name, value, abbr, checked) {
     console.log(
         `Selected ${attribute_name}: ${selectedAttributes.value[attribute_name]}`
     );
+}
+
+async function fetchAvailableAttributes() {
+    loading_attribute_details.value = true;
+    let available_attributes_resp = {};
+    try {
+        let resp = await fetch(
+            `/api/method/webshop.webshop.variant_selector.utils.get_attributes_and_values?item_code=${props.item_code}&user=${frappe.session.user}`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Frappe-CSRF-Token": frappe.csrf_token,
+                },
+            }
+        );
+        if (resp.ok) {
+            available_attributes_resp = (await resp.json()).message;
+            let available_attributes_obj = {};
+            available_attributes_resp.forEach((attribute) => {
+                available_attributes_obj[attribute.attribute] =
+                    attribute.values;
+            });
+            available_attributes.value = { ...available_attributes_obj };
+            loading_attribute_details.value = false;
+        }
+    } catch (error) {
+        console.error("Error fetching available attributes:", error);
+    }
 }
 
 async function fetchAllAttributeDetails() {
@@ -1208,8 +1243,9 @@ watch(
 
 onMounted(async () => {
     // Initialize file uploader
-    console.log("File uploader initializedd");
+    console.log("File uploader initialized");
     await fetchAllAttributeDetails();
+    await fetchAvailableAttributes();
 });
 // TODO: follow this_case instead of thisCase
 // TODO: Extract out the variant selector component
@@ -1250,7 +1286,7 @@ defineExpose({
     padding: 1rem;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
-    background-color: var(--bg-light);
+    /* background-color: var(--bg-light); */
 }
 
 .attribute-heading {

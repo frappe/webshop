@@ -43,6 +43,7 @@ frappe.ui.form.on("Website Item", {
             ),
             frm: frm,
             item_code: frm.doc.item_code,
+            web_item_code: frm.doc.name,
         });
         frm.set_query("website_item_groups_multiselect", () => {
             return {

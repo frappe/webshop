@@ -56,6 +56,7 @@ let props = defineProps({
     rows: Array,
     frm: Object,
     item_code: String,
+    web_item_code: String,
     deleteFromAssetTable: Function,
 });
 
@@ -67,7 +68,8 @@ function addGroup() {
     let frm = props.frm;
     console.log("Add group clicked");
     new frappe.ui.custom.FileUploader({
-        item_code: frm.doc.item_code,
+        item_code: props.item_code,
+        web_item_code: props.web_item_code,
         // on_success: () => onSuccess(frm),
         make_attachments_public: true,
         add_to_table: (variant_selection_table_name, slideshow_name) => {
