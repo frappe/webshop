@@ -1,0 +1,47 @@
+{
+ "app": "webshop",
+ "charts": [],
+ "content": "[{\"id\":\"pmFPRUKm_F\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Manage products to show on webshop.</span>\",\"col\":12}},{\"id\":\"W_qeauGf-m\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Webshop Items\",\"col\":5}},{\"id\":\"g26L9gA209\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"JDmzQNXI6a\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Create new\",\"col\":3}}]",
+ "creation": "2025-08-16 02:24:16.559341",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "assets",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Products",
+ "link_type": "DocType",
+ "links": [],
+ "modified": "2025-08-16 02:49:13.666906",
+ "modified_by": "Administrator",
+ "module": "Webshop",
+ "name": "Products",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [
+  {
+   "document_type": "Website Item",
+   "label": "Webshop Items",
+   "quick_list_filter": "[]"
+  }
+ ],
+ "roles": [],
+ "sequence_id": 23.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "New",
+   "label": "Create new",
+   "link_to": "Website Item",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Products",
+ "type": "Workspace"
+}

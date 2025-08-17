@@ -1,0 +1,52 @@
+{
+ "app": "webshop",
+ "charts": [],
+ "content": "[{\"id\":\"CYJRvS2gcK\",\"type\":\"header\",\"data\":{\"text\":\"<span style=\\\"font-size: 16px;\\\">Manage discounts and coupon codes applicable on products</span>\",\"col\":12}},{\"id\":\"y9o_DSiIix\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Coupon Code\",\"col\":4}},{\"id\":\"w2kCLrDrWi\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Pricing Rule\",\"col\":4}},{\"id\":\"9FtpHMi394\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"uDYTqu_-m1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Create New Code\",\"col\":3}}]",
+ "creation": "2025-08-16 02:21:55.726451",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "tag",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Marketing",
+ "link_type": "DocType",
+ "links": [],
+ "modified": "2025-08-16 02:29:55.385607",
+ "modified_by": "Administrator",
+ "module": "Webshop",
+ "name": "Marketing",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [
+  {
+   "document_type": "Coupon Code",
+   "label": "Coupon Code",
+   "quick_list_filter": "[]"
+  },
+  {
+   "document_type": "Pricing Rule",
+   "label": "Pricing Rule",
+   "quick_list_filter": "[[\"Pricing Rule\",\"coupon_code_based\",\"=\",1,false]]"
+  }
+ ],
+ "roles": [],
+ "sequence_id": 24.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "New",
+   "label": "Create New Code",
+   "link_to": "Coupon Code",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Marketing",
+ "type": "Workspace"
+}

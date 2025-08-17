@@ -85,3 +85,12 @@ fixtures = [
     "Builder Component",
     "Builder Page",
 ]
+
+add_to_apps_screen = [
+	{
+		"name": "webshop",
+		"logo": "/assets/webshop/cart.png",
+		"title": "Webshop",
+		"route": f"/app/products",
+	}
+]

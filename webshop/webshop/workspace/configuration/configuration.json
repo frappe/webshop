@@ -1,0 +1,56 @@
+{
+ "app": "webshop",
+ "charts": [],
+ "content": "[{\"id\":\"S5_2naEPNy\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Configure homepage and other webshop settings</span>\",\"col\":12}},{\"id\":\"Qbum5hX2_y\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Homepage Configuration\",\"col\":4}},{\"id\":\"O9hATkM5ZJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Webshop Settings\",\"col\":4}},{\"id\":\"NgQYdqAL39\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"wMJiajNfHr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Webshop Item Group\",\"col\":4}}]",
+ "creation": "2025-08-16 02:38:12.011075",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "setting",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Configuration",
+ "link_to": "Webshop Settings",
+ "link_type": "DocType",
+ "links": [],
+ "modified": "2025-08-16 22:59:41.609036",
+ "modified_by": "Administrator",
+ "module": "Webshop",
+ "name": "Configuration",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 26.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Homepage Configuration",
+   "link_to": "Webshop Homepage",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Webshop Item Group",
+   "link_to": "Item Group",
+   "stats_filter": "[[\"Item Group\",\"parent_item_group\",\"=\",\"Webshop\",false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Webshop Settings",
+   "link_to": "Webshop Settings",
+   "type": "DocType"
+  }
+ ],
+ "title": "Configuration",
+ "type": "Workspace"
+}
