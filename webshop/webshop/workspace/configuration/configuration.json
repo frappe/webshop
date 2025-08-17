@@ -16,7 +16,7 @@
  "link_to": "Webshop Settings",
  "link_type": "DocType",
  "links": [],
- "modified": "2025-08-16 22:59:41.609036",
+ "modified": "2025-08-17 12:01:54.716846",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Configuration",
@@ -31,16 +31,16 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Homepage Configuration",
-   "link_to": "Webshop Homepage",
+   "label": "Webshop Item Group",
+   "link_to": "Item Group",
+   "stats_filter": "[[\"Item Group\",\"parent_item_group\",\"descendants of (inclusive)\",\"Webshop\",false]]",
    "type": "DocType"
   },
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Webshop Item Group",
-   "link_to": "Item Group",
-   "stats_filter": "[[\"Item Group\",\"parent_item_group\",\"=\",\"Webshop\",false]]",
+   "label": "Homepage Configuration",
+   "link_to": "Webshop Homepage",
    "type": "DocType"
   },
   {
