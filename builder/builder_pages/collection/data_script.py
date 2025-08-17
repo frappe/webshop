@@ -31,7 +31,7 @@ filtered_result = frappe.call(
     "webshop.webshop.api.get_product_filter_data",
     query_args={
         "field_filters": {
-            "custom_website_item_groups_multiselect": filters,
+            "website_item_groups_multiselect": filters,
         }
     },
 )
