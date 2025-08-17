@@ -5,6 +5,8 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "chosen_theme",
+  "section_break_nbyn",
   "products_per_page",
   "filter_categories_section",
   "enable_field_filters",
@@ -382,13 +384,23 @@
    "fieldtype": "Check",
    "in_list_view": 1,
    "label": "Allow Non Website Items in Cart Quotation"
+  },
+  {
+   "fieldname": "chosen_theme",
+   "fieldtype": "Link",
+   "label": "Theme Selection",
+   "options": "Builder Project Folder"
+  },
+  {
+   "fieldname": "section_break_nbyn",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-05-28 23:06:14.477226",
- "modified_by": "sntn@admin.com",
+ "modified": "2025-08-18 01:10:40.825834",
+ "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Webshop Settings",
  "owner": "Administrator",

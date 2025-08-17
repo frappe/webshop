@@ -94,3 +94,5 @@ add_to_apps_screen = [
 		"route": f"/app/products",
 	}
 ]
+
+page_renderer = "webshop.override_renderer.builder_page_renderer.ThemedBuilderPageRenderer"
