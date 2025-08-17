@@ -4,8 +4,35 @@
 
 let insertedVariantImage = false;
 
-// main idead is to fetch (if exists) the image of the variant being selected
+// main idea is to fetch (if exists) the image of the variant being selected
 // and dynamically place it at the beginning of the slideshow
+
+let numberOfDuplications = 0;
+async function getAttributeSlideshow(selectedAttributes) {
+  const itemCode = page_data.web_item_code;
+  const baseUrl = `${page_data.url}/api/v2/method/webshop.webshop.variant_selector.utils.get_slideshow_for_selected_attribute`;
+  const url = `${baseUrl}?selected_attributes=${encodeURIComponent(
+    JSON.stringify(Object.values(selectedAttributes))
+  )}&web_item_code=${encodeURIComponent(itemCode)}`;
+  fetch(url).then(async (response) => {
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    let { exact_matches, other_matches } = (await response.json()).data;
+    if (numberOfDuplications) {
+      for (let i = 0; i < numberOfDuplications; i++) {
+        removeDuplicatedNode(".slideshow-slide");
+      }
+      numberOfDuplications = 0;
+    }
+    for (const url of other_matches) {
+      duplicateNode(".slideshow-slide", { src: url });
+      numberOfDuplications++;
+    }
+    for (const url of exact_matches) {
+      duplicateNode(".slideshow-slide", { src: url });
+      numberOfDuplications++;
+    }
+  });
+}
 
 function duplicateNode(selector, newAttributes = {}) {
   const original = document.querySelector(selector);
@@ -39,11 +66,11 @@ function removeDuplicatedNode(attributeSelector) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   const selects = document.querySelectorAll("select.attribute-select");
 
   selects.forEach(function (select) {
-    select.addEventListener("change", function () {
+    select.addEventListener("change", async function () {
       const selectedAttributes = {};
 
       selects.forEach(function (s) {
@@ -51,6 +78,8 @@ document.addEventListener("DOMContentLoaded", function () {
           selectedAttributes[s.id] = s.value;
         }
       });
+
+      await getAttributeSlideshow(selectedAttributes);
 
       const itemCode = page_data.name;
       const baseUrl = `${page_data.url}/api/v2/method/webshop.webshop.variant_selector.utils.get_next_attribute_and_values`;
@@ -171,7 +200,7 @@ const getGuestRedirect = async () => {
 };
 
 const minusBtn = document.querySelector("#decrement");
-const plusBtn = document.querySelector("#increment")
+const plusBtn = document.querySelector("#increment");
 const input = document.querySelector("#number");
 
 // Add event listeners
@@ -192,30 +221,29 @@ const updateCart = async () => {
 
   const body = {
     item_code: page_data.code,
-    qty: input.value
+    qty: input.value,
   };
 
   console.log("Sending to:", url);
   console.log("Payload:", body);
 
   await fetch(url, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'X-Frappe-CSRF-Token': frappe.csrf_token
+      "Content-Type": "application/json",
+      "X-Frappe-CSRF-Token": frappe.csrf_token,
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   });
-  updateCartCount()
+  updateCartCount();
   console.log("Added to cart");
 };
-
 
 document.querySelector("#add-to-cart").addEventListener("click", async () => {
   let canAccessCart = await getIfCanAccessCart();
   console.log(canAccessCart);
   if (canAccessCart) {
-      updateCart();
+    updateCart();
   } else {
     await getGuestRedirect();
   }

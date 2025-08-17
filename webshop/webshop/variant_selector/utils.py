@@ -267,3 +267,42 @@ def get_item_variant_price_dict(item_code, cart_settings):
 			return {"price": price}
 
 	return None
+
+@frappe.whitelist(allow_guest=True)
+def get_slideshow_for_selected_attribute(web_item_code, selected_attributes):
+	selected_attributes = frappe.parse_json(selected_attributes)
+	website_item_doc = frappe.get_doc("Website Item", {"name": web_item_code})
+	# TODO: better query optimization
+	or_filters = []
+	for attribute in selected_attributes:
+		or_filters.append(["Item Variant Attribute", "attribute_value", "like", f"%{attribute}%"])
+
+	variant_selection_list = frappe.db.get_list("Variant Selection",
+        filters={
+			"for_item": website_item_doc.item_code,
+		},
+		or_filters=or_filters,
+		group_by="name"
+  	)
+	exact_matches = []
+	other_matches = []
+	for variant in variant_selection_list:
+		doc = frappe.get_doc("Variant Selection", variant.name)
+		if len(doc.item_variant_selection) == len(selected_attributes):
+			exact_matches.append(variant.name)
+		else:
+			other_matches.append(variant.name)
+	exact_matches_slideshow_images = []
+	other_matches_slideshow_images = []
+	for asset in website_item_doc.assets:
+		if asset.for_attribute in exact_matches:
+			slideshow = frappe.get_doc("Website Slideshow", asset.slideshow)
+			exact_matches_slideshow_images.append([item.image for item in slideshow.slideshow_items])
+		elif asset.for_attribute in other_matches:
+			slideshow = frappe.get_doc("Website Slideshow", asset.slideshow)
+			other_matches_slideshow_images.append([item.image for item in slideshow.slideshow_items])
+
+	return {
+		"exact_matches": exact_matches_slideshow_images,
+		"other_matches": other_matches_slideshow_images
+	}
