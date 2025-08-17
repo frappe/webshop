@@ -13,6 +13,9 @@ def after_install():
 	remove_ecommerce_settings_doctype()
 	add_custom_fields()
 	navbar_add_products_link()
+	make_webshop_item_group()
+	add_basic_filter_for_webshop()
+	update_hook_resolution_order()
 	say_thanks()
 
 
@@ -238,3 +241,31 @@ def run_patches():
 		frappe.flags.in_patch = False
 
 
+def make_webshop_item_group():
+    # TODO: clean up after uninstall
+	doc = frappe.get_doc({
+		'doctype': "Item Group",
+		'item_group_name': "Webshop",
+		'is_group': 1,
+		'show_in_website': 1
+	})
+	try:
+		doc.insert()
+	except Exception as e:
+		frappe.log_error(f"Error creating webshop item group: {e}")
+
+def add_basic_filter_for_webshop():
+    child_doc = frappe.new_doc("Website Filter Field")
+    child_doc.fieldname = "website_item_groups_multiselect"
+    
+    settings = frappe.get_doc("Webshop Settings")
+    settings.enable_field_filters = 1
+    settings.append("filter_fields", child_doc)
+    settings.save()
+    
+def update_hook_resolution_order():
+    list = frappe.call("frappe.core.doctype.installed_applications.installed_applications.get_installed_app_order")
+    list.remove('webshop')
+    index = list.index('builder')
+    list.insert(index, 'webshop')
+    frappe.call("frappe.core.doctype.installed_applications.installed_applications.update_installed_apps_order", new_order=list)
