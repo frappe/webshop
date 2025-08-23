@@ -353,12 +353,18 @@ def decorate_quotation_doc(doc):
 			if variant_data.image:  # get image from variant or template web item
 				d.thumbnail = variant_data.image
 				fields = fields[2:]
-
+    
+		# the line below has no effect as none of the fields exist in the Quotation Item doctype ?
 		d.update(
 			frappe.db.get_value(
 				"Website Item", {"item_code": item_code}, fields, as_dict=True
 			)
 		)
+		res = frappe.db.get_value(
+			"Website Item", {"item_code": item_code}, fields, as_dict=True
+		)
+		if res:
+			d.image = res.website_image
 
 		website_warehouse = frappe.get_cached_value(
 			"Website Item", {"item_code": item_code}, "website_warehouse"

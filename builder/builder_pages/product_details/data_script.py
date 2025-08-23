@@ -102,7 +102,7 @@ data.is_logged_in = frappe.user != "Guest"
 data.can_access_cart = frappe.call("webshop.webshop.shopping_cart.cart.can_access_cart") and frappe.user != "Guest"
 
 # Get if current item is wishlisted by current user
-data.is_wishlisted = frappe.call("webshop.webshop.doctype.website_item.website_item.if_item_wishlisted",item_code=details["item_code"]) if details.cart_settings.enable_recommendations else False
+data.is_wishlisted = frappe.call("webshop.webshop.doctype.website_item.website_item.if_item_wishlisted",item_code=details["item_code"]) if details.cart_settings.enable_wishlist else False
 
 
 # Pass on required data to client side

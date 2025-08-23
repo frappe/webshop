@@ -1,3 +1,5 @@
+// TODO: handle add to cart if variant is in stock
+
 // --------------------------------------------------
 // Variant selection and cart handling
 // --------------------------------------------------
