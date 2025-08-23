@@ -34,6 +34,8 @@ def process_and_assign_rating(target_dict, rating):
 def convert_variant_list(variants):
     new_variants = []
     for variant in variants:
+        if not len(variant["values"]):
+            continue
         new_variant = {
             "attribute": variant["attribute"],
             "value": [{"val": value} for value in variant["values"]] # could not be values as it is a builtin func
@@ -85,6 +87,8 @@ if details.cart_settings.enable_reviews:
     if details["reviews_and_ratings"]["current_user_review"]:
         current_user_rating = details["reviews_and_ratings"]["current_user_review"]["rating"] * 5
         process_and_assign_rating(details["reviews_and_ratings"]["current_user_review"], current_user_rating)
+    data.more_reviews_available =  details["reviews_and_ratings"]["total_reviews"] > 10
+    data.all_reviews_url = f"/customer-review/{code}"
 
 
 # --------------------------------------------------
@@ -100,8 +104,6 @@ data.can_access_cart = frappe.call("webshop.webshop.shopping_cart.cart.can_acces
 # Get if current item is wishlisted by current user
 data.is_wishlisted = frappe.call("webshop.webshop.doctype.website_item.website_item.if_item_wishlisted",item_code=details["item_code"]) if details.cart_settings.enable_recommendations else False
 
-data.more_reviews_available =  details["reviews_and_ratings"]["total_reviews"] > 10
-data.all_reviews_url = f"/customer-review/{code}"
 
 # Pass on required data to client side
 data.page_data = {
