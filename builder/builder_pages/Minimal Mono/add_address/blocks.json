@@ -1,0 +1,783 @@
+[
+    {
+        "attributes": {},
+        "baseStyles": {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "column",
+            "flexShrink": 0,
+            "flexWrap": "wrap",
+            "fontFamily": "Montserrat",
+            "position": "static"
+        },
+        "blockId": "root",
+        "children": [
+            {
+                "attributes": {},
+                "baseStyles": {
+                    "alignItems": "center",
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexShrink": 0,
+                    "height": "100vh",
+                    "justifyContent": "center",
+                    "maxHeight": "auto",
+                    "overflow": "hidden",
+                    "position": "static",
+                    "width": "100%"
+                },
+                "blockId": "tut0jf0hh",
+                "blockName": "container",
+                "children": [
+                    {
+                        "attributes": {},
+                        "baseStyles": {
+                            "alignItems": "center",
+                            "display": "flex",
+                            "flexDirection": "column",
+                            "flexShrink": 0,
+                            "gap": "15px",
+                            "justifyContent": "flex-start",
+                            "left": "auto",
+                            "maxWidth": "400px",
+                            "overflow": "hidden",
+                            "paddingBottom": "20px",
+                            "paddingLeft": "20px",
+                            "paddingRight": "20px",
+                            "paddingTop": "20px",
+                            "position": "static",
+                            "top": "auto",
+                            "width": "100%"
+                        },
+                        "blockId": "57ksgcsog",
+                        "children": [
+                            {
+                                "attributes": {},
+                                "baseStyles": {
+                                    "display": "flex",
+                                    "flexDirection": "row",
+                                    "flexGrow": 0,
+                                    "flexShrink": 1,
+                                    "gap": "10px",
+                                    "height": "fit-content",
+                                    "overflow": "hidden",
+                                    "position": "relative",
+                                    "width": "100%"
+                                },
+                                "blockId": "a72f7t9br",
+                                "blockName": "container",
+                                "children": [
+                                    {
+                                        "attributes": {
+                                            "placeholder": "Address Title*"
+                                        },
+                                        "baseStyles": {
+                                            "borderColor": "#c9c9c9",
+                                            "borderRadius": "4px",
+                                            "borderStyle": "solid",
+                                            "borderWidth": "1px",
+                                            "display": "flex",
+                                            "flexDirection": "column",
+                                            "flexShrink": 1,
+                                            "fontSize": "14px",
+                                            "overflow": "hidden",
+                                            "position": "static",
+                                            "width": "100%"
+                                        },
+                                        "blockId": "qs63xtvmd",
+                                        "children": [],
+                                        "classes": [],
+                                        "customAttributes": {
+                                            "name": "address_title",
+                                            "required": "true"
+                                        },
+                                        "dataKey": null,
+                                        "element": "input",
+                                        "mobileStyles": {},
+                                        "rawStyles": {},
+                                        "tabletStyles": {}
+                                    },
+                                    {
+                                        "attributes": {
+                                            "placeholder": "Last Name"
+                                        },
+                                        "baseStyles": {
+                                            "borderColor": "#c9c9c9",
+                                            "borderRadius": "4px",
+                                            "borderStyle": "solid",
+                                            "borderWidth": "1px",
+                                            "display": "flex",
+                                            "flexDirection": "column",
+                                            "flexShrink": 1,
+                                            "fontSize": "14px",
+                                            "height": "fit-content",
+                                            "overflow": "hidden",
+                                            "position": "static",
+                                            "width": "100%"
+                                        },
+                                        "blockId": "5z52oellm",
+                                        "children": [
+                                            {
+                                                "attributes": {},
+                                                "baseStyles": {
+                                                    "backgroundColor": "#e2e2e2",
+                                                    "display": "flex",
+                                                    "flexDirection": "column",
+                                                    "flexShrink": 0,
+                                                    "height": "200px",
+                                                    "overflow": "hidden",
+                                                    "position": "static",
+                                                    "width": "100%"
+                                                },
+                                                "blockId": "6mwo8kp2a",
+                                                "blockName": "option",
+                                                "children": [],
+                                                "classes": [],
+                                                "customAttributes": {
+                                                    "disabled": "",
+                                                    "selected": "",
+                                                    "value": "Address Type*"
+                                                },
+                                                "dataKey": null,
+                                                "element": "option",
+                                                "mobileStyles": {},
+                                                "rawStyles": {},
+                                                "tabletStyles": {}
+                                            },
+                                            {
+                                                "attributes": {},
+                                                "baseStyles": {
+                                                    "backgroundColor": "#e2e2e2",
+                                                    "display": "flex",
+                                                    "flexDirection": "column",
+                                                    "flexShrink": 0,
+                                                    "height": "200px",
+                                                    "overflow": "hidden",
+                                                    "position": "static",
+                                                    "width": "100%"
+                                                },
+                                                "blockId": "6szoef68l",
+                                                "blockName": "option",
+                                                "children": [],
+                                                "classes": [],
+                                                "customAttributes": {
+                                                    "value": "Billing"
+                                                },
+                                                "dataKey": null,
+                                                "element": "option",
+                                                "mobileStyles": {},
+                                                "rawStyles": {},
+                                                "tabletStyles": {}
+                                            },
+                                            {
+                                                "attributes": {},
+                                                "baseStyles": {
+                                                    "backgroundColor": "#e2e2e2",
+                                                    "display": "flex",
+                                                    "flexDirection": "column",
+                                                    "flexShrink": 0,
+                                                    "height": "200px",
+                                                    "overflow": "hidden",
+                                                    "position": "static",
+                                                    "width": "100%"
+                                                },
+                                                "blockId": "vhq2b608y",
+                                                "blockName": "option",
+                                                "children": [],
+                                                "classes": [],
+                                                "customAttributes": {
+                                                    "value": "Shipping"
+                                                },
+                                                "dataKey": null,
+                                                "element": "option",
+                                                "mobileStyles": {},
+                                                "rawStyles": {},
+                                                "tabletStyles": {}
+                                            }
+                                        ],
+                                        "classes": [],
+                                        "customAttributes": {
+                                            "name": "address_type",
+                                            "required": "true"
+                                        },
+                                        "dataKey": null,
+                                        "element": "select",
+                                        "mobileStyles": {},
+                                        "rawStyles": {},
+                                        "tabletStyles": {}
+                                    }
+                                ],
+                                "classes": [],
+                                "customAttributes": {},
+                                "dataKey": null,
+                                "element": "div",
+                                "mobileStyles": {},
+                                "rawStyles": {},
+                                "tabletStyles": {}
+                            },
+                            {
+                                "attributes": {},
+                                "baseStyles": {
+                                    "display": "flex",
+                                    "flexDirection": "row",
+                                    "flexGrow": 0,
+                                    "flexShrink": 1,
+                                    "gap": "10px",
+                                    "height": "fit-content",
+                                    "overflow": "hidden",
+                                    "position": "relative",
+                                    "width": "100%"
+                                },
+                                "blockId": "sge2f2d0z",
+                                "blockName": "container",
+                                "children": [
+                                    {
+                                        "attributes": {
+                                            "placeholder": "Address Line 1*"
+                                        },
+                                        "baseStyles": {
+                                            "borderColor": "#c9c9c9",
+                                            "borderRadius": "4px",
+                                            "borderStyle": "solid",
+                                            "borderWidth": "1px",
+                                            "display": "flex",
+                                            "flexDirection": "column",
+                                            "flexShrink": 1,
+                                            "fontSize": "14px",
+                                            "overflow": "hidden",
+                                            "position": "static",
+                                            "width": "100%"
+                                        },
+                                        "blockId": "vy0pwf1i1",
+                                        "children": [],
+                                        "classes": [],
+                                        "customAttributes": {
+                                            "name": "address_line1",
+                                            "required": "true"
+                                        },
+                                        "dataKey": null,
+                                        "element": "input",
+                                        "mobileStyles": {},
+                                        "rawStyles": {},
+                                        "tabletStyles": {}
+                                    },
+                                    {
+                                        "attributes": {
+                                            "placeholder": "Address Line 2"
+                                        },
+                                        "baseStyles": {
+                                            "borderColor": "#c9c9c9",
+                                            "borderRadius": "4px",
+                                            "borderStyle": "solid",
+                                            "borderWidth": "1px",
+                                            "display": "flex",
+                                            "flexDirection": "column",
+                                            "flexShrink": 1,
+                                            "fontSize": "14px",
+                                            "overflow": "hidden",
+                                            "position": "static",
+                                            "width": "100%"
+                                        },
+                                        "blockId": "gvxketlqk",
+                                        "children": [],
+                                        "classes": [],
+                                        "customAttributes": {
+                                            "name": "address_line2"
+                                        },
+                                        "dataKey": null,
+                                        "element": "input",
+                                        "mobileStyles": {},
+                                        "rawStyles": {},
+                                        "tabletStyles": {}
+                                    }
+                                ],
+                                "classes": [],
+                                "customAttributes": {},
+                                "dataKey": null,
+                                "element": "div",
+                                "mobileStyles": {},
+                                "rawStyles": {},
+                                "tabletStyles": {}
+                            },
+                            {
+                                "attributes": {},
+                                "baseStyles": {
+                                    "display": "flex",
+                                    "flexDirection": "row",
+                                    "flexGrow": 0,
+                                    "flexShrink": 1,
+                                    "gap": "10px",
+                                    "height": "fit-content",
+                                    "overflow": "hidden",
+                                    "position": "relative",
+                                    "width": "100%"
+                                },
+                                "blockId": "mxsv41eck",
+                                "blockName": "container",
+                                "children": [
+                                    {
+                                        "attributes": {
+                                            "placeholder": "City/Town*"
+                                        },
+                                        "baseStyles": {
+                                            "borderColor": "#c9c9c9",
+                                            "borderRadius": "4px",
+                                            "borderStyle": "solid",
+                                            "borderWidth": "1px",
+                                            "display": "flex",
+                                            "flexDirection": "column",
+                                            "flexShrink": 1,
+                                            "fontSize": "14px",
+                                            "overflow": "hidden",
+                                            "position": "static",
+                                            "width": "100%"
+                                        },
+                                        "blockId": "qwp5zsk4w",
+                                        "children": [],
+                                        "classes": [],
+                                        "customAttributes": {
+                                            "name": "city",
+                                            "required": "true"
+                                        },
+                                        "dataKey": null,
+                                        "element": "input",
+                                        "mobileStyles": {},
+                                        "rawStyles": {},
+                                        "tabletStyles": {}
+                                    },
+                                    {
+                                        "attributes": {
+                                            "placeholder": "State"
+                                        },
+                                        "baseStyles": {
+                                            "borderColor": "#c9c9c9",
+                                            "borderRadius": "4px",
+                                            "borderStyle": "solid",
+                                            "borderWidth": "1px",
+                                            "display": "flex",
+                                            "flexDirection": "column",
+                                            "flexShrink": 1,
+                                            "fontSize": "14px",
+                                            "overflow": "hidden",
+                                            "position": "static",
+                                            "width": "100%"
+                                        },
+                                        "blockId": "2c7ixdr8p",
+                                        "children": [],
+                                        "classes": [],
+                                        "customAttributes": {
+                                            "name": "state"
+                                        },
+                                        "dataKey": null,
+                                        "element": "input",
+                                        "mobileStyles": {},
+                                        "rawStyles": {},
+                                        "tabletStyles": {}
+                                    }
+                                ],
+                                "classes": [],
+                                "customAttributes": {},
+                                "dataKey": null,
+                                "element": "div",
+                                "mobileStyles": {},
+                                "rawStyles": {},
+                                "tabletStyles": {}
+                            },
+                            {
+                                "attributes": {},
+                                "baseStyles": {
+                                    "display": "flex",
+                                    "flexDirection": "row",
+                                    "flexGrow": 0,
+                                    "flexShrink": 1,
+                                    "gap": "10px",
+                                    "height": "fit-content",
+                                    "overflow": "hidden",
+                                    "position": "relative",
+                                    "width": "100%"
+                                },
+                                "blockId": "wdpppoqp5",
+                                "blockName": "container",
+                                "children": [
+                                    {
+                                        "attributes": {
+                                            "placeholder": "Last Name"
+                                        },
+                                        "baseStyles": {
+                                            "borderColor": "#c9c9c9",
+                                            "borderRadius": "4px",
+                                            "borderStyle": "solid",
+                                            "borderWidth": "1px",
+                                            "display": "flex",
+                                            "flexDirection": "column",
+                                            "flexShrink": 1,
+                                            "fontSize": "14px",
+                                            "height": "fit-content",
+                                            "overflow": "hidden",
+                                            "position": "static",
+                                            "width": "100%"
+                                        },
+                                        "blockId": "cffdhwazw",
+                                        "children": [
+                                            {
+                                                "attributes": {},
+                                                "baseStyles": {
+                                                    "backgroundColor": "#e2e2e2",
+                                                    "display": "flex",
+                                                    "flexDirection": "column",
+                                                    "flexShrink": 0,
+                                                    "height": "200px",
+                                                    "overflow": "hidden",
+                                                    "position": "static",
+                                                    "width": "100%"
+                                                },
+                                                "blockId": "j6gqz504k",
+                                                "blockName": "option",
+                                                "children": [],
+                                                "classes": [],
+                                                "customAttributes": {
+                                                    "disabled": "",
+                                                    "selected": "",
+                                                    "value": "Country*"
+                                                },
+                                                "dataKey": null,
+                                                "element": "option",
+                                                "mobileStyles": {},
+                                                "rawStyles": {},
+                                                "tabletStyles": {}
+                                            },
+                                            {
+                                                "attributes": {},
+                                                "baseStyles": {
+                                                    "display": "flex",
+                                                    "flexDirection": "column",
+                                                    "flexShrink": 0,
+                                                    "minHeight": "300px",
+                                                    "overflow": "hidden",
+                                                    "position": "relative",
+                                                    "width": "100%"
+                                                },
+                                                "blockId": "0qi12ggs2",
+                                                "blockName": "repeater",
+                                                "children": [
+                                                    {
+                                                        "attributes": {},
+                                                        "baseStyles": {
+                                                            "backgroundColor": "#e2e2e2",
+                                                            "display": "flex",
+                                                            "flexDirection": "column",
+                                                            "flexShrink": 0,
+                                                            "height": "200px",
+                                                            "overflow": "hidden",
+                                                            "position": "static",
+                                                            "width": "100%"
+                                                        },
+                                                        "blockId": "xuvxamhw1",
+                                                        "blockName": "option",
+                                                        "children": [],
+                                                        "classes": [],
+                                                        "customAttributes": {},
+                                                        "dataKey": {
+                                                            "key": "name",
+                                                            "property": "value",
+                                                            "type": "attribute"
+                                                        },
+                                                        "element": "option",
+                                                        "mobileStyles": {},
+                                                        "rawStyles": {},
+                                                        "tabletStyles": {}
+                                                    }
+                                                ],
+                                                "classes": [],
+                                                "customAttributes": {},
+                                                "dataKey": {
+                                                    "key": "countries",
+                                                    "property": "innerHTML",
+                                                    "type": "key"
+                                                },
+                                                "element": "div",
+                                                "isRepeaterBlock": true,
+                                                "mobileStyles": {},
+                                                "rawStyles": {},
+                                                "tabletStyles": {}
+                                            }
+                                        ],
+                                        "classes": [],
+                                        "customAttributes": {
+                                            "name": "country",
+                                            "required": "true"
+                                        },
+                                        "dataKey": null,
+                                        "element": "select",
+                                        "mobileStyles": {},
+                                        "rawStyles": {},
+                                        "tabletStyles": {}
+                                    },
+                                    {
+                                        "attributes": {
+                                            "placeholder": "Postal Code"
+                                        },
+                                        "baseStyles": {
+                                            "borderColor": "#c9c9c9",
+                                            "borderRadius": "4px",
+                                            "borderStyle": "solid",
+                                            "borderWidth": "1px",
+                                            "display": "flex",
+                                            "flexDirection": "column",
+                                            "flexShrink": 1,
+                                            "fontSize": "14px",
+                                            "overflow": "hidden",
+                                            "position": "static",
+                                            "width": "100%"
+                                        },
+                                        "blockId": "6qmkurbr3",
+                                        "children": [],
+                                        "classes": [],
+                                        "customAttributes": {
+                                            "name": "pincode"
+                                        },
+                                        "dataKey": null,
+                                        "element": "input",
+                                        "mobileStyles": {},
+                                        "rawStyles": {},
+                                        "tabletStyles": {}
+                                    }
+                                ],
+                                "classes": [],
+                                "customAttributes": {},
+                                "dataKey": null,
+                                "element": "div",
+                                "mobileStyles": {},
+                                "rawStyles": {},
+                                "tabletStyles": {}
+                            },
+                            {
+                                "attributes": {
+                                    "placeholder": "Phone*",
+                                    "type": "tel"
+                                },
+                                "baseStyles": {
+                                    "borderColor": "#c9c9c9",
+                                    "borderRadius": "4px",
+                                    "borderStyle": "solid",
+                                    "borderWidth": "1px",
+                                    "display": "flex",
+                                    "flexDirection": "column",
+                                    "flexShrink": 0,
+                                    "fontSize": "14px",
+                                    "left": "auto",
+                                    "overflow": "hidden",
+                                    "position": "static",
+                                    "top": "auto",
+                                    "width": "100%"
+                                },
+                                "blockId": "6zn2r4457",
+                                "children": [],
+                                "classes": [],
+                                "customAttributes": {
+                                    "name": "phone",
+                                    "required": "true"
+                                },
+                                "dataKey": null,
+                                "element": "input",
+                                "mobileStyles": {},
+                                "rawStyles": {},
+                                "tabletStyles": {}
+                            },
+                            {
+                                "attributes": {},
+                                "baseStyles": {
+                                    "alignItems": "center",
+                                    "backgroundColor": "#171717",
+                                    "borderRadius": "4px",
+                                    "display": "flex",
+                                    "flexDirection": "column",
+                                    "height": "fit-content",
+                                    "justifyContent": "flex-start",
+                                    "padding": "10px",
+                                    "width": "100%"
+                                },
+                                "blockId": "iihz3xns0",
+                                "children": [
+                                    {
+                                        "attributes": {},
+                                        "baseStyles": {
+                                            "color": "var(--neutral-white, #FFF)",
+                                            "fontSize": "14px",
+                                            "fontWeight": "420",
+                                            "height": "fit-content",
+                                            "left": "auto",
+                                            "letterSpacing": "0.28px",
+                                            "lineHeight": "115%",
+                                            "minWidth": "30px",
+                                            "position": "static",
+                                            "top": "auto",
+                                            "width": "fit-content"
+                                        },
+                                        "blockId": "qdbuhe1fw",
+                                        "children": [],
+                                        "classes": [
+                                            "__text_block__"
+                                        ],
+                                        "customAttributes": {},
+                                        "dataKey": null,
+                                        "element": "p",
+                                        "innerHTML": "<p>Save Address</p>",
+                                        "mobileStyles": {},
+                                        "rawStyles": {},
+                                        "tabletStyles": {}
+                                    }
+                                ],
+                                "classes": [
+                                    ""
+                                ],
+                                "customAttributes": {},
+                                "dataKey": null,
+                                "element": "button",
+                                "mobileStyles": {},
+                                "rawStyles": {
+                                    "flex-shrink": "0",
+                                    "hover:background": "#383838",
+                                    "transition": "all 0.1s ease-out"
+                                },
+                                "tabletStyles": {}
+                            }
+                        ],
+                        "classes": [],
+                        "customAttributes": {
+                            "onsubmit": "saveAddress(event)"
+                        },
+                        "dataKey": null,
+                        "element": "form",
+                        "mobileStyles": {},
+                        "rawStyles": {},
+                        "tabletStyles": {}
+                    },
+                    {
+                        "attributes": {},
+                        "baseStyles": {
+                            "alignItems": "center",
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "flexShrink": 0,
+                            "justifyContent": "flex-start",
+                            "overflow": "hidden",
+                            "position": "static",
+                            "width": "fit-content"
+                        },
+                        "blockId": "pao3vjrhr",
+                        "blockName": "container",
+                        "children": [
+                            {
+                                "attributes": {},
+                                "baseStyles": {
+                                    "alignItems": "center",
+                                    "borderRadius": "4px",
+                                    "display": "flex",
+                                    "flexDirection": "column",
+                                    "height": "fit-content",
+                                    "justifyContent": "center",
+                                    "padding": "6px 8px",
+                                    "width": "fit-content"
+                                },
+                                "blockId": "avutibu32",
+                                "blockName": "button-link",
+                                "children": [
+                                    {
+                                        "attributes": {},
+                                        "baseStyles": {
+                                            "fontSize": "14px",
+                                            "fontWeight": "420",
+                                            "height": "fit-content",
+                                            "left": "auto",
+                                            "letterSpacing": "0.28px",
+                                            "lineHeight": "115%",
+                                            "minWidth": "30px",
+                                            "position": "static",
+                                            "top": "auto",
+                                            "width": "fit-content"
+                                        },
+                                        "blockId": "fglqmf1et",
+                                        "children": [],
+                                        "classes": [
+                                            "__text_block__"
+                                        ],
+                                        "customAttributes": {},
+                                        "dataKey": null,
+                                        "element": "span",
+                                        "innerHTML": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-arrow-left-icon lucide-arrow-left\"><path d=\"m12 19-7-7 7-7\"/><path d=\"M19 12H5\"/></svg>",
+                                        "mobileStyles": {},
+                                        "rawStyles": {},
+                                        "tabletStyles": {}
+                                    }
+                                ],
+                                "classes": [
+                                    "__text_block__"
+                                ],
+                                "customAttributes": {
+                                    "id": "go-back"
+                                },
+                                "dataKey": null,
+                                "element": "button",
+                                "mobileStyles": {},
+                                "rawStyles": {
+                                    "flex-shrink": "0"
+                                },
+                                "tabletStyles": {}
+                            },
+                            {
+                                "attributes": {},
+                                "baseStyles": {
+                                    "fontSize": "1.25rem",
+                                    "fontWeight": "bold",
+                                    "height": "fit-content",
+                                    "lineHeight": "1.4",
+                                    "minWidth": "10px",
+                                    "position": "static",
+                                    "width": "fit-content"
+                                },
+                                "blockId": "3egvy4p4f",
+                                "children": [],
+                                "classes": [],
+                                "customAttributes": {},
+                                "dataKey": null,
+                                "element": "h3",
+                                "innerHTML": "Add Address",
+                                "mobileStyles": {},
+                                "rawStyles": {},
+                                "tabletStyles": {}
+                            }
+                        ],
+                        "classes": [],
+                        "customAttributes": {},
+                        "dataKey": null,
+                        "element": "div",
+                        "mobileStyles": {},
+                        "rawStyles": {
+                            "left": "14px",
+                            "position": "fixed",
+                            "top": "14px"
+                        },
+                        "tabletStyles": {}
+                    }
+                ],
+                "classes": [],
+                "customAttributes": {},
+                "dataKey": null,
+                "element": "div",
+                "mobileStyles": {},
+                "rawStyles": {},
+                "tabletStyles": {}
+            }
+        ],
+        "classes": [],
+        "customAttributes": {},
+        "dataKey": null,
+        "draggable": false,
+        "element": "div",
+        "mobileStyles": {},
+        "originalElement": "body",
+        "rawStyles": {},
+        "tabletStyles": {}
+    }
+]

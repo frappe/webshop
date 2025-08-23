@@ -1,0 +1,18 @@
+{
+    "name": "page-d95fbb5d",
+    "published": 1,
+    "page_name": "page-d95fbb5d",
+    "route": "quotation-new/:name",
+    "dynamic_route": 1,
+    "is_template": 0,
+    "template_name": null,
+    "favicon": null,
+    "page_title": "Quotaion Info",
+    "meta_description": null,
+    "meta_image": null,
+    "canonical_url": null,
+    "authenticated_access": 0,
+    "disable_indexing": 0,
+    "project_folder": "Minimal Mono",
+    "doctype": "Builder Page"
+}
