@@ -1,35 +1,5 @@
 [
  {
-  "builder_script": "restore-scroll",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-27 01:52:03.325152",
-  "name": "rf199bp3nc",
-  "parent": "page-0811a941",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
-  "builder_script": "full-screen-hero-image-lg",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-25 21:20:30.511046",
-  "name": "rf215fh58k",
-  "parent": "page-c7c326c4",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
-  "builder_script": "CSS-fe577",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-20 16:03:33.679643",
-  "name": "2f593irjlq",
-  "parent": "page-5ba56ee5",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
   "builder_script": "CSS-f7d27",
   "docstatus": 0,
   "doctype": "Builder Page Client Script",
@@ -130,36 +100,6 @@
   "parenttype": "Builder Page"
  },
  {
-  "builder_script": "multi-select-js",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-27 01:52:03.325152",
-  "name": "rf12ghkk9u",
-  "parent": "page-0811a941",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
-  "builder_script": "JavaScript-becfa",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-25 21:20:30.511046",
-  "name": "gqlakso3r6",
-  "parent": "page-c7c326c4",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
-  "builder_script": "variant-selection-handler",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-20 16:03:33.679643",
-  "name": "bkr7ib43i8",
-  "parent": "page-5ba56ee5",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
   "builder_script": "cart item qty handler",
   "docstatus": 0,
   "doctype": "Builder Page Client Script",
@@ -230,26 +170,6 @@
   "parenttype": "Builder Page"
  },
  {
-  "builder_script": "multi-select-css",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-27 01:52:03.325152",
-  "name": "rf12amcf7r",
-  "parent": "page-0811a941",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
-  "builder_script": "wishlist-handlers",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-20 16:03:33.679643",
-  "name": "1mhkk9v29a",
-  "parent": "page-5ba56ee5",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
   "builder_script": "coupon code handler",
   "docstatus": 0,
   "doctype": "Builder Page Client Script",
@@ -296,26 +216,6 @@
   "modified": "2025-07-21 00:45:09.427697",
   "name": "ffrg6piol8",
   "parent": "page-4de22a13",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
-  "builder_script": "remove-options-wrapper-div",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-27 01:52:03.325152",
-  "name": "rf1r28dr8b",
-  "parent": "page-0811a941",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
-  "builder_script": "progress-bar-width",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-20 16:03:33.679643",
-  "name": "i5c8hr9pha",
-  "parent": "page-5ba56ee5",
   "parentfield": "client_scripts",
   "parenttype": "Builder Page"
  },
@@ -370,26 +270,6 @@
   "parenttype": "Builder Page"
  },
  {
-  "builder_script": "option-content-population",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-27 01:52:03.325152",
-  "name": "rf1el3bgqh",
-  "parent": "page-0811a941",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
-  "builder_script": "modal-handler",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-20 16:03:33.679643",
-  "name": "hjt6ep91ls",
-  "parent": "page-5ba56ee5",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
   "builder_script": "select-addr-post",
   "docstatus": 0,
   "doctype": "Builder Page Client Script",
@@ -430,26 +310,6 @@
   "parenttype": "Builder Page"
  },
  {
-  "builder_script": "optoin-selec-on-filter",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-27 01:52:03.325152",
-  "name": "rf1cekatb9",
-  "parent": "page-0811a941",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
-  "builder_script": "rating-stars",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-20 16:03:33.679643",
-  "name": "ije424cg6i",
-  "parent": "page-5ba56ee5",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
   "builder_script": "go-back-button",
   "docstatus": 0,
   "doctype": "Builder Page Client Script",
@@ -480,26 +340,6 @@
   "parenttype": "Builder Page"
  },
  {
-  "builder_script": "option-content-population",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-27 01:52:03.325152",
-  "name": "rf1f67bj14",
-  "parent": "page-0811a941",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
-  "builder_script": "set-star-rating",
-  "docstatus": 0,
-  "doctype": "Builder Page Client Script",
-  "modified": "2025-07-20 16:03:33.679643",
-  "name": "jvgrkcid83",
-  "parent": "page-5ba56ee5",
-  "parentfield": "client_scripts",
-  "parenttype": "Builder Page"
- },
- {
   "builder_script": "edit-address-redirect",
   "docstatus": 0,
   "doctype": "Builder Page Client Script",
@@ -520,12 +360,532 @@
   "parenttype": "Builder Page"
  },
  {
+  "builder_script": "restore-scroll",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-23 11:25:54.230370",
+  "name": "2fblcogshd",
+  "parent": "page-0811a941",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "full-screen-hero-image-lg",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-18 00:23:10.661076",
+  "name": "2fcuq5kmgb",
+  "parent": "page-c7c326c4",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "CSS-f7d27",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.874625",
+  "name": "2fcvaf2opl",
+  "parent": "page-f9b64a30",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-dbf78",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.885552",
+  "name": "2fcrpigd7r",
+  "parent": "page-8bf6247a",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-dbf78-7dec6",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.892045",
+  "name": "2fc6ase0uv",
+  "parent": "page-1fd81843",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-dbf78-7dec6-8d7d4",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.898962",
+  "name": "2fclegco95",
+  "parent": "page-eae56113",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-dbf78-7dec6-10fd4",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.906099",
+  "name": "2fda2rjj5t",
+  "parent": "page-2e17025e",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-53113",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.927549",
+  "name": "2fdud8nc6v",
+  "parent": "page-0cb7997b",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-53113-cbedd",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.958722",
+  "name": "2fdq3k390r",
+  "parent": "page-7dac61d6",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-c7178",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.970525",
+  "name": "2fdjb3c21j",
+  "parent": "page-96a65fd3",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-624c1",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.981755",
+  "name": "2fd5epe4an",
+  "parent": "page-3fcbeae9",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "ratings-progress-bar-handler",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:39.009578",
+  "name": "2fd1lrkcv6",
+  "parent": "page-4de22a13",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-becfa",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-18 00:23:10.661076",
+  "name": "gqlakso3r6",
+  "parent": "page-c7c326c4",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "wishlist-handlers",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-23 10:38:10.548321",
+  "name": "1mhkk9v29a",
+  "parent": "page-5ba56ee5",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-becfa",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-18 00:23:10.661076",
+  "name": "2fcgd3rq9i",
+  "parent": "page-c7c326c4",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "CSS-fe577",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-23 10:38:10.548321",
+  "name": "2fcj2ln8ke",
+  "parent": "page-5ba56ee5",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "cart item qty handler",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.874883",
+  "name": "2fcvpgo8k6",
+  "parent": "page-f9b64a30",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-d6423",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.885829",
+  "name": "2fcca30q0k",
+  "parent": "page-8bf6247a",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "clean-br-2",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.892264",
+  "name": "2fcsh7clu3",
+  "parent": "page-1fd81843",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-c4688-91a70",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.899181",
+  "name": "2fcpg4kc10",
+  "parent": "page-eae56113",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "clean-br",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.906312",
+  "name": "2fdnedsd9q",
+  "parent": "page-2e17025e",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-803df",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.982070",
+  "name": "2fdt1gu03i",
+  "parent": "page-3fcbeae9",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "CSS-e4497",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:39.010044",
+  "name": "2fd5g9pe6h",
+  "parent": "page-4de22a13",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "full-screen-hero-image-lg",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-18 00:23:10.661076",
+  "name": "rf215fh58k",
+  "parent": "page-c7c326c4",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
   "builder_script": "page-handler",
   "docstatus": 0,
   "doctype": "Builder Page Client Script",
-  "modified": "2025-07-27 01:52:03.325152",
+  "modified": "2025-08-23 11:25:54.230370",
   "name": "89o5o204r8",
   "parent": "page-0811a941",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "multi-select-js",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-23 11:25:54.230370",
+  "name": "2fb2avji11",
+  "parent": "page-0811a941",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "variant-selection-handler",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-23 10:38:10.548321",
+  "name": "2fctu63lu2",
+  "parent": "page-5ba56ee5",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "coupon code handler",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.875107",
+  "name": "2fc2b6t9e7",
+  "parent": "page-f9b64a30",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-732e5",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.892469",
+  "name": "2fcb6ih31b",
+  "parent": "page-1fd81843",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-732e5-28030",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.899385",
+  "name": "2fc45fb1fd",
+  "parent": "page-eae56113",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "JavaScript-732e5-51a0c",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.906566",
+  "name": "2fd10e7e6r",
+  "parent": "page-2e17025e",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "sort_by-handler",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:39.010355",
+  "name": "2fdlnlt6in",
+  "parent": "page-4de22a13",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "place order",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.875310",
+  "name": "2fctjuhjno",
+  "parent": "page-f9b64a30",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "CSS-fd18c",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.892666",
+  "name": "2fcpt3ckn2",
+  "parent": "page-1fd81843",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "CSS-fd18c-bf652",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.899594",
+  "name": "2fc8s2jh93",
+  "parent": "page-eae56113",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "CSS-fd18c-f9e67",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.906817",
+  "name": "2fdujlssie",
+  "parent": "page-2e17025e",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "order-handler",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:39.010666",
+  "name": "2fd52onedr",
+  "parent": "page-4de22a13",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "multi-select-css",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-23 11:25:54.230370",
+  "name": "rf12amcf7r",
+  "parent": "page-0811a941",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "modal-handler",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-23 10:38:10.548321",
+  "name": "hjt6ep91ls",
+  "parent": "page-5ba56ee5",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "remove-options-wrapper-div",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-23 11:25:54.230370",
+  "name": "2fbe6j1nv4",
+  "parent": "page-0811a941",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "select-addr-post",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.892858",
+  "name": "2fcl9134r8",
+  "parent": "page-1fd81843",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "select-addr-post-dd1a6",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.899786",
+  "name": "2fcjhrjrq0",
+  "parent": "page-eae56113",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "select-addr-post-2c1ee",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.907065",
+  "name": "2fdlcqe0gk",
+  "parent": "page-2e17025e",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "page-handler",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:39.010976",
+  "name": "2fdjbs7p92",
+  "parent": "page-4de22a13",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "progress-bar-width",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-23 10:38:10.548321",
+  "name": "i5c8hr9pha",
+  "parent": "page-5ba56ee5",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "rating-stars",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-23 10:38:10.548321",
+  "name": "2fc60dbccf",
+  "parent": "page-5ba56ee5",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "go-back-button",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.893058",
+  "name": "2fc4ilm5ep",
+  "parent": "page-1fd81843",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "go-back-button-b0679",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.899996",
+  "name": "2fc6dj6jm9",
+  "parent": "page-eae56113",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "go-back-button-9346b",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.907309",
+  "name": "2fdq090v2t",
+  "parent": "page-2e17025e",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "option-content-population",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-23 11:25:54.230370",
+  "name": "rf1f67bj14",
+  "parent": "page-0811a941",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "set-star-rating",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-23 10:38:10.548321",
+  "name": "2fc6qhsds6",
+  "parent": "page-5ba56ee5",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "edit-address-redirect",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.893252",
+  "name": "2fcldaiu1m",
+  "parent": "page-1fd81843",
+  "parentfield": "client_scripts",
+  "parenttype": "Builder Page"
+ },
+ {
+  "builder_script": "edit-address-redirect-07f31",
+  "docstatus": 0,
+  "doctype": "Builder Page Client Script",
+  "modified": "2025-08-17 13:37:38.907552",
+  "name": "2fde04pvpt",
+  "parent": "page-2e17025e",
   "parentfield": "client_scripts",
   "parenttype": "Builder Page"
  },
@@ -533,8 +893,8 @@
   "builder_script": "handle-review",
   "docstatus": 0,
   "doctype": "Builder Page Client Script",
-  "modified": "2025-07-20 16:03:33.679643",
-  "name": "s3ti5a92a1",
+  "modified": "2025-08-23 10:38:10.548321",
+  "name": "2fc4gp5mkm",
   "parent": "page-5ba56ee5",
   "parentfield": "client_scripts",
   "parenttype": "Builder Page"
