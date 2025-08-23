@@ -1,0 +1,102 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 1,
+  "modified": "2025-07-10 12:45:12.694168",
+  "name": "gray-900",
+  "type": "Color",
+  "value": "#171717",
+  "variable_name": "gray-900"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 1,
+  "modified": "2025-07-04 15:19:30.459963",
+  "name": "gray-800",
+  "type": "Color",
+  "value": "#383838",
+  "variable_name": "gray-800"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 1,
+  "modified": "2025-07-04 15:19:30.455261",
+  "name": "gray-700",
+  "type": "Color",
+  "value": "#525252",
+  "variable_name": "gray-700"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 1,
+  "modified": "2025-07-04 15:19:30.436442",
+  "name": "gray-600",
+  "type": "Color",
+  "value": "#7C7C7C",
+  "variable_name": "gray-600"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 1,
+  "modified": "2025-07-04 15:19:30.429585",
+  "name": "gray-500",
+  "type": "Color",
+  "value": "#999999",
+  "variable_name": "gray-500"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 1,
+  "modified": "2025-07-04 15:19:30.425007",
+  "name": "gray-400",
+  "type": "Color",
+  "value": "#C7C7C7",
+  "variable_name": "gray-400"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 1,
+  "modified": "2025-07-04 15:19:30.417942",
+  "name": "gray-300",
+  "type": "Color",
+  "value": "#E2E2E2",
+  "variable_name": "gray-300"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 1,
+  "modified": "2025-07-04 15:19:30.412835",
+  "name": "gray-200",
+  "type": "Color",
+  "value": "#EDEDED",
+  "variable_name": "gray-200"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 1,
+  "modified": "2025-07-04 15:19:30.406838",
+  "name": "gray-100",
+  "type": "Color",
+  "value": "#F3F3F3",
+  "variable_name": "gray-100"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 1,
+  "modified": "2025-07-04 15:19:30.289266",
+  "name": "gray-50",
+  "type": "Color",
+  "value": "#F8F8F8",
+  "variable_name": "gray-50"
+ }
+]

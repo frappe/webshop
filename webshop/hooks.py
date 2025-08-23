@@ -84,6 +84,8 @@ fixtures = [
     "Builder Settings",
     "Builder Component",
     "Builder Page",
+    "Builder Variable",
+    "Builder Project Folder",
 ]
 
 add_to_apps_screen = [
