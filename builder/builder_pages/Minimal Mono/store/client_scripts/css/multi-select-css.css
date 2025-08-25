@@ -68,6 +68,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   width: fit-content;
+  max-width: 50vw;
   border: 1px solid #cdcdcd;
 }
 .multi-select .multi-select-options::-webkit-scrollbar {
