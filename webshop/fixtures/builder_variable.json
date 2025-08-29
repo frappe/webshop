@@ -98,5 +98,65 @@
   "type": "Color",
   "value": "#F8F8F8",
   "variable_name": "gray-50"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 0,
+  "modified": "2025-08-24 20:50:14.627868",
+  "name": "background_plp",
+  "type": "Color",
+  "value": "#DBE2EF",
+  "variable_name": "background-plp"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 0,
+  "modified": "2025-08-26 00:01:29.012939",
+  "name": "foreground_plp",
+  "type": "Color",
+  "value": "#184273",
+  "variable_name": "foreground-plp"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 0,
+  "modified": "2025-08-25 20:05:03.932164",
+  "name": "secondary_plp",
+  "type": "Color",
+  "value": "#3F72AF",
+  "variable_name": "secondary-plp"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 0,
+  "modified": "2025-08-25 20:05:49.275074",
+  "name": "tertiary_plp",
+  "type": "Color",
+  "value": "#F9F7F7",
+  "variable_name": "tertiary-plp"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 0,
+  "modified": "2025-08-26 23:48:19.537885",
+  "name": "foreground_lighter_plp",
+  "type": "Color",
+  "value": "#1f5694",
+  "variable_name": "foreground-lighter-plp"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Builder Variable",
+  "is_standard": 0,
+  "modified": "2025-08-27 20:41:15.373533",
+  "name": "background_lighter_plp",
+  "type": "Color",
+  "value": "#e8f0ff",
+  "variable_name": "background-lighter-plp"
  }
 ]
