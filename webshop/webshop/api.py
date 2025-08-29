@@ -198,6 +198,7 @@ def get_webshop_homepage_content():
 	additional_details = content.additional_details
 	details_for_collections = []
 	for collection in collections:
+		# TODO: maybe we can include details of item groups in the child table itself like homepage featured products?
 		details = get_item_group_details(collection.item_group)
 		details_for_collections.append({
 			"item_group": collection.item_group,
@@ -213,6 +214,7 @@ def get_webshop_homepage_content():
 	return {
 		"hero_image": hero_image,
 		"collections": details_for_collections,
+		"featured_products": content.homepage_featured_products,
 		"additional_details": additional_details,
 	}
 
