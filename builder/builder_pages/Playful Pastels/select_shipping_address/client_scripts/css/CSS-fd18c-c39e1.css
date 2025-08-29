@@ -1,0 +1,5 @@
+/* Write your CSS here */
+.selected {
+    background-color: var(--background-lighter-plp);
+    border-width: 1.5px;
+}

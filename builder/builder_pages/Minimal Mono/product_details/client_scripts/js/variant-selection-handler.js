@@ -25,13 +25,17 @@ async function getAttributeSlideshow(selectedAttributes) {
       }
       numberOfDuplications = 0;
     }
-    for (const url of other_matches) {
-      duplicateNode(".slideshow-slide", { src: url });
-      numberOfDuplications++;
+    for (const urls of other_matches) {
+      for (const url of urls) {
+        duplicateNode(".slideshow-slide", { src: url });
+        numberOfDuplications++;
+      }
     }
-    for (const url of exact_matches) {
-      duplicateNode(".slideshow-slide", { src: url });
-      numberOfDuplications++;
+    for (const urls of exact_matches) {
+      for (const url of urls) {
+        duplicateNode(".slideshow-slide", { src: url });
+        numberOfDuplications++;
+      }
     }
   });
 }
@@ -165,6 +169,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (insertedVariantImage) {
           insertedVariantImage = false;
           removeDuplicatedNode(".slideshow-slide");
+        }
+        if (numberOfDuplications) {
+          for (let i = 0; i < numberOfDuplications; i++) {
+            removeDuplicatedNode(".slideshow-slide");
+          }
+          numberOfDuplications = 0;
         }
         const targetId = button.getAttribute("data-select-clear-target");
         const select = document.getElementById(targetId);

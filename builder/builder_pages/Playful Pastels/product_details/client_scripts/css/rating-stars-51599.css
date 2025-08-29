@@ -1,0 +1,74 @@
+/*https://codepen.io/andreacrawford/pen/NvqJXW*/
+/*  
+ *  Pure CSS star rating that works without reversing order
+ *  of inputs
+ *  -------------------------------------------------------
+ *  NOTE: For the styling to work, there needs to be a radio
+ *        input selected by default. There also needs to be a
+ *        radio input before the first star, regardless of
+ *        whether you offer a 'no rating' or 0 stars option
+ *  
+ *  This codepen uses FontAwesome icons
+ */
+#half-stars {
+  /* use display:inline-flex to prevent whitespace issues. alternatively, you can put all the children of .rating-group on a single line */
+  /* make hover effect work properly in IE */
+  /* hide radio inputs */
+  /* set icon padding and size */
+  /* add padding and positioning to half star labels */
+  /* set default star color */
+  /* set color of none icon when unchecked */
+  /* if none icon is checked, make it red */
+  /* if any input is checked, make its following siblings grey */
+  /* make all stars orange on rating group hover */
+  /* make hovered input's following siblings grey on hover */
+  /* make none icon grey on rating group hover */
+  /* make none icon red on hover */
+}
+#half-stars .rating-group {
+  display: inline-flex;
+}
+#half-stars .rating__icon {
+  pointer-events: none;
+}
+#half-stars .rating__input {
+  position: absolute !important;
+  left: -9999px !important;
+}
+#half-stars .rating__label {
+  cursor: pointer;
+  /* if you change the left/right padding, update the margin-right property of .rating__label--half as well. */
+  padding: 0 0.1em;
+  font-size: 2rem;
+}
+#half-stars .rating__label--half {
+  padding-right: 0;
+  margin-right: -0.6em;
+  z-index: 2;
+}
+#half-stars .rating__icon--star {
+  color: var(--foreground-plp);
+}
+#half-stars .rating__icon--none {
+  color: var(--tertiary-plp);
+}
+#half-stars .rating__input--none:checked + .rating__label .rating__icon--none {
+  color: red;
+}
+#half-stars .rating__input:checked ~ .rating__label .rating__icon--star {
+  color: var(--tertiary-plp);
+}
+#half-stars .rating-group:hover .rating__label .rating__icon--star,
+#half-stars .rating-group:hover .rating__label--half .rating__icon--star {
+  color: var(--foreground-plp);
+}
+#half-stars .rating__input:hover ~ .rating__label .rating__icon--star,
+#half-stars .rating__input:hover ~ .rating__label--half .rating__icon--star {
+  color: var(--tertiary-plp);
+}
+#half-stars .rating-group:hover .rating__input--none:not(:hover) + .rating__label .rating__icon--none {
+  color: var(--tertiary-plp);
+}
+#half-stars .rating__input--none:hover + .rating__label .rating__icon--none {
+  color: red;
+}

@@ -1,0 +1,8 @@
+/* Write your CSS here */
+#navbar {
+    border-bottom: 0px;
+    transition: all 100ms ease-in-out;
+}
+.border-bottom {
+    border-bottom: 2px solid var(--foreground-lighter-plp) !important;
+}

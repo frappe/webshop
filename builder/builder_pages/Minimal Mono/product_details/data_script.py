@@ -89,6 +89,9 @@ if details.cart_settings.enable_reviews:
         process_and_assign_rating(details["reviews_and_ratings"]["current_user_review"], current_user_rating)
     data.more_reviews_available =  details["reviews_and_ratings"]["total_reviews"] > 10
     data.all_reviews_url = f"/customer-review/{code}"
+    
+    # Remove current user's review
+    details["reviews_and_ratings"]["reviews"] = [review for review in details["reviews_and_ratings"]["reviews"] if review["user"] != frappe.user]
 
 
 # --------------------------------------------------

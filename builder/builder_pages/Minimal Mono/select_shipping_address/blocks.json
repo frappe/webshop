@@ -350,16 +350,84 @@
                         "attributes": {},
                         "baseStyles": {
                             "display": "flex",
-                            "flexDirection": "column",
+                            "flexDirection": "row",
                             "flexShrink": 0,
+                            "gap": "10px",
                             "height": "fit-content",
                             "overflow": "hidden",
                             "padding": "40px",
                             "width": "100%"
                         },
-                        "blockId": "3o285kbg9",
+                        "blockId": "nk4n1rh1f",
                         "blockName": "container",
                         "children": [
+                            {
+                                "activeState": null,
+                                "attributes": {
+                                    "href": "/add-address"
+                                },
+                                "baseStyles": {
+                                    "alignItems": "center",
+                                    "backgroundColor": "#ffffff",
+                                    "borderColor": "#000000",
+                                    "borderRadius": "4px",
+                                    "borderStyle": "solid",
+                                    "borderWidth": "1px",
+                                    "display": "flex",
+                                    "flexDirection": "column",
+                                    "height": "fit-content",
+                                    "justifyContent": "center",
+                                    "padding": "10px",
+                                    "width": "fit-content"
+                                },
+                                "blockId": "gxrzd53c6",
+                                "blockName": "button-link",
+                                "children": [
+                                    {
+                                        "activeState": null,
+                                        "attributes": {},
+                                        "baseStyles": {
+                                            "fontSize": "14px",
+                                            "fontWeight": "420",
+                                            "height": "fit-content",
+                                            "left": "auto",
+                                            "letterSpacing": "0.28px",
+                                            "lineHeight": "115%",
+                                            "minWidth": "30px",
+                                            "position": "static",
+                                            "top": "auto",
+                                            "width": "fit-content"
+                                        },
+                                        "blockId": "w8p4gyd4k",
+                                        "children": [],
+                                        "classes": [
+                                            "__text_block__"
+                                        ],
+                                        "customAttributes": {},
+                                        "dataKey": null,
+                                        "dynamicValues": [],
+                                        "element": "p",
+                                        "innerHTML": "<p>Add New Address</p>",
+                                        "mobileStyles": {},
+                                        "rawStyles": {},
+                                        "tabletStyles": {}
+                                    }
+                                ],
+                                "classes": [
+                                    "__text_block__"
+                                ],
+                                "customAttributes": {},
+                                "dataKey": null,
+                                "dynamicValues": [],
+                                "element": "a",
+                                "mobileStyles": {},
+                                "rawStyles": {
+                                    "flex-shrink": "0",
+                                    "hover:background": "#F1F5F9",
+                                    "transition": "all 0.1s ease-out"
+                                },
+                                "tabletStyles": {}
+                            },
                             {
                                 "activeState": null,
                                 "attributes": {
@@ -376,7 +444,7 @@
                                     "padding": "10px",
                                     "width": "fit-content"
                                 },
-                                "blockId": "wc2jj3ypq",
+                                "blockId": "uc5yphbc9",
                                 "blockName": "button-link",
                                 "children": [
                                     {
@@ -395,7 +463,7 @@
                                             "top": "auto",
                                             "width": "fit-content"
                                         },
-                                        "blockId": "88xqihiqc",
+                                        "blockId": "xpfthpax8",
                                         "children": [],
                                         "classes": [
                                             "__text_block__"
