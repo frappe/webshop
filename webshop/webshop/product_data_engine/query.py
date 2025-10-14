@@ -7,6 +7,7 @@ from frappe.utils import flt
 from webshop.webshop.doctype.item_review.item_review import get_customer
 from webshop.webshop.shopping_cart.product_info import get_product_info_for_website
 from webshop.webshop.utils.product import get_non_stock_item_status
+from webshop.webshop.utils.store import get_store_from_cookies
 
 
 class ProductQuery:
@@ -23,6 +24,7 @@ class ProductQuery:
 	def __init__(self):
 		self.settings = frappe.get_doc("Webshop Settings")
 		self.page_length = self.settings.products_per_page or 20
+		self.store = get_store_from_cookies()
 
 		self.or_filters = []
 		self.filters = [["published", "=", 1]]
@@ -272,15 +274,24 @@ class ProductQuery:
 		if item.get("on_backorder"):
 			return
 
+		store_warehouse = self.store.warehouse if self.store else None
+		target_warehouse = store_warehouse or warehouse
+
 		if not is_stock_item:
-			if warehouse:
-				# product bundle case
-				item.in_stock = get_non_stock_item_status(item.item_code, "website_warehouse")
+			if target_warehouse:
+				item.in_stock = get_non_stock_item_status(
+					item.item_code,
+					"website_warehouse",
+					warehouse=target_warehouse,
+				)
 			else:
 				item.in_stock = True
-		elif warehouse:
-			# stock item and has warehouse
-			item.in_stock = get_stock_availability_from_template(item.item_code, warehouse)
+		elif target_warehouse:
+			item.in_stock = get_stock_availability_from_template(
+				item.item_code,
+				target_warehouse,
+				store_warehouse=store_warehouse,
+			)
 
 	def get_cart_items(self):
 		customer = get_customer(silent=True)

@@ -14,11 +14,42 @@ from webshop.webshop.doctype.webshop_settings.webshop_settings import (
     get_shopping_cart_settings,
 )
 from webshop.webshop.utils.product import get_web_item_qty_in_stock
+from webshop.webshop.utils.store import get_store_from_cookies, is_multi_store_enabled
 from erpnext.selling.doctype.quotation.quotation import _make_sales_order
 
 
 class WebsitePriceListMissingError(frappe.ValidationError):
     pass
+
+
+def _get_active_store():
+	if not is_multi_store_enabled():
+		return None
+	return get_store_from_cookies()
+
+
+def _apply_store_context(quotation):
+	store = _get_active_store()
+	if not store:
+		return None
+
+	if hasattr(quotation, "website_store"):
+		quotation.website_store = store.name
+
+	if store.cost_center and hasattr(quotation, "cost_center"):
+		quotation.cost_center = store.cost_center
+
+	return store
+
+
+def _apply_store_to_items(quotation, store):
+	if not store or not store.warehouse:
+		return
+
+	for item in quotation.get("items", []):
+		item.warehouse = store.warehouse
+		if store.cost_center and hasattr(item, "cost_center"):
+			item.cost_center = store.cost_center
 
 
 def set_cart_count(quotation=None):
@@ -44,6 +75,10 @@ def get_cart_quotation(doc=None):
 
 	if not doc.customer_address and addresses:
 		update_cart_address("billing", addresses[0].name)
+
+	store = _apply_store_context(doc)
+	if store:
+		_apply_store_to_items(doc, store)
 
 	return {
 		"doc": decorate_quotation_doc(doc),
@@ -91,6 +126,9 @@ def place_order():
 	quotation = _get_cart_quotation()
 	cart_settings = frappe.get_cached_doc("Webshop Settings")
 	quotation.company = cart_settings.company
+	store = _apply_store_context(quotation)
+	if store:
+		_apply_store_to_items(quotation, store)
 
 	quotation.flags.ignore_permissions = True
 	quotation.submit()
@@ -109,16 +147,31 @@ def place_order():
 	)
 	sales_order.payment_schedule = []
 
+	if store:
+		if hasattr(sales_order, "website_store"):
+			sales_order.website_store = store.name
+		if store.cost_center and hasattr(sales_order, "cost_center"):
+			sales_order.cost_center = store.cost_center
+		for item in sales_order.get("items"):
+			if store.cost_center:
+				item.cost_center = store.cost_center
+
 	if not cint(cart_settings.allow_items_not_in_stock):
 		for item in sales_order.get("items"):
-			item.warehouse = frappe.db.get_value(
-				"Website Item", {"item_code": item.item_code}, "website_warehouse"
+			item.warehouse = (
+				store.warehouse
+				if store and store.warehouse
+				else frappe.db.get_value(
+					"Website Item", {"item_code": item.item_code}, "website_warehouse"
+				)
 			)
 			is_stock_item = frappe.db.get_value("Item", item.item_code, "is_stock_item")
 
 			if is_stock_item:
 				item_stock = get_web_item_qty_in_stock(
-					item.item_code, "website_warehouse"
+					item.item_code,
+					"website_warehouse",
+					warehouse=store.warehouse if store else None,
 				)
 				if not cint(item_stock.in_stock):
 					throw(_("{0} Not in Stock").format(item.item_code))
@@ -142,6 +195,9 @@ def place_order():
 @frappe.whitelist()
 def request_for_quotation():
 	quotation = _get_cart_quotation()
+	store = _apply_store_context(quotation)
+	if store:
+		_apply_store_to_items(quotation, store)
 	quotation.flags.ignore_permissions = True
 
 	if get_shopping_cart_settings().save_quotations_as_draft:
@@ -155,6 +211,7 @@ def request_for_quotation():
 @frappe.whitelist()
 def update_cart(item_code, qty, additional_notes=None, with_items=False):
 	quotation = _get_cart_quotation()
+	store = _apply_store_context(quotation)
 
 	empty_card = False
 	qty = flt(qty)
@@ -166,8 +223,12 @@ def update_cart(item_code, qty, additional_notes=None, with_items=False):
 			empty_card = True
 
 	else:
-		warehouse = frappe.get_cached_value(
-			"Website Item", {"item_code": item_code}, "website_warehouse"
+		warehouse = (
+			store.warehouse
+			if store and store.warehouse
+			else frappe.get_cached_value(
+				"Website Item", {"item_code": item_code}, "website_warehouse"
+			)
 		)
 
 		quotation_items = quotation.get("items", {"item_code": item_code})
@@ -361,7 +422,8 @@ def decorate_quotation_doc(doc):
 			"Website Item", {"item_code": item_code}, "website_warehouse"
 		)
 
-		d.warehouse = website_warehouse
+		if not is_multi_store_enabled() or not d.warehouse:
+			d.warehouse = website_warehouse
 
 	return doc
 
@@ -412,6 +474,10 @@ def _get_cart_quotation(party=None):
 		qdoc.run_method("set_missing_values")
 		apply_cart_settings(party, qdoc)
 
+	store = _apply_store_context(qdoc)
+	if store:
+		_apply_store_to_items(qdoc, store)
+
 	return qdoc
 
 
@@ -451,6 +517,10 @@ def apply_cart_settings(party=None, quotation=None):
 
 	cart_settings = frappe.get_cached_doc("Webshop Settings")
 
+	store = _apply_store_context(quotation)
+	if store:
+		_apply_store_to_items(quotation, store)
+
 	set_price_list_and_rate(quotation, cart_settings)
 
 	quotation.run_method("calculate_taxes_and_totals")
@@ -486,20 +556,25 @@ def _set_price_list(cart_settings, quotation=None):
 	"""Set price list based on customer or shopping cart default"""
 	from erpnext.accounts.party import get_default_price_list
 
-	party_name = quotation.get("party_name") if quotation else get_party().get("name")
-	selling_price_list = None
+	store = _get_active_store()
+	selling_price_list = store.price_list if store and store.price_list else None
 
-	# check if default customer price list exists
-	if party_name and frappe.db.exists("Customer", party_name):
-		selling_price_list = get_default_price_list(
-			frappe.get_doc("Customer", party_name)
-		)
-
-	# check default price list in shopping cart
 	if not selling_price_list:
-		selling_price_list = cart_settings.price_list
+		party_name = quotation.get("party_name") if quotation else get_party().get("name")
+
+		# check if default customer price list exists
+		if party_name and frappe.db.exists("Customer", party_name):
+			selling_price_list = get_default_price_list(
+				frappe.get_doc("Customer", party_name)
+			)
+
+		# check default price list in shopping cart
+		if not selling_price_list:
+			selling_price_list = cart_settings.price_list
 
 	if quotation:
+		if store:
+			_apply_store_context(quotation)
 		quotation.selling_price_list = selling_price_list
 
 	return selling_price_list

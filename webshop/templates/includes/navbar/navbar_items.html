@@ -1,6 +1,27 @@
 {% extends 'frappe/templates/includes/navbar/navbar_items.html' %}
 
 {% block navbar_right_extension %}
+	{% if multi_store_enabled and stores %}
+		<li class="nav-item store-switcher d-flex align-items-center flex-wrap flex-lg-nowrap me-2 mr-2">
+			<label class="store-switcher-label text-uppercase mb-0 me-2 mr-2" for="navbar-store-select">
+				{{ _("Store") }}
+			</label>
+			<div class="store-switcher-control d-flex align-items-center flex-grow-1">
+				<select
+					id="navbar-store-select"
+					class="form-select form-select-sm store-switcher-select"
+					aria-label="{{ _('Choose Store') }}"
+				>
+					{% for store in stores %}
+						<option value="{{ store.slug }}" title="{{ store.store_description or '' }}" {% if current_store and current_store.slug == store.slug %}selected{% endif %}>
+							{{ store.store_name }}
+						</option>
+					{% endfor %}
+				</select>
+				<span class="store-switcher-spinner spinner-border spinner-border-sm text-white ms-2 ml-2 d-none" role="status" aria-hidden="true"></span>
+			</div>
+		</li>
+	{% endif %}
 	<li class="shopping-cart cart-icon hidden">
 		<a class="nav-link" href="/cart">
 			<svg class="icon icon-lg">

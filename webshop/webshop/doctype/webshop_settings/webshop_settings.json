@@ -27,6 +27,8 @@
   "section_break_18",
   "company",
   "price_list",
+  "enable_multi_store",
+  "default_website_store",
   "enabled",
   "store_page_docs",
   "column_break_21",
@@ -190,12 +192,28 @@
   },
   {
    "depends_on": "enabled",
-   "description": "Prices will not be shown if Price List is not set",
-   "fieldname": "price_list",
+  "description": "Prices will not be shown if Price List is not set",
+  "fieldname": "price_list",
+  "fieldtype": "Link",
+  "label": "Price List",
+  "mandatory_depends_on": "eval: doc.enabled === 1",
+  "options": "Price List"
+ },
+  {
+   "default": "0",
+   "depends_on": "enabled",
+   "fieldname": "enable_multi_store",
+   "fieldtype": "Check",
+   "label": "Enable Multi-Store Storefront"
+  },
+  {
+   "depends_on": "eval:doc.enable_multi_store",
+   "fieldname": "default_website_store",
    "fieldtype": "Link",
-   "label": "Price List",
-   "mandatory_depends_on": "eval: doc.enabled === 1",
-   "options": "Price List"
+   "ignore_user_permissions": 1,
+   "label": "Default Website Store",
+   "mandatory_depends_on": "eval:doc.enable_multi_store",
+   "options": "Website Store"
   },
   {
    "fieldname": "column_break_21",
@@ -387,7 +405,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-03-22 13:01:51.906319",
+ "modified": "2025-10-13 16:00:00.000000",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Webshop Settings",

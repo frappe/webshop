@@ -82,15 +82,19 @@ def qty_from_all_warehouses(batch_info):
 	return qty
 
 
-def get_non_stock_item_status(item_code, item_warehouse_field):
+def get_non_stock_item_status(item_code, item_warehouse_field, warehouse=None):
 	# if item is a product bundle, check if its bundle items are in stock
 	if frappe.db.exists("Product Bundle", item_code):
 		items = frappe.get_doc("Product Bundle", item_code).get_all_children()
-		bundle_warehouse = frappe.db.get_value(
+		bundle_warehouse = warehouse or frappe.db.get_value(
 			"Website Item", {"item_code": item_code}, item_warehouse_field
 		)
 		return all(
-			get_web_item_qty_in_stock(d.item_code, item_warehouse_field, bundle_warehouse).in_stock
+			get_web_item_qty_in_stock(
+				d.item_code,
+				item_warehouse_field,
+				warehouse=bundle_warehouse,
+			).in_stock
 			for d in items
 		)
 	else:

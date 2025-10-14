@@ -4,13 +4,18 @@
 import frappe
 
 from webshop.webshop.doctype.webshop_settings.webshop_settings import (
-    get_shopping_cart_settings,
-    show_quantity_in_website,
+	get_shopping_cart_settings,
+	show_quantity_in_website,
 )
 from webshop.webshop.shopping_cart.cart import _get_cart_quotation, _set_price_list
-from erpnext.utilities.product import (get_price)
-from webshop.webshop.utils.product import (get_non_stock_item_status, get_web_item_qty_in_stock)
 from webshop.webshop.shopping_cart.cart import get_party
+from webshop.webshop.utils.pricing import get_price_for_store
+from webshop.webshop.utils.product import (
+	get_non_stock_item_status,
+	get_web_item_qty_in_stock,
+)
+from webshop.webshop.utils.store import get_store_from_cookies
+from erpnext.utilities.product import get_price as get_base_price
 
 
 @frappe.whitelist(allow_guest=True)
@@ -28,11 +33,11 @@ def get_product_info_for_website(item_code, skip_quotation_creation=False):
 	if not skip_quotation_creation:
 		cart_quotation = _get_cart_quotation()
 
-	selling_price_list = (
-		cart_quotation.get("selling_price_list")
-		if cart_quotation
-		else _set_price_list(cart_settings, None)
-	)
+	store = get_store_from_cookies()
+
+	selling_price_list = cart_quotation.get("selling_price_list") if cart_quotation else _set_price_list(cart_settings, None)
+	store_price_list = store.price_list if store else None
+	active_price_list = store_price_list or selling_price_list
 
 	price = {}
 	if cart_settings.show_price:
@@ -42,13 +47,23 @@ def get_product_info_for_website(item_code, skip_quotation_creation=False):
 		# Show Price if logged in.
 		# If not logged in, check if price is hidden for guest.
 		if not is_guest or not cart_settings.hide_price_for_guest:
-			price = get_price(
-				item_code,
-				selling_price_list,
-				cart_settings.default_customer_group,
-				cart_settings.company,
-				party=party,
-			)
+			if store and store_price_list:
+				price = get_price_for_store(
+					item_code,
+					store_price_list,
+					store.warehouse,
+					cart_settings.company,
+					cart_settings.default_customer_group,
+					party=party,
+				)
+			else:
+				price = get_base_price(
+					item_code,
+					active_price_list,
+					cart_settings.default_customer_group,
+					cart_settings.company,
+					party=party,
+				)
 
 	stock_status = None
 
@@ -59,7 +74,11 @@ def get_product_info_for_website(item_code, skip_quotation_creation=False):
 		if on_backorder:
 			stock_status = frappe._dict({"on_backorder": True})
 		else:
-			stock_status = get_web_item_qty_in_stock(item_code, "website_warehouse")
+			stock_status = get_web_item_qty_in_stock(
+				item_code,
+				"website_warehouse",
+				warehouse=store.warehouse if store else None,
+			)
 
 	product_info = {
 		"price": price,
@@ -76,7 +95,11 @@ def get_product_info_for_website(item_code, skip_quotation_creation=False):
 			product_info["in_stock"] = (
 				stock_status.in_stock
 				if stock_status.is_stock_item
-				else get_non_stock_item_status(item_code, "website_warehouse")
+				else get_non_stock_item_status(
+					item_code,
+					"website_warehouse",
+					warehouse=store.warehouse if store else None,
+				)
 			)
 			product_info["show_stock_qty"] = show_quantity_in_website()
 

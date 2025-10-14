@@ -35,6 +35,9 @@ class WebshopSettings(Document):
 		if self.enabled:
 			self.validate_price_list_exchange_rate()
 
+		if self.enable_multi_store:
+			self.validate_default_store()
+
 		frappe.clear_document_cache("Webshop Settings", "Webshop Settings")
 
 		self.is_redisearch_enabled_pre_save = frappe.db.get_single_value(
@@ -157,6 +160,34 @@ class WebshopSettings(Document):
 			# if search index fields get changed
 			if not (new_fields == old_fields):
 				create_website_items_index()
+
+	def validate_default_store(self):
+		if not self.default_website_store:
+			frappe.throw(
+				_("Select a Default Website Store when multi-store is enabled."),
+				title=_("Missing Default Store"),
+			)
+
+		store_status = frappe.db.get_value(
+			"Website Store",
+			self.default_website_store,
+			["is_published", "disabled"],
+			as_dict=True,
+		)
+
+		if not store_status:
+			frappe.throw(
+				_("Default Website Store {0} does not exist.").format(
+					frappe.bold(self.default_website_store)
+				),
+				title=_("Invalid Store"),
+			)
+
+		if store_status.disabled or not store_status.is_published:
+			frappe.throw(
+				_("Default Website Store must be published and not disabled."),
+				title=_("Invalid Store"),
+			)
 
 
 def validate_cart_settings(doc=None, method=None):

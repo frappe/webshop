@@ -3,6 +3,11 @@
 import frappe
 
 from webshop.webshop.doctype.webshop_settings.webshop_settings import is_cart_enabled
+from webshop.webshop.utils.store import (
+	get_active_store_context,
+	get_published_stores,
+	is_multi_store_enabled,
+)
 
 
 def show_cart_count():
@@ -40,6 +45,15 @@ def clear_cart_count(login_manager):
 def update_website_context(context):
 	cart_enabled = is_cart_enabled()
 	context["shopping_cart_enabled"] = cart_enabled
+	context["multi_store_enabled"] = is_multi_store_enabled()
+
+	if not context["multi_store_enabled"]:
+		context["stores"] = []
+		context["current_store"] = None
+		return
+
+	context["stores"] = [store.as_dict() for store in get_published_stores()]
+	context["current_store"] = get_active_store_context()
 
 
 def is_customer():
