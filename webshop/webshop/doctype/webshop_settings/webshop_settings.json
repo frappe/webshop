@@ -316,7 +316,7 @@
    "fieldname": "redisearch_warning",
    "fieldtype": "HTML",
    "label": "Redisearch Warning",
-   "options": "<p class=\"alert alert-warning\">Redisearch is not loaded. If you want to use the advancedproduct search feature, refer <a class=\"alert-link\" href=\"https://docs.frappe.io/erpnext/user/manual/en/installing_redisearch_to_enable_super_fast_e_commerce_search" target=\"_blank\">here</a>.</p>"
+   "options": "<p class=\"alert alert-warning\">Redisearch is not loaded. If you want to use the advanced product search feature, refer <a class=\"alert-link\" href=\"https://docs.frappe.io/erpnext/user/manual/en/installing_redisearch_to_enable_super_fast_e_commerce_search" target=\"_blank\">here</a>.</p>"
   },
   {
    "default": "0",
