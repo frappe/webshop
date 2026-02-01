@@ -14,6 +14,7 @@ from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 	get_shopping_cart_settings,
 )
 
+from frappe.query_builder import DocType, functions
 
 class UnverifiedReviewer(frappe.ValidationError):
 	pass
@@ -74,10 +75,16 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 		limit_page_length=end,
 	)
 
+	review = DocType("Item Review")
+
 	rating_data = frappe.db.get_all(
 		"Item Review",
 		filters={"website_item": web_item},
-		fields=["avg(rating*5) as average, count(*) as total"],
+		# fields=["avg(rating*5) as average, count(*) as total"],
+		fields=[
+			functions.Avg(review.rating * 5).as_("average"),
+			{"COUNT": "*", "as": "total"},
+		]
 	)[0]
 
 	data.average_rating = flt(rating_data.average, 5)
@@ -87,7 +94,7 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 	reviews_per_rating = []
 	for i in range(1, 6):
 		count = frappe.db.get_all(
-			"Item Review", filters={"website_item": web_item, "rating": i/5}, fields=["count(*) as count"]
+			"Item Review", filters={"website_item": web_item, "rating": i/5}, fields=[{"COUNT": "*", "as": "count"}]
 		)[0].count
 
 		percent = flt((count / rating_data.total or 1) * 100, 0) if count else 0
