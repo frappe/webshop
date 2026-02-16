@@ -413,10 +413,11 @@ def _get_cart_quotation(party=None):
 		},
 		order_by="modified desc",
 		limit_page_length=1,
+		ignore_permissions=True,
 	)
 
 	if quotation:
-		qdoc = frappe.get_doc("Quotation", quotation[0].name)
+		qdoc = frappe.get_doc("Quotation", quotation[0].name, ignore_permissions=True)
 	else:
 		company = frappe.db.get_single_value("Shop Settings", "company")
 		qdoc = frappe.get_doc(
@@ -434,9 +435,6 @@ def _get_cart_quotation(party=None):
 			}
 		)
 
-		qdoc.contact_person = frappe.db.get_value(
-			"Contact", {"email_id": frappe.session.user}
-		)
 		qdoc.contact_email = frappe.session.user
 
 		qdoc.flags.ignore_permissions = True
@@ -568,9 +566,8 @@ def _set_price_list(cart_settings, quotation=None):
 
 	# check if default customer price list exists
 	if party_name and frappe.db.exists("Customer", party_name):
-		selling_price_list = get_default_price_list(
-			frappe.get_doc("Customer", party_name)
-		)
+		customer = frappe.get_doc("Customer", party_name, ignore_permissions=True)
+		selling_price_list = get_default_price_list(customer)
 
 	# check default price list in shopping cart
 	if not selling_price_list:
@@ -767,12 +764,13 @@ def get_address_docs(
 		filters=dict(
 			parenttype="Address", link_doctype=party.doctype, link_name=party.name
 		),
+		ignore_permissions=True,
 	)
 
 	out = []
 
 	for a in address_names:
-		address = frappe.get_doc("Address", a.parent)
+		address = frappe.get_doc("Address", a.parent, ignore_permissions=True)
 		address.display = get_address_display(address.as_dict())
 		out.append(address)
 
@@ -874,7 +872,11 @@ def apply_coupon_code(applied_code, applied_referral_sales_partner):
 	if not applied_code:
 		frappe.throw(_("Please enter a coupon code"))
 
-	coupon_list = frappe.get_all("Coupon Code", filters={"coupon_code": applied_code})
+	coupon_list = frappe.get_all(
+		"Coupon Code",
+		filters={"coupon_code": applied_code},
+		ignore_permissions=True,
+	)
 	if not coupon_list:
 		frappe.throw(_("Please enter a valid coupon code"))
 
@@ -891,7 +893,9 @@ def apply_coupon_code(applied_code, applied_referral_sales_partner):
 
 	if applied_referral_sales_partner:
 		sales_partner_list = frappe.get_all(
-			"Sales Partner", filters={"referral_code": applied_referral_sales_partner}
+			"Sales Partner",
+			filters={"referral_code": applied_referral_sales_partner},
+			ignore_permissions=True,
 		)
 		if sales_partner_list:
 			sales_partner_name = sales_partner_list[0].name
