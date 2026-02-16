@@ -86,7 +86,7 @@ def get_billing_addresses(party=None):
 	]
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def place_order():
 	quotation = _get_cart_quotation()
 	cart_settings = frappe.get_cached_doc("Webshop Settings")
