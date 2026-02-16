@@ -13,6 +13,7 @@ from erpnext.accounts.utils import get_account_name
 from webshop.webshop.doctype.webshop_settings.webshop_settings import (
     get_shopping_cart_settings,
 )
+from webshop.webshop.utils.customer_service import get_or_create_customer_for_user
 from webshop.webshop.utils.product import get_web_item_qty_in_stock
 from erpnext.selling.doctype.quotation.quotation import _make_sales_order
 
@@ -569,6 +570,14 @@ def get_party(user=None):
 		if not cart_settings.enabled:
 			frappe.local.flags.redirect_location = "/contact"
 			raise frappe.Redirect
+
+		# Use centralized customer service to prevent duplicates
+		customer = get_or_create_customer_for_user(user=user, cart_settings=cart_settings)
+
+		if customer:
+			return customer
+
+		# Fallback to original logic if service returns None (should not happen)
 		customer = frappe.new_doc("Customer")
 		fullname = get_fullname(user)
 		customer.update(
