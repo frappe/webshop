@@ -132,8 +132,9 @@ frappe.ready(() => {
 			primary_action_label: '{{ _("Save") }}',
 			primary_action: (values) => {
 				if (!values.address_title) {
-					const customer_name = (frappe.session && frappe.session.user_fullname) || frappe.session.user;
-					values.address_title = customer_name || values.address_line1 || values.address_line2 || '{{ _("Address") }}';
+					const customer_name = {{ (doc.customer_name or "") | tojson }};
+					const session_name = (frappe.session && frappe.session.user_fullname) || frappe.session.user;
+					values.address_title = customer_name || session_name || values.address_line1 || values.address_line2 || '{{ _("Address") }}';
 				}
 				frappe.call('webshop.webshop.shopping_cart.cart.add_new_address', { doc: values })
 					.then(r => {
