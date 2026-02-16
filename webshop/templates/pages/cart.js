@@ -11,6 +11,36 @@ $.extend(shopping_cart, {
 			title + '</h4><p class="text-muted">' + text + '</p></div>');
 	},
 
+	handle_cart_error: function(response) {
+		console.error("[cart] place_order failed", response);
+		shopping_cart.unfreeze();
+		let msg = "";
+		let server_messages = null;
+
+		if (response) {
+			server_messages = response._server_messages;
+			if (!server_messages && response.responseJSON) {
+				server_messages = response.responseJSON._server_messages;
+				if (!server_messages && response.responseJSON.message) {
+					msg = response.responseJSON.message;
+				}
+			}
+		}
+
+		if (server_messages) {
+			try {
+				msg = JSON.parse(server_messages || []).join("<br>");
+			} catch (e) {
+				msg = server_messages;
+			}
+		}
+
+		$("#cart-error")
+			.empty()
+			.html(msg || frappe._("Something went wrong!"))
+			.toggle(true);
+	},
+
 	bind_events: function() {
 		shopping_cart.bind_place_order();
 		shopping_cart.bind_request_quotation();
@@ -140,6 +170,24 @@ $.extend(shopping_cart, {
 	},
 
 	place_order: function(btn) {
+		console.debug("[cart] place_order click", {
+			user: frappe.session && frappe.session.user,
+			route: window.location.pathname
+		});
+
+		const has_addresses = $(
+			'[data-section="shipping-address"] [data-address-name], [data-section="billing-address"] [data-address-name]'
+		).length > 0;
+
+		if (!has_addresses) {
+			shopping_cart.handle_cart_error({
+				responseJSON: {
+					message: frappe._("Please add a Shipping or Billing Address to continue.")
+				}
+			});
+			$(".btn-new-address").first().trigger("click");
+			return;
+		}
 		shopping_cart.freeze();
 
 		return frappe.call({
@@ -147,21 +195,17 @@ $.extend(shopping_cart, {
 			method: "webshop.webshop.shopping_cart.cart.place_order",
 			btn: btn,
 			callback: function(r) {
+				console.debug("[cart] place_order callback", r);
 				if(r.exc) {
-					shopping_cart.unfreeze();
-					var msg = "";
-					if(r._server_messages) {
-						msg = JSON.parse(r._server_messages || []).join("<br>");
-					}
-
-					$("#cart-error")
-						.empty()
-						.html(msg || frappe._("Something went wrong!"))
-						.toggle(true);
+					shopping_cart.handle_cart_error(r);
 				} else {
 					$(btn).hide();
 					window.location.href = '/orders/' + encodeURIComponent(r.message);
 				}
+			},
+			error: function(xhr) {
+				console.error("[cart] place_order xhr error", xhr);
+				shopping_cart.handle_cart_error(xhr);
 			}
 		});
 	},
@@ -175,20 +219,14 @@ $.extend(shopping_cart, {
 			btn: btn,
 			callback: function(r) {
 				if(r.exc) {
-					shopping_cart.unfreeze();
-					var msg = "";
-					if(r._server_messages) {
-						msg = JSON.parse(r._server_messages || []).join("<br>");
-					}
-
-					$("#cart-error")
-						.empty()
-						.html(msg || frappe._("Something went wrong!"))
-						.toggle(true);
+					shopping_cart.handle_cart_error(r);
 				} else {
 					$(btn).hide();
 					window.location.href = '/quotations/' + encodeURIComponent(r.message);
 				}
+			},
+			error: function(xhr) {
+				shopping_cart.handle_cart_error(xhr);
 			}
 		});
 	},
