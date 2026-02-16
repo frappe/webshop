@@ -373,8 +373,12 @@ def decorate_quotation_doc(doc):
 		web_item_data = frappe.db.get_value(
 			"Website Item", {"item_code": item_code}, fields, as_dict=True
 		)
-		if web_item_data:
+		if web_item_data and isinstance(web_item_data, dict):
 			d.update(web_item_data)
+		
+		# Ensure thumbnail is set if missing
+		if not d.get("thumbnail") and d.get("website_image"):
+			d.thumbnail = d.website_image
 
 		website_warehouse = frappe.get_cached_value(
 			"Website Item", {"item_code": item_code}, "website_warehouse"
