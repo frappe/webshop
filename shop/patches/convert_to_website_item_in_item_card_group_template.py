@@ -11,7 +11,7 @@ def execute():
 	Convert all Item links to Website Item link values in
 	exisitng 'Item Card Group' Web Page Block data.
 	"""
-	frappe.reload_doc("webshop", "web_template", "item_card_group")
+	frappe.reload_doc("shop", "web_template", "item_card_group")
 
 	blocks = frappe.db.get_all(
 		"Web Page Block",

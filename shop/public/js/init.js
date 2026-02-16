@@ -1,2 +1,2 @@
-if (!window.webshop) window.webshop = {}
+if (!window.shop) window.shop = {}
 if (!frappe.boot) frappe.boot = {}

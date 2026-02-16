@@ -4,7 +4,7 @@ from frappe.utils import cint
 from shop.shop.utils.setup import has_ecommerce_fields
 
 def execute():
-	frappe.reload_doc("webshop", "doctype", "shop_settings")
+	frappe.reload_doc("shop", "doctype", "shop_settings")
 	frappe.reload_doc("portal", "doctype", "website_filter_field")
 	frappe.reload_doc("portal", "doctype", "website_attribute")
 

@@ -1,4 +1,4 @@
-webshop.ProductGrid = class {
+shop.ProductGrid = class {
 	/* Options:
 		- items: Items
 		- settings: Shop Settings

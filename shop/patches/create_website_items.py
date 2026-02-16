@@ -7,11 +7,11 @@ def execute():
 	if frappe.get_all("Website Item", limit=1):
 		return
 
-	frappe.reload_doc("webshop", "doctype", "website_item")
-	frappe.reload_doc("webshop", "doctype", "website_item_tabbed_section")
-	frappe.reload_doc("webshop", "doctype", "website_offer")
-	frappe.reload_doc("webshop", "doctype", "recommended_items")
-	frappe.reload_doc("webshop", "doctype", "shop_settings")
+	frappe.reload_doc("shop", "doctype", "website_item")
+	frappe.reload_doc("shop", "doctype", "website_item_tabbed_section")
+	frappe.reload_doc("shop", "doctype", "website_offer")
+	frappe.reload_doc("shop", "doctype", "recommended_items")
+	frappe.reload_doc("shop", "doctype", "shop_settings")
 	frappe.reload_doc("stock", "doctype", "item")
 
 	item_fields = [

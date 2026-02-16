@@ -1,4 +1,4 @@
-webshop.ProductSearch = class {
+shop.ProductSearch = class {
 	constructor(opts) {
 		/* Options: search_box_id (for custom search box) */
 		$.extend(this, opts);
@@ -48,7 +48,7 @@ webshop.ProductSearch = class {
 			if (query.length < 3 || !query.length) return;
 
 			frappe.call({
-				method: "webshop.templates.pages.product_search.search",
+				method: "shop.templates.pages.product_search.search",
 				args: {
 					query: query
 				},
@@ -197,7 +197,7 @@ webshop.ProductSearch = class {
 		let html = "";
 
 		product_results.forEach((res) => {
-			let thumbnail = res.thumbnail || '/assets/webshop/images/cart-empty-state.png';
+			let thumbnail = res.thumbnail || '/assets/shop/images/cart-empty-state.png';
 			html += `
 				<div class="dropdown-item" style="display: flex;">
 					<img class="item-thumb col-2" src=${encodeURI(thumbnail)} />

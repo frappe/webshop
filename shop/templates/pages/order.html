@@ -1,5 +1,5 @@
 {% extends "templates/web.html" %}
-{% from "webshop/templates/includes/order/order_macros.html" import item_name_and_description %}
+{% from "shop/templates/includes/order/order_macros.html" import item_name_and_description %}
 
 {% block breadcrumbs %}
 	{% include "templates/includes/breadcrumbs.html" %}
@@ -125,7 +125,7 @@
 
 			<!-- taxes -->
 			<div class="">
-				{% include "webshop/templates/includes/order/order_taxes.html" %}
+				{% include "shop/templates/includes/order/order_taxes.html" %}
 			</div>
 		</div>
 	</div>

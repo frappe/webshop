@@ -1,4 +1,4 @@
-webshop.ProductList = class {
+shop.ProductList = class {
 	/* Options:
 		- items: Items
 		- settings: Shop Settings

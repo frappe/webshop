@@ -214,7 +214,7 @@ class TestWebsiteItem(unittest.TestCase):
 		"Check if price details are fetched correctly while logged in."
 		item_code = "Test Mobile Phone"
 
-		# show price in webshop settings
+		# show price in shop settings
 		setup_shop_settings({"show_price": 1})
 
 		# price and pricing rule added via setUp
@@ -251,7 +251,7 @@ class TestWebsiteItem(unittest.TestCase):
 		"Check if price details are fetched correctly for guest user."
 		item_code = "Test Mobile Phone"
 
-		# show price for guest user in webshop settings
+		# show price for guest user in shop settings
 		setup_shop_settings({"show_price": 1, "hide_price_for_guest": 0})
 
 		# price and pricing rule added via setUp

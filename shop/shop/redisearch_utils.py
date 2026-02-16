@@ -83,7 +83,7 @@ def create_website_items_index():
 
 	idx_def = IndexDefinition([make_key(WEBSITE_ITEM_KEY_PREFIX)])
 
-	# Index fields mentioned in webshop settings
+	# Index fields mentioned in shop settings
 	idx_fields = frappe.db.get_single_value("Shop Settings", "search_index_fields")
 	idx_fields = idx_fields.split(",") if idx_fields else []
 

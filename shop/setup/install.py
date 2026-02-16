@@ -20,7 +20,7 @@ def copy_from_ecommerce_settings():
 	if not has_ecommerce_fields():
 		return
 
-	frappe.reload_doc("webshop", "doctype", "shop_settings")
+	frappe.reload_doc("shop", "doctype", "shop_settings")
 
 	qb = frappe.qb
 	table = frappe.qb.Table("tabSingles")

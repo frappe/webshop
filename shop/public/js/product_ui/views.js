@@ -1,4 +1,4 @@
-webshop.ProductView =  class {
+shop.ProductView =  class {
 	/* Options:
 		- View Type
 		- Products Section Wrapper,
@@ -24,7 +24,7 @@ webshop.ProductView =  class {
 		this.prepare_search();
 		this.prepare_view_toggler();
 
-		new webshop.ProductSearch();
+		new shop.ProductSearch();
 	}
 
 	prepare_view_toggler() {
@@ -101,7 +101,7 @@ webshop.ProductView =  class {
 		let me = this;
 		this.prepare_product_area_wrapper("grid");
 
-		new webshop.ProductGrid({
+		new shop.ProductGrid({
 			items: items,
 			products_section: $("#products-grid-area"),
 			settings: settings,
@@ -113,7 +113,7 @@ webshop.ProductView =  class {
 		let me = this;
 		this.prepare_product_area_wrapper("list");
 
-		new webshop.ProductList({
+		new shop.ProductList({
 			items: items,
 			products_section: $("#products-list-area"),
 			settings: settings,
@@ -494,7 +494,7 @@ webshop.ProductView =  class {
 		let no_results_section = `
 			<div class="cart-empty frappe-card mt-4">
 				<div class="cart-empty-state">
-					<img src="/assets/webshop/images/cart-empty-state.png" alt="Empty Cart">
+					<img src="/assets/shop/images/cart-empty-state.png" alt="Empty Cart">
 				</div>
 				<div class="cart-empty-message mt-4">${ __("No products found") }</p>
 			</div>
