@@ -8,30 +8,37 @@
 <div class="card h-100">
 	<div class="card-body p-0">
 		{% if cart_settings.enable_checkout or cart_settings.show_price_in_quotation %}
-			<table class="table w-100">
-				<tr>
-					{% set total_items = frappe.utils.cstr(frappe.utils.flt(doc.total_qty, 0)) %}
-					<td class="bill-label">{{ _("Net Total (") + total_items + _(" Items)") }}</td>
-					<td class="bill-content net-total text-right">{{ doc.get_formatted("net_total") }}</td>
-				</tr>
+		<table class="table w-100">
+			<tr>
+				{% set total_items = frappe.utils.cstr(frappe.utils.flt(doc.total_qty, 0)) %}
+				<td class="bill-label">{{ _("Net Total (") + total_items + _(" Items)") }}</td>
+				<td class="bill-content net-total text-right">{{ doc.get_formatted("net_total") }}</td>
+			</tr>
 
-				<!-- taxes -->
-				{% for d in doc.taxes %}
-					{% if d.tax_amount %}
-						<tr>
-							<td class="bill-label">
-								{{ d.description }}
-							</td>
-							<td class="bill-content text-right">
-								{{ d.get_formatted("tax_amount") }}
-							</td>
-						</tr>
-					{% endif %}
-				{% endfor %}
-			</table>
+			{% for d in doc.taxes %}
+			{% if d.tax_amount %}
+			<tr>
+				<td class="bill-label">
+					{{ d.description }}
+				</td>
+				<td class="bill-content text-right">
+					{{ d.get_formatted("tax_amount") }}
+				</td>
+			</tr>
+			{% endif %}
+			{% endfor %}
 
-			<!-- TODO: Apply Coupon Dialog-->
-			<!-- {% set show_coupon_code = cart_settings.show_apply_coupon_code_in_website and cart_settings.enable_checkout %}
+			{% if cart_settings.enable_manual_shipping_charge and not doc.shipping_rule %}
+			<tr>
+				<td class="bill-label">{{ _("Shipping Charge") }}</td>
+				<td class="bill-content text-right">{{ frappe.utils.fmt_money(cart_settings.default_shipping_charge,
+					currency=doc.currency) }}</td>
+			</tr>
+			{% endif %}
+		</table>
+
+		<!-- TODO: Apply Coupon Dialog-->
+		<!-- {% set show_coupon_code = cart_settings.show_apply_coupon_code_in_website and cart_settings.enable_checkout %}
 			{% if show_coupon_code %}
 				<button class="btn btn-coupon-code w-100 text-left">
 					<svg width="24" height="24" viewBox="0 0 24 24" stroke="var(--gray-600)" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -44,12 +51,12 @@
 				</button>
 			{% endif %} -->
 
-			<table class="table w-100 grand-total mt-6">
-				<tr>
-					<td class="bill-content net-total">{{ _("Grand Total") }}</td>
-					<td class="bill-content net-total text-right">{{ doc.get_formatted("grand_total") }}</td>
-				</tr>
-			</table>
+		<table class="table w-100 grand-total mt-6">
+			<tr>
+				<td class="bill-content net-total">{{ _("Grand Total") }}</td>
+				<td class="bill-content net-total text-right">{{ doc.get_formatted("grand_total") }}</td>
+			</tr>
+		</table>
 		{% endif %}
 	</div>
 </div>

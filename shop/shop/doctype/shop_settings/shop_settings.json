@@ -4,7 +4,7 @@
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
- "field_order": [
+  "field_order": [
   "products_per_page",
   "filter_categories_section",
   "enable_field_filters",
@@ -34,12 +34,16 @@
   "quotation_series",
   "allow_non_website_items_in_cart_quotation",
   "checkout_settings_section",
+  "allow_guest_checkout",
   "enable_checkout",
   "show_price_in_quotation",
   "column_break_27",
   "save_quotations_as_draft",
   "payment_gateway_account",
   "payment_success_url",
+  "shipping_settings_section",
+  "enable_manual_shipping_charge",
+  "default_shipping_charge",
   "add_ons_section",
   "enable_wishlist",
   "column_break_22",
@@ -227,6 +231,12 @@
   },
   {
    "default": "0",
+   "fieldname": "allow_guest_checkout",
+   "fieldtype": "Check",
+   "label": "Allow Guest Checkout"
+  },
+  {
+   "default": "0",
    "fieldname": "enable_checkout",
    "fieldtype": "Check",
    "label": "Enable Checkout"
@@ -259,6 +269,23 @@
    "label": "Payment Gateway Account",
    "mandatory_depends_on": "enable_checkout",
    "options": "Payment Gateway Account"
+  },
+  {
+   "fieldname": "shipping_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Shipping Settings"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_manual_shipping_charge",
+   "fieldtype": "Check",
+   "label": "Enable Manual Shipping Charge"
+  },
+  {
+   "depends_on": "enable_manual_shipping_charge",
+   "fieldname": "default_shipping_charge",
+   "fieldtype": "Currency",
+   "label": "Default Shipping Charge"
   },
   {
    "collapsible": 1,

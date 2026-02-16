@@ -87,9 +87,23 @@ def get_billing_addresses(party=None):
 
 
 @frappe.whitelist(allow_guest=True)
-def place_order():
-	quotation = _get_cart_quotation()
+def place_order(guest_details=None):
+	if guest_details and isinstance(guest_details, str):
+		guest_details = frappe.parse_json(guest_details)
+
 	cart_settings = frappe.get_cached_doc("Shop Settings")
+	party = get_party()
+	quotation = _get_cart_quotation(party)
+	
+	if frappe.session.user == "Guest" and guest_details:
+		# Update quotation with guest details
+		quotation.contact_email = guest_details.get("email")
+		quotation.customer_name = guest_details.get("fullname")
+		quotation.shipping_address = guest_details.get("address")
+		quotation.customer_address = guest_details.get("address")
+		# In a real ERPNext setup, we might want to create a proper Guest Address record here
+		# For now, we'll store it as text or use a generic one if needed.
+	
 	quotation.company = cart_settings.company
 
 	quotation.flags.ignore_permissions = True
@@ -99,7 +113,7 @@ def place_order():
 		# company used to create customer accounts
 		frappe.defaults.set_user_default("company", quotation.company)
 
-	if not (quotation.shipping_address_name or quotation.customer_address):
+	if not (quotation.shipping_address_name or quotation.customer_address or quotation.shipping_address):
 		frappe.throw(_("Set Shipping Address or Billing Address"))
 
 	sales_order = frappe.get_doc(
@@ -108,6 +122,11 @@ def place_order():
 		)
 	)
 	sales_order.payment_schedule = []
+
+	if frappe.session.user == "Guest" and guest_details:
+		sales_order.contact_email = guest_details.get("email")
+		sales_order.contact_display = guest_details.get("fullname")
+		sales_order.shipping_address = guest_details.get("address")
 
 	if not cint(cart_settings.allow_items_not_in_stock):
 		for item in sales_order.get("items"):
@@ -459,6 +478,52 @@ def apply_cart_settings(party=None, quotation=None):
 
 	_apply_shipping_rule(party, quotation, cart_settings)
 
+	if cart_settings.enable_manual_shipping_charge and not quotation.shipping_rule:
+		_apply_manual_shipping_charge(quotation, cart_settings)
+
+
+def _apply_manual_shipping_charge(quotation, cart_settings):
+	if not cart_settings.default_shipping_charge:
+		return
+
+	# Check if shipping charge already exists in taxes
+	shipping_charge_exists = False
+	for tax in quotation.get("taxes"):
+		if tax.description == _("Shipping Charge (Manual)"):
+			tax.tax_amount = cart_settings.default_shipping_charge
+			shipping_charge_exists = True
+			break
+
+	if not shipping_charge_exists:
+		quotation.append(
+			"taxes",
+			{
+				"charge_type": "Actual",
+				"account_head": _get_shipping_account(cart_settings.company),
+				"description": _("Shipping Charge (Manual)"),
+				"tax_amount": cart_settings.default_shipping_charge,
+				"category": "Valuation and Total",
+				"add_deduct": "Add",
+			},
+		)
+
+	quotation.run_method("calculate_taxes_and_totals")
+
+
+def _get_shipping_account(company):
+	# Try to find a suitable shipping account or return a default placeholder
+	account = frappe.db.get_value(
+		"Account",
+		{"account_type": "Income Account", "company": company, "account_name": ["like", "%Shipping%"]},
+		"name",
+	)
+	if not account:
+		# Fallback to a generic income account if shipping account not found
+		account = frappe.db.get_value(
+			"Account", {"account_type": "Income Account", "company": company}, "name"
+		)
+	return account
+
 
 def set_price_list_and_rate(quotation, cart_settings):
 	"""set price list based on billing territory"""
@@ -580,6 +645,9 @@ def get_party(user=None):
 			}
 		)
 
+		if user == "Guest":
+			customer.customer_name = _("Guest Customer")
+		
 		customer.append("portal_users", {"user": user})
 
 		if debtors_account:
@@ -604,12 +672,30 @@ def get_party(user=None):
 
 		return customer
 	else:
-		customer = frappe.db.get_value(
-			"Portal User", {"user": user}, ["parent"]
-		)
-
 		if frappe.db.exists("Customer", customer):
 			return frappe.get_doc("Customer", customer)
+
+	if frappe.session.user == "Guest" and cart_settings.allow_guest_checkout:
+		return _get_guest_customer(cart_settings)
+
+
+def _get_guest_customer(cart_settings):
+	guest_customer_name = _("Guest Customer")
+	if not frappe.db.exists("Customer", guest_customer_name):
+		customer = frappe.new_doc("Customer")
+		customer.update(
+			{
+				"customer_name": guest_customer_name,
+				"customer_type": "Individual",
+				"customer_group": get_shopping_cart_settings().default_customer_group,
+				"territory": get_root_of("Territory"),
+			}
+		)
+		customer.flags.ignore_mandatory = True
+		customer.insert(ignore_permissions=True)
+		return customer
+	else:
+		return frappe.get_doc("Customer", guest_customer_name)
 
 
 def get_debtors_account(cart_settings):

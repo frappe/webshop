@@ -6,12 +6,12 @@ frappe.provide("shop.shop.shopping_cart");
 var shopping_cart = shop.shop.shopping_cart;
 
 $.extend(shopping_cart, {
-	show_error: function(title, text) {
+	show_error: function (title, text) {
 		$("#cart-container").html('<div class="msg-box"><h4>' +
 			title + '</h4><p class="text-muted">' + text + '</p></div>');
 	},
 
-	bind_events: function() {
+	bind_events: function () {
 		shopping_cart.bind_place_order();
 		shopping_cart.bind_request_quotation();
 		shopping_cart.bind_change_qty();
@@ -21,24 +21,24 @@ $.extend(shopping_cart, {
 		shopping_cart.bind_remove_coupon_code();
 	},
 
-	bind_place_order: function() {
-		$(".btn-place-order").on("click", function() {
+	bind_place_order: function () {
+		$(".btn-place-order").on("click", function () {
 			shopping_cart.place_order(this);
 		});
 	},
 
-	bind_request_quotation: function() {
-		$('.btn-request-for-quotation').on('click', function() {
+	bind_request_quotation: function () {
+		$('.btn-request-for-quotation').on('click', function () {
 			shopping_cart.request_quotation(this);
 		});
 	},
 
-	bind_change_qty: function() {
+	bind_change_qty: function () {
 		// bind update button
-		$(".cart-items").on("change", ".cart-qty", function() {
+		$(".cart-items").on("change", ".cart-qty", function () {
 			var item_code = $(this).attr("data-item-code");
 			var newVal = $(this).val();
-			shopping_cart.shopping_cart_update({item_code, qty: newVal});
+			shopping_cart.shopping_cart_update({ item_code, qty: newVal });
 		});
 
 		$(".cart-items").on('click', '.number-spinner button', function () {
@@ -66,8 +66,8 @@ $.extend(shopping_cart, {
 		});
 	},
 
-	bind_change_notes: function() {
-		$('.cart-items').on('change', 'textarea', function() {
+	bind_change_notes: function () {
+		$('.cart-items').on('change', 'textarea', function () {
 			const $textarea = $(this);
 			const item_code = $textarea.attr('data-item-code');
 			const qty = $textarea.closest('tr').find('.cart-qty').val();
@@ -80,7 +80,7 @@ $.extend(shopping_cart, {
 		});
 	},
 
-	bind_remove_cart_item: function() {
+	bind_remove_cart_item: function () {
 		$(".cart-items").on("click", ".remove-cart-item", (e) => {
 			const $remove_cart_item_btn = $(e.currentTarget);
 			var item_code = $remove_cart_item_btn.data("item-code");
@@ -92,20 +92,21 @@ $.extend(shopping_cart, {
 		});
 	},
 
-	render_tax_row: function($cart_taxes, doc, shipping_rules) {
+	render_tax_row: function ($cart_taxes, doc, shipping_rules) {
 		var shipping_selector;
-		if(shipping_rules) {
-			shipping_selector = '<select class="form-control">' + $.map(shipping_rules, function(rule) {
-				return '<option value="' + rule[0] + '">' + rule[1] + '</option>' }).join("\n") +
-			'</select>';
+		if (shipping_rules) {
+			shipping_selector = '<select class="form-control">' + $.map(shipping_rules, function (rule) {
+				return '<option value="' + rule[0] + '">' + rule[1] + '</option>'
+			}).join("\n") +
+				'</select>';
 		}
 
 		var $tax_row = $(repl('<div class="row">\
 			<div class="col-md-9 col-sm-9">\
 				<div class="row">\
 					<div class="col-md-9 col-md-offset-3">' +
-					(shipping_selector || '<p>%(description)s</p>') +
-					'</div>\
+			(shipping_selector || '<p>%(description)s</p>') +
+			'</div>\
 				</div>\
 			</div>\
 			<div class="col-md-3 col-sm-3 text-right">\
@@ -113,44 +114,63 @@ $.extend(shopping_cart, {
 			</div>\
 		</div>', doc)).appendTo($cart_taxes);
 
-		if(shipping_selector) {
-			$tax_row.find('select option').each(function(i, opt) {
-				if($(opt).html() == doc.description) {
+		if (shipping_selector) {
+			$tax_row.find('select option').each(function (i, opt) {
+				if ($(opt).html() == doc.description) {
 					$(opt).attr("selected", "selected");
 				}
 			});
-			$tax_row.find('select').on("change", function() {
+			$tax_row.find('select').on("change", function () {
 				shopping_cart.apply_shipping_rule($(this).val(), this);
 			});
 		}
 	},
 
-	apply_shipping_rule: function(rule, btn) {
+	apply_shipping_rule: function (rule, btn) {
 		return frappe.call({
 			btn: btn,
 			type: "POST",
 			method: "shop.shop.shopping_cart.cart.apply_shipping_rule",
 			args: { shipping_rule: rule },
-			callback: function(r) {
-				if(!r.exc) {
+			callback: function (r) {
+				if (!r.exc) {
 					shopping_cart.render(r.message);
 				}
 			}
 		});
 	},
 
-	place_order: function(btn) {
+	place_order: function (btn) {
 		shopping_cart.freeze();
+
+		let guest_details = {};
+		if (frappe.session.user === "Guest") {
+			guest_details = {
+				email: $(".guest-email").val(),
+				fullname: $(".guest-fullname").val(),
+				phone: $(".guest-phone").val(),
+				address: $(".guest-address").val(),
+			};
+
+			if (!guest_details.email || !guest_details.fullname || !guest_details.address) {
+				shopping_cart.unfreeze();
+				frappe.msgprint(__("Please fill in all mandatory guest details."));
+				return;
+			}
+		}
 
 		return frappe.call({
 			type: "POST",
 			method: "shop.shop.shopping_cart.cart.place_order",
 			btn: btn,
-			callback: function(r) {
-				if(r.exc) {
+			args: {
+				guest_details: guest_details
+			},
+			callback: function (r) {
+				if (r.exc) {
 					shopping_cart.unfreeze();
 					var msg = "";
-					if(r._server_messages) {
+					if (r._server_messages) {
 						msg = JSON.parse(r._server_messages || []).join("<br>");
 					}
 
@@ -166,18 +186,18 @@ $.extend(shopping_cart, {
 		});
 	},
 
-	request_quotation: function(btn) {
+	request_quotation: function (btn) {
 		shopping_cart.freeze();
 
 		return frappe.call({
 			type: "POST",
 			method: "shop.shop.shopping_cart.cart.request_for_quotation",
 			btn: btn,
-			callback: function(r) {
-				if(r.exc) {
+			callback: function (r) {
+				if (r.exc) {
 					shopping_cart.unfreeze();
 					var msg = "";
-					if(r._server_messages) {
+					if (r._server_messages) {
 						msg = JSON.parse(r._server_messages || []).join("<br>");
 					}
 
@@ -193,41 +213,41 @@ $.extend(shopping_cart, {
 		});
 	},
 
-	bind_coupon_code: function() {
-		$(".bt-coupon").on("click", function() {
+	bind_coupon_code: function () {
+		$(".bt-coupon").on("click", function () {
 			shopping_cart.apply_coupon_code(this);
 		});
 	},
 
-	apply_coupon_code: function(btn) {
+	apply_coupon_code: function (btn) {
 		return frappe.call({
 			type: "POST",
 			method: "shop.shop.shopping_cart.cart.apply_coupon_code",
 			btn: btn,
-			args : {
-				applied_code : $('.txtcoupon').val(),
+			args: {
+				applied_code: $('.txtcoupon').val(),
 				applied_referral_sales_partner: $('.txtreferral_sales_partner').val()
 			},
-			callback: function(r) {
-				if (r && r.message){
+			callback: function (r) {
+				if (r && r.message) {
 					location.reload();
 				}
 			}
 		});
 	},
 
-	bind_remove_coupon_code: function() {
-		$(".bt-remove-coupon-code").on("click", function() {
+	bind_remove_coupon_code: function () {
+		$(".bt-remove-coupon-code").on("click", function () {
 			shopping_cart.remove_coupon_code(this);
 		});
 	},
-	remove_coupon_code: function(btn) {
+	remove_coupon_code: function (btn) {
 		return frappe.call({
 			type: "POST",
 			method: "shop.shop.shopping_cart.cart.remove_coupon_code",
 			btn: btn,
-			callback: function(r) {
-				if (r && r.message){
+			callback: function (r) {
+				if (r && r.message) {
 					location.reload();
 				}
 			}
@@ -235,7 +255,7 @@ $.extend(shopping_cart, {
 	},
 });
 
-frappe.ready(function() {
+frappe.ready(function () {
 	if (window.location.pathname === "/cart") {
 		$(".cart-icon").hide();
 	}
