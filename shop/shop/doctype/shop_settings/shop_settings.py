@@ -172,6 +172,16 @@ def is_cart_enabled():
 	return get_shopping_cart_settings().enabled
 
 
+@frappe.whitelist(allow_guest=True)
+def get_cart_settings():
+	settings = get_shopping_cart_settings()
+	return {
+		"enabled": settings.enabled,
+		"allow_guest_checkout": settings.allow_guest_checkout,
+		"redirect_on_action": settings.redirect_on_action
+	}
+
+
 def show_quantity_in_website():
 	return get_shopping_cart_settings().show_quantity_in_website
 

@@ -31,7 +31,7 @@ def set_cart_count(quotation=None):
 			frappe.local.cookie_manager.set_cookie("cart_count", cart_count)
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def get_cart_quotation(doc=None):
 	party = get_party()
 
@@ -54,7 +54,7 @@ def get_cart_quotation(doc=None):
 	}
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def get_shipping_addresses(party=None):
 	if not party:
 		party = get_party()
@@ -70,7 +70,7 @@ def get_shipping_addresses(party=None):
 	]
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def get_billing_addresses(party=None):
 	if not party:
 		party = get_party()
@@ -171,7 +171,7 @@ def request_for_quotation():
 	return quotation.name
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def update_cart(item_code, qty, additional_notes=None, with_items=False):
 	quotation = _get_cart_quotation()
 
@@ -295,7 +295,7 @@ def get_terms_and_conditions(terms_name):
 	return frappe.db.get_value("Terms and Conditions", terms_name, "terms")
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def update_cart_address(address_type, address_name):
 	quotation = _get_cart_quotation()
 	address_doc = frappe.get_doc("Address", address_name).as_dict()
@@ -615,6 +615,11 @@ def get_party(user=None):
 	if not user:
 		user = frappe.session.user
 
+	cart_settings = frappe.get_cached_doc("Shop Settings")
+
+	if user == "Guest" and cart_settings.allow_guest_checkout:
+		return _get_guest_customer(cart_settings)
+
 	contact_name = get_contact_name(user)
 	party = None
 
@@ -623,8 +628,6 @@ def get_party(user=None):
 		if contact.links:
 			party_doctype = contact.links[0].link_doctype
 			party = contact.links[0].link_name
-
-	cart_settings = frappe.get_cached_doc("Shop Settings")
 
 	debtors_account = ""
 
@@ -657,9 +660,6 @@ def get_party(user=None):
 			}
 		)
 
-		if user == "Guest":
-			customer.customer_name = _("Guest Customer")
-		
 		customer.append("portal_users", {"user": user})
 
 		if debtors_account:
@@ -684,11 +684,9 @@ def get_party(user=None):
 
 		return customer
 	else:
-		if frappe.db.exists("Customer", customer):
-			return frappe.get_doc("Customer", customer)
-
-	if frappe.session.user == "Guest" and cart_settings.allow_guest_checkout:
-		return _get_guest_customer(cart_settings)
+		customer_name = frappe.db.get_value("Portal User", {"user": user}, "parent")
+		if customer_name and frappe.db.exists("Customer", customer_name):
+			return frappe.get_doc("Customer", customer_name)
 
 
 def _get_guest_customer(cart_settings):
@@ -781,7 +779,7 @@ def get_address_docs(
 	return out
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def apply_shipping_rule(shipping_rule):
 	quotation = _get_cart_quotation()
 
