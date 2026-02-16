@@ -337,6 +337,14 @@ def update_cart_address(address_type, address_name):
 	}
 
 
+@frappe.whitelist(allow_guest=True)
+def update_guest_country(country):
+	frappe.session.guest_country = country
+	# Apply cart settings again to refresh rules
+	apply_cart_settings()
+	return get_cart_quotation()
+
+
 def guess_territory():
 	territory = None
 	geoip_country = frappe.session.get("session_country")
@@ -816,23 +824,27 @@ def get_shipping_rules(quotation=None, cart_settings=None):
 		quotation = _get_cart_quotation()
 
 	shipping_rules = []
+	country = None
 	if quotation.shipping_address_name:
 		country = frappe.db.get_value(
 			"Address", quotation.shipping_address_name, "country"
 		)
-		if country:
-			sr_country = frappe.qb.DocType("Shipping Rule Country")
-			sr = frappe.qb.DocType("Shipping Rule")
-			query = (
-				frappe.qb.from_(sr_country)
-				.join(sr)
-				.on(sr.name == sr_country.parent)
-				.select(sr.name)
-				.distinct()
-				.where((sr_country.country == country) & (sr.disabled != 1) & (sr.shipping_rule_type == "Selling"))
-			)
-			result = query.run(as_list=True)
-			shipping_rules = [x[0] for x in result]
+	elif frappe.session.get("guest_country"):
+		country = frappe.session.get("guest_country")
+
+	if country:
+		sr_country = frappe.qb.DocType("Shipping Rule Country")
+		sr = frappe.qb.DocType("Shipping Rule")
+		query = (
+			frappe.qb.from_(sr_country)
+			.join(sr)
+			.on(sr.name == sr_country.parent)
+			.select(sr.name)
+			.distinct()
+			.where((sr_country.country == country) & (sr.disabled != 1) & (sr.shipping_rule_type == "Selling"))
+		)
+		result = query.run(as_list=True)
+		shipping_rules = [x[0] for x in result]
 
 	return shipping_rules
 

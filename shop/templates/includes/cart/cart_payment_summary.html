@@ -1,5 +1,6 @@
 <!-- Payment -->
 {% if cart_settings.enable_checkout or cart_settings.show_price_in_quotation %}
+{% set shipping_rules = shipping_rules or [] %}
 <h6>
 	{{ _("Payment Summary") }}
 </h6>
@@ -27,6 +28,21 @@
 			</tr>
 			{% endif %}
 			{% endfor %}
+
+			{% if shipping_rules | length > 0 %}
+			<tr>
+				<td class="bill-label">{{ _("Shipping Method") }}</td>
+				<td class="bill-content text-right">
+					<select class="form-control form-control-sm shipping-rule-selector">
+						<option value="">{{ _("Select Shipping") }}</option>
+						{% for rule in shipping_rules %}
+						<option value="{{ rule[0] }}" {% if doc.shipping_rule==rule[0] %}selected{% endif %}>{{ rule[1]
+							}}</option>
+						{% endfor %}
+					</select>
+				</td>
+			</tr>
+			{% endif %}
 
 			{% if cart_settings.enable_manual_shipping_charge and not doc.shipping_rule %}
 			<tr>

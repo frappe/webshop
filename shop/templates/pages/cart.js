@@ -19,6 +19,8 @@ $.extend(shopping_cart, {
 		shopping_cart.bind_change_notes();
 		shopping_cart.bind_coupon_code();
 		shopping_cart.bind_remove_coupon_code();
+		shopping_cart.bind_guest_country_change();
+		shopping_cart.bind_shipping_rule_change();
 	},
 
 	bind_place_order: function () {
@@ -253,6 +255,52 @@ $.extend(shopping_cart, {
 			}
 		});
 	},
+
+	bind_guest_country_change: function () {
+		$(".guest-country").on("change", function () {
+			var country = $(this).val();
+			if (country) {
+				shopping_cart.update_guest_country(country);
+			}
+		});
+	},
+
+	update_guest_country: function (country) {
+		return frappe.call({
+			type: "POST",
+			method: "shop.shop.shopping_cart.cart.update_guest_country",
+			args: { country: country },
+			callback: function (r) {
+				if (r.message) {
+					// We need a way to re-render the taxes and totals
+					// If shopping_cart.render is missing, let's at least reload the parts we can
+					location.reload(); // Simplest fix for now to ensure all context is correct
+				}
+			}
+		});
+	},
+
+	bind_shipping_rule_change: function () {
+		$(".shipping-rule-selector").on("change", function () {
+			var shipping_rule = $(this).val();
+			if (shipping_rule) {
+				shopping_cart.apply_shipping_rule(shipping_rule);
+			}
+		});
+	},
+
+	apply_shipping_rule: function (shipping_rule) {
+		return frappe.call({
+			type: "POST",
+			method: "shop.shop.shopping_cart.cart.apply_shipping_rule",
+			args: { shipping_rule: shipping_rule },
+			callback: function (r) {
+				if (r.message) {
+					location.reload();
+				}
+			}
+		});
+	}
 });
 
 frappe.ready(function () {
