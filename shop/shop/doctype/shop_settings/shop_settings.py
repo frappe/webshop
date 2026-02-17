@@ -164,7 +164,10 @@ def validate_cart_settings(doc=None, method=None):
 
 
 def get_shopping_cart_settings():
-	return frappe.get_cached_doc("Shop Settings")
+	try:
+		return frappe.get_cached_doc("Shop Settings")
+	except (frappe.PermissionError, Exception):
+		return frappe.get_doc("Shop Settings", "Shop Settings", ignore_permissions=True)
 
 
 @frappe.whitelist(allow_guest=True)
