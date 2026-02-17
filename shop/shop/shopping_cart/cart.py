@@ -248,6 +248,14 @@ def add_new_address(doc):
 	doc = frappe.parse_json(doc)
 	doc.update({"doctype": "Address"})
 	address = frappe.get_doc(doc)
+
+	party = get_party()
+	if party:
+		address.append("links", {
+			"link_doctype": party.doctype,
+			"link_name": party.name
+		})
+
 	address.save(ignore_permissions=True)
 
 	return address
