@@ -94,51 +94,52 @@ def mobile_signup(mobile_no, full_name, password):
 	if not mobile_no or not password or not full_name:
 		frappe.throw(frappe._("Please fill all details"))
 
-	# Check if user already exists with this mobile number
-	existing_user = frappe.db.get_value("User", {"mobile_no": mobile_no}, "name")
-	if existing_user:
-		frappe.throw(
-			frappe._("User already exists with this mobile number. Please login.")
-		)
-
 	# Create a dummy email for the user as Frappe requires unique email/name
 	email = "{0}@mobile.signup".format(mobile_no)
 
-	if frappe.db.exists("User", email):
-		frappe.throw(frappe._("User already exists with this mobile number. Please login."))
+	# Use sudo to bypass Guest permission limits on User doctype
+	original_user = frappe.session.user
+	try:
+		frappe.set_user("Administrator")
 
-	user = frappe.get_doc(
-		{
-			"doctype": "User",
-			"email": email,
-			"first_name": full_name,
-			"mobile_no": mobile_no,
-			"user_type": "Website User",
-			"send_welcome_email": 0,
-		}
-	)
-	user.flags.ignore_permissions = True
-	user.insert(ignore_permissions=True)
+		# Check if user already exists
+		if frappe.db.get_value("User", {"mobile_no": mobile_no}, "name") or frappe.db.exists("User", email):
+			frappe.throw(frappe._("User already exists with this mobile number. Please login."))
 
-	# Set password
-	from frappe.utils.password import update_password
+		user = frappe.get_doc(
+			{
+				"doctype": "User",
+				"email": email,
+				"first_name": full_name,
+				"mobile_no": mobile_no,
+				"user_type": "Website User",
+				"send_welcome_email": 0,
+			}
+		)
+		user.flags.ignore_permissions = True
+		user.insert(ignore_permissions=True)
 
-	update_password(user.name, password)
+		# Set password
+		from frappe.utils.password import update_password
+		update_password(user.name, password)
 
-	# Assign 'Customer' role or default portal role
-	default_role = frappe.db.get_single_value("Portal Settings", "default_role") or "Customer"
-	frappe.get_doc("User", user.name, ignore_permissions=True).add_roles(default_role)
+		# Assign 'Customer' role or default portal role
+		default_role = frappe.db.get_single_value("Portal Settings", "default_role") or "Customer"
+		user_doc = frappe.get_doc("User", user.name, ignore_permissions=True)
+		user_doc.add_roles(default_role)
 
-	# Login the user
-	from frappe.auth import LoginManager
+		# Login the user
+		from frappe.auth import LoginManager
+		login_manager = LoginManager()
+		login_manager.login_as(user.name)
 
-	login_manager = LoginManager()
-	login_manager.login_as(user.name)
+		# Ensure Customer record is created
+		frappe.set_user(user.name)
+		from shop.shop.utils.portal import update_debtors_account
+		update_debtors_account()
 
-	# Ensure Customer record is created
-	# Explicitly set the user in local context so update_debtors_account sees the new user
-	frappe.set_user(user.name)
-	from shop.shop.utils.portal import update_debtors_account
-	update_debtors_account()
+	finally:
+		if frappe.session.user == "Administrator":
+			frappe.set_user(original_user)
 
 	return {"status": "success", "message": frappe._("Signup successful")}
