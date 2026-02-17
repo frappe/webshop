@@ -73,12 +73,6 @@ frappe.ready(() => {
 			title: '{{_("New Address") }}',
 			fields: [
 				{
-					label: '{{ _("Address Title") }}',
-					fieldname: 'address_title',
-					fieldtype: 'Data',
-					reqd: 1
-				},
-				{
 					label: '{{ _("Address Line 1") }}',
 					fieldname: 'address_line1',
 					fieldtype: 'Data',
@@ -121,6 +115,7 @@ frappe.ready(() => {
 						'Billing',
 						'Shipping'
 					],
+					default: 'Billing',
 					reqd: 1
 				},
 				{
@@ -131,12 +126,16 @@ frappe.ready(() => {
 				{
 					fieldname: "phone",
 					fieldtype: "Data",
-					label: '{{ _("Phone") }}',
-					reqd: 1
+					label: '{{ _("Phone") }}'
 				},
 			],
 			primary_action_label: '{{ _("Save") }}',
 			primary_action: (values) => {
+				if (!values.address_title) {
+					const customer_name = {{ (doc.customer_name or "") | tojson }};
+					const session_name = (frappe.session && frappe.session.user_fullname) || frappe.session.user;
+					values.address_title = customer_name || session_name || values.address_line1 || values.address_line2 || '{{ _("Address") }}';
+				}
 				frappe.call('webshop.webshop.shopping_cart.cart.add_new_address', { doc: values })
 					.then(r => {
 						frappe.call({
