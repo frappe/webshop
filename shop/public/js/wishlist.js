@@ -5,10 +5,10 @@ frappe.provide("shop.shop.shopping_cart");
 var shopping_cart = shop.shop.shopping_cart;
 
 $.extend(wishlist, {
-	set_wishlist_count: function(animate=false) {
+	set_wishlist_count: function (animate = false) {
 		// set badge count for wishlist icon
 		var wish_count = frappe.get_cookie("wish_count");
-		if (frappe.session.user==="Guest") {
+		if (frappe.session.user === "Guest") {
 			wish_count = 0;
 		}
 
@@ -37,7 +37,7 @@ $.extend(wishlist, {
 		}
 	},
 
-	bind_move_to_cart_action: function() {
+	bind_move_to_cart_action: function () {
 		// move item to cart from wishlist
 		$('.page_content').on("click", ".btn-add-to-cart", (e) => {
 			const $move_to_cart_btn = $(e.currentTarget);
@@ -49,7 +49,7 @@ $.extend(wishlist, {
 				cart_dropdown: true
 			});
 
-			let success_action = function() {
+			let success_action = function () {
 				const $card_wrapper = $move_to_cart_btn.closest(".wishlist-card");
 				$card_wrapper.addClass("wish-removed");
 			};
@@ -58,7 +58,7 @@ $.extend(wishlist, {
 		});
 	},
 
-	bind_remove_action: function() {
+	bind_remove_action: function () {
 		// remove item from wishlist
 		let me = this;
 
@@ -66,7 +66,7 @@ $.extend(wishlist, {
 			const $remove_wish_btn = $(e.currentTarget);
 			let item_code = $remove_wish_btn.data("item-code");
 
-			let success_action = function() {
+			let success_action = function () {
 				const $card_wrapper = $remove_wish_btn.closest(".wishlist-card");
 				$card_wrapper.addClass("wish-removed");
 				if (frappe.get_cookie("wish_count") == 0) {
@@ -91,7 +91,7 @@ $.extend(wishlist, {
 		const $wish_icon = btn.find('.wish-icon');
 		let me = this;
 
-		if (frappe.session.user==="Guest") {
+		if (frappe.session.user === "Guest") {
 			if (localStorage) {
 				localStorage.setItem("last_visited", window.location.pathname);
 			}
@@ -99,7 +99,7 @@ $.extend(wishlist, {
 			return;
 		}
 
-		let success_action = function() {
+		let success_action = function () {
 			shop.shop.wishlist.set_wishlist_count(true);
 		};
 
@@ -110,7 +110,7 @@ $.extend(wishlist, {
 			this.toggle_button_class($wish_icon, 'wished', 'not-wished');
 
 			let args = { item_code: btn.data('item-code') };
-			let failure_action = function() {
+			let failure_action = function () {
 				me.toggle_button_class($wish_icon, 'not-wished', 'wished');
 			};
 			this.add_remove_from_wishlist("remove", args, success_action, failure_action);
@@ -120,8 +120,8 @@ $.extend(wishlist, {
 			btn.addClass("like-action-wished");
 			this.toggle_button_class($wish_icon, 'not-wished', 'wished');
 
-			let args = {item_code: btn.data('item-code')};
-			let failure_action = function() {
+			let args = { item_code: btn.data('item-code') };
+			let failure_action = function () {
 				me.toggle_button_class($wish_icon, 'wished', 'not-wished');
 			};
 			this.add_remove_from_wishlist("add", args, success_action, failure_action);
@@ -133,14 +133,14 @@ $.extend(wishlist, {
 		button.addClass(add);
 	},
 
-	add_remove_from_wishlist(action, args, success_action, failure_action, async=false) {
+	add_remove_from_wishlist(action, args, success_action, failure_action, async = false) {
 		/*	AJAX call to add or remove Item from Wishlist
 			action: "add" or "remove"
 			args: args for method (item_code, price, formatted_price),
 			success_action: method to execute on successs,
 			failure_action: method to execute on failure,
 			async: make call asynchronously (true/false).	*/
-		if (frappe.session.user==="Guest") {
+		if (frappe.session.user === "Guest") {
 			if (localStorage) {
 				localStorage.setItem("last_visited", window.location.pathname);
 			}
@@ -175,7 +175,7 @@ $.extend(wishlist, {
 
 	redirect_guest() {
 		frappe.call('shop.shop.api.get_guest_redirect_on_action').then((res) => {
-			window.location.href = res.message || "/login";
+			window.location.href = res.message || "/mobile_signup";
 		});
 	},
 
@@ -185,14 +185,14 @@ $.extend(wishlist, {
 				<div class="cart-empty-state">
 					<img src="/assets/shop/images/cart-empty-state.png" alt="Empty Cart">
 				</div>
-				<div class="cart-empty-message mt-4">${ __('Wishlist is empty !') }</p>
+				<div class="cart-empty-message mt-4">${__('Wishlist is empty !')}</p>
 			</div>
 		`);
 	}
 
 });
 
-frappe.ready(function() {
+frappe.ready(function () {
 	if (window.location.pathname !== "/wishlist") {
 		$(".wishlist").toggleClass('hidden', true);
 		wishlist.set_wishlist_count();
