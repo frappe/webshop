@@ -76,31 +76,24 @@ $.extend(shopping_cart, {
 
 	update_cart: function (opts) {
 		shopping_cart.get_settings().then((settings) => {
-			if (frappe.session.user === "Guest" && settings && settings.allow_guest_checkout === 0) {
-				if (localStorage) {
-					localStorage.setItem("last_visited", window.location.pathname);
+			shopping_cart.freeze();
+			return frappe.call({
+				type: "POST",
+				method: "shop.shop.shopping_cart.cart.update_cart",
+				args: {
+					item_code: opts.item_code,
+					qty: opts.qty,
+					additional_notes: opts.additional_notes !== undefined ? opts.additional_notes : undefined,
+					with_items: opts.with_items || 0
+				},
+				btn: opts.btn,
+				callback: function (r) {
+					shopping_cart.unfreeze();
+					shopping_cart.set_cart_count(true);
+					if (opts.callback)
+						opts.callback(r);
 				}
-				window.location.href = settings.redirect_on_action || "/login";
-			} else {
-				shopping_cart.freeze();
-				return frappe.call({
-					type: "POST",
-					method: "shop.shop.shopping_cart.cart.update_cart",
-					args: {
-						item_code: opts.item_code,
-						qty: opts.qty,
-						additional_notes: opts.additional_notes !== undefined ? opts.additional_notes : undefined,
-						with_items: opts.with_items || 0
-					},
-					btn: opts.btn,
-					callback: function (r) {
-						shopping_cart.unfreeze();
-						shopping_cart.set_cart_count(true);
-						if (opts.callback)
-							opts.callback(r);
-					}
-				});
-			}
+			});
 		});
 	},
 
@@ -205,19 +198,7 @@ $.extend(shopping_cart, {
 			const $btn = $(e.currentTarget);
 			$btn.prop('disabled', true);
 
-			if (frappe.session.user === "Guest") {
-				shopping_cart.get_settings().then((settings) => {
-					if (settings && settings.allow_guest_checkout === 0) {
-						if (localStorage) {
-							localStorage.setItem("last_visited", window.location.pathname);
-						}
-						window.location.href = settings.redirect_on_action || "/login";
-					} else {
-						shopping_cart.add_to_cart_execution($btn);
-					}
-				});
-				return;
-			}
+			shopping_cart.add_to_cart_execution($btn);
 
 			shopping_cart.add_to_cart_execution($btn);
 		});

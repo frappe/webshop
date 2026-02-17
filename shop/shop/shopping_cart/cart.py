@@ -614,7 +614,7 @@ def get_party(user=None):
 
 	cart_settings = get_shopping_cart_settings()
 
-	if user == "Guest" and cart_settings.allow_guest_checkout:
+	if user == "Guest":
 		return _get_guest_customer(cart_settings)
 
 	contact_name = get_contact_name(user)

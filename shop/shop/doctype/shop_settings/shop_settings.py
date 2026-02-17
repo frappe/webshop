@@ -177,12 +177,19 @@ def is_cart_enabled():
 
 @frappe.whitelist(allow_guest=True)
 def get_cart_settings():
-	settings = get_shopping_cart_settings()
-	return {
-		"enabled": settings.enabled,
-		"allow_guest_checkout": settings.allow_guest_checkout,
-		"redirect_on_action": settings.redirect_on_action
-	}
+	try:
+		settings = get_shopping_cart_settings()
+		return {
+			"enabled": settings.get("enabled", 1),
+			"allow_guest_checkout": settings.get("allow_guest_checkout", 1),
+			"redirect_on_action": settings.get("redirect_on_action")
+		}
+	except Exception:
+		return {
+			"enabled": 1,
+			"allow_guest_checkout": 1,
+			"redirect_on_action": "/login"
+		}
 
 
 def show_quantity_in_website():
