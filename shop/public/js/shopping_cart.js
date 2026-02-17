@@ -56,6 +56,7 @@ frappe.ready(function () {
 	shopping_cart.show_shoppingcart_dropdown();
 	shopping_cart.set_cart_count();
 	shopping_cart.show_cart_navbar();
+	shopping_cart.bind_add_to_cart_action();
 });
 
 $.extend(shopping_cart, {
@@ -194,7 +195,8 @@ $.extend(shopping_cart, {
 	},
 
 	bind_add_to_cart_action() {
-		$('.page_content').on('click', '.btn-add-to-cart-list', (e) => {
+		// Handle both .btn-add-to-cart-list (list/grid) and .btn-add-to-cart (item page)
+		$('.page_content').on('click', '.btn-add-to-cart-list, .btn-add-to-cart', (e) => {
 			const $btn = $(e.currentTarget);
 			$btn.prop('disabled', true);
 

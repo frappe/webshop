@@ -128,66 +128,6 @@
 	</div>
 </div>
 
-<script>
-	frappe.ready(() => {
-		$('.page_content').on('click', '.btn-add-to-cart', (e) => {
-			// Bind action on add to cart button
-			const $btn = $(e.currentTarget);
-			$btn.prop('disabled', true);
-			const item_code = $btn.data('item-code');
-
-			if (frappe.session.user === "Guest") {
-				window.location.href = "/mobile_signup?item_code=" + encodeURIComponent(item_code);
-				return;
-			}
-
-			shop.shop.shopping_cart.update_cart({
-				item_code,
-				qty: 1,
-				callback(r) {
-					$btn.prop('disabled', false);
-					if (r.message) {
-						$('.btn-add-to-cart, .btn-view-in-cart').toggleClass('hidden');
-					}
-				}
-			});
-		});
-
-		$('.page_content').on('click', '.offer-details', (e) => {
-			// Bind action on More link in Offers
-			const $btn = $(e.currentTarget);
-			$btn.prop('disabled', true);
-
-			var d = new frappe.ui.Dialog({
-				title: __($btn.data('offer-title')),
-				fields: [
-					{
-						fieldname: 'offer_details',
-						fieldtype: 'HTML'
-					},
-					{
-						fieldname: 'section_break',
-						fieldtype: 'Section Break'
-					}
-				]
-			});
-
-			frappe.call({
-				method: 'shop.shop.doctype.website_offer.website_offer.get_offer_details',
-				args: {
-					offer_id: $btn.data('offer-id')
-				},
-				callback: (value) => {
-					d.set_value("offer_details", value.message);
-					d.show();
-					$btn.prop('disabled', false);
-				}
-			})
-
-		});
-	});
-
-
-</script>
+{# Inline script removed: handled by shop/public/js/shopping_cart.js #}
 
 {% endif %}
