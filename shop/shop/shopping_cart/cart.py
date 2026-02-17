@@ -612,7 +612,7 @@ def get_party(user=None):
 	if not user:
 		user = frappe.session.user
 
-	cart_settings = frappe.get_cached_doc("Shop Settings")
+	cart_settings = get_shopping_cart_settings()
 
 	if user == "Guest" and cart_settings.allow_guest_checkout:
 		return _get_guest_customer(cart_settings)
