@@ -97,7 +97,7 @@ def mobile_signup(mobile_no, full_name, password):
 	# Create a dummy email for the user as Frappe requires unique email/name
 	email = "{0}@mobile.signup".format(mobile_no)
 
-	# Use sudo to bypass Guest permission limits on User doctype
+	# Use sudo to bypass Guest permission limits
 	original_user = frappe.session.user
 	try:
 		frappe.set_user("Administrator")
@@ -114,6 +114,7 @@ def mobile_signup(mobile_no, full_name, password):
 				"mobile_no": mobile_no,
 				"user_type": "Website User",
 				"send_welcome_email": 0,
+				"enabled": 1,
 			}
 		)
 		user.flags.ignore_permissions = True
@@ -123,22 +124,36 @@ def mobile_signup(mobile_no, full_name, password):
 		from frappe.utils.password import update_password
 		update_password(user.name, password)
 
-		# Assign 'Customer' role or default portal role
-		default_role = frappe.db.get_single_value("Portal Settings", "default_role") or "Customer"
+		# Assign 'Customer' role
 		user_doc = frappe.get_doc("User", user.name, ignore_permissions=True)
-		user_doc.add_roles(default_role)
+		user_doc.add_roles("Customer")
 
-		# Login the user
+		# Manually create Customer to avoid session issues in update_debtors_account
+		if not frappe.db.exists("Customer", {"customer_name": full_name}):
+			from frappe.utils.nestedset import get_root_of
+			cart_settings = frappe.get_cached_doc("Shop Settings")
+
+			customer = frappe.new_doc("Customer")
+			customer.update({
+				"customer_name": full_name,
+				"customer_type": "Individual",
+				"customer_group": cart_settings.default_customer_group,
+				"territory": get_root_of("Territory")
+			})
+			customer.append("portal_users", {"user": user.name})
+			customer.flags.ignore_mandatory = True
+			customer.insert(ignore_permissions=True)
+
+		# Finally login the user
 		from frappe.auth import LoginManager
 		login_manager = LoginManager()
 		login_manager.login_as(user.name)
 
-		# Ensure Customer record is created
-		frappe.set_user(user.name)
-		from shop.shop.utils.portal import update_debtors_account
-		update_debtors_account()
-
+	except Exception as e:
+		frappe.log_error("Mobile Signup Error: {0}".format(frappe.get_traceback()))
+		raise e
 	finally:
+		# Only reset if we haven't successfully logged in as the new user
 		if frappe.session.user == "Administrator":
 			frappe.set_user(original_user)
 
