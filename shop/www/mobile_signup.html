@@ -67,6 +67,14 @@
 
 <script>
     frappe.ready(function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const item_code = urlParams.get('item_code');
+
+        if (item_code) {
+            $('.text-muted').first().text(__('Identify yourself to add this item to your cart'));
+            $('#btn-signup').text(__('Continue to Cart'));
+        }
+
         $('#btn-signup').on('click', function () {
             const full_name = $('#full_name').val();
             const mobile_no = $('#mobile_no').val();
@@ -87,13 +95,33 @@
                 btn: $(this),
                 callback: function (r) {
                     if (r.message && r.message.status === "success") {
-                        frappe.show_alert({
-                            message: __('Signup successful! Redirecting...'),
-                            indicator: 'green'
-                        });
-                        setTimeout(function () {
-                            window.location.href = "/cart";
-                        }, 1500);
+                        if (item_code) {
+                            // Add item to cart after signup
+                            frappe.call({
+                                method: "shop.shop.shopping_cart.cart.update_cart",
+                                args: {
+                                    item_code: item_code,
+                                    qty: 1
+                                },
+                                callback: function () {
+                                    frappe.show_alert({
+                                        message: __('Item added and account created!'),
+                                        indicator: 'green'
+                                    });
+                                    setTimeout(function () {
+                                        window.location.href = "/cart";
+                                    }, 1000);
+                                }
+                            });
+                        } else {
+                            frappe.show_alert({
+                                message: __('Signup successful! Redirecting...'),
+                                indicator: 'green'
+                            });
+                            setTimeout(function () {
+                                window.location.href = "/cart";
+                            }, 1500);
+                        }
                     }
                 }
             });

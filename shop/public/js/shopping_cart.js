@@ -198,7 +198,11 @@ $.extend(shopping_cart, {
 			const $btn = $(e.currentTarget);
 			$btn.prop('disabled', true);
 
-			shopping_cart.add_to_cart_execution($btn);
+			if (frappe.session.user === "Guest") {
+				const item_code = $btn.data('item-code');
+				window.location.href = "/mobile_signup?item_code=" + encodeURIComponent(item_code);
+				return;
+			}
 
 			shopping_cart.add_to_cart_execution($btn);
 		});
