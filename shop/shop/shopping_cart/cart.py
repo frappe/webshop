@@ -632,7 +632,7 @@ def get_party(user=None):
 		debtors_account = get_debtors_account(cart_settings)
 
 	if party:
-		doc = frappe.get_doc(party_doctype, party)
+		doc = frappe.get_doc(party_doctype, party, ignore_permissions=True)
 		if doc.doctype in ["Customer", "Supplier"]:
 			if not frappe.db.exists("Portal User", {"parent": doc.name, "user": user}):
 				doc.append("portal_users", {"user": user})
@@ -683,7 +683,7 @@ def get_party(user=None):
 	else:
 		customer_name = frappe.db.get_value("Portal User", {"user": user}, "parent")
 		if customer_name and frappe.db.exists("Customer", customer_name):
-			return frappe.get_doc("Customer", customer_name)
+			return frappe.get_doc("Customer", customer_name, ignore_permissions=True)
 
 
 def _get_guest_customer(cart_settings):
@@ -702,7 +702,7 @@ def _get_guest_customer(cart_settings):
 		customer.insert(ignore_permissions=True)
 		return customer
 	else:
-		return frappe.get_doc("Customer", guest_customer_name)
+		return frappe.get_doc("Customer", guest_customer_name, ignore_permissions=True)
 
 
 def get_debtors_account(cart_settings):
