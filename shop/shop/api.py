@@ -87,3 +87,57 @@ def get_product_filter_data(query_args=None):
 @frappe.whitelist(allow_guest=True)
 def get_guest_redirect_on_action():
 	return frappe.db.get_single_value("Shop Settings", "redirect_on_action")
+
+
+@frappe.whitelist(allow_guest=True)
+def mobile_signup(mobile_no, full_name, password):
+	if not mobile_no or not password or not full_name:
+		frappe.throw(frappe._("Please fill all details"))
+
+	# Check if user already exists with this mobile number
+	existing_user = frappe.db.get_value("User", {"mobile_no": mobile_no}, "name")
+	if existing_user:
+		frappe.throw(
+			frappe._("User already exists with this mobile number. Please login.")
+		)
+
+	# Create a dummy email for the user as Frappe requires unique email/name
+	email = "{0}@mobile.signup".format(mobile_no)
+
+	if frappe.db.exists("User", email):
+		frappe.throw(frappe._("User already exists with this mobile number. Please login."))
+
+	user = frappe.get_doc(
+		{
+			"doctype": "User",
+			"email": email,
+			"first_name": full_name,
+			"mobile_no": mobile_no,
+			"user_type": "Website User",
+			"send_welcome_email": 0,
+		}
+	)
+	user.flags.ignore_permissions = True
+	user.insert()
+
+	# Set password
+	from frappe.utils.password import update_password
+
+	update_password(user.name, password)
+
+	# Assign 'Customer' role or default portal role
+	default_role = frappe.db.get_single_value("Portal Settings", "default_role") or "Customer"
+	user.add_roles(default_role)
+
+	# Login the user
+	from frappe.auth import LoginManager
+
+	login_manager = LoginManager()
+	login_manager.login_as(user.name)
+
+	# Ensure Customer record is created (handled by on_session_creation hooks usually, 
+	# but we can trigger it here to be sure)
+	from shop.shop.utils.portal import update_debtors_account
+	update_debtors_account()
+
+	return {"status": "success", "message": frappe._("Signup successful")}
