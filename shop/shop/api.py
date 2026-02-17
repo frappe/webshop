@@ -118,7 +118,7 @@ def mobile_signup(mobile_no, full_name, password):
 		}
 	)
 	user.flags.ignore_permissions = True
-	user.insert()
+	user.insert(ignore_permissions=True)
 
 	# Set password
 	from frappe.utils.password import update_password
@@ -127,7 +127,7 @@ def mobile_signup(mobile_no, full_name, password):
 
 	# Assign 'Customer' role or default portal role
 	default_role = frappe.db.get_single_value("Portal Settings", "default_role") or "Customer"
-	user.add_roles(default_role)
+	frappe.get_doc("User", user.name, ignore_permissions=True).add_roles(default_role)
 
 	# Login the user
 	from frappe.auth import LoginManager
@@ -135,8 +135,9 @@ def mobile_signup(mobile_no, full_name, password):
 	login_manager = LoginManager()
 	login_manager.login_as(user.name)
 
-	# Ensure Customer record is created (handled by on_session_creation hooks usually, 
-	# but we can trigger it here to be sure)
+	# Ensure Customer record is created
+	# Explicitly set the user in local context so update_debtors_account sees the new user
+	frappe.set_user(user.name)
 	from shop.shop.utils.portal import update_debtors_account
 	update_debtors_account()
 

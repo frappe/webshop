@@ -50,7 +50,7 @@ def get_cart_quotation(doc=None):
 		"shipping_addresses": get_shipping_addresses(party),
 		"billing_addresses": get_billing_addresses(party),
 		"shipping_rules": get_applicable_shipping_rules(party),
-		"cart_settings": frappe.get_cached_doc("Shop Settings"),
+		"cart_settings": get_shopping_cart_settings(),
 	}
 
 
@@ -91,7 +91,7 @@ def place_order(guest_details=None):
 	if guest_details and isinstance(guest_details, str):
 		guest_details = frappe.parse_json(guest_details)
 
-	cart_settings = frappe.get_cached_doc("Shop Settings")
+	cart_settings = get_shopping_cart_settings()
 	party = get_party()
 	quotation = _get_cart_quotation(party)
 	
@@ -478,7 +478,7 @@ def apply_cart_settings(party=None, quotation=None):
 	if not quotation:
 		quotation = _get_cart_quotation(party)
 
-	cart_settings = frappe.get_cached_doc("Shop Settings")
+	cart_settings = get_shopping_cart_settings()
 
 	set_price_list_and_rate(quotation, cart_settings)
 
