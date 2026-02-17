@@ -1,7 +1,7 @@
 // Copyright (c) 2015, Frappe Technologies Pvt. Ltd. and Contributors
 // License: GNU General Public License v3. See license.txt
 
-frappe.ready(function() {
+frappe.ready(function () {
 	window.item_code = $('[itemscope] [itemprop="productID"]').text().trim();
 	var qty = 0;
 
@@ -11,37 +11,37 @@ frappe.ready(function() {
 		args: {
 			item_code: get_item_code()
 		},
-		callback: function(r) {
-			if(r.message) {
-				if(r.message.cart_settings.enabled) {
+		callback: function (r) {
+			if (r.message) {
+				if (r.message.cart_settings.enabled) {
 					let hide_add_to_cart = !r.message.product_info.price
 						|| (!r.message.product_info.in_stock && !r.message.cart_settings.allow_items_not_in_stock);
 					$(".item-cart, .item-price, .item-stock").toggleClass('hide', hide_add_to_cart);
 				}
-				if(r.message.cart_settings.show_price) {
+				if (r.message.cart_settings.show_price) {
 					$(".item-price").toggleClass("hide", false);
 				}
-				if(r.message.cart_settings.show_stock_availability) {
+				if (r.message.cart_settings.show_stock_availability) {
 					$(".item-stock").toggleClass("hide", false);
 				}
-				if(r.message.product_info.price) {
+				if (r.message.product_info.price) {
 					$(".item-price")
 						.html(r.message.product_info.price.formatted_price_sales_uom + "<div style='font-size: small'>\
 							(" + r.message.product_info.price.formatted_price + " / " + r.message.product_info.uom + ")</div>");
 
-					if(r.message.product_info.in_stock===0) {
+					if (r.message.product_info.in_stock === 0) {
 						$(".item-stock").html("<div style='color: red'> <i class='fa fa-close'></i> {{ _("Not in stock") }}</div>");
 					}
-					else if(r.message.product_info.in_stock===1 && r.message.cart_settings.show_stock_availability) {
+					else if (r.message.product_info.in_stock === 1 && r.message.cart_settings.show_stock_availability) {
 						var qty_display = "{{ _("In stock") }}";
 						if (r.message.product_info.show_stock_qty) {
-							qty_display += " ("+r.message.product_info.stock_qty+")";
+							qty_display += " (" + r.message.product_info.stock_qty + ")";
 						}
 						$(".item-stock").html("<div style='color: green'>\
-							<i class='fa fa-check'></i> "+qty_display+"</div>");
+							<i class='fa fa-check'></i> "+ qty_display + "</div>");
 					}
 
-					if(r.message.product_info.qty) {
+					if (r.message.product_info.qty) {
 						qty = r.message.product_info.qty;
 						toggle_update_cart(r.message.product_info.qty);
 					} else {
@@ -52,14 +52,14 @@ frappe.ready(function() {
 		}
 	})
 
-	$("#item-add-to-cart button").on("click", function() {
-		frappe.provide('shop.shopping_cart');
+	$("#item-add-to-cart button").on("click", function () {
+		frappe.provide('shop.shop.shopping_cart');
 
-		shop.shopping_cart.update_cart({
+		shop.shop.shopping_cart.update_cart({
 			item_code: get_item_code(),
 			qty: $("#item-spinner .cart-qty").val(),
-			callback: function(r) {
-				if(!r.exc) {
+			callback: function (r) {
+				if (!r.exc) {
 					toggle_update_cart(1);
 					qty = 1;
 				}
@@ -76,7 +76,7 @@ frappe.ready(function() {
 
 		if (btn.attr('data-dir') == 'up') {
 			newVal = Number.parseInt(oldValue) + 1;
-		} else if (btn.attr('data-dir') == 'dwn')  {
+		} else if (btn.attr('data-dir') == 'dwn') {
 			if (Number.parseInt(oldValue) > 1) {
 				newVal = Number.parseInt(oldValue) - 1;
 			}
@@ -87,11 +87,11 @@ frappe.ready(function() {
 		input.val(newVal);
 	});
 
-	$("[itemscope] .item-view-attribute .form-control").on("change", function() {
+	$("[itemscope] .item-view-attribute .form-control").on("change", function () {
 		try {
 			var item_code = encodeURIComponent(get_item_code());
 
-		} catch(e) {
+		} catch (e) {
 			// unable to find variant
 			// then chose the closest available one
 
@@ -120,7 +120,7 @@ frappe.ready(function() {
 	});
 });
 
-var toggle_update_cart = function(qty) {
+var toggle_update_cart = function (qty) {
 	$("#item-add-to-cart").toggle(qty ? false : true);
 	$("#item-update-cart")
 		.toggle(qty ? true : false)
@@ -130,11 +130,11 @@ var toggle_update_cart = function(qty) {
 
 function get_item_code() {
 	var variant_info = window.variant_info;
-	if(variant_info) {
+	if (variant_info) {
 		var attributes = get_selected_attributes();
 		var no_of_attributes = Object.keys(attributes).length;
 
-		for(var i in variant_info) {
+		for (var i in variant_info) {
 			var variant = variant_info[i];
 
 			if (variant.attributes.length < no_of_attributes) {
@@ -143,15 +143,15 @@ function get_item_code() {
 			}
 
 			var match = true;
-			for(var j in variant.attributes) {
-				if(attributes[variant.attributes[j].attribute]
+			for (var j in variant.attributes) {
+				if (attributes[variant.attributes[j].attribute]
 					!= variant.attributes[j].attribute_value
 				) {
 					match = false;
 					break;
 				}
 			}
-			if(match) {
+			if (match) {
 				return variant.name;
 			}
 		}
@@ -171,23 +171,23 @@ function find_closest_match(selected_attribute, selected_attribute_value) {
 	var matched;
 
 	var variant_info = window.variant_info;
-	for(var i in variant_info) {
+	for (var i in variant_info) {
 		var variant = variant_info[i];
 		var match_score = 0;
 		var has_selected_attribute = false;
 
-		for(var j in variant.attributes) {
-			if(attributes[variant.attributes[j].attribute]===variant.attributes[j].attribute_value) {
+		for (var j in variant.attributes) {
+			if (attributes[variant.attributes[j].attribute] === variant.attributes[j].attribute_value) {
 				match_score = match_score + 1;
 
-				if (variant.attributes[j].attribute==selected_attribute && variant.attributes[j].attribute_value==selected_attribute_value) {
+				if (variant.attributes[j].attribute == selected_attribute && variant.attributes[j].attribute_value == selected_attribute_value) {
 					has_selected_attribute = true;
 				}
 			}
 		}
 
 		if (has_selected_attribute
-			&& ((match_score > previous_match_score) || (match_score==previous_match_score && previous_no_of_attributes < variant.attributes.length))) {
+			&& ((match_score > previous_match_score) || (match_score == previous_match_score && previous_no_of_attributes < variant.attributes.length))) {
 			previous_match_score = match_score;
 			matched = variant;
 			previous_no_of_attributes = variant.attributes.length;
@@ -210,7 +210,7 @@ function find_closest_match(selected_attribute, selected_attribute_value) {
 
 function get_selected_attributes() {
 	var attributes = {};
-	$('[itemscope]').find(".item-view-attribute .form-control").each(function() {
+	$('[itemscope]').find(".item-view-attribute .form-control").each(function () {
 		attributes[$(this).attr('data-attribute')] = $(this).val();
 	});
 	return attributes;

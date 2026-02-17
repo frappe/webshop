@@ -56,6 +56,7 @@ frappe.ready(function () {
 	shopping_cart.show_shoppingcart_dropdown();
 	shopping_cart.set_cart_count();
 	shopping_cart.show_cart_navbar();
+	console.log("Standard Shopping Cart Initialized");
 	shopping_cart.bind_add_to_cart_action();
 });
 
@@ -195,12 +196,16 @@ $.extend(shopping_cart, {
 	},
 
 	bind_add_to_cart_action() {
+		console.log("Binding Add to Cart Actions");
 		// Handle both .btn-add-to-cart-list (list/grid) and .btn-add-to-cart (item page)
+		$('.page_content').off('click', '.btn-add-to-cart-list, .btn-add-to-cart'); // Avoid duplicates
 		$('.page_content').on('click', '.btn-add-to-cart-list, .btn-add-to-cart', (e) => {
 			const $btn = $(e.currentTarget);
+			console.log("Add to Cart Clicked for item:", $btn.data('item-code'));
 			$btn.prop('disabled', true);
 
 			if (frappe.session.user === "Guest") {
+				console.log("Guest detected, redirecting to mobile signup...");
 				const item_code = $btn.data('item-code');
 				window.location.href = "/mobile_signup?item_code=" + encodeURIComponent(item_code);
 				return;
