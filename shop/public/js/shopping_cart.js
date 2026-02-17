@@ -76,7 +76,7 @@ $.extend(shopping_cart, {
 
 	update_cart: function (opts) {
 		shopping_cart.get_settings().then((settings) => {
-			if (frappe.session.user === "Guest" && !settings.allow_guest_checkout) {
+			if (frappe.session.user === "Guest" && settings && settings.allow_guest_checkout === 0) {
 				if (localStorage) {
 					localStorage.setItem("last_visited", window.location.pathname);
 				}
@@ -109,48 +109,50 @@ $.extend(shopping_cart, {
 
 		var cart_count = frappe.get_cookie("cart_count");
 		shopping_cart.get_settings().then((settings) => {
-			if (frappe.session.user === "Guest" && !settings.allow_guest_checkout) {
+			if (frappe.session.user === "Guest" && settings && settings.allow_guest_checkout === 0) {
 				cart_count = 0;
 			}
-		});
 
-		if (cart_count) {
-			$(".shopping-cart").toggleClass('hidden', false);
-		}
-
-		var $cart = $('.cart-icon');
-		var $badge = $cart.find("#cart-count");
-
-		if (parseInt(cart_count) === 0 || cart_count === undefined) {
-			$cart.css("display", "none");
-			$(".cart-tax-items").hide();
-			$(".btn-place-order").hide();
-			$(".cart-payment-addresses").hide();
-
-			let intermediate_empty_cart_msg = `
-				<div class="text-center w-100 intermediate-empty-cart mt-4 mb-4 text-muted">
-					${__("Cart is Empty")}
-				</div>
-			`;
-			$(".cart-table").after(intermediate_empty_cart_msg);
-		}
-		else {
-			$cart.css("display", "inline");
-			$("#cart-count").text(cart_count);
-		}
-
-		if (cart_count) {
-			$badge.html(cart_count);
-
-			if (animate) {
-				$cart.addClass("cart-animate");
-				setTimeout(() => {
-					$cart.removeClass("cart-animate");
-				}, 500);
+			if (cart_count) {
+				$(".shopping-cart").toggleClass('hidden', false);
 			}
-		} else {
-			$badge.remove();
-		}
+
+			var $cart = $('.cart-icon');
+			var $badge = $cart.find("#cart-count");
+
+			if (parseInt(cart_count) === 0 || cart_count === undefined) {
+				$cart.css("display", "none");
+				$(".cart-tax-items").hide();
+				$(".btn-place-order").hide();
+				$(".cart-payment-addresses").hide();
+
+				let intermediate_empty_cart_msg = `
+					<div class="text-center w-100 intermediate-empty-cart mt-4 mb-4 text-muted">
+						${__("Cart is Empty")}
+					</div>
+				`;
+				if (!$(".intermediate-empty-cart").length) {
+					$(".cart-table").after(intermediate_empty_cart_msg);
+				}
+			}
+			else {
+				$cart.css("display", "inline");
+				$("#cart-count").text(cart_count);
+
+				if ($badge.length) {
+					$badge.html(cart_count);
+				} else {
+					$cart.append(`<span class="badge" id="cart-count">${cart_count}</span>`);
+				}
+
+				if (animate) {
+					$cart.addClass("cart-animate");
+					setTimeout(() => {
+						$cart.removeClass("cart-animate");
+					}, 500);
+				}
+			}
+		});
 	},
 
 	shopping_cart_update: function ({ item_code, qty, cart_dropdown, additional_notes }) {
@@ -205,7 +207,7 @@ $.extend(shopping_cart, {
 
 			if (frappe.session.user === "Guest") {
 				shopping_cart.get_settings().then((settings) => {
-					if (!settings.allow_guest_checkout) {
+					if (settings && settings.allow_guest_checkout === 0) {
 						if (localStorage) {
 							localStorage.setItem("last_visited", window.location.pathname);
 						}

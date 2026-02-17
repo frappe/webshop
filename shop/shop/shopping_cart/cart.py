@@ -235,7 +235,7 @@ def update_cart(item_code, qty, additional_notes=None, with_items=False):
 		return {"name": quotation.name}
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def get_shopping_cart_menu(context=None):
 	if not context:
 		context = get_cart_quotation()
@@ -243,7 +243,7 @@ def get_shopping_cart_menu(context=None):
 	return frappe.render_template("templates/includes/cart/cart_dropdown.html", context)
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def add_new_address(doc):
 	doc = frappe.parse_json(doc)
 	doc.update({"doctype": "Address"})
@@ -290,7 +290,7 @@ def create_lead_for_item_inquiry(lead, subject, message):
 	return lead_doc
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def get_terms_and_conditions(terms_name):
 	return frappe.db.get_value("Terms and Conditions", terms_name, "terms")
 
@@ -298,7 +298,7 @@ def get_terms_and_conditions(terms_name):
 @frappe.whitelist(allow_guest=True)
 def update_cart_address(address_type, address_name):
 	quotation = _get_cart_quotation()
-	address_doc = frappe.get_doc("Address", address_name).as_dict()
+	address_doc = frappe.get_doc("Address", address_name, ignore_permissions=True).as_dict()
 	address_display = get_address_display(address_doc)
 
 	if address_type.lower() == "billing":
@@ -451,7 +451,7 @@ def update_party(fullname, company_name=None, mobile_no=None, phone=None):
 	party.customer_type = "Company" if company_name else "Individual"
 
 	contact_name = frappe.db.get_value("Contact", {"email_id": frappe.session.user})
-	contact = frappe.get_doc("Contact", contact_name)
+	contact = frappe.get_doc("Contact", contact_name, ignore_permissions=True)
 	contact.first_name = fullname
 	contact.last_name = None
 	contact.customer_name = party.customer_name
@@ -460,7 +460,7 @@ def update_party(fullname, company_name=None, mobile_no=None, phone=None):
 	contact.flags.ignore_permissions = True
 	contact.save()
 
-	party_doc = frappe.get_doc(party.as_dict())
+	party_doc = frappe.get_doc(party.doctype, party.name, ignore_permissions=True)
 	party_doc.flags.ignore_permissions = True
 	party_doc.save()
 
@@ -621,7 +621,7 @@ def get_party(user=None):
 	party = None
 
 	if contact_name:
-		contact = frappe.get_doc("Contact", contact_name)
+		contact = frappe.get_doc("Contact", contact_name, ignore_permissions=True)
 		if contact.links:
 			party_doctype = contact.links[0].link_doctype
 			party = contact.links[0].link_name
@@ -710,7 +710,7 @@ def get_debtors_account(cart_settings):
 		frappe.throw(_("Payment Gateway Account not set"), _("Mandatory"))
 
 	payment_gateway_account_currency = frappe.get_doc(
-		"Payment Gateway Account", cart_settings.payment_gateway_account
+		"Payment Gateway Account", cart_settings.payment_gateway_account, ignore_permissions=True
 	).currency
 
 	account_name = _("Debtors ({0})").format(payment_gateway_account_currency)
