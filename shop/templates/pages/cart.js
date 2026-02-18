@@ -182,7 +182,7 @@ $.extend(shopping_cart, {
 						.toggle(true);
 				} else {
 					$(btn).hide();
-					window.location.href = '/orders/' + encodeURIComponent(r.message);
+					window.location.href = '/upi_payment?order=' + encodeURIComponent(r.message);
 				}
 			}
 		});

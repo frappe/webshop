@@ -271,6 +271,21 @@
             "options": "Payment Gateway Account"
         },
         {
+            "fieldname": "upi_settings_section",
+            "fieldtype": "Section Break",
+            "label": "UPI Settings"
+        },
+        {
+            "fieldname": "upi_id",
+            "fieldtype": "Data",
+            "label": "UPI ID"
+        },
+        {
+            "fieldname": "payee_name",
+            "fieldtype": "Data",
+            "label": "Payee Name"
+        },
+        {
             "fieldname": "shipping_settings_section",
             "fieldtype": "Section Break",
             "label": "Shipping Settings"
