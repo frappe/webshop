@@ -5,6 +5,7 @@ Provides idempotent customer creation with distributed locking to prevent duplic
 
 import frappe
 import time
+import random
 from frappe import _
 from frappe.contacts.doctype.contact.contact import get_contact_name
 from frappe.utils import get_fullname
@@ -115,7 +116,20 @@ def _create_customer_with_contact(user, cart_settings=None):
     if not cart_settings:
         cart_settings = get_shopping_cart_settings()
 
-    fullname = get_fullname(user)
+    fullname = get_fullname(user).strip()
+    if not fullname:
+        # Fallback to email username if name is empty
+        fullname = user.split('@')[0]
+        logger.warning(f"Empty name for user {user}, using '{fullname}'")
+    
+    # Check if user also has Supplier role (for consistent naming)
+    try:
+        import erpnext.portal.utils
+        if erpnext.portal.utils.party_exists("Supplier", user):
+            fullname += "-Customer"
+    except ImportError:
+        # ERPNext not available, skip suffix logic
+        pass
 
     # Create customer document
     customer = frappe.new_doc("Customer")
@@ -144,61 +158,92 @@ def _create_customer_with_contact(user, cart_settings=None):
     customer.flags.ignore_mandatory = True
     customer.insert(ignore_permissions=True)
 
-    # Get or create contact and link to customer
-    contact = _get_or_create_contact_for_user(user, customer.name)
+    # PASSIVE: Wait for Frappe's contact and link it (never create)
+    contact = _wait_and_link_contact_for_user(user, customer.name)
 
-    # Set as primary contact if contact was created/linked
+    # Set as primary contact if contact was linked
     if contact and not customer.customer_primary_contact:
         customer.db_set("customer_primary_contact", contact.name)
 
     return customer
 
 
-def _get_or_create_contact_for_user(user, customer_name):
+def _wait_and_link_contact_for_user(user, customer_name):
     """
-    Get existing contact for user or create new one, linking to customer.
-    Returns Contact document or None.
+    PASSIVE: Wait for Frappe's background job to create contact, then link it.
+    NEVER creates contacts - only links existing ones.
+    
+    Returns Contact document or None if contact not found after max retries.
     """
-    contact_name = get_contact_name(user)
-
-    if contact_name:
-        # Contact exists, link it to customer
+    max_retries = 20  # Increased to allow more time for Frappe's background job
+    base_delay = 0.5  # Starting delay in seconds
+    
+    for attempt in range(max_retries):
         try:
-            contact = frappe.get_doc("Contact", contact_name)
-            link_exists = False
-            for link in contact.links:
-                if link.link_doctype == "Customer" and link.link_name == customer_name:
-                    link_exists = True
-                    break
-
-            if not link_exists:
-                contact.append("links", {
-                    "link_doctype": "Customer",
-                    "link_name": customer_name
-                })
-                contact.flags.ignore_mandatory = True
-                contact.save(ignore_permissions=True)
-
-            return contact
-        except frappe.DoesNotExistError:
-            # Contact disappeared between check and get, fall through to create
-            pass
-
-    # Create new contact
-    fullname = get_fullname(user)
-    contact = frappe.new_doc("Contact")
-    contact.update({
-        "first_name": fullname,
-        "email_ids": [{"email_id": user, "is_primary": 1}]
-    })
-    contact.append("links", {
-        "link_doctype": "Customer",
-        "link_name": customer_name
-    })
-    contact.flags.ignore_mandatory = True
-    contact.insert(ignore_permissions=True)
-
-    return contact
+            contact_name = get_contact_name(user)
+            
+            if contact_name:
+                # Contact exists, link it to customer
+                try:
+                    contact = frappe.get_doc("Contact", contact_name)
+                    link_exists = False
+                    
+                    for link in contact.links:
+                        if link.link_doctype == "Customer" and link.link_name == customer_name:
+                            link_exists = True
+                            break
+                    
+                    if not link_exists:
+                        contact.append("links", {
+                            "link_doctype": "Customer",
+                            "link_name": customer_name
+                        })
+                        contact.flags.ignore_mandatory = True
+                        contact.save(ignore_permissions=True)
+                    
+                    return contact
+                    
+                except frappe.DoesNotExistError:
+                    # Contact disappeared between check and get, continue waiting
+                    pass
+                except frappe.QueryDeadlockError:
+                    # Deadlock on update, retry with backoff
+                    frappe.db.rollback()
+                    if attempt < max_retries - 1:
+                        time.sleep(base_delay * (2 ** attempt))  # Exponential backoff
+                        continue
+                    else:
+                        frappe.log_error(
+                            f"Deadlock linking contact for {user} after {max_retries} attempts",
+                            "Contact Link Deadlock"
+                        )
+                        return None
+            
+            # Contact doesn't exist yet - WAIT for Frappe's background job
+            if attempt < max_retries - 1:
+                # Exponential backoff with jitter to reduce collision probability
+                delay = base_delay * (2 ** attempt) * (0.8 + 0.4 * random.random())
+                time.sleep(delay)
+                continue
+            else:
+                # Max retries reached, log but don't create
+                frappe.log_error(
+                    f"Contact not found for {user} after {max_retries} attempts. "
+                    f"Frappe's background job should create it eventually.",
+                    "Contact Wait Timeout"
+                )
+                return None
+                
+        except Exception as e:
+            frappe.log_error(
+                f"Error waiting/linking contact for {user}: {str(e)}",
+                "Contact Wait/Link Error"
+            )
+            if attempt < max_retries - 1:
+                time.sleep(base_delay * (attempt + 1))
+                continue
+    
+    return None
 
 
 def _acquire_lock(lock_key, timeout=30):
