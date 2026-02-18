@@ -10,37 +10,37 @@
                 </div>
                 <div class="card-body text-center">
                     {% if error %}
-                        <div class="alert alert-danger" role="alert">
-                            {{ error }}
-                        </div>
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
                     {% else %}
-                        <div class="mb-4">
-                            <p class="lead">Order: <strong>{{ order.name }}</strong></p>
-                            <h2 class="text-success">{{ order.get_formatted("grand_total") }}</h2>
-                        </div>
+                    <div class="mb-4">
+                        <p class="lead">Order: <strong>{{ order.name }}</strong></p>
+                        <h2 class="text-success">{{ order.get_formatted("grand_total") }}</h2>
+                    </div>
 
-                        <div id="qrcode" class="mb-4 d-flex justify-content-center"></div>
+                    <div id="qrcode" class="mb-4 d-flex justify-content-center"></div>
 
-                        <div class="mb-3">
-                            <p class="text-muted">Scan the QR code using any UPI app</p>
-                            <div class="d-flex justify-content-center gap-3">
-                                <span class="badge bg-light text-dark border">GPay</span>
-                                <span class="badge bg-light text-dark border">PhonePe</span>
-                                <span class="badge bg-light text-dark border">Paytm</span>
-                                <span class="badge bg-light text-dark border">BHIM</span>
-                            </div>
+                    <div class="mb-3">
+                        <p class="text-muted">Scan the QR code using any UPI app</p>
+                        <div class="d-flex justify-content-center gap-3">
+                            <span class="badge bg-light text-dark border">GPay</span>
+                            <span class="badge bg-light text-dark border">PhonePe</span>
+                            <span class="badge bg-light text-dark border">Paytm</span>
+                            <span class="badge bg-light text-dark border">BHIM</span>
                         </div>
+                    </div>
 
-                        <hr>
+                    <hr>
 
-                        <div class="text-start">
-                            <small class="text-muted d-block">UPI ID: <strong>{{ upi_id }}</strong></small>
-                            <small class="text-muted d-block">Payee: <strong>{{ payee_name }}</strong></small>
-                        </div>
-                        
-                         <div class="mt-4">
-                            <a href="/orders/{{ order.name }}" class="btn btn-outline-primary w-100">I Have Paid</a>
-                        </div>
+                    <div class="text-start">
+                        <small class="text-muted d-block">UPI ID: <strong>{{ upi_id }}</strong></small>
+                        <small class="text-muted d-block">Payee: <strong>{{ payee_name }}</strong></small>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="/orders/{{ order.name }}" class="btn btn-outline-primary w-100">I Have Paid</a>
+                    </div>
 
                     {% endif %}
                 </div>
@@ -52,28 +52,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
     {% if not error and upi_id %}
-        document.addEventListener('DOMContentLoaded', function() {
-            var upiId = "{{ upi_id }}";
-            var payeeName = "{{ payee_name }}";
-            var amount = "{{ amount }}";
-            var transactionNote = "Order {{ order.name }}";
-            var currency = "{{ currency }}";
-            
-            // UPI URL Format
-            // upi://pay?pa=<UPI_ID>&pn=<NAME>&am=<AMOUNT>&cu=<CURRENCY>&tn=<NOTE>
-            var upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=${currency}&tn=${encodeURIComponent(transactionNote)}`;
-            
-            console.log("UPI URL:", upiUrl);
+    document.addEventListener('DOMContentLoaded', function () {
+        var upiId = "{{ upi_id }}";
+        var payeeName = "{{ payee_name }}";
+        var amount = "{{ amount }}";
+        var transactionNote = "Order {{ order.name }}";
+        var currency = "{{ currency }}";
 
-            new QRCode(document.getElementById("qrcode"), {
-                text: upiUrl,
-                width: 256,
-                height: 256,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
+        // UPI URL Format
+        // upi://pay?pa=<UPI_ID>&pn=<NAME>&am=<AMOUNT>&cu=<CURRENCY>&tn=<NOTE>&tr=<REF>
+        var upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=${currency}&tn=${encodeURIComponent(transactionNote)}&tr=${encodeURIComponent(transactionNote)}`;
+
+        console.log("UPI URL:", upiUrl);
+
+        new QRCode(document.getElementById("qrcode"), {
+            text: upiUrl,
+            width: 256,
+            height: 256,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
         });
+    });
     {% endif %}
 </script>
 {% endblock %}
