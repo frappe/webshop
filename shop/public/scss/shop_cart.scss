@@ -624,41 +624,94 @@ body.product-page {
 		}
 	}
 
-	// List row layout fix on mobile
+	// List row layout fix on mobile (structure: .row > .col-2 + .col-10 > .col-8 + .col-4)
 	.list-row {
-		padding: 12px !important;
+		padding: 12px 8px !important;
 		border-radius: 10px !important;
 		margin-bottom: 10px !important;
+
+		// Widen image column from col-2 (16%) to ~100px
+		>.col-2.list-image {
+			width: 90px !important;
+			flex: 0 0 90px !important;
+			max-width: 90px !important;
+			min-height: 90px !important;
+			padding: 4px !important;
+
+			img.website-image {
+				object-fit: contain !important;
+				max-height: 80px !important;
+			}
+
+			.no-image-list {
+				height: 80px !important;
+				width: 100% !important;
+				font-size: 1.2rem !important;
+				margin: 0 !important;
+			}
+		}
+
+		// Product body — takes remaining width
+		>.col-10 {
+			flex: 1 !important;
+			max-width: calc(100% - 90px) !important;
+			padding-left: 10px !important;
+			padding-right: 4px !important;
+
+			// Title row: make it a column (title on top, button below)
+			>div[style*="display: flex"] {
+				flex-direction: column !important;
+				margin-left: 0 !important;
+
+				// Title takes full width
+				>.col-8 {
+					width: 100% !important;
+					max-width: 100% !important;
+					flex: none !important;
+					margin-right: 0 !important;
+					padding-left: 0 !important;
+
+					a {
+						font-size: 0.9rem !important;
+						font-weight: 600 !important;
+						line-height: 1.3 !important;
+					}
+				}
+
+				// Button column: full width, no float
+				>.col-4.cart-action-container {
+					width: 100% !important;
+					max-width: 100% !important;
+					flex: none !important;
+					margin-top: 8px !important;
+					padding-left: 0 !important;
+
+					.btn-add-to-cart-list,
+					.btn-explore-variants,
+					.go-to-cart {
+						float: none !important;
+						width: 100% !important;
+						min-width: unset !important;
+						max-height: none !important;
+						text-align: center !important;
+						display: block !important;
+					}
+				}
+			}
+
+			// Product code text
+			.product-code {
+				font-size: 0.72rem !important;
+				color: var(--gray-500) !important;
+				white-space: normal !important;
+			}
+		}
 
 		// Always show buttons on mobile
 		.btn-add-to-cart-list,
 		.like-action-list,
 		.btn-explore-variants {
 			visibility: visible !important;
-		}
-
-		// Fix image in list view
-		.list-image {
-			max-height: 80px !important;
-			width: 80px !important;
-			object-fit: contain !important;
-		}
-
-		// Fix the no-image placeholder in list view
-		.no-image-list {
-			height: 80px !important;
-			margin-top: 0 !important;
-			margin-bottom: 0 !important;
-			width: 80px !important;
-			font-size: 1.2rem !important;
-		}
-
-		// Make buttons full-width for easy tapping
-		.btn-add-to-cart-list,
-		.btn-explore-variants {
-			width: 100% !important;
-			text-align: center !important;
-			margin-top: 8px !important;
 		}
 	}
 
