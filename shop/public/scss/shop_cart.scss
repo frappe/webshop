@@ -694,7 +694,10 @@ body.product-page {
 						min-width: unset !important;
 						max-height: none !important;
 						text-align: center !important;
-						display: block !important;
+
+						&:not(.hidden) {
+							display: block !important;
+						}
 					}
 				}
 			}
