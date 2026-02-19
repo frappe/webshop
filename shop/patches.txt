@@ -5,3 +5,4 @@
 shop.patches.add_homepage_field #09-05-2024
 shop.patches.enable_allow_to_guest_view_for_item_group
 shop.patches.clear_cache_for_item_group_route
+shop.patches.add_shipping_rule_state_field
