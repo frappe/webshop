@@ -800,14 +800,14 @@ def apply_shipping_rule(shipping_rule):
 
 
 def _apply_shipping_rule(party=None, quotation=None, cart_settings=None):
-	if not quotation.shipping_rule:
-		shipping_rules = get_shipping_rules(quotation, cart_settings)
+	shipping_rules = get_shipping_rules(quotation, cart_settings)
 
-		if not shipping_rules:
-			return
+	if not shipping_rules:
+		quotation.shipping_rule = None
+		return
 
-		elif quotation.shipping_rule not in shipping_rules:
-			quotation.shipping_rule = shipping_rules[0]
+	if not quotation.shipping_rule or quotation.shipping_rule not in shipping_rules:
+		quotation.shipping_rule = shipping_rules[0]
 
 	if quotation.shipping_rule:
 		quotation.run_method("apply_shipping_rule")
