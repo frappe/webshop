@@ -336,8 +336,11 @@ def update_cart_address(address_type, address_name):
 	context["address"] = address_doc
 
 	return {
-		"taxes": frappe.render_template(
-			"templates/includes/order/order_taxes.html", context
+		"total": frappe.render_template(
+			"templates/includes/cart/cart_items_total.html", context
+		),
+		"payment_summary": frappe.render_template(
+			"templates/includes/cart/cart_payment_summary.html", context
 		),
 		"address": frappe.render_template(
 			"templates/includes/cart/address_card.html", context
