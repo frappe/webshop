@@ -168,10 +168,7 @@ $.extend(shopping_cart, {
 					shopping_cart.set_cart_count();
 
 					// Update mobile sticky bar total
-					var $grand = $(".payment-summary .net-total").last();
-					if ($grand.length) {
-						$(".mobile-sticky-bar .total-amount").text($grand.text());
-					}
+					shopping_cart.update_mobile_sticky_bar();
 
 					if (cart_dropdown != true) {
 						$(".cart-icon").hide();
@@ -179,6 +176,13 @@ $.extend(shopping_cart, {
 				}
 			},
 		});
+	},
+
+	update_mobile_sticky_bar: function () {
+		var $grand = $(".payment-summary .net-total").last();
+		if ($grand.length) {
+			$(".mobile-sticky-bar .total-amount").text($grand.text());
+		}
 	},
 
 	show_cart_navbar: function () {

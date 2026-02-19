@@ -220,6 +220,7 @@
 							if (!r.exc) {
 								$(".cart-tax-items").html(r.message.total);
 								$(".payment-summary").html(r.message.payment_summary);
+								shopping_cart.update_mobile_sticky_bar();
 								shopping_cart.parent.find(
 									`.address-container[data-address-type="${address_type}"]`
 								).html(r.message.address);

@@ -154,6 +154,13 @@
 							</select>
 						</div>
 						<div class="form-group mt-2">
+							<label class="font-md">{{ _("State") }}*</label>
+							<select class="form-control guest-state" required>
+								<option value="">{{ _("Select State") }}</option>
+								{# States will be populated via JS when country is selected #}
+							</select>
+						</div>
+						<div class="form-group mt-2">
 							<label class="font-md">{{ _("Shipping Address") }}*</label>
 							<textarea class="form-control guest-address" rows="3" required></textarea>
 						</div>

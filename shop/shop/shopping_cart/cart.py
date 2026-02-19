@@ -356,6 +356,14 @@ def update_guest_country(country):
 	return get_cart_quotation()
 
 
+@frappe.whitelist(allow_guest=True)
+def update_guest_state(state):
+	frappe.session.guest_state = state
+	# Apply cart settings again to refresh rules
+	apply_cart_settings()
+	return get_cart_quotation()
+
+
 def guess_territory():
 	territory = None
 	geoip_country = frappe.session.get("session_country")
@@ -491,16 +499,24 @@ def apply_cart_settings(party=None, quotation=None):
 
 	cart_settings = get_shopping_cart_settings()
 
+	frappe.logger().debug(f"Applying cart settings for Quotation: {quotation.name}, Party: {party.name}")
+
 	set_price_list_and_rate(quotation, cart_settings)
+	frappe.logger().debug(f"After set_price_list_and_rate: Grand Total: {quotation.grand_total}, Net Total: {quotation.net_total}")
 
 	quotation.run_method("calculate_taxes_and_totals")
 
 	set_taxes(quotation, cart_settings)
+	frappe.logger().debug(f"After set_taxes: Taxes Count: {len(quotation.get('taxes'))}")
 
 	_apply_shipping_rule(party, quotation, cart_settings)
+	frappe.logger().debug(f"After _apply_shipping_rule: Shipping Rule: {quotation.shipping_rule}, Grand Total: {quotation.grand_total}")
 
 	if cart_settings.enable_manual_shipping_charge and not quotation.shipping_rule:
 		_apply_manual_shipping_charge(quotation, cart_settings)
+		frappe.logger().debug(f"After manual shipping: Grand Total: {quotation.grand_total}")
+
+	quotation.run_method("calculate_taxes_and_totals")
 
 
 def _apply_manual_shipping_charge(quotation, cart_settings):
@@ -832,12 +848,19 @@ def get_shipping_rules(quotation=None, cart_settings=None):
 
 	shipping_rules = []
 	country = None
+	state = None
+
 	if quotation.shipping_address_name:
-		country = frappe.db.get_value(
-			"Address", quotation.shipping_address_name, "country"
+		addr = frappe.db.get_value(
+			"Address", quotation.shipping_address_name, ["country", "state"], as_dict=True
 		)
-	elif frappe.session.get("guest_country"):
-		country = frappe.session.get("guest_country")
+		country = addr.country
+		state = addr.state
+	else:
+		if frappe.session.get("guest_country"):
+			country = frappe.session.get("guest_country")
+		if frappe.session.get("guest_state"):
+			state = frappe.session.get("guest_state")
 
 	if country:
 		sr_country = frappe.qb.DocType("Shipping Rule Country")
@@ -853,15 +876,9 @@ def get_shipping_rules(quotation=None, cart_settings=None):
 		result = query.run(as_list=True)
 		shipping_rules = [x[0] for x in result]
 
-		if shipping_rules:
-			# Further filter by state
-			state = None
-			if quotation.shipping_address_name:
-				state = frappe.db.get_value("Address", quotation.shipping_address_name, "state")
-			
-			if state:
-				filtered_rules = []
-				for rule in shipping_rules:
+		if shipping_rules and state:
+			filtered_rules = []
+			for rule in shipping_rules:
 					rule_states = frappe.get_all("Shipping Rule State", filters={"parent": rule}, fields=["state"])
 					if not rule_states:
 						# If no states specified, it's a global rule for that country

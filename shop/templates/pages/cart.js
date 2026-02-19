@@ -20,6 +20,7 @@ $.extend(shopping_cart, {
 		shopping_cart.bind_coupon_code();
 		shopping_cart.bind_remove_coupon_code();
 		shopping_cart.bind_guest_country_change();
+		shopping_cart.bind_guest_state_change();
 		shopping_cart.bind_shipping_rule_change();
 	},
 
@@ -152,6 +153,8 @@ $.extend(shopping_cart, {
 				fullname: $(".guest-fullname").val(),
 				phone: $(".guest-phone").val(),
 				address: $(".guest-address").val(),
+				state: $(".guest-state").val(),
+				country: $(".guest-country").val(),
 			};
 
 			if (!guest_details.email || !guest_details.fullname || !guest_details.address) {
@@ -260,6 +263,20 @@ $.extend(shopping_cart, {
 		$(".guest-country").on("change", function () {
 			var country = $(this).val();
 			if (country) {
+				// Populate states
+				frappe.call({
+					method: "frappe.geo.utils.get_states",
+					args: { country: country },
+					callback: function (r) {
+						var $state = $(".guest-state");
+						$state.empty().append('<option value="">' + __("Select State") + '</option>');
+						if (r.message) {
+							r.message.forEach(function (state) {
+								$state.append('<option value="' + state.name + '">' + state.name + '</option>');
+							});
+						}
+					}
+				});
 				shopping_cart.update_guest_country(country);
 			}
 		});
@@ -272,9 +289,29 @@ $.extend(shopping_cart, {
 			args: { country: country },
 			callback: function (r) {
 				if (r.message) {
-					// We need a way to re-render the taxes and totals
-					// If shopping_cart.render is missing, let's at least reload the parts we can
-					location.reload(); // Simplest fix for now to ensure all context is correct
+					location.reload();
+				}
+			}
+		});
+	},
+
+	bind_guest_state_change: function () {
+		$(".guest-state").on("change", function () {
+			var state = $(this).val();
+			if (state) {
+				shopping_cart.update_guest_state(state);
+			}
+		});
+	},
+
+	update_guest_state: function (state) {
+		return frappe.call({
+			type: "POST",
+			method: "shop.shop.shopping_cart.cart.update_guest_state",
+			args: { state: state },
+			callback: function (r) {
+				if (r.message) {
+					location.reload();
 				}
 			}
 		});
