@@ -1878,3 +1878,95 @@ body.product-page {
 .w-fit {
 	width: fit-content !important;
 }
+
+// ============================================================
+// Mobile Bottom Navigation Bar
+// ============================================================
+#mobile-bottom-nav {
+	display: none; // Hidden on desktop
+}
+
+@media (max-width: 768px) {
+	#mobile-bottom-nav {
+		display: flex !important;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 1050;
+		background: #ffffff;
+		border-top: 1px solid #e0e0e0;
+		box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+		padding: 6px 0;
+		padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px));
+	}
+
+	.mobile-nav-item {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-decoration: none !important;
+		color: #888 !important;
+		font-size: 10px;
+		font-weight: 500;
+		gap: 2px;
+		padding: 4px 0;
+		transition: color 0.2s ease;
+
+		&.active {
+			color: var(--primary-color, #F47B20) !important;
+
+			.mobile-nav-icon {
+				stroke: var(--primary-color, #F47B20);
+			}
+		}
+
+		&:hover,
+		&:active {
+			color: var(--primary-color, #F47B20) !important;
+		}
+	}
+
+	.mobile-nav-icon {
+		width: 22px;
+		height: 22px;
+		stroke: #888;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		transition: stroke 0.2s ease;
+	}
+
+	.mobile-nav-icon-wrapper {
+		position: relative;
+		display: inline-flex;
+	}
+
+	.mobile-nav-badge {
+		position: absolute;
+		top: -6px;
+		right: -8px;
+		background: var(--primary-color, #F47B20);
+		color: #fff;
+		font-size: 9px;
+		font-weight: 700;
+		width: 16px;
+		height: 16px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		line-height: 1;
+	}
+
+	// Ensure page content doesn't hide behind bottom nav
+	body {
+		padding-bottom: 65px !important;
+	}
+
+	// Hide the cart page's sticky bar bottom spacing conflict
+	.mobile-sticky-bar {
+		bottom: 58px !important;
+	}
+}

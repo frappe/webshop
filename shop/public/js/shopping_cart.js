@@ -58,6 +58,9 @@ frappe.ready(function () {
 	shopping_cart.show_cart_navbar();
 	console.log("Standard Shopping Cart Initialized");
 	shopping_cart.bind_add_to_cart_action();
+
+	// Mobile Bottom Navigation Bar
+	shopping_cart.inject_mobile_bottom_nav();
 });
 
 $.extend(shopping_cart, {
@@ -257,5 +260,60 @@ $.extend(shopping_cart, {
 				freeze.remove();
 			}, 1);
 		}
+	},
+
+	inject_mobile_bottom_nav() {
+		// Only inject once
+		if ($('#mobile-bottom-nav').length) return;
+
+		let path = window.location.pathname;
+		let active = function (p) {
+			if (p === '/' && path === '/') return 'active';
+			if (p !== '/' && path.startsWith(p)) return 'active';
+			return '';
+		};
+
+		let cart_count = frappe.get_cookie("cart_count") || 0;
+		let cart_badge = cart_count > 0 ? `<span class="mobile-nav-badge">${cart_count}</span>` : '';
+
+		let html = `
+		<nav id="mobile-bottom-nav">
+			<a href="/" class="mobile-nav-item ${active('/')}">
+				<svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+					<polyline points="9 22 9 12 15 12 15 22"/>
+				</svg>
+				<span>Home</span>
+			</a>
+			<a href="/all-products" class="mobile-nav-item ${active('/all-products')}">
+				<svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<rect x="3" y="3" width="7" height="7"/>
+					<rect x="14" y="3" width="7" height="7"/>
+					<rect x="3" y="14" width="7" height="7"/>
+					<rect x="14" y="14" width="7" height="7"/>
+				</svg>
+				<span>Products</span>
+			</a>
+			<a href="/cart" class="mobile-nav-item ${active('/cart')}">
+				<div class="mobile-nav-icon-wrapper">
+					<svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<circle cx="9" cy="21" r="1"/>
+						<circle cx="20" cy="21" r="1"/>
+						<path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+					</svg>
+					${cart_badge}
+				</div>
+				<span>Cart</span>
+			</a>
+			<a href="/wishlist" class="mobile-nav-item ${active('/wishlist')}">
+				<svg class="mobile-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+				</svg>
+				<span>Wishlist</span>
+			</a>
+		</nav>
+		`;
+
+		$('body').append(html);
 	}
 });
