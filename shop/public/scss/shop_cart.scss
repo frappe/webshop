@@ -601,12 +601,13 @@ body.product-page {
 				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 			}
 
-			// Hide table header on mobile completely
-			.cart-table thead {
-				display: none !important;
+			.cart-items-header {
+				font-size: 1rem;
+				font-weight: 700;
+				margin-bottom: 0.5rem;
 			}
 
-			// Make entire table display as block
+			// Turn table and tbody into block so rows stack
 			.cart-table,
 			.cart-table tbody,
 			.cart-table tfoot {
@@ -614,149 +615,171 @@ body.product-page {
 				width: 100% !important;
 			}
 
-			// Each row becomes a card
+			// Hide table header entirely
+			.cart-table thead {
+				display: none !important;
+			}
+
+			// Each item row becomes a block card
 			.cart-items tr {
-				display: flex !important;
-				flex-direction: row !important;
-				align-items: flex-start !important;
+				display: block !important;
 				padding: 1rem 0 !important;
 				border-bottom: 1px solid var(--gray-100) !important;
 				position: relative !important;
-				width: 100% !important;
 
 				&:last-child {
 					border-bottom: none !important;
 				}
 			}
 
-			// td inside each row
+			// All tds default to block
 			.cart-items td {
 				display: block !important;
 				border: none !important;
 				padding: 0 !important;
-			}
-
-			// Item image td — fixed width on left
-			.cart-item-image {
-				width: 80px !important;
-				min-width: 80px !important;
-				flex-shrink: 0;
-				margin-right: 12px;
-
-				img {
-					width: 80px !important;
-					height: 80px !important;
-					object-fit: contain !important;
-					border-radius: 8px;
-					border: 1px solid var(--gray-100);
-				}
-
-				.no-image-cart-item {
-					width: 80px !important;
-					height: 80px !important;
-					font-size: 1.2rem;
-				}
-			}
-
-			// Item info — takes remaining space
-			.item-column {
-				flex: 1 !important;
-				width: auto !important;
-				padding-right: 36px !important; // space for remove button
-			}
-
-			// Inner d-flex inside first td — override to be column
-			.cart-items td>.d-flex {
-				flex-direction: column !important;
-			}
-
-			// Inner row with image + details — make it row
-			.cart-items td>.d-flex>.d-flex {
-				flex-direction: row !important;
-			}
-
-			.item-title {
-				font-size: 0.9rem !important;
-				font-weight: 600 !important;
-				line-height: 1.3 !important;
-				margin-bottom: 4px !important;
-				white-space: normal !important;
-				word-break: break-word !important;
-			}
-
-			.item-subtitle {
-				font-size: 0.75rem !important;
-			}
-
-			// Qty + subtotal column
-			.cart-items td:nth-child(2) {
-				position: absolute;
-				bottom: 1rem;
-				left: 92px; // after image
-			}
-
-			// Subtotal price
-			.sm-item-subtotal {
-				font-size: 1rem !important;
-				font-weight: 700 !important;
-				color: var(--primary);
-				display: block !important;
-				margin-top: 6px;
-			}
-
-			// Spinner styling
-			.number-spinner {
-				display: flex !important;
-				align-items: center;
-				margin-bottom: 4px;
-
-				.cart-btn {
-					padding: 4px 10px !important;
-					font-size: 1rem;
-					line-height: 1;
-				}
-
-				.cart-qty {
-					max-width: 50px !important;
-					text-align: center;
-					font-size: 0.9rem;
-					padding: 4px !important;
-				}
-			}
-
-			// Remove button
-			.remove-cart-item {
-				position: absolute !important;
-				top: 1rem !important;
-				right: 0 !important;
-				margin-top: 0 !important;
-				float: none !important;
-			}
-
-			// Grand total row
-			.cart-tax-items tr {
-				display: flex !important;
-				justify-content: space-between !important;
 				width: 100% !important;
 			}
 
-			.cart-tax-items td {
-				border: none !important;
-				padding: 0.5rem 0 !important;
+			// First td: image left (80px) + item info right — horizontal row
+			.cart-items td:first-child {
+				>.d-flex {
+					flex-direction: row !important;
+					align-items: flex-start !important;
+				}
+
+				// Image box
+				.cart-item-image {
+					width: 80px !important;
+					min-width: 80px !important;
+					margin-right: 12px !important;
+					margin-bottom: 0 !important;
+					flex-shrink: 0;
+
+					img {
+						width: 80px !important;
+						height: 80px !important;
+						object-fit: contain !important;
+						border-radius: 8px;
+						border: 1px solid var(--gray-100);
+					}
+
+					.no-image-cart-item {
+						width: 80px !important;
+						height: 80px !important;
+						font-size: 1rem !important;
+					}
+				}
+
+				// Info column next to image
+				.d-flex.w-100 {
+					flex-direction: column !important;
+					padding-right: 30px; // space for remove button
+				}
+
+				.item-title {
+					font-size: 0.9rem !important;
+					font-weight: 600 !important;
+					line-height: 1.3 !important;
+					margin-bottom: 3px !important;
+					white-space: normal !important;
+					word-break: break-word !important;
+					width: 80% !important;
+				}
+
+				.item-subtitle {
+					font-size: 0.75rem !important;
+					margin-bottom: 2px !important;
+				}
+
+				// Hide the notes textarea on mobile to reduce clutter
+				.notes {
+					display: none !important;
+				}
 			}
 
-			.cart-items-header {
-				font-size: 1rem;
-				font-weight: 700;
-				margin-bottom: 0.5rem;
+			// Second td: qty spinner + mobile price — horizontal row
+			.cart-items td:nth-child(2) {
+				margin-top: 10px !important;
+				padding-left: 92px !important; // align with item text (after image)
+				display: flex !important;
+				flex-direction: row !important;
+				align-items: center !important;
+				justify-content: space-between !important;
+
+				>.d-flex {
+					flex-direction: row !important;
+					align-items: center !important;
+				}
+
+				// Qty spinner
+				.number-spinner {
+					display: flex !important;
+					align-items: center;
+					margin-bottom: 0 !important;
+
+					.cart-btn {
+						padding: 4px 10px !important;
+						font-size: 0.95rem !important;
+						line-height: 1 !important;
+					}
+
+					.cart-qty {
+						max-width: 44px !important;
+						font-size: 0.9rem;
+						padding: 4px 6px !important;
+						text-align: center;
+					}
+				}
+
+				// Mobile price (sm-item-subtotal)
+				.sm-item-subtotal {
+					display: block !important;
+					font-size: 1rem !important;
+					font-weight: 700 !important;
+					color: var(--primary);
+					margin-top: 0 !important;
+
+					>div {
+						font-weight: 700 !important;
+					}
+				}
+
+				// Remove button — positioned top-right of the row
+				.remove-cart-item {
+					display: flex !important;
+					position: absolute !important;
+					top: 1rem !important;
+					right: 0 !important;
+					float: none !important;
+					margin-top: 0 !important;
+				}
 			}
 
-			// Hide the desktop subtotal column
+			// Hide desktop-only subtotal column
 			.column-sm-view {
 				display: none !important;
 			}
 
-			// Bottom action row buttons
+			// Net total row
+			.cart-tax-items {
+				display: block !important;
+				width: 100% !important;
+
+				tr {
+					display: flex !important;
+					justify-content: space-between !important;
+					align-items: center !important;
+					padding: 0.25rem 0 !important;
+				}
+
+				td {
+					border: none !important;
+					padding: 0.25rem 0 !important;
+					display: block !important;
+				}
+			}
+
+			// Bottom action buttons
 			.place-order-container {
 				text-align: right;
 			}
