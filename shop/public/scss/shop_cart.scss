@@ -573,6 +573,108 @@ body.product-page {
 	}
 }
 
+// ============================================================
+// Mobile Fixes: All Products (List + Grid) Page
+// ============================================================
+@media (max-width: 768px) {
+
+	// Fix no-image placeholder height in list view
+	.item-card-group-section {
+		.no-image-list {
+			height: 80px !important;
+			margin-top: 0 !important;
+			margin-bottom: 0 !important;
+			font-size: 1.5rem !important;
+			border-radius: 8px !important;
+		}
+
+		.card-img-container {
+			height: 140px !important;
+		}
+
+		.card-img {
+			max-height: 140px !important;
+		}
+
+		// Grid cards: smaller on mobile
+		.no-image {
+			height: 140px !important;
+			font-size: 1.5rem !important;
+		}
+
+		// Always show Add to Cart on mobile (no hover needed)
+		.btn-add-to-cart-list,
+		.like-action,
+		.btn-explore-variants {
+			visibility: visible !important;
+		}
+
+		// Card grid: 2 columns on mobile
+		.card-grid {
+			grid-template-columns: repeat(2, 1fr) !important;
+			grid-gap: 10px !important;
+		}
+
+		.product-title {
+			font-size: 13px !important;
+		}
+
+		.product-price {
+			font-size: 15px !important;
+		}
+	}
+
+	// List row layout fix on mobile
+	.list-row {
+		padding: 12px !important;
+		border-radius: 10px !important;
+		margin-bottom: 10px !important;
+
+		// Always show buttons on mobile
+		.btn-add-to-cart-list,
+		.like-action-list,
+		.btn-explore-variants {
+			visibility: visible !important;
+		}
+
+		// Fix image in list view
+		.list-image {
+			max-height: 80px !important;
+			width: 80px !important;
+			object-fit: contain !important;
+		}
+
+		// Fix the no-image placeholder in list view
+		.no-image-list {
+			height: 80px !important;
+			margin-top: 0 !important;
+			margin-bottom: 0 !important;
+			width: 80px !important;
+			font-size: 1.2rem !important;
+		}
+
+		// Make buttons full-width for easy tapping
+		.btn-add-to-cart-list,
+		.btn-explore-variants {
+			width: 100% !important;
+			text-align: center !important;
+			margin-top: 8px !important;
+		}
+	}
+
+	// Search bar on mobile
+	.product-search-wrapper {
+		.form-control {
+			font-size: 0.9rem !important;
+		}
+	}
+
+	// Breadcrumb on mobile
+	.item-breadcrumbs {
+		font-size: 0.8rem !important;
+	}
+}
+
 // Mobile-First Responsive Overhaul
 @media (max-width: 768px) {
 	#page-cart {
