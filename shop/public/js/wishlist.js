@@ -193,12 +193,12 @@ $.extend(wishlist, {
 });
 
 frappe.ready(function () {
-	if (window.location.pathname !== "/wishlist") {
-		$(".wishlist").toggleClass('hidden', true);
-		wishlist.set_wishlist_count();
-	} else {
+	// Always show wishlist icon in navbar
+	$(".wishlist").toggleClass('hidden', false);
+	wishlist.set_wishlist_count();
+
+	if (window.location.pathname === "/wishlist") {
 		wishlist.bind_move_to_cart_action();
 		wishlist.bind_remove_action();
 	}
-
 });
