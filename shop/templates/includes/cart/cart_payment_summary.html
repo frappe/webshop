@@ -29,6 +29,8 @@
 			{% endif %}
 			{% endfor %}
 
+			<!-- Shipping Method hidden as it is now automatically selected based on address state -->
+			{#
 			{% if shipping_rules | length > 0 %}
 			<tr>
 				<td class="bill-label">{{ _("Shipping Method") }}</td>
@@ -43,6 +45,7 @@
 				</td>
 			</tr>
 			{% endif %}
+			#}
 
 			{% if cart_settings.enable_manual_shipping_charge and not doc.shipping_rule %}
 			<tr>
