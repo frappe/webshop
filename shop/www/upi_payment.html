@@ -16,7 +16,7 @@
                     {% else %}
                     <div class="mb-4">
                         <p class="lead">Order: <strong>{{ order.name }}</strong></p>
-                        <h2 class="text-success">{{ order.get_formatted("grand_total") }}</h2>
+                        <h2 class="text-success">{{ formatted_amount or order.get_formatted("grand_total") }}</h2>
                     </div>
 
                     <div id="qrcode" class="mb-4 d-flex justify-content-center"></div>
