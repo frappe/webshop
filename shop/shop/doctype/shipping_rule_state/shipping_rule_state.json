@@ -10,11 +10,10 @@
     "fields": [
         {
             "fieldname": "state",
-            "fieldtype": "Link",
+            "fieldtype": "Data",
             "in_list_view": 1,
             "label": "State",
-            "mandatory_depends_on": "1",
-            "options": "State"
+            "mandatory_depends_on": "1"
         }
     ],
     "index_web_pages_for_search": 1,
