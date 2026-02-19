@@ -176,6 +176,21 @@ def add_custom_fields():
 				"options": "Website Attribute",
 				"insert_after": "filter_fields",
 			},
+		],
+		"Shipping Rule": [
+			{
+				"fieldname": "shipping_rule_states_section",
+				"fieldtype": "Section Break",
+				"label": "States",
+				"insert_after": "countries",
+			},
+			{
+				"fieldname": "shipping_rule_states",
+				"fieldtype": "Table",
+				"label": "States",
+				"options": "Shipping Rule State",
+				"insert_after": "shipping_rule_states_section",
+			},
 		]
 	}
 
@@ -223,6 +238,7 @@ patches = [
 	"convert_to_website_item_in_item_card_group_template",
 	"shopping_cart_to_ecommerce",
 	"copy_custom_field_filters_to_website_item",
+	"add_shipping_rule_state_field",
 ]
 
 def run_patches():

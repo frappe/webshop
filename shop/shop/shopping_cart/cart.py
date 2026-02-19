@@ -850,6 +850,25 @@ def get_shipping_rules(quotation=None, cart_settings=None):
 		result = query.run(as_list=True)
 		shipping_rules = [x[0] for x in result]
 
+		if shipping_rules:
+			# Further filter by state
+			state = None
+			if quotation.shipping_address_name:
+				state = frappe.db.get_value("Address", quotation.shipping_address_name, "state")
+			
+			if state:
+				filtered_rules = []
+				for rule in shipping_rules:
+					rule_states = frappe.get_all("Shipping Rule State", filters={"parent": rule}, fields=["state"])
+					if not rule_states:
+						# If no states specified, it's a global rule for that country
+						filtered_rules.append(rule)
+					elif any(s.state == state for s in rule_states):
+						# If current address state is in the list
+						filtered_rules.append(rule)
+				
+				shipping_rules = filtered_rules
+
 	return shipping_rules
 
 
