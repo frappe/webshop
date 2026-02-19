@@ -499,22 +499,16 @@ def apply_cart_settings(party=None, quotation=None):
 
 	cart_settings = get_shopping_cart_settings()
 
-	frappe.logger().debug(f"Applying cart settings for Quotation: {quotation.name}, Party: {party.name}")
-
 	set_price_list_and_rate(quotation, cart_settings)
-	frappe.logger().debug(f"After set_price_list_and_rate: Grand Total: {quotation.grand_total}, Net Total: {quotation.net_total}")
 
 	quotation.run_method("calculate_taxes_and_totals")
 
 	set_taxes(quotation, cart_settings)
-	frappe.logger().debug(f"After set_taxes: Taxes Count: {len(quotation.get('taxes'))}")
 
 	_apply_shipping_rule(party, quotation, cart_settings)
-	frappe.logger().debug(f"After _apply_shipping_rule: Shipping Rule: {quotation.shipping_rule}, Grand Total: {quotation.grand_total}")
 
 	if cart_settings.enable_manual_shipping_charge and not quotation.shipping_rule:
 		_apply_manual_shipping_charge(quotation, cart_settings)
-		frappe.logger().debug(f"After manual shipping: Grand Total: {quotation.grand_total}")
 
 	quotation.run_method("calculate_taxes_and_totals")
 
@@ -879,15 +873,15 @@ def get_shipping_rules(quotation=None, cart_settings=None):
 		if shipping_rules and state:
 			filtered_rules = []
 			for rule in shipping_rules:
-					rule_states = frappe.get_all("Shipping Rule State", filters={"parent": rule}, fields=["state"])
-					if not rule_states:
-						# If no states specified, it's a global rule for that country
-						filtered_rules.append(rule)
-					elif any(s.state == state for s in rule_states):
-						# If current address state is in the list
-						filtered_rules.append(rule)
-				
-				shipping_rules = filtered_rules
+				rule_states = frappe.get_all("Shipping Rule State", filters={"parent": rule}, fields=["state"])
+				if not rule_states:
+					# If no states specified, it's a global rule for that country
+					filtered_rules.append(rule)
+				elif any(s.state == state for s in rule_states):
+					# If current address state is in the list
+					filtered_rules.append(rule)
+
+			shipping_rules = filtered_rules
 
 	return shipping_rules
 
