@@ -39,7 +39,12 @@
                     </div>
 
                     <div class="mt-4">
-                        <a href="/orders/{{ order.name }}" class="btn btn-outline-primary w-100">I Have Paid</a>
+                        <a id="btn-upi-deep-link" href="#" class="btn btn-primary w-100 mb-3 d-md-none"
+                            style="background-color: #6366f1; border-color: #6366f1;">
+                            <i class="fa fa-mobile-alt mr-2"></i> {{ _("Pay via UPI App") }}
+                        </a>
+                        <a href="/orders/{{ order.name }}" class="btn btn-outline-primary w-100">{{ _("I Have Paid")
+                            }}</a>
                     </div>
 
                     {% endif %}

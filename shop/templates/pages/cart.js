@@ -24,7 +24,7 @@ $.extend(shopping_cart, {
 	},
 
 	bind_place_order: function () {
-		$(".btn-place-order").on("click", function () {
+		$(".btn-place-order, .btn-place-order-mobile").on("click", function () {
 			shopping_cart.place_order(this);
 		});
 	},

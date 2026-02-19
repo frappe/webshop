@@ -164,6 +164,12 @@ $.extend(shopping_cart, {
 					$(".payment-summary").html(r.message.taxes_and_totals);
 					shopping_cart.set_cart_count();
 
+					// Update mobile sticky bar total
+					var $grand = $(".payment-summary .net-total").last();
+					if ($grand.length) {
+						$(".mobile-sticky-bar .total-amount").text($grand.text());
+					}
+
 					if (cart_dropdown != true) {
 						$(".cart-icon").hide();
 					}

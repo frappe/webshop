@@ -166,6 +166,17 @@
 			</div>
 			{% endif %}
 		</div>
+
+		<!-- Mobile Sticky Bottom Bar -->
+		<div class="mobile-sticky-bar">
+			<div class="sticky-total">
+				<span class="total-label">{{ _("Total Amount") }}</span>
+				<span class="total-amount">{{ doc.get_formatted("grand_total") }}</span>
+			</div>
+			<button class="btn-place-order-mobile">
+				{{ _("Place Order") }}
+			</button>
+		</div>
 	</div>
 	{% else %}
 	<div class="cart-empty frappe-card">
