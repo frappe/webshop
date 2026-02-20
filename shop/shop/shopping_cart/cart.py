@@ -175,6 +175,7 @@ def place_order(guest_details=None):
 
 	sales_order.flags.ignore_permissions = True
 	sales_order.insert()
+	frappe.logger().info(f"Place Order: Created Sales Order {sales_order.name} from Quotation {quotation.name}")
 	sales_order.submit()
 
 	if hasattr(frappe.local, "cookie_manager"):
