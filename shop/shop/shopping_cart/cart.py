@@ -47,12 +47,15 @@ def get_cart_quotation(doc=None):
 		doc = _get_cart_quotation(party)
 
 	if not doc.shipping_address_name:
-		if doc.customer_address:
-			update_cart_address("shipping", doc.customer_address)
-			doc = _get_cart_quotation(party)
-		elif get_shipping_addresses(party):
-			update_cart_address("shipping", get_shipping_addresses(party)[0]["name"])
-			doc = _get_cart_quotation(party)
+		try:
+			if doc.customer_address and frappe.db.exists("Address", doc.customer_address):
+				update_cart_address("shipping", doc.customer_address)
+				doc = _get_cart_quotation(party)
+			elif get_shipping_addresses(party):
+				update_cart_address("shipping", get_shipping_addresses(party)[0]["name"])
+				doc = _get_cart_quotation(party)
+		except Exception as e:
+			frappe.log_error(f"Error auto-setting shipping address: {str(e)}")
 
 	return {
 		"doc": decorate_quotation_doc(doc),
