@@ -927,17 +927,22 @@ def get_shipping_rules(quotation=None, cart_settings=None):
 		shipping_rules = [x[0] for x in result]
 
 		if shipping_rules and state:
-			filtered_rules = []
+			state_specific_rules = []
+			global_rules = []  # Rules with no states defined (fallback)
 			for rule in shipping_rules:
 				rule_states = frappe.get_all("Shipping Rule State", filters={"parent": rule}, fields=["state"])
 				if not rule_states:
-					# If no states specified, it's a global rule for that country
-					filtered_rules.append(rule)
+					# No states specified = global fallback for this country
+					global_rules.append(rule)
 				elif any(s.state == state for s in rule_states):
-					# If current address state is in the list
-					filtered_rules.append(rule)
+					# Matches the customer's specific state
+					state_specific_rules.append(rule)
 
-			shipping_rules = filtered_rules
+			# Priority: state-specific rules first, then global fallback
+			if state_specific_rules:
+				shipping_rules = state_specific_rules
+			else:
+				shipping_rules = global_rules
 
 	return shipping_rules
 
