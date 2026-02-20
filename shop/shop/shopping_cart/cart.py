@@ -134,8 +134,30 @@ def place_order(guest_details=None):
 	# Force copy shipping details to ensure they persist
 	if quotation.shipping_address_name:
 		sales_order.shipping_address_name = quotation.shipping_address_name
+		sales_order.shipping_address = quotation.shipping_address
+	
+	if quotation.customer_address:
+		sales_order.customer_address = quotation.customer_address
+		sales_order.address_display = quotation.address_display
+
 	if quotation.shipping_rule:
 		sales_order.shipping_rule = quotation.shipping_rule
+	
+	# Safely copy taxes to ensure totals match exactly
+	if quotation.get("taxes"):
+		sales_order.set("taxes", [])
+		for tax in quotation.get("taxes"):
+			sales_order.append("taxes", {
+				"charge_type": tax.charge_type,
+				"account_head": tax.account_head,
+				"description": tax.description,
+				"included_in_print_rate": tax.included_in_print_rate,
+				"cost_center": tax.cost_center,
+				"rate": tax.rate,
+				"tax_amount": tax.tax_amount,
+				"total": tax.total,
+				"add_deduct": tax.add_deduct,
+			})
 
 	sales_order.payment_schedule = []
 
