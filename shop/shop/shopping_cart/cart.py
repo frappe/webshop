@@ -330,6 +330,36 @@ def get_terms_and_conditions(terms_name):
 
 
 @frappe.whitelist(allow_guest=True)
+def get_upi_payment_details(order_id):
+	"""Return order details and UPI settings for the payment page.
+	Called via AJAX to bypass Frappe page caching."""
+	if not order_id:
+		return {"error": "Order ID is missing"}
+
+	order = None
+	for doctype in ["Sales Order", "Quotation"]:
+		if frappe.db.exists(doctype, order_id):
+			order = frappe.get_doc(doctype, order_id)
+			order.flags.ignore_permissions = True
+			break
+
+	if not order:
+		return {"error": f"Order not found: {order_id}"}
+
+	upi_id = frappe.db.get_single_value("Shop Settings", "upi_id")
+	payee_name = frappe.db.get_single_value("Shop Settings", "payee_name")
+
+	return {
+		"order_name": order.name,
+		"grand_total": order.grand_total,
+		"formatted_amount": order.get_formatted("grand_total"),
+		"currency": order.currency,
+		"upi_id": upi_id or "",
+		"payee_name": payee_name or "",
+	}
+
+
+@frappe.whitelist(allow_guest=True)
 def update_cart_address(address_type, address_name):
 	quotation = _get_cart_quotation()
 	address_doc = frappe.get_doc("Address", address_name, ignore_permissions=True).as_dict()

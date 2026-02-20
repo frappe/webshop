@@ -10,58 +10,56 @@
                 </div>
                 <div class="card-body text-center">
 
-                    {# --- Critical errors (no order ID or order not found) --- #}
-                    {% if error and not order %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
+                    {# Loading state - shown while AJAX fetches order data #}
+                    <div id="upi-loading" class="py-4">
+                        <div class="spinner-border text-primary" role="status"></div>
+                        <p class="mt-2 text-muted">Loading order details...</p>
                     </div>
 
-                    {# --- Order found — always show order details --- #}
-                    {% else %}
+                    {# Error state - hidden by default #}
+                    <div id="upi-error" class="alert alert-danger" role="alert" style="display:none;"></div>
 
-                    <div class="mb-4">
-                        <p class="lead mb-1">Order: <strong>{{ order.name }}</strong></p>
-                        <h2 class="text-success fw-bold">{{ formatted_amount or order.get_formatted("grand_total") }}
-                        </h2>
-                    </div>
-
-                    {# --- UPI not configured warning (but still show order) --- #}
-                    {% if error %}
-                    <div class="alert alert-warning" role="alert">
-                        <i class="fa fa-exclamation-triangle mr-1"></i>
-                        {{ error }}
-                        <br>
-                        <small>Please configure UPI settings in Shop Settings and try again.</small>
-                    </div>
-                    {% else %}
-
-                    {# --- Static QR Code section (UPI ID + Payee only, no order-specific data) --- #}
-                    <div id="qrcode" class="mb-4 d-flex justify-content-center"></div>
-
-                    <div class="mb-3">
-                        <p class="text-muted">Scan the QR code using any UPI app</p>
-                        <div class="d-flex justify-content-center gap-3">
-                            <span class="badge bg-light text-dark border">GPay</span>
-                            <span class="badge bg-light text-dark border">PhonePe</span>
-                            <span class="badge bg-light text-dark border">Paytm</span>
-                            <span class="badge bg-light text-dark border">BHIM</span>
+                    {# Order details - hidden by default, populated by JS #}
+                    <div id="upi-order-details" style="display:none;">
+                        <div class="mb-4">
+                            <p class="lead mb-1">Order: <strong id="upi-order-name">—</strong></p>
+                            <h2 class="text-success fw-bold" id="upi-order-amount">—</h2>
                         </div>
+
+                        {% if not upi_id %}
+                        <div class="alert alert-warning" role="alert">
+                            <i class="fa fa-exclamation-triangle mr-1"></i>
+                            UPI ID not configured in Shop Settings.
+                        </div>
+                        {% else %}
+
+                        {# Static QR Code (UPI ID + Payee only) #}
+                        <div id="qrcode" class="mb-4 d-flex justify-content-center"></div>
+
+                        <div class="mb-3">
+                            <p class="text-muted">Scan the QR code using any UPI app</p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <span class="badge bg-light text-dark border">GPay</span>
+                                <span class="badge bg-light text-dark border">PhonePe</span>
+                                <span class="badge bg-light text-dark border">Paytm</span>
+                                <span class="badge bg-light text-dark border">BHIM</span>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="text-start mb-3">
+                            <small class="text-muted d-block">UPI ID: <strong>{{ upi_id }}</strong></small>
+                            <small class="text-muted d-block">Payee: <strong>{{ payee_name }}</strong></small>
+                        </div>
+
+                        {% endif %}
+
+                        <a id="upi-paid-btn" href="/orders" class="btn btn-outline-primary w-100 mt-2">
+                            {{ _("I Have Paid") }}
+                        </a>
                     </div>
 
-                    <hr>
-
-                    <div class="text-start mb-3">
-                        <small class="text-muted d-block">UPI ID: <strong>{{ upi_id }}</strong></small>
-                        <small class="text-muted d-block">Payee: <strong>{{ payee_name }}</strong></small>
-                    </div>
-
-                    {% endif %}
-
-                    <a href="/orders/{{ order.name }}" class="btn btn-outline-primary w-100 mt-2">
-                        {{ _("I Have Paid") }}
-                    </a>
-
-                    {% endif %}
                 </div>
             </div>
         </div>
@@ -70,26 +68,68 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-    {% if upi_id and order %}
-    document.addEventListener('DOMContentLoaded', function () {
-        var upiId = "{{ upi_id }}";
-        var payeeName = "{{ payee_name }}";
+document.addEventListener('DOMContentLoaded', function () {
+    // Read order ID from URL query string
+    var urlParams = new URLSearchParams(window.location.search);
+    var orderId = urlParams.get('order');
 
-        // Static QR Code: Only UPI ID and Payee Name (no amount or order reference)
-        var upiUrl = "upi://pay?pa=" + encodeURIComponent(upiId) + "&pn=" + encodeURIComponent(payeeName);
+    if (!orderId) {
+        document.getElementById("upi-loading").style.display = "none";
+        document.getElementById("upi-error").style.display = "block";
+        document.getElementById("upi-error").textContent = "Order ID is missing from URL.";
+        return;
+    }
 
-        console.log("UPI Static URL:", upiUrl);
-        console.log("Order:", "{{ order.name }}", "Amount:", "{{ amount }}");
+    // Fetch order details via AJAX (bypasses all page caching)
+    frappe.call({
+        method: "shop.shop.shopping_cart.cart.get_upi_payment_details",
+        args: { order_id: orderId },
+        async: true,
+        callback: function (r) {
+            document.getElementById("upi-loading").style.display = "none";
 
-        new QRCode(document.getElementById("qrcode"), {
-            text: upiUrl,
-            width: 256,
-            height: 256,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
-        });
+            if (r.message && r.message.error) {
+                document.getElementById("upi-error").style.display = "block";
+                document.getElementById("upi-error").textContent = r.message.error;
+                return;
+            }
+
+            if (r.message) {
+                var data = r.message;
+
+                // Populate order details dynamically
+                document.getElementById("upi-order-name").textContent = data.order_name;
+                document.getElementById("upi-order-amount").textContent = data.formatted_amount;
+                document.getElementById("upi-order-details").style.display = "block";
+
+                // Set "I Have Paid" link to the specific order
+                document.getElementById("upi-paid-btn").href = "/orders/" + encodeURIComponent(data.order_name);
+
+                console.log("UPI Page loaded dynamically:", data.order_name, data.formatted_amount);
+            }
+        },
+        error: function () {
+            document.getElementById("upi-loading").style.display = "none";
+            document.getElementById("upi-error").style.display = "block";
+            document.getElementById("upi-error").textContent = "Failed to load order details. Please refresh.";
+        }
+    });
+
+    {% if upi_id %}
+    // Generate Static QR Code (UPI ID + Payee only — no order-specific data)
+    var upiId = "{{ upi_id }}";
+    var payeeName = "{{ payee_name }}";
+    var upiUrl = "upi://pay?pa=" + encodeURIComponent(upiId) + "&pn=" + encodeURIComponent(payeeName);
+
+    new QRCode(document.getElementById("qrcode"), {
+        text: upiUrl,
+        width: 256,
+        height: 256,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
     });
     {% endif %}
+});
 </script>
 {% endblock %}
