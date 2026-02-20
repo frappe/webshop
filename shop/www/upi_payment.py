@@ -1,6 +1,12 @@
 import frappe
 
+# CRITICAL: Disable Frappe page caching so the order number is always fresh
+no_cache = 1
+
 def get_context(context):
+    # Disable caching at context level too
+    context.no_cache = 1
+
     try:
         # Get order ID from query parameters
         order_id = frappe.form_dict.get("order")
@@ -26,14 +32,14 @@ def get_context(context):
         context.formatted_amount = order.get_formatted("grand_total")
         context.currency = order.currency
         
-        # Fetch UPI settings using get_single_value (most reliable for Singles doctype)
+        # Fetch UPI settings
         context.upi_id = frappe.db.get_single_value("Shop Settings", "upi_id")
         context.payee_name = frappe.db.get_single_value("Shop Settings", "payee_name")
 
         # Debug log
         frappe.logger().info(
-            f"UPI Payment: order={order_id}, amount={context.amount}, "
-            f"upi_id='{context.upi_id}', payee='{context.payee_name}'"
+            f"UPI Payment Page: order_id={order_id}, order.name={order.name}, "
+            f"grand_total={order.grand_total}, upi_id='{context.upi_id}'"
         )
 
         if not context.upi_id:

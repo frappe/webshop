@@ -35,7 +35,7 @@
                     </div>
                     {% else %}
 
-                    {# --- QR Code section --- #}
+                    {# --- Static QR Code section (UPI ID + Payee only, no order-specific data) --- #}
                     <div id="qrcode" class="mb-4 d-flex justify-content-center"></div>
 
                     <div class="mb-3">
@@ -54,7 +54,6 @@
                         <small class="text-muted d-block">UPI ID: <strong>{{ upi_id }}</strong></small>
                         <small class="text-muted d-block">Payee: <strong>{{ payee_name }}</strong></small>
                     </div>
-
 
                     {% endif %}
 
@@ -75,14 +74,12 @@
     document.addEventListener('DOMContentLoaded', function () {
         var upiId = "{{ upi_id }}";
         var payeeName = "{{ payee_name }}";
-        var amount = "{{ amount }}";
-        var transactionNote = "Order {{ order.name }}";
-        var currency = "{{ currency }}";
 
-        var upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=${currency}&tn=${encodeURIComponent(transactionNote)}&tr=${encodeURIComponent(transactionNote)}`;
+        // Static QR Code: Only UPI ID and Payee Name (no amount or order reference)
+        var upiUrl = "upi://pay?pa=" + encodeURIComponent(upiId) + "&pn=" + encodeURIComponent(payeeName);
 
-        console.log("UPI URL:", upiUrl);
-        console.log("Order:", "{{ order.name }}", "Amount:", amount);
+        console.log("UPI Static URL:", upiUrl);
+        console.log("Order:", "{{ order.name }}", "Amount:", "{{ amount }}");
 
         new QRCode(document.getElementById("qrcode"), {
             text: upiUrl,
@@ -92,7 +89,6 @@
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H
         });
-
     });
     {% endif %}
 </script>
