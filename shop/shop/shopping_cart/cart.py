@@ -130,6 +130,29 @@ def place_order(guest_details=None):
 			quotation.name, ignore_permissions=True
 		)
 	)
+
+	# Force copy shipping details to ensure they persist
+	if quotation.shipping_address_name:
+		sales_order.shipping_address_name = quotation.shipping_address_name
+	if quotation.shipping_rule:
+		sales_order.shipping_rule = quotation.shipping_rule
+	
+	# Ensure taxes are carried over exactly as is
+	if quotation.get("taxes"):
+		sales_order.set("taxes", [])
+		for tax in quotation.get("taxes"):
+			sales_order.append("taxes", {
+				"charge_type": tax.charge_type,
+				"account_head": tax.account_head,
+				"description": tax.description,
+				"included_in_print_rate": tax.included_in_print_rate,
+				"cost_center": tax.cost_center,
+				"rate": tax.rate,
+				"tax_amount": tax.tax_amount,
+				"total": tax.total,
+				"add_deduct": tax.add_deduct,
+			})
+
 	sales_order.payment_schedule = []
 
 	if frappe.session.user == "Guest" and guest_details:
