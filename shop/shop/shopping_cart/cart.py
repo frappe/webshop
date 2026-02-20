@@ -45,6 +45,9 @@ def get_cart_quotation(doc=None):
 	if not doc.customer_address and addresses:
 		update_cart_address("billing", addresses[0].name)
 
+	if not doc.shipping_address_name and get_shipping_addresses(party):
+		update_cart_address("shipping", get_shipping_addresses(party)[0]["name"])
+
 	return {
 		"doc": decorate_quotation_doc(doc),
 		"shipping_addresses": get_shipping_addresses(party),
