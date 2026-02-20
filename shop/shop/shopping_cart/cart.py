@@ -145,22 +145,6 @@ def place_order(guest_details=None):
 
 	if quotation.shipping_rule:
 		sales_order.shipping_rule = quotation.shipping_rule
-	
-	# Safely copy taxes to ensure totals match exactly
-	if quotation.get("taxes"):
-		sales_order.set("taxes", [])
-		for tax in quotation.get("taxes"):
-			sales_order.append("taxes", {
-				"charge_type": tax.charge_type,
-				"account_head": tax.account_head,
-				"description": tax.description,
-				"included_in_print_rate": tax.included_in_print_rate,
-				"cost_center": tax.cost_center,
-				"rate": tax.rate,
-				"tax_amount": tax.tax_amount,
-				"total": tax.total,
-				"add_deduct": tax.add_deduct,
-			})
 
 	sales_order.payment_schedule = []
 
