@@ -55,10 +55,6 @@
                         <small class="text-muted d-block">Payee: <strong>{{ payee_name }}</strong></small>
                     </div>
 
-                    <a id="btn-upi-deep-link" href="#" class="btn btn-primary w-100 mb-3 d-md-none"
-                        style="background-color: #6366f1; border-color: #6366f1;">
-                        <i class="fa fa-mobile-alt mr-2"></i> {{ _("Pay via UPI App") }}
-                    </a>
 
                     {% endif %}
 
@@ -97,11 +93,6 @@
             correctLevel: QRCode.CorrectLevel.H
         });
 
-        // Set UPI deep link for mobile
-        var deepLinkBtn = document.getElementById("btn-upi-deep-link");
-        if (deepLinkBtn) {
-            deepLinkBtn.href = upiUrl;
-        }
     });
     {% endif %}
 </script>
