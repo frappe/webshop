@@ -360,6 +360,37 @@ def get_upi_payment_details(order_id):
 
 
 @frappe.whitelist(allow_guest=True)
+def confirm_upi_payment(order_id, transaction_id):
+	"""Save UPI transaction details to the Sales Order."""
+	if not order_id or not transaction_id:
+		return {"error": "Order ID and Transaction ID are required"}
+
+	if not frappe.db.exists("Sales Order", order_id):
+		return {"error": f"Sales Order not found: {order_id}"}
+
+	try:
+		frappe.db.set_value("Sales Order", order_id, {
+			"upi_transaction_id": transaction_id,
+			"upi_payment_date": frappe.utils.now(),
+			"upi_payment_status": "Paid",
+		}, update_modified=False)
+		frappe.db.commit()
+
+		frappe.logger().info(
+			f"UPI Payment confirmed: order={order_id}, txn={transaction_id}"
+		)
+
+		return {
+			"success": True,
+			"order_name": order_id,
+			"message": "Payment confirmed successfully"
+		}
+	except Exception as e:
+		frappe.log_error(f"Error confirming UPI payment: {str(e)}")
+		return {"error": f"Failed to confirm payment: {str(e)}"}
+
+
+@frappe.whitelist(allow_guest=True)
 def update_cart_address(address_type, address_name):
 	quotation = _get_cart_quotation()
 	address_doc = frappe.get_doc("Address", address_name, ignore_permissions=True).as_dict()
