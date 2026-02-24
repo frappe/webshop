@@ -51,43 +51,31 @@
                         <div class="text-start mb-3">
                             <small class="text-muted d-block">UPI ID: <strong>{{ upi_id }}</strong></small>
                             <small class="text-muted d-block">Payee: <strong>{{ payee_name }}</strong></small>
+                            <small class="text-muted d-block">Ref: <strong id="upi-ref-display">—</strong></small>
                         </div>
 
                         {# Pay via UPI App button (mobile only) #}
                         <a id="btn-upi-deep-link" href="#" class="btn btn-lg w-100 mb-3 d-md-none"
-                            style="background-color: #6366f1; border-color: #6366f1; color: #fff; font-weight: 600; padding: 12px;">
+                            style="background-color: #6366f1; border-color: #6366f1; color: #fff; font-weight: 600; padding: 14px; font-size: 1.1rem;">
                             📱 {{ _("Pay via UPI App") }}
                         </a>
 
                         {% endif %}
 
-                        <hr>
+                        {# Confirm Payment Button - shown after deep link click or QR scan #}
+                        <button id="btn-confirm-payment" class="btn btn-success btn-lg w-100 mt-2"
+                            style="background-color: #28a745; border-color: #28a745; font-weight: 600; padding: 14px; font-size: 1.1rem;"
+                            onclick="confirmPayment()">
+                            ✅ {{ _("I Have Paid") }}
+                        </button>
 
-                        {# Transaction Confirmation Form #}
-                        <div id="upi-confirm-section">
-                            <p class="text-muted mb-2">After payment, enter your UPI reference number below:</p>
-                            <div class="input-group mb-3">
-                                <input type="text" id="upi-txn-id" class="form-control"
-                                    placeholder="Enter UPI Transaction Ref Number"
-                                    style="border: 2px solid #e0e0e0; padding: 12px;">
-                            </div>
-                            <button id="btn-confirm-payment" class="btn btn-success btn-lg w-100"
-                                style="background-color: #28a745; border-color: #28a745; font-weight: 600; padding: 12px;"
-                                onclick="confirmUpiPayment()">
-                                ✅ {{ _("Confirm Payment") }}
-                            </button>
-                        </div>
-
-                        {# Success state - hidden by default #}
+                        {# Success state #}
                         <div id="upi-success" style="display:none;" class="mt-3">
                             <div class="alert alert-success" role="alert">
-                                <h5>✅ Payment Confirmed!</h5>
-                                <p class="mb-0">Transaction ID: <strong id="upi-confirmed-txn"></strong></p>
+                                <h5 class="mb-1">✅ Payment Recorded!</h5>
+                                <p class="mb-0">Ref: <strong id="upi-confirmed-ref"></strong></p>
                             </div>
-                            <a id="upi-view-order-btn" href="/orders" class="btn btn-primary btn-lg w-100 mt-2"
-                                style="font-weight: 600; padding: 12px;">
-                                📄 {{ _("View My Order") }}
-                            </a>
+                            <p class="text-muted small">Redirecting to your order...</p>
                         </div>
 
                     </div>
@@ -100,124 +88,138 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-var currentOrderId = null;
+    var currentOrderId = null;
+    var generatedRef = null;
 
-document.addEventListener('DOMContentLoaded', function () {
-    var urlParams = new URLSearchParams(window.location.search);
-    var orderId = urlParams.get('order');
-
-    if (!orderId) {
-        document.getElementById("upi-loading").style.display = "none";
-        document.getElementById("upi-error").style.display = "block";
-        document.getElementById("upi-error").textContent = "Order ID is missing from URL.";
-        return;
+    // Generate a unique reference ID based on order name
+    function generateRef(orderName) {
+        var shortId = Math.random().toString(36).substring(2, 6).toUpperCase();
+        // Extract the number part from order name (e.g., SAL-ORD-2026-00071 -> 71)
+        var orderNum = orderName.replace(/\D/g, '').slice(-4);
+        return "REF-" + orderNum + "-" + shortId;
     }
 
-    currentOrderId = orderId;
+    document.addEventListener('DOMContentLoaded', function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        var orderId = urlParams.get('order');
 
-    // Fetch order details via AJAX
-    frappe.call({
-        method: "shop.shop.shopping_cart.cart.get_upi_payment_details",
-        args: { order_id: orderId },
-        async: true,
-        callback: function (r) {
-            document.getElementById("upi-loading").style.display = "none";
-
-            if (r.message && r.message.error) {
-                document.getElementById("upi-error").style.display = "block";
-                document.getElementById("upi-error").textContent = r.message.error;
-                return;
-            }
-
-            if (r.message) {
-                var data = r.message;
-                document.getElementById("upi-order-name").textContent = data.order_name;
-                document.getElementById("upi-order-amount").textContent = data.formatted_amount;
-                document.getElementById("upi-order-details").style.display = "block";
-
-                // Set UPI deep link with amount for mobile
-                var deepLinkBtn = document.getElementById("btn-upi-deep-link");
-                if (deepLinkBtn && data.upi_id) {
-                    var upiUrl = "upi://pay?pa=" + encodeURIComponent(data.upi_id)
-                        + "&pn=" + encodeURIComponent(data.payee_name)
-                        + "&am=" + data.grand_total
-                        + "&cu=" + data.currency
-                        + "&tn=" + encodeURIComponent("Order " + data.order_name);
-                    deepLinkBtn.href = upiUrl;
-                }
-
-                console.log("UPI Page loaded:", data.order_name, data.formatted_amount);
-            }
-        },
-        error: function () {
+        if (!orderId) {
             document.getElementById("upi-loading").style.display = "none";
             document.getElementById("upi-error").style.display = "block";
-            document.getElementById("upi-error").textContent = "Failed to load order details. Please refresh.";
+            document.getElementById("upi-error").textContent = "Order ID is missing from URL.";
+            return;
         }
-    });
 
-    {% if upi_id %}
-    // Static QR Code
-    var upiId = "{{ upi_id }}";
-    var payeeName = "{{ payee_name }}";
-    var upiUrl = "upi://pay?pa=" + encodeURIComponent(upiId) + "&pn=" + encodeURIComponent(payeeName);
+        currentOrderId = orderId;
 
-    new QRCode(document.getElementById("qrcode"), {
-        text: upiUrl,
-        width: 256,
-        height: 256,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H
-    });
-    {% endif %}
-});
+        // Fetch order details via AJAX
+        frappe.call({
+            method: "shop.shop.shopping_cart.cart.get_upi_payment_details",
+            args: { order_id: orderId },
+            async: true,
+            callback: function (r) {
+                document.getElementById("upi-loading").style.display = "none";
 
-function confirmUpiPayment() {
-    var txnId = document.getElementById("upi-txn-id").value.trim();
+                if (r.message && r.message.error) {
+                    document.getElementById("upi-error").style.display = "block";
+                    document.getElementById("upi-error").textContent = r.message.error;
+                    return;
+                }
 
-    if (!txnId) {
-        frappe.msgprint(__("Please enter your UPI Transaction Reference Number."));
-        return;
-    }
+                if (r.message) {
+                    var data = r.message;
 
-    if (!currentOrderId) {
-        frappe.msgprint(__("Order ID is missing. Please refresh the page."));
-        return;
-    }
+                    // Generate unique reference
+                    generatedRef = generateRef(data.order_name);
 
-    var btn = document.getElementById("btn-confirm-payment");
-    btn.disabled = true;
-    btn.textContent = "Confirming...";
+                    // Populate order details
+                    document.getElementById("upi-order-name").textContent = data.order_name;
+                    document.getElementById("upi-order-amount").textContent = data.formatted_amount;
+                    document.getElementById("upi-order-details").style.display = "block";
 
-    frappe.call({
-        method: "shop.shop.shopping_cart.cart.confirm_upi_payment",
-        args: {
-            order_id: currentOrderId,
-            transaction_id: txnId
-        },
-        callback: function (r) {
-            if (r.message && r.message.success) {
-                // Hide form, show success
-                document.getElementById("upi-confirm-section").style.display = "none";
-                var deepLink = document.getElementById("btn-upi-deep-link");
-                if (deepLink) deepLink.style.display = "none";
+                    // Show reference
+                    var refDisplay = document.getElementById("upi-ref-display");
+                    if (refDisplay) refDisplay.textContent = generatedRef;
 
-                document.getElementById("upi-success").style.display = "block";
-                document.getElementById("upi-confirmed-txn").textContent = txnId;
-                document.getElementById("upi-view-order-btn").href = "/orders/" + encodeURIComponent(currentOrderId);
-            } else {
-                btn.disabled = false;
-                btn.textContent = "✅ Confirm Payment";
-                frappe.msgprint(r.message.error || __("Failed to confirm payment. Please try again."));
+                    // Set UPI deep link with amount and reference
+                    var deepLinkBtn = document.getElementById("btn-upi-deep-link");
+                    if (deepLinkBtn && data.upi_id) {
+                        var upiUrl = "upi://pay?pa=" + encodeURIComponent(data.upi_id)
+                            + "&pn=" + encodeURIComponent(data.payee_name)
+                            + "&am=" + data.grand_total
+                            + "&cu=" + data.currency
+                            + "&tn=" + encodeURIComponent(generatedRef)
+                            + "&tr=" + encodeURIComponent(generatedRef);
+                        deepLinkBtn.href = upiUrl;
+                    }
+                }
+            },
+            error: function () {
+                document.getElementById("upi-loading").style.display = "none";
+                document.getElementById("upi-error").style.display = "block";
+                document.getElementById("upi-error").textContent = "Failed to load order details. Please refresh.";
             }
-        },
-        error: function () {
-            btn.disabled = false;
-            btn.textContent = "✅ Confirm Payment";
-            frappe.msgprint(__("An error occurred. Please try again."));
-        }
+        });
+
+        {% if upi_id %}
+        // Static QR Code (UPI ID + Payee only)
+        var upiId = "{{ upi_id }}";
+        var payeeName = "{{ payee_name }}";
+        var upiUrl = "upi://pay?pa=" + encodeURIComponent(upiId) + "&pn=" + encodeURIComponent(payeeName);
+
+        new QRCode(document.getElementById("qrcode"), {
+            text: upiUrl,
+            width: 256,
+            height: 256,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+        {% endif %}
     });
-}
+
+    function confirmPayment() {
+        if (!currentOrderId || !generatedRef) {
+            frappe.msgprint(__("Order data not loaded. Please refresh."));
+            return;
+        }
+
+        var btn = document.getElementById("btn-confirm-payment");
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm mr-2"></span> Confirming...';
+
+        frappe.call({
+            method: "shop.shop.shopping_cart.cart.confirm_upi_payment",
+            args: {
+                order_id: currentOrderId,
+                transaction_id: generatedRef
+            },
+            callback: function (r) {
+                if (r.message && r.message.success) {
+                    // Hide payment buttons, show success
+                    btn.style.display = "none";
+                    var deepLink = document.getElementById("btn-upi-deep-link");
+                    if (deepLink) deepLink.style.display = "none";
+
+                    document.getElementById("upi-success").style.display = "block";
+                    document.getElementById("upi-confirmed-ref").textContent = generatedRef;
+
+                    // Auto-redirect to order page after 2 seconds
+                    setTimeout(function () {
+                        window.location.href = "/orders/" + encodeURIComponent(currentOrderId);
+                    }, 2000);
+                } else {
+                    btn.disabled = false;
+                    btn.innerHTML = '✅ Confirm Payment';
+                    frappe.msgprint(r.message.error || __("Failed to confirm. Please try again."));
+                }
+            },
+            error: function () {
+                btn.disabled = false;
+                btn.innerHTML = '✅ Confirm Payment';
+                frappe.msgprint(__("An error occurred. Please try again."));
+            }
+        });
+    }
 </script>
 {% endblock %}
