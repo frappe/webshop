@@ -1,0 +1,213 @@
+{% extends "templates/web.html" %}
+
+{% block title %} {{ _("Shopping Cart") }} {% endblock %}
+
+{% block header %}<h3 class="shopping-cart-header mt-2 mb-6">{{ _("Shopping Cart") }}</h1>{% endblock %}
+
+	{% block header_actions %}
+	{% endblock %}
+
+	{% block page_content %}
+
+	{% from "templates/includes/macros.html" import item_name_and_description %}
+
+	{% if doc.items %}
+	<div class="cart-container">
+		<div class="row m-0">
+			<!-- Left section -->
+			<div class="col-md-8">
+				<div class="frappe-card p-5 mb-4">
+					<div id="cart-error" class="alert alert-danger" style="display: none;"></div>
+					<div class="cart-items-header">
+						{{ _('Items') }}
+					</div>
+					<table class="table mt-3 cart-table">
+						<thead>
+							<tr>
+								<th class="item-column">{{ _('Item') }}</th>
+								<th width="20%">{{ _('Quantity') }}</th>
+								{% if cart_settings.enable_checkout or cart_settings.show_price_in_quotation %}
+								<th width="20" class="text-right column-sm-view">{{ _('Subtotal') }}</th>
+								{% endif %}
+								<th width="10%" class="column-sm-view"></th>
+							</tr>
+						</thead>
+						<tbody class="cart-items">
+							{% include "templates/includes/cart/cart_items.html" %}
+						</tbody>
+
+						{% if cart_settings.enable_checkout or cart_settings.show_price_in_quotation %}
+						<tfoot class="cart-tax-items">
+							{% include "templates/includes/cart/cart_items_total.html" %}
+						</tfoot>
+						{% endif %}
+					</table>
+
+					<div class="row mt-2">
+						<div class="col-3">
+							{% if cart_settings.enable_checkout %}
+							<a class="btn btn-primary-light font-md" href="/orders">
+								{{ _('Past Orders') }}
+							</a>
+							{% else %}
+							<a class="btn btn-primary-light font-md" href="/quotations">
+								{{ _('Past Quotes') }}
+							</a>
+							{% endif %}
+						</div>
+						<div class="col-9">
+							{% if doc.items %}
+							<div class="place-order-container">
+								<a class="btn btn-primary-light mr-2 font-md" href="/all-products">
+									{{ _('Continue Shopping') }}
+								</a>
+							</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+
+				<!-- Terms and Conditions -->
+				{% if doc.items %}
+				{% if doc.terms %}
+				<div class="t-and-c-container mt-4 frappe-card">
+					<h5>{{ _("Terms and Conditions") }}</h5>
+					<div class="t-and-c-terms mt-2">
+						{{ doc.terms }}
+					</div>
+				</div>
+				{% endif %}
+			</div>
+
+			<!-- Right section -->
+			<div class="col-md-4">
+				<div class="cart-payment-addresses">
+					<!-- Apply Coupon Code  -->
+					{% set show_coupon_code = cart_settings.show_apply_coupon_code_in_website and
+					cart_settings.enable_checkout %}
+					{% set coupon_code = doc.coupon_code if doc.coupon_code else "" %}
+
+					{% if show_coupon_code == 1%}
+					{% if coupon_code %}
+					{% include "templates/includes/cart/coupon_code.html" %}
+					{% else %}
+					<div class="mb-3">
+						<div class="d-flex w-100">
+							<input type="text" class="txtcoupon form-control mr-3 flex-grow-1 font-md"
+								placeholder="{{ _(" Enter coupon code") }}" name="txtcouponcode"></input>
+							<button class="btn btn-secondary btn-sm bt-coupon font-md flex-shrink-0">{{ _("Apply")
+								}}</button>
+							<input type="hidden" class="txtreferral_sales_partner font-md"
+								placeholder="Enter Sales Partner" name="txtreferral_sales_partner" type="text"></input>
+						</div>
+					</div>
+					{% endif %}
+					{% endif %}
+
+					<div class="mb-3 frappe-card p-5">
+						<div class="payment-summary">
+							{% include "templates/includes/cart/cart_payment_summary.html" %}
+						</div>
+
+						<div class="place-order">
+							{% include "templates/includes/cart/place_order.html" %}
+						</div>
+					</div>
+
+					{% if frappe.session.user == "Guest" %}
+					<div class="mb-3 frappe-card p-5 text-center">
+						<h5>{{ _("Save your details?") }}</h5>
+						<p class="text-muted small">{{ _("Sign up with your mobile number to track orders and save your
+							address.") }}</p>
+						<a href="/mobile_signup" class="btn btn-outline-primary btn-block mt-3"
+							style="font-weight: 600; border-radius: 8px;">
+							{{ _("Signup with Mobile Number") }}
+						</a>
+						<div class="mt-3 text-muted small">
+							{{ _("Already have an account?") }} <a href="/login" class="text-primary">{{ _("Login")
+								}}</a>
+						</div>
+					</div>
+
+					{% if cart_settings.allow_guest_checkout %}
+					<div class="mb-3 frappe-card p-5 guest-checkout-form">
+						<h5>{{ _("Alternatively, Checkout as Guest") }}</h5>
+						<div class="form-group mt-3">
+							<label class="font-md">{{ _("Email Address") }}*</label>
+							<input type="email" class="form-control guest-email" required>
+						</div>
+						<div class="form-group mt-2">
+							<label class="font-md">{{ _("Full Name") }}*</label>
+							<input type="text" class="form-control guest-fullname" required>
+						</div>
+						<div class="form-group mt-2">
+							<label class="font-md">{{ _("Phone") }}</label>
+							<input type="text" class="form-control guest-phone">
+						</div>
+						<div class="form-group mt-2">
+							<label class="font-md">{{ _("Country") }}*</label>
+							<select class="form-control guest-country" required>
+								<option value="">{{ _("Select Country") }}</option>
+								{% for country in frappe.get_all("Country", pluck="name") %}
+								<option value="{{ country }}">{{ country }}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="form-group mt-2">
+							<label class="font-md">{{ _("State") }}*</label>
+							<select class="form-control guest-state" required>
+								<option value="">{{ _("Select State") }}</option>
+								{# States will be populated via JS when country is selected #}
+							</select>
+						</div>
+						<div class="form-group mt-2">
+							<label class="font-md">{{ _("Shipping Address") }}*</label>
+							<textarea class="form-control guest-address" rows="3" required></textarea>
+						</div>
+					</div>
+					{% endif %}
+					{% endif %}
+
+					{% include "templates/includes/cart/cart_address.html" %}
+				</div>
+			</div>
+			{% endif %}
+		</div>
+
+		<!-- Mobile Sticky Bottom Bar -->
+		<div class="mobile-sticky-bar">
+			<div class="sticky-total">
+				<span class="total-label">{{ _("Total Amount") }}</span>
+				<span class="total-amount">{{ doc.get_formatted("grand_total") }}</span>
+			</div>
+			<button class="btn-place-order-mobile">
+				{{ _("Place Order") }}
+			</button>
+		</div>
+	</div>
+	{% else %}
+	<div class="cart-empty frappe-card">
+		<div class="cart-empty-state">
+			<img src="/assets/shop/images/cart-empty-state.png" alt="Empty State">
+		</div>
+		<div class="cart-empty-message mt-4">{{ _('Your cart is Empty') }}</p>
+			{% if cart_settings.enable_checkout %}
+			<a class="btn btn-outline-primary" href="/orders" style="font-size: 16px;">
+				{{ _('See past orders') }}
+			</a>
+			{% else %}
+			<a class="btn btn-outline-primary" href="/quotations" style="font-size: 16px;">
+				{{ _('See past quotations') }}
+			</a>
+			{% endif %}
+		</div>
+		{% endif %}
+
+		{% endblock %}
+
+		{% block base_scripts %}
+		<!-- js should be loaded in body! -->
+		{{ include_script("frappe-web.bundle.js") }}
+		{{ include_script("controls.bundle.js") }}
+		{{ include_script("dialog.bundle.js") }}
+		{% endblock %}

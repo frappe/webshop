@@ -1,0 +1,131 @@
+{% extends "templates/web.html" %}
+
+{% block title %} {{ _("Signup") }} {% endblock %}
+
+{% block page_content %}
+<div class="container py-5" style="max-width: 450px;">
+    <div class="card shadow-lg border-0 rounded-lg p-4"
+        style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
+        <div class="text-center mb-4">
+            <h2 class="font-weight-bold text-primary">{{ _("Create Account") }}</h2>
+            <p class="text-muted">{{ _("Sign up with your mobile number to continue") }}</p>
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="font-small text-muted mb-1">{{ _("Full Name") }}</label>
+            <input type="text" id="full_name" class="form-control form-control-lg border-0 shadow-sm"
+                placeholder="John Doe" style="background: #f8f9fa;">
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="font-small text-muted mb-1">{{ _("Mobile Number") }}</label>
+            <input type="tel" id="mobile_no" class="form-control form-control-lg border-0 shadow-sm"
+                placeholder="9876543210" style="background: #f8f9fa;">
+        </div>
+
+        <div class="form-group mb-4">
+            <label class="font-small text-muted mb-1">{{ _("Set Password") }}</label>
+            <input type="password" id="password" class="form-control form-control-lg border-0 shadow-sm"
+                placeholder="••••••••" style="background: #f8f9fa;">
+        </div>
+
+        <button id="btn-signup" class="btn btn-primary btn-lg btn-block shadow-sm"
+            style="height: 55px; font-weight: 600; border-radius: 12px; transition: all 0.3s ease;">
+            {{ _("Sign Up") }}
+        </button>
+
+        <div class="text-center mt-4">
+            <p class="text-muted small">
+                {{ _("Already have an account?") }}
+                <a href="/login" class="text-primary font-weight-bold">{{ _("Login here") }}</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+    }
+
+    .form-control:focus {
+        background: #fff !important;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15) !important;
+        border: 1px solid #007bff !important;
+    }
+
+    #btn-signup:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0, 123, 255, 0.2);
+    }
+
+    .font-small {
+        font-size: 0.85rem;
+    }
+</style>
+
+<script>
+    frappe.ready(function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const item_code = urlParams.get('item_code');
+
+        if (item_code) {
+            $('.text-muted').first().text(__('Identify yourself to add this item to your cart'));
+            $('#btn-signup').text(__('Continue to Cart'));
+        }
+
+        $('#btn-signup').on('click', function () {
+            const full_name = $('#full_name').val();
+            const mobile_no = $('#mobile_no').val();
+            const password = $('#password').val();
+
+            if (!full_name || !mobile_no || !password) {
+                frappe.msgprint(__('Please fill all fields'));
+                return;
+            }
+
+            frappe.call({
+                method: "shop.shop.api.mobile_signup",
+                args: {
+                    mobile_no: mobile_no,
+                    full_name: full_name,
+                    password: password
+                },
+                btn: $(this),
+                callback: function (r) {
+                    if (r.message && r.message.status === "success") {
+                        if (item_code) {
+                            // Add item to cart after signup
+                            frappe.call({
+                                method: "shop.shop.shopping_cart.cart.update_cart",
+                                args: {
+                                    item_code: item_code,
+                                    qty: 1
+                                },
+                                callback: function () {
+                                    frappe.show_alert({
+                                        message: __('Item added and account created!'),
+                                        indicator: 'green'
+                                    });
+                                    setTimeout(function () {
+                                        window.location.href = "/cart";
+                                    }, 1000);
+                                }
+                            });
+                        } else {
+                            frappe.show_alert({
+                                message: __('Signup successful! Redirecting...'),
+                                indicator: 'green'
+                            });
+                            setTimeout(function () {
+                                window.location.href = "/cart";
+                            }, 1500);
+                        }
+                    }
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
