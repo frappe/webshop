@@ -92,12 +92,7 @@
     var generatedRef = null;
 
     // Generate a unique reference ID based on order name
-    function generateRef(orderName) {
-        var shortId = Math.random().toString(36).substring(2, 6).toUpperCase();
-        // Extract the number part from order name (e.g., SAL-ORD-2026-00071 -> 71)
-        var orderNum = orderName.replace(/\D/g, '').slice(-4);
-        return "REF-" + orderNum + "-" + shortId;
-    }
+
 
     document.addEventListener('DOMContentLoaded', function () {
         var urlParams = new URLSearchParams(window.location.search);
@@ -129,8 +124,8 @@
                 if (r.message) {
                     var data = r.message;
 
-                    // Generate unique reference
-                    generatedRef = generateRef(data.order_name);
+                    // Use order name as the reference (clean and traceable)
+                    generatedRef = data.order_name;
 
                     // Populate order details
                     document.getElementById("upi-order-name").textContent = data.order_name;
@@ -141,15 +136,14 @@
                     var refDisplay = document.getElementById("upi-ref-display");
                     if (refDisplay) refDisplay.textContent = generatedRef;
 
-                    // Set UPI deep link with amount and reference
+                    // Set UPI deep link — simple URL with just payee, amount, and order note
                     var deepLinkBtn = document.getElementById("btn-upi-deep-link");
                     if (deepLinkBtn && data.upi_id) {
                         var upiUrl = "upi://pay?pa=" + encodeURIComponent(data.upi_id)
                             + "&pn=" + encodeURIComponent(data.payee_name)
                             + "&am=" + data.grand_total
                             + "&cu=" + data.currency
-                            + "&tn=" + encodeURIComponent(generatedRef)
-                            + "&tr=" + encodeURIComponent(generatedRef);
+                            + "&tn=" + encodeURIComponent("Order " + data.order_name);
                         deepLinkBtn.href = upiUrl;
                     }
                 }
