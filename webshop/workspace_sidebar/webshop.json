@@ -1,0 +1,90 @@
+{
+ "app": "webshop",
+ "creation": "2026-03-02 22:21:18.128676",
+ "docstatus": 0,
+ "doctype": "Workspace Sidebar",
+ "header_icon": "shopping-cart",
+ "idx": 0,
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "package-2",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Items",
+   "link_to": "Website Item",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "list",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Collections",
+   "link_to": "Website Collection",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "list-tree",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Categories",
+   "link_to": "Website Category",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "filters": "[[\"Sales Order\",\"order_type\",\"=\",\"Shopping Cart\"]]",
+   "icon": "truck",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Orders",
+   "link_to": "Sales Order",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "star",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Reviews",
+   "link_to": "Item Review",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "settings-2",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Settings",
+   "link_to": "Webshop Settings",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-03-12 09:22:30.917223",
+ "modified_by": "Administrator",
+ "module": "Webshop",
+ "name": "Webshop",
+ "owner": "sntn@admin.com",
+ "standard": 1,
+ "title": "Webshop"
+}

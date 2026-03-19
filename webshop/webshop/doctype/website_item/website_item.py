@@ -84,8 +84,9 @@ class WebsiteItem(WebsiteGenerator):
 
 	def on_trash(self):
 		super(WebsiteItem, self).on_trash()
-		delete_item_from_index(self)
 		self.publish_unpublish_desk_item(publish=False)
+		invalidate_cache_for_web_item(self)
+		delete_item_from_index(self)
 
 	def validate_duplicate_website_item(self):
 		existing_web_item = frappe.db.exists(
@@ -499,7 +500,7 @@ def check_if_user_is_customer(user=None):
 
 
 @frappe.whitelist()
-def make_website_item(doc, save=True):
+def make_website_item(doc, save=True, suppress_error=False):
 	"""
 	Make Website Item from Item. Used via Form UI or patch.
 	"""
@@ -509,11 +510,22 @@ def make_website_item(doc, save=True):
 	if isinstance(doc, str):
 		doc = json.loads(doc)
 
+	# Create a website item for the Template of the variant
+	if doc.get("variant_of"):
+		item_code = doc.get("variant_of")
+		try:
+			template_doc = frappe.get_doc("Item", item_code)
+			make_website_item(template_doc, suppress_error=True)
+		except Exception as e:
+			pass
 	if frappe.db.exists("Website Item", {"item_code": doc.get("item_code")}):
 		message = _("Website Item already exists against {0}").format(
 			frappe.bold(doc.get("item_code"))
 		)
-		frappe.throw(message, title=_("Already Published"))
+		if not suppress_error:
+			frappe.throw(message, title=_("Already Published"))
+		else:
+			return
 
 	website_item = frappe.new_doc("Website Item")
 	website_item.web_item_name = doc.get("item_name")

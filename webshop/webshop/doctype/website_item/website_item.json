@@ -7,36 +7,21 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "naming_series",
-  "web_item_name",
-  "route",
-  "has_variants",
-  "variant_of",
-  "published",
-  "column_break_3",
   "item_code",
-  "item_name",
-  "item_group",
-  "stock_uom",
-  "column_break_11",
-  "description",
   "brand",
-  "display_section",
-  "website_image",
-  "website_image_alt",
-  "column_break_13",
-  "slideshow",
-  "thumbnail",
+  "column_break_kgwv",
+  "web_item_name",
+  "published",
+  "section_break_17",
+  "short_description",
+  "web_long_description",
+  "column_break_kphb",
+  "website_specifications",
+  "copy_from_item_group",
   "stock_information_section",
   "website_warehouse",
   "column_break_24",
   "on_backorder",
-  "section_break_17",
-  "short_description",
-  "web_long_description",
-  "column_break_27",
-  "website_specifications",
-  "copy_from_item_group",
   "display_additional_information_section",
   "show_tabbed_section",
   "tabs",
@@ -49,28 +34,45 @@
   "set_meta_tags",
   "column_break_22",
   "website_item_groups",
+  "media_management_tab",
+  "display_section",
+  "website_image",
+  "website_image_alt",
+  "column_break_13",
+  "slideshow",
+  "thumbnail",
+  "dashboard_tab",
+  "html",
+  "advanced_tab",
   "advanced_display_section",
-  "website_content"
+  "website_content",
+  "advanced_section",
+  "naming_series",
+  "original_item_details_tab",
+  "has_variants",
+  "variant_of",
+  "stock_uom",
+  "item_group",
+  "item_name",
+  "description",
+  "to_be_removed_tab",
+  "to_be_removed_section",
+  "route"
  ],
  "fields": [
   {
-   "description": "Website display name",
    "fetch_from": "item_code.item_name",
    "fetch_if_empty": 1,
    "fieldname": "web_item_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Website Item Name",
+   "label": "Display Name",
    "reqd": 1
-  },
-  {
-   "fieldname": "column_break_3",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "item_code",
    "fieldtype": "Link",
-   "label": "Item Code",
+   "label": "Original Item",
    "options": "Item",
    "read_only_depends_on": "eval:!doc.__islocal",
    "reqd": 1
@@ -138,7 +140,7 @@
    "fieldname": "website_warehouse",
    "fieldtype": "Link",
    "ignore_user_permissions": 1,
-   "label": "Website Warehouse",
+   "label": "Tracking Warehouse",
    "options": "Warehouse"
   },
   {
@@ -161,24 +163,24 @@
   {
    "fieldname": "copy_from_item_group",
    "fieldtype": "Button",
-   "label": "Copy From Item Group"
+   "label": "Copy From Original Item Group"
   },
   {
    "fieldname": "website_specifications",
    "fieldtype": "Table",
-   "label": "Website Specifications",
+   "label": "Specifications",
    "options": "Item Website Specification"
   },
   {
    "fieldname": "web_long_description",
    "fieldtype": "Text Editor",
-   "label": "Website Description"
+   "label": "Long Description"
   },
   {
    "description": "You can use any valid Bootstrap 4 markup in this field. It will be shown on your Item Page.",
    "fieldname": "website_content",
    "fieldtype": "HTML Editor",
-   "label": "Website Content"
+   "label": "Advanced Display Content"
   },
   {
    "fetch_from": "item_code.item_group",
@@ -249,10 +251,6 @@
    "label": "Display Images"
   },
   {
-   "fieldname": "column_break_27",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "column_break_22",
    "fieldtype": "Column Break"
   },
@@ -304,14 +302,10 @@
    "options": "Website Offer"
   },
   {
-   "fieldname": "column_break_11",
-   "fieldtype": "Column Break"
-  },
-  {
    "description": "Short Description for List View",
    "fieldname": "short_description",
    "fieldtype": "Small Text",
-   "label": "Short Website Description"
+   "label": "Short Description"
   },
   {
    "collapsible": 1,
@@ -323,7 +317,7 @@
    "fieldname": "recommended_items",
    "fieldtype": "Table",
    "label": "Recommended/Similar Items",
-   "options": "Recommended Items"
+   "options": "Website Item Table"
   },
   {
    "fieldname": "stock_information_section",
@@ -340,18 +334,69 @@
    "fieldname": "on_backorder",
    "fieldtype": "Check",
    "label": "On Backorder"
+  },
+  {
+   "fieldname": "media_management_tab",
+   "fieldtype": "Tab Break",
+   "label": "Media Management"
+  },
+  {
+   "fieldname": "advanced_tab",
+   "fieldtype": "Tab Break",
+   "label": "Advanced"
+  },
+  {
+   "fieldname": "advanced_section",
+   "fieldtype": "Section Break",
+   "label": "Advanced"
+  },
+  {
+   "fieldname": "to_be_removed_tab",
+   "fieldtype": "Tab Break",
+   "hidden": 1,
+   "label": "To Be Removed"
+  },
+  {
+   "fieldname": "to_be_removed_section",
+   "fieldtype": "Section Break",
+   "label": "To Be Removed"
+  },
+  {
+   "fieldname": "column_break_kgwv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "original_item_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Original Item Details"
+  },
+  {
+   "fieldname": "column_break_kphb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "dashboard_tab",
+   "fieldtype": "Tab Break",
+   "label": "Dashboard",
+   "show_dashboard": 1
+  },
+  {
+   "fieldname": "html",
+   "fieldtype": "Text Editor",
+   "label": "HTML"
   }
  ],
  "has_web_view": 1,
+ "icon": "fa fa-truck",
  "image_field": "website_image",
  "index_web_pages_for_search": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2024-11-05 13:41:45.347700",
+ "modified": "2026-03-19 09:54:29.728663",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Website Item",
- "naming_rule": "Expression (old style)",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -403,6 +448,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "search_fields": "web_item_name, item_code, item_group",
  "show_name_in_global_search": 1,
  "sort_field": "modified",

@@ -1,0 +1,46 @@
+{
+ "app": "Webshop",
+ "charts": [],
+ "content": "[{\"id\":\"_-b0CpVZje\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Open <strong>Frappe Builder</strong>\",\"col\":4}}]",
+ "creation": "2024-03-28 15:59:44.392585",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "getting-started",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Webshop",
+ "links": [],
+ "modified": "2026-03-02 23:22:44.100679",
+ "modified_by": "Administrator",
+ "module": "Webshop",
+ "name": "Webshop",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "Webshop",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Website Manager"
+  }
+ ],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Open <strong>Frappe Builder</strong>",
+   "type": "URL",
+   "url": "/builder"
+  }
+ ],
+ "title": "Webshop",
+ "type": "Workspace"
+}

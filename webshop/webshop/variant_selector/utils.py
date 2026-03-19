@@ -75,6 +75,7 @@ def get_attributes_and_values(item_code):
 	"""Build a list of attributes and their possible values.
 	This will ignore the values upon selection of which there cannot exist one item.
 	"""
+	print(item_code)
 	item_cache = ItemVariantsCacheManager(item_code)
 	item_variants_data = item_cache.get_item_variants_data()
 

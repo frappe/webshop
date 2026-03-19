@@ -1,0 +1,20 @@
+{
+ "cards": [],
+ "charts": [
+  {
+   "width": "Half"
+  }
+ ],
+ "creation": "2026-03-03 00:42:15.590534",
+ "dashboard_name": "Webshop",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2026-03-03 00:42:15.590534",
+ "modified_by": "Administrator",
+ "module": "Webshop",
+ "name": "Webshop",
+ "owner": "Administrator"
+}

@@ -1,0 +1,4666 @@
+{
+ "app": "webshop",
+ "authenticated_access": 0,
+ "blocks": [
+  {
+   "activeState": null,
+   "attributes": {},
+   "baseStyles": {
+    "alignItems": "center",
+    "display": "flex",
+    "flexDirection": "column",
+    "flexShrink": 0,
+    "flexWrap": "wrap"
+   },
+   "blockClientScript": "",
+   "blockDataScript": "",
+   "blockId": "root",
+   "children": [
+    {
+     "activeState": null,
+     "attributes": {},
+     "baseStyles": {},
+     "blockClientScript": "",
+     "blockDataScript": "",
+     "blockId": "0rtw93xh6",
+     "blockName": "Variants",
+     "children": [
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {},
+       "blockClientScript": "",
+       "blockDataScript": "",
+       "blockId": "0vx45gkm6",
+       "blockName": "Nav - Links - Center",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "uvyiy967r",
+         "blockName": "Logo",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "hk1qxvfof",
+           "blockName": "app logo",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "mk0fjgetu",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "gll1iz5rd",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "v01j7tpza",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "8dc3ehpas",
+           "blockName": "Shop",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "0nexyo02j",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "iiov2zold",
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "91re1wmdf",
+         "blockName": "Links",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "ir6r8ohv6",
+           "blockName": "Shop",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [
+            {
+             "comesFrom": "props",
+             "key": "key",
+             "property": "innerHTML",
+             "type": "key"
+            },
+            {
+             "comesFrom": "props",
+             "key": "value",
+             "property": "href",
+             "type": "attribute"
+            }
+           ],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "7ztsldfo7",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "isRepeaterBlock": true,
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "bwbujss5c",
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "d96bo938x",
+         "blockName": "Icons",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "dxo1lhoea",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "search"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "1azgkwe1e",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "rf5hst7jb",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "user"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "yx94bfu9f",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "h7dq1g2lu",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "shopping-cart"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "r9p8qohkf",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "c9dbfx9aa",
+         "tabletStyles": {}
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "isChildOfComponent": "93080ef6abd56c4e",
+       "mobileStyles": {},
+       "originalElement": "",
+       "props": {},
+       "rawStyles": {},
+       "referenceBlockId": "s8vujuf86",
+       "tabletStyles": {},
+       "visibilityCondition": {
+        "comesFrom": "blockDataScript",
+        "key": "is_visible"
+       }
+      },
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {},
+       "blockClientScript": "",
+       "blockDataScript": "",
+       "blockId": "8581ii8zp",
+       "blockName": "Nav - Links - Right",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "ob6ksjnwy",
+         "blockName": "Logo",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "yvaupmxx8",
+           "blockName": "app logo",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "5z13q9cqm",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "mr60auid8",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "dltuvwa67",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "m119tu3ha",
+           "blockName": "Shop",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "ftlh5oul8",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "hkpurnzsm",
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "joy407jxh",
+         "blockName": "Links and Icons",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "25wr9ak0w",
+           "blockName": "Links",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "lulrdsrka",
+             "blockName": "Shop",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [
+              {
+               "comesFrom": "props",
+               "key": "key",
+               "property": "innerHTML",
+               "type": "key"
+              },
+              {
+               "comesFrom": "props",
+               "key": "value",
+               "property": "href",
+               "type": "attribute"
+              }
+             ],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "1qloi2m3p",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "isRepeaterBlock": true,
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "899w6k7ai",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "sx2j3y87u",
+           "blockName": "divider",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "7zn554wir",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "jodb43wo1",
+           "blockName": "Icons",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "height": "16px",
+              "width": "16px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "3qph2s8zu",
+             "blockName": "container",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "extendedFromComponent": "826df5a3c09b1b06",
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "props": {
+              "icon_name": {
+               "comesFrom": null,
+               "isDynamic": false,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Icon Name",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "house"
+                },
+                "type": "string"
+               },
+               "value": "search"
+              }
+             },
+             "rawStyles": {},
+             "referenceBlockId": "8xxczjtw7",
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "height": "16px",
+              "width": "16px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "0iiak2xa4",
+             "blockName": "container",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "extendedFromComponent": "826df5a3c09b1b06",
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "props": {
+              "icon_name": {
+               "comesFrom": null,
+               "isDynamic": false,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Icon Name",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "house"
+                },
+                "type": "string"
+               },
+               "value": "user"
+              }
+             },
+             "rawStyles": {},
+             "referenceBlockId": "k4nr3fde6",
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "height": "16px",
+              "width": "16px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "ebwl0c3o8",
+             "blockName": "container",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "extendedFromComponent": "826df5a3c09b1b06",
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "props": {
+              "icon_name": {
+               "comesFrom": null,
+               "isDynamic": false,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Icon Name",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "house"
+                },
+                "type": "string"
+               },
+               "value": "shopping-cart"
+              }
+             },
+             "rawStyles": {},
+             "referenceBlockId": "mk73iw75z",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "mvspa99t1",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "wj3i9io0c",
+         "tabletStyles": {}
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "isChildOfComponent": "93080ef6abd56c4e",
+       "mobileStyles": {},
+       "originalElement": "",
+       "props": {},
+       "rawStyles": {},
+       "referenceBlockId": "2s0366k6t",
+       "tabletStyles": {},
+       "visibilityCondition": {
+        "comesFrom": "blockDataScript",
+        "key": "is_visible"
+       }
+      },
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {},
+       "blockClientScript": "",
+       "blockDataScript": "",
+       "blockId": "fjarsnuh2",
+       "blockName": "Nav - Links - Left",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "kypthf5dt",
+         "blockName": "Logo and Links",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "3o0tzwaxi",
+           "blockName": "Logo",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "snc648roz",
+             "blockName": "app logo",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "r7d2kppsn",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "93080ef6abd56c4e",
+               "mobileStyles": {},
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "tnhej669s",
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "ew0ghclsf",
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "johjibau5",
+             "blockName": "Shop",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "fimh1mgpk",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "m4iww0axy",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "u2shbxjzt",
+           "blockName": "divider",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "yyopld4vc",
+             "blockName": "value",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "originalElement": "__raw_html__",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "qrzr28l4p",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "yrxb01q9y",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "o3b52snd5",
+           "blockName": "Links",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "ogan5ts8w",
+             "blockName": "Shop",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [
+              {
+               "comesFrom": "props",
+               "key": "key",
+               "property": "innerHTML",
+               "type": "key"
+              },
+              {
+               "comesFrom": "props",
+               "key": "value",
+               "property": "href",
+               "type": "attribute"
+              }
+             ],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "12q8tbpjl",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "isRepeaterBlock": true,
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "thxg1gn2l",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "339ftqogr",
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "rbbavyja7",
+         "blockName": "Icons",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "4ubsel7yg",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "search"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "fxzfw1esz",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "ap2u1qyvj",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "user"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "na24hs84e",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "37twn9uki",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "shopping-cart"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "xy5nwr9qb",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "hg6y39j6c",
+         "tabletStyles": {}
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "isChildOfComponent": "93080ef6abd56c4e",
+       "mobileStyles": {},
+       "originalElement": "",
+       "props": {},
+       "rawStyles": {},
+       "referenceBlockId": "c9ua4ifix",
+       "tabletStyles": {},
+       "visibilityCondition": {
+        "comesFrom": "blockDataScript",
+        "key": "is_visible"
+       }
+      },
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {},
+       "blockClientScript": "",
+       "blockDataScript": "",
+       "blockId": "gsaqemh91",
+       "blockName": "Nav - Logo - Center",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "rssu676x2",
+         "blockName": "Links",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "w67whkzip",
+           "blockName": "Shop",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [
+            {
+             "comesFrom": "props",
+             "key": "key",
+             "property": "innerHTML",
+             "type": "key"
+            },
+            {
+             "comesFrom": "props",
+             "key": "value",
+             "property": "href",
+             "type": "attribute"
+            }
+           ],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "hqqstqulg",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "isRepeaterBlock": true,
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "6hycd5mzw",
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "8lan4s270",
+         "blockName": "Logo",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "39pnm6n9x",
+           "blockName": "app logo",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "4feacc5zl",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "i39bn0erz",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "xg7vupgsp",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "8s32ziqss",
+           "blockName": "Shop",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "mqyrajmok",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "bhmwh7vmb",
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "lkac81062",
+         "blockName": "Icons",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "5dmwzmyxa",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "search"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "h08e5mam3",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "f282k2dvz",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "user"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "57kao6gyn",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "pe7i19xvp",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "shopping-cart"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "78qa0tp4p",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "ampu5vbhr",
+         "tabletStyles": {}
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "isChildOfComponent": "93080ef6abd56c4e",
+       "mobileStyles": {},
+       "originalElement": "",
+       "props": {},
+       "rawStyles": {},
+       "referenceBlockId": "it77ce733",
+       "tabletStyles": {},
+       "visibilityCondition": {
+        "comesFrom": "blockDataScript",
+        "key": "is_visible"
+       }
+      }
+     ],
+     "classes": [],
+     "customAttributes": {},
+     "dataKey": null,
+     "dynamicValues": [],
+     "extendedFromComponent": "93080ef6abd56c4e",
+     "mobileStyles": {},
+     "props": {
+      "links": {
+       "comesFrom": null,
+       "isDynamic": false,
+       "isPassedDown": true,
+       "isStandard": true,
+       "label": "Links",
+       "propOptions": {
+        "isRequired": false,
+        "options": {
+         "defaultValue": {
+          "About": "/about",
+          "Collections": "/collections",
+          "Shop": "/shop"
+         },
+         "maxItems": null,
+         "minItems": null
+        },
+        "type": "object"
+       },
+       "value": null
+      },
+      "variant": {
+       "comesFrom": null,
+       "isDynamic": false,
+       "isPassedDown": true,
+       "isStandard": true,
+       "label": "Variant",
+       "propOptions": {
+        "isRequired": false,
+        "options": {
+         "defaultValue": "Links - Left",
+         "options": [
+          "Links - Right",
+          "Links - Center",
+          "Links - Left",
+          "Logo - Center"
+         ]
+        },
+        "type": "select"
+       },
+       "value": "Logo - Center"
+      }
+     },
+     "rawStyles": {},
+     "tabletStyles": {}
+    },
+    {
+     "activeState": null,
+     "attributes": {},
+     "baseStyles": {
+      "alignItems": "center",
+      "backgroundColor": "rgb(255, 255, 255)",
+      "display": "flex",
+      "flexDirection": "column",
+      "gap": "48px",
+      "justifyContent": "center",
+      "padding": "60px 120px",
+      "position": "static",
+      "width": "100%"
+     },
+     "blockClientScript": "",
+     "blockDataScript": "web_item_code = frappe.form_dict.item_code\nif web_item_code:\n  details = frappe.call(\"webshop.webshop.api.get_item\", item_code=web_item_code)\n  \n  block.item_details = details.product_info\n  block.cart_settings = details.cart_settings\n\n  has_variants = block.item_details.get(\"details\").get(\"has_variants\", False)\n  variant_of = block.item_details.get(\"details\").get(\"variant_of\", None)\n\n  block.show_variant_selector = bool(has_variants or variant_of)\n  if has_variants or variant_of:\n    block.show_variant_selector = bool(has_variants or variant_of)\n    block.variant_template_item_code = block.item_details.get(\"details\").get(\"item_code\") if has_variants else variant_of\n\n  block.has_specs = bool(len(details.product_info.get(\"details\").get(\"website_specifications\")))\n\n  images = []\n  if details.product_info.get(\"details\").get(\"website_image\"):\n    images.append({\"url\": details.product_info.get(\"details\").get(\"website_image\")})\n  if len(block.item_details.get(\"slideshow\", {}).get(\"slideshow_items\", {})):\n    for item in block.item_details.get(\"slideshow\", {}).get(\"slideshow_items\", {}):\n      images.append({\"url\": item.get(\"image\")})\n  # images.extend(images)\n  block.images = images\n  block.initially_selected_image = images[0] if len(images) else None",
+     "blockId": "gpd4a30qk",
+     "blockName": "Product Details",
+     "children": [
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {
+        "alignItems": "flex-start",
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": "16px"
+       },
+       "blockClientScript": "",
+       "blockDataScript": "",
+       "blockId": "fjfo2qwwn",
+       "blockName": "Main Details",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {
+          "alignItems": "flex-start",
+          "display": "flex",
+          "gap": "40px",
+          "width": "100%"
+         },
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "lgyyh3mqx",
+         "blockName": "Wrapper",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "flex-start",
+            "display": "flex",
+            "flexDirection": "column",
+            "flexShrink": "0",
+            "gap": "12px",
+            "width": "449px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "okt4fd93w",
+           "blockName": "Slideshow",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {
+              "src": "/assets/webshop/builder_assets/image.webp"
+             },
+             "baseStyles": {
+              "alignSelf": "stretch",
+              "border": "1px solid  #EDEDED",
+              "borderColor": "rgb(237, 237, 237)",
+              "borderRadius": "8px",
+              "borderStyle": "solid",
+              "borderWidth": "1px",
+              "boxSizing": "border-box",
+              "height": "449px",
+              "objectFit": "cover"
+             },
+             "blockClientScript": "const slideshow_wrapper = this.closest(\"[data-slideshow]\")\n\nslideshow_wrapper.addEventListener(\"change_image_event\",(ev) => {\n  this.src = ev.detail;\n})",
+             "blockDataScript": "",
+             "blockId": "q7s5mftsr",
+             "blockName": "Selected Image",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [
+              {
+               "comesFrom": "blockDataScript",
+               "key": "initially_selected_image.url",
+               "property": "src",
+               "type": "attribute"
+              }
+             ],
+             "element": "img",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {
+              "aspectRatio": "1/1"
+             },
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "center",
+              "alignSelf": "stretch",
+              "display": "grid",
+              "gap": "5px",
+              "gridAutoColumns": "minmax(0, 1fr)",
+              "gridTemplateColumns": "repeat(4, minmax(0, 1fr))",
+              "width": "100%"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "agmz6x6k2",
+             "blockName": "Repeater",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "border": "1px solid  #EDEDED",
+                "borderColor": "rgb(237, 237, 237)",
+                "borderRadius": "8px",
+                "borderStyle": "solid",
+                "borderWidth": "1px",
+                "boxSizing": "border-box",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": "10px",
+                "height": "105px",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "width": "105px"
+               },
+               "blockClientScript": "const slideshow_wrapper = this.closest(\"[data-slideshow]\")\nconst change_image_event = new CustomEvent(\"change_image_event\", {detail: props[\"image_url\"]})\nthis.addEventListener(\"click\",() => {\n  slideshow_wrapper.dispatchEvent(change_image_event);\n})",
+               "blockDataScript": "",
+               "blockId": "mpnrwsqyy",
+               "blockName": "Item",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {
+                  "src": ""
+                 },
+                 "baseStyles": {
+                  "height": "100%",
+                  "objectFit": "cover",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "zimt9z9b9",
+                 "blockName": "Slidehow Image",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [
+                  {
+                   "comesFrom": "blockDataScript",
+                   "key": "url",
+                   "property": "src",
+                   "type": "attribute"
+                  }
+                 ],
+                 "element": "img",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {
+                  "flex": "1 0 0"
+                 },
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "button",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {
+                "image_url": {
+                 "comesFrom": "blockDataScript",
+                 "isDynamic": true,
+                 "isPassedDown": false,
+                 "isStandard": false,
+                 "label": "",
+                 "value": "url"
+                }
+               },
+               "rawStyles": {
+                "aspectRatio": "1/1",
+                "flex": "1 0 0"
+               },
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": {
+              "comesFrom": "blockDataScript",
+              "key": "images",
+              "property": "innerHTML",
+              "type": "key"
+             },
+             "dynamicValues": [],
+             "element": "section",
+             "innerHTML": "",
+             "isRepeaterBlock": true,
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {
+            "data-slideshow": ""
+           },
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "section",
+           "innerHTML": "",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "flex-start",
+            "alignSelf": "stretch",
+            "display": "flex",
+            "flexDirection": "column",
+            "gap": "36px",
+            "justifyContent": "flex-start",
+            "position": "relative",
+            "width": "100%"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "ppzws7bda",
+           "blockName": "Item Details",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "display": "flex",
+              "flexDirection": "column",
+              "flexShrink": 0,
+              "gap": "12px",
+              "height": "98px",
+              "overflow": "hidden",
+              "width": "fit-content"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "5zc92lp2q",
+             "blockName": "Name and Price",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignSelf": "stretch",
+                "color": "rgb(0, 0, 0)",
+                "fontSize": "40px",
+                "fontWeight": "622",
+                "lineHeight": "140% "
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "zl70xmcvq",
+               "blockName": "Product Title",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [
+                {
+                 "comesFrom": "blockDataScript",
+                 "key": "item_details.details.web_item_name",
+                 "property": "innerHTML",
+                 "type": "key"
+                }
+               ],
+               "element": "p",
+               "innerHTML": "<p>Product Title</p>",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "display": "flex",
+                "gap": "16px"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "9zbxnnmku",
+               "blockName": "Price",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "color": "rgb(23, 23, 23)",
+                  "fontSize": "24px",
+                  "fontWeight": "600",
+                  "letterSpacing": "0.12px",
+                  "lineHeight": "115% "
+                 },
+                 "blockClientScript": "if (typeof props[\"formatted_price\"] == \"string\" && props[\"formatted_price\"]) {\n  this.innerText = props[\"formatted_price\"]\n} else {\n  this.innerText = \"\"\n}",
+                 "blockDataScript": "",
+                 "blockId": "a02gd4c8q",
+                 "blockName": "Price",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [
+                  {
+                   "comesFrom": "blockDataScript",
+                   "key": "item_details.price.formatted_price",
+                   "property": "innerHTML",
+                   "type": "key"
+                  }
+                 ],
+                 "element": "p",
+                 "innerHTML": "<p>₹998.00</p>",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignSelf": "stretch",
+                  "borderColor": "rgb(0, 0, 0)",
+                  "borderStyle": "solid",
+                  "borderWidth": "1px",
+                  "width": "0"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "0vlwljleh",
+                 "blockName": "Divider",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "svg",
+                 "innerHTML": "<svg width=\"1\" height=\"28\" viewBox=\"0 0 1 28\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M0.5 0V28\" stroke=\"black\"/>\n</svg>\n",
+                 "mobileStyles": {},
+                 "originalElement": "__raw_html__",
+                 "props": {},
+                 "rawStyles": {
+                  "stroke": " #000",
+                  "strokeWidth": "1px"
+                 },
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "display": "flex",
+                  "gap": "8px"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "eg79gn66l",
+                 "blockName": "Product Review",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "display": "flex",
+                    "gap": "4px",
+                    "overflowX": "hidden",
+                    "overflowY": "hidden"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "h6ns59smx",
+                   "blockName": "Stars",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "height": "20px",
+                      "width": "20px"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "dfudsv0mv",
+                     "blockName": "icon/solid/star",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "svg",
+                     "innerHTML": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M9.35718 2.57176C9.64867 2.0874 10.3508 2.08742 10.6423 2.57176L13.0281 6.53562L17.5359 7.57957C18.0866 7.70717 18.3029 8.37534 17.9324 8.80223L14.9002 12.2964L15.2996 16.9057C15.3484 17.4688 14.7809 17.8817 14.2605 17.6616L9.99976 15.8559L5.74 17.6616C5.21947 17.8821 4.65108 17.4689 4.69996 16.9057L5.09937 12.2964L2.06715 8.80223C1.6966 8.37536 1.91302 7.70722 2.46363 7.57957L6.97144 6.53562L9.35718 2.57176Z\" fill=\"#171717\"/>\n</svg>\n",
+                     "mobileStyles": {},
+                     "originalElement": "__raw_html__",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    },
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "height": "20px",
+                      "width": "20px"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "kxi3a0p3i",
+                     "blockName": "icon/solid/star",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "svg",
+                     "innerHTML": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M9.35718 2.57176C9.64867 2.0874 10.3508 2.08742 10.6423 2.57176L13.0281 6.53562L17.5359 7.57957C18.0866 7.70717 18.3029 8.37534 17.9324 8.80223L14.9002 12.2964L15.2996 16.9057C15.3484 17.4688 14.7809 17.8817 14.2605 17.6616L9.99976 15.8559L5.74 17.6616C5.21947 17.8821 4.65108 17.4689 4.69996 16.9057L5.09937 12.2964L2.06715 8.80223C1.6966 8.37536 1.91302 7.70722 2.46363 7.57957L6.97144 6.53562L9.35718 2.57176Z\" fill=\"#171717\"/>\n</svg>\n",
+                     "mobileStyles": {},
+                     "originalElement": "__raw_html__",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    },
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "height": "20px",
+                      "width": "20px"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "hwuafvn17",
+                     "blockName": "icon/solid/star",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "svg",
+                     "innerHTML": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M9.35718 2.57176C9.64867 2.0874 10.3508 2.08742 10.6423 2.57176L13.0281 6.53562L17.5359 7.57957C18.0866 7.70717 18.3029 8.37534 17.9324 8.80223L14.9002 12.2964L15.2996 16.9057C15.3484 17.4688 14.7809 17.8817 14.2605 17.6616L9.99976 15.8559L5.74 17.6616C5.21947 17.8821 4.65108 17.4689 4.69996 16.9057L5.09937 12.2964L2.06715 8.80223C1.6966 8.37536 1.91302 7.70722 2.46363 7.57957L6.97144 6.53562L9.35718 2.57176Z\" fill=\"#171717\"/>\n</svg>\n",
+                     "mobileStyles": {},
+                     "originalElement": "__raw_html__",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    },
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "height": "20px",
+                      "width": "20px"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "jg0gwiqio",
+                     "blockName": "icon/solid/star",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "svg",
+                     "innerHTML": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M9.35718 2.57176C9.64867 2.0874 10.3508 2.08742 10.6423 2.57176L13.0281 6.53562L17.5359 7.57957C18.0866 7.70717 18.3029 8.37534 17.9324 8.80223L14.9002 12.2964L15.2996 16.9057C15.3484 17.4688 14.7809 17.8817 14.2605 17.6616L9.99976 15.8559L5.74 17.6616C5.21947 17.8821 4.65108 17.4689 4.69996 16.9057L5.09937 12.2964L2.06715 8.80223C1.6966 8.37536 1.91302 7.70722 2.46363 7.57957L6.97144 6.53562L9.35718 2.57176Z\" fill=\"#171717\"/>\n</svg>\n",
+                     "mobileStyles": {},
+                     "originalElement": "__raw_html__",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    },
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "height": "20px",
+                      "width": "20px"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "4rcnmy0t8",
+                     "blockName": "icon/line/star",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "svg",
+                     "innerHTML": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M9.12325 2.12491C9.5119 1.47917 10.4474 1.47922 10.8361 2.12491L13.0607 5.8212C13.2004 6.05292 13.429 6.21913 13.6926 6.28018L17.8957 7.25284C18.6292 7.42342 18.9186 8.31374 18.425 8.88272L15.5969 12.1405L15.5344 12.2206C15.3993 12.4125 15.3352 12.6468 15.3557 12.8827L15.7287 17.1806C15.7894 17.8841 15.1274 18.412 14.4729 18.2333L14.342 18.1884L10.3703 16.5048C10.1212 16.3993 9.83921 16.3995 9.59004 16.5048L5.61739 18.1884L5.48653 18.2333C4.83183 18.4123 4.16988 17.8843 4.23067 17.1806L4.60372 12.8827C4.62707 12.6132 4.53969 12.3449 4.36251 12.1405L1.53438 8.88272C1.07152 8.34907 1.2969 7.53285 1.93184 7.29288L2.06465 7.25284L6.2668 6.28018C6.49741 6.22668 6.70134 6.09293 6.842 5.90518L6.89864 5.8212L9.12325 2.12491ZM7.75508 6.33682C7.47597 6.8005 7.02054 7.13148 6.49336 7.25381L2.29024 8.22745L5.11836 11.4853C5.47302 11.8942 5.64661 12.4304 5.59981 12.9696L5.22676 17.2675L9.19942 15.5849C9.69803 15.3737 10.2614 15.3736 10.76 15.5849L14.7326 17.2675L14.3596 12.9696C14.3128 12.4301 14.487 11.8942 14.842 11.4853L17.6691 8.22745L13.467 7.25381C12.9396 7.13167 12.4836 6.80055 12.2043 6.33682L9.97969 2.64053L7.75508 6.33682Z\" fill=\"#171717\"/>\n</svg>\n",
+                     "mobileStyles": {},
+                     "originalElement": "__raw_html__",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "section",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "color": "rgb(0, 0, 0)",
+                    "fontSize": "14px",
+                    "fontWeight": "420",
+                    "letterSpacing": "0.28px",
+                    "lineHeight": "115% ",
+                    "textAlign": "center"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "ib531zf3y",
+                   "blockName": "Text",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "p",
+                   "innerHTML": "(4 stars) • 10 reviews",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "section",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {
+                "formatted_price": {
+                 "comesFrom": "blockDataScript",
+                 "isDynamic": true,
+                 "isPassedDown": true,
+                 "isStandard": false,
+                 "label": "",
+                 "value": "item_details.price.formatted_price"
+                }
+               },
+               "rawStyles": {},
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "div",
+             "mobileStyles": {},
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "display": "flex",
+              "flexDirection": "column",
+              "flexShrink": 0,
+              "gap": "36px",
+              "height": "fit-content",
+              "overflow": "hidden",
+              "width": "100%"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "sat7q82z6",
+             "blockName": "Cart Options",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "flex-start",
+                "display": "flex",
+                "flexDirection": "column",
+                "gap": "16px"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "if bool(props[\"has_variant\"]):\n  variants = frappe.call(\"webshop.webshop.variant_selector.utils.get_attributes_and_values\", item_code=props[\"variant_template_item_code\"])\n\n  for variant in variants:\n    variant[\"values\"] = [{\"name\": name} for name in variant[\"values\"]]\n  block.variants = variants",
+               "blockId": "7q7iogb9j",
+               "blockName": "Variant Selector",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "flexShrink": 0,
+                  "gap": "16px",
+                  "overflow": "hidden",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "oaswq288c",
+                 "blockName": "repeater",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "alignItems": "flex-start",
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "gap": "12px"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "65b7wfgpu",
+                   "blockName": "Variant",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "alignItems": "flex-start",
+                      "display": "flex",
+                      "justifyContent": "space-between",
+                      "width": "100%"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "c7wzfjm1s",
+                     "blockName": "Attribute",
+                     "children": [
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "color": "rgb(0, 0, 0)",
+                        "fontSize": "14px",
+                        "fontWeight": "600",
+                        "letterSpacing": "0.21px",
+                        "lineHeight": "115% "
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "pjy20i2t4",
+                       "blockName": "Select Size",
+                       "children": [],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [
+                        {
+                         "comesFrom": "blockDataScript",
+                         "key": "attribute",
+                         "property": "innerHTML",
+                         "type": "key"
+                        }
+                       ],
+                       "element": "p",
+                       "innerHTML": "<p>Select Size</p>",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "tabletStyles": {}
+                      }
+                     ],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "section",
+                     "innerHTML": "",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    },
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "alignItems": "flex-start",
+                      "display": "flex",
+                      "gap": "12px",
+                      "width": "100%"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "0zd4h3j67",
+                     "blockName": "Values",
+                     "children": [
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "alignItems": "center",
+                        "border": "1px solid  #E2E2E2",
+                        "borderColor": "rgb(226, 226, 226)",
+                        "borderRadius": "8px",
+                        "borderStyle": "solid",
+                        "borderWidth": "1px",
+                        "boxSizing": "border-box",
+                        "display": "flex",
+                        "gap": "4px",
+                        "height": "40px",
+                        "justifyContent": "center",
+                        "minWidth": "66px",
+                        "padding": "6px 8px"
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "58kwo3ypp",
+                       "blockName": "tag",
+                       "children": [
+                        {
+                         "activeState": null,
+                         "attributes": {},
+                         "baseStyles": {
+                          "color": "rgb(56, 56, 56)",
+                          "flexGrow": 0,
+                          "flexShrink": 0,
+                          "fontSize": "14px",
+                          "fontWeight": "420",
+                          "letterSpacing": "0.28px",
+                          "lineHeight": "115% "
+                         },
+                         "blockClientScript": "",
+                         "blockDataScript": "",
+                         "blockId": "36lci16os",
+                         "blockName": "Name",
+                         "children": [],
+                         "classes": [],
+                         "customAttributes": {},
+                         "dataKey": null,
+                         "dynamicValues": [
+                          {
+                           "comesFrom": "blockDataScript",
+                           "key": "name",
+                           "property": "innerHTML",
+                           "type": "key"
+                          }
+                         ],
+                         "element": "p",
+                         "innerHTML": "<p>2XL</p>",
+                         "mobileStyles": {},
+                         "originalElement": "",
+                         "props": {},
+                         "rawStyles": {},
+                         "tabletStyles": {}
+                        }
+                       ],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [],
+                       "element": "div",
+                       "innerHTML": "",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "tabletStyles": {}
+                      }
+                     ],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": {
+                      "comesFrom": "blockDataScript",
+                      "key": "values",
+                      "property": "innerHTML",
+                      "type": "key"
+                     },
+                     "dynamicValues": [],
+                     "element": "section",
+                     "innerHTML": "",
+                     "isRepeaterBlock": true,
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "section",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": {
+                  "comesFrom": "blockDataScript",
+                  "key": "variants",
+                  "property": "innerHTML",
+                  "type": "key"
+                 },
+                 "dynamicValues": [],
+                 "element": "div",
+                 "isRepeaterBlock": true,
+                 "mobileStyles": {},
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "section",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {
+                "has_variant": {
+                 "comesFrom": "blockDataScript",
+                 "isDynamic": true,
+                 "isPassedDown": false,
+                 "isStandard": false,
+                 "label": "",
+                 "propOptions": {},
+                 "value": "show_variant_selector"
+                },
+                "variant_template_item_code": {
+                 "comesFrom": "blockDataScript",
+                 "isDynamic": true,
+                 "isPassedDown": false,
+                 "isStandard": false,
+                 "label": "",
+                 "value": "variant_template_item_code"
+                }
+               },
+               "rawStyles": {},
+               "tabletStyles": {},
+               "visibilityCondition": {
+                "comesFrom": "blockDataScript",
+                "key": "show_variant_selector"
+               }
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "flex-start",
+                "alignSelf": "stretch",
+                "display": "flex",
+                "flexDirection": "column",
+                "gap": "24px",
+                "width": "100%"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "rf5t0lazx",
+               "blockName": "Cart Options",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "flex-start",
+                  "alignSelf": "stretch",
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "gap": "12px",
+                  "justifyContent": "center",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "bb4hj4azs",
+                 "blockName": "Frame 55",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "alignItems": "flex-start",
+                    "alignSelf": "stretch",
+                    "display": "flex",
+                    "gap": "20px",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "jyly4web0",
+                   "blockName": "Frame 206",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "alignItems": "center",
+                      "backgroundColor": "rgb(243, 243, 243)",
+                      "borderRadius": "10px",
+                      "display": "flex",
+                      "height": "40px",
+                      "justifyContent": "space-between",
+                      "padding": "10px 12px",
+                      "width": "116px"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "uqpcu1xjq",
+                     "blockName": "button",
+                     "children": [
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "alignItems": "center",
+                        "display": "flex",
+                        "gap": "8px"
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "o6vk9cryk",
+                       "blockName": "prefix",
+                       "children": [
+                        {
+                         "activeState": null,
+                         "attributes": {},
+                         "baseStyles": {
+                          "height": "20px",
+                          "width": "100%"
+                         },
+                         "blockClientScript": "",
+                         "blockDataScript": "",
+                         "blockId": "6y0wxzsrr",
+                         "blockName": "icon/line/dash",
+                         "children": [],
+                         "classes": [],
+                         "customAttributes": {},
+                         "dataKey": null,
+                         "dynamicValues": [],
+                         "element": "svg",
+                         "innerHTML": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M15 9.5C15.2761 9.5 15.5 9.72386 15.5 10C15.5 10.2761 15.2761 10.5 15 10.5H5C4.72386 10.5 4.50001 10.2761 4.5 10C4.5 9.72386 4.72386 9.5 5 9.5H15Z\" fill=\"#383838\"/>\n</svg>\n",
+                         "mobileStyles": {},
+                         "originalElement": "__raw_html__",
+                         "props": {},
+                         "rawStyles": {},
+                         "tabletStyles": {}
+                        }
+                       ],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [],
+                       "element": "section",
+                       "innerHTML": "",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "tabletStyles": {}
+                      },
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "color": "rgb(56, 56, 56)",
+                        "fontSize": "16px",
+                        "fontWeight": "500",
+                        "letterSpacing": "0.24px",
+                        "lineHeight": "115% "
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "izymysemx",
+                       "blockName": "Discover",
+                       "children": [],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [],
+                       "element": "p",
+                       "innerHTML": "<p>1</p>",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "tabletStyles": {}
+                      },
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "alignItems": "flex-start",
+                        "display": "flex",
+                        "gap": "8px"
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "zdfuvmwb3",
+                       "blockName": "suffix",
+                       "children": [
+                        {
+                         "activeState": null,
+                         "attributes": {},
+                         "baseStyles": {
+                          "height": "20px",
+                          "width": "100%"
+                         },
+                         "blockClientScript": "",
+                         "blockDataScript": "",
+                         "blockId": "2ytyu2uoi",
+                         "blockName": "icon/line/small-add",
+                         "children": [],
+                         "classes": [],
+                         "customAttributes": {},
+                         "dataKey": null,
+                         "dynamicValues": [],
+                         "element": "svg",
+                         "innerHTML": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M9.99707 3.5625C10.2732 3.5625 10.4971 3.78636 10.4971 4.0625V9.49707H15.9316C16.2077 9.49713 16.4316 9.72098 16.4316 9.99707C16.4316 10.2732 16.2077 10.497 15.9316 10.4971H10.4971V15.9316C10.497 16.2077 10.2732 16.4316 9.99707 16.4316C9.72098 16.4316 9.49713 16.2077 9.49707 15.9316V10.4971H4.0625C3.78636 10.4971 3.5625 10.2732 3.5625 9.99707C3.56251 9.72094 3.78637 9.49707 4.0625 9.49707H9.49707V4.0625C9.49707 3.78637 9.72094 3.56251 9.99707 3.5625Z\" fill=\"#383838\"/>\n</svg>\n",
+                         "mobileStyles": {},
+                         "originalElement": "__raw_html__",
+                         "props": {},
+                         "rawStyles": {},
+                         "tabletStyles": {}
+                        }
+                       ],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [],
+                       "element": "section",
+                       "innerHTML": "",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "tabletStyles": {}
+                      }
+                     ],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "div",
+                     "innerHTML": "",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    },
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "alignItems": "center",
+                      "border": "1px solid  #E2E2E2",
+                      "borderColor": "rgb(226, 226, 226)",
+                      "borderRadius": "10px",
+                      "borderStyle": "solid",
+                      "borderWidth": "1px",
+                      "boxSizing": "border-box",
+                      "display": "flex",
+                      "gap": "8px",
+                      "height": "40px",
+                      "justifyContent": "center",
+                      "padding": "10px 12px",
+                      "width": "434px"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "q1pae5z63",
+                     "blockName": "button",
+                     "children": [
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "color": "rgb(56, 56, 56)",
+                        "fontSize": "16px",
+                        "fontWeight": "500",
+                        "letterSpacing": "0.24px",
+                        "lineHeight": "115% "
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "bbpsxpmxu",
+                       "blockName": "Discover",
+                       "children": [],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [],
+                       "element": "p",
+                       "innerHTML": "Add to cart",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "tabletStyles": {}
+                      }
+                     ],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "div",
+                     "innerHTML": "",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {
+                      "flex": "1 0 0"
+                     },
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "section",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "alignSelf": "stretch",
+                    "backgroundColor": "rgb(23, 23, 23)",
+                    "borderRadius": "10px",
+                    "display": "flex",
+                    "gap": "8px",
+                    "height": "40px",
+                    "justifyContent": "center",
+                    "padding": "10px 12px",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "tpqwbzhjj",
+                   "blockName": "button",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "color": "rgb(255, 255, 255)",
+                      "fontSize": "16px",
+                      "fontWeight": "500",
+                      "letterSpacing": "0.24px",
+                      "lineHeight": "115% "
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "c10ubw5ho",
+                     "blockName": "Discover",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "p",
+                     "innerHTML": "Buy now",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "div",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {},
+                   "visibilityCondition": {
+                    "comesFrom": "blockDataScript",
+                    "key": "cart_settings.enable_checkout"
+                   }
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "section",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {},
+               "visibilityCondition": {
+                "comesFrom": "blockDataScript",
+                "key": "cart_settings.enabled"
+               }
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignSelf": "stretch",
+                "color": "rgb(0, 0, 0)",
+                "fontSize": "18px",
+                "fontWeight": "400",
+                "letterSpacing": "0.2px",
+                "lineHeight": "148% "
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "xug4zpzvp",
+               "blockName": "Engineered for deep work and comfort. This heavyweight fleece hoodie features the iconic Frappe logo. Minimalist design for the modern developer. Pre-shrunk to maintain fit.",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [
+                {
+                 "comesFrom": "blockDataScript",
+                 "key": "item_details.details.web_long_description",
+                 "property": "innerHTML",
+                 "type": "key"
+                }
+               ],
+               "element": "p",
+               "innerHTML": "<p>Engineered for deep work and comfort. This heavyweight fleece hoodie features the iconic Frappe logo. Minimalist design for the modern developer. Pre-shrunk to maintain fit.</p>",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "div",
+             "mobileStyles": {},
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "display": "flex",
+              "flexDirection": "column",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "gap": "20px",
+              "height": "fit-content",
+              "overflow": "hidden",
+              "position": "relative",
+              "width": "100%"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "h89btigk7",
+             "blockName": "More Details",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "display": "flex",
+                "flexDirection": "column",
+                "flexShrink": 0,
+                "gap": "12px",
+                "overflow": "hidden",
+                "position": "static"
+               },
+               "blockClientScript": "this.querySelectorAll(\"style\").forEach((node) => node.remove())\nconst style_tag = document.createElement(\"style\")\nstyle_tag.textContent = \n`\n[data-items] .spec-row:nth-child(even) {\n  background-color: #F4F4F4;\n}\n`\n\nthis.appendChild(style_tag)",
+               "blockDataScript": "",
+               "blockId": "1muu7477x",
+               "blockName": "Specifications",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "fontSize": "18px",
+                  "fontWeight": "600",
+                  "height": "fit-content",
+                  "lineHeight": "1.4",
+                  "minWidth": "10px",
+                  "position": "static",
+                  "width": "fit-content"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "nhc61t0n2",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "p",
+                 "innerHTML": "<p>Specifications</p>",
+                 "mobileStyles": {},
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "flexShrink": 0,
+                  "overflow": "hidden",
+                  "position": "static",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "umr39vga3",
+                 "blockName": "Table",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexShrink": 0,
+                    "overflow": "hidden",
+                    "position": "relative",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "9f9d562kl",
+                   "blockName": "Items",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "borderColor": "#e2e2e2",
+                      "borderStyle": "solid",
+                      "borderWidth": "1px",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "flexShrink": 0,
+                      "height": "fit-content",
+                      "overflow": "hidden",
+                      "position": "relative",
+                      "width": "100%"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "de8iw7a24",
+                     "blockName": "Row",
+                     "children": [
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "display": "flex",
+                        "flexDirection": "column",
+                        "flexShrink": 0,
+                        "height": "fit-content",
+                        "maxHeight": "100%",
+                        "overflow": "hidden",
+                        "padding": "10px",
+                        "position": "static",
+                        "width": "33%"
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "qh9vjwv16",
+                       "blockName": "Label",
+                       "children": [
+                        {
+                         "activeState": null,
+                         "attributes": {},
+                         "baseStyles": {
+                          "fontSize": "16px",
+                          "height": "fit-content",
+                          "lineHeight": "1.4",
+                          "minWidth": "10px",
+                          "position": "static",
+                          "width": "fit-content"
+                         },
+                         "blockClientScript": "",
+                         "blockDataScript": "",
+                         "blockId": "uhgsp1aug",
+                         "children": [],
+                         "classes": [],
+                         "customAttributes": {},
+                         "dataKey": null,
+                         "dynamicValues": [
+                          {
+                           "comesFrom": "blockDataScript",
+                           "key": "label",
+                           "property": "innerHTML",
+                           "type": "key"
+                          }
+                         ],
+                         "element": "p",
+                         "innerHTML": "<p>Text</p>",
+                         "mobileStyles": {},
+                         "props": {},
+                         "rawStyles": {},
+                         "tabletStyles": {}
+                        }
+                       ],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [],
+                       "element": "div",
+                       "mobileStyles": {},
+                       "props": {},
+                       "rawStyles": {},
+                       "tabletStyles": {}
+                      },
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "display": "flex",
+                        "flexDirection": "column",
+                        "flexShrink": 0,
+                        "height": "fit-content",
+                        "maxHeight": "100%",
+                        "overflow": "hidden",
+                        "padding": "10px",
+                        "position": "static",
+                        "width": "67%"
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "13hmuotuf",
+                       "blockName": "Description",
+                       "children": [
+                        {
+                         "activeState": null,
+                         "attributes": {},
+                         "baseStyles": {
+                          "fontSize": "16px",
+                          "height": "fit-content",
+                          "lineHeight": "1.4",
+                          "minWidth": "10px",
+                          "position": "static",
+                          "width": "fit-content"
+                         },
+                         "blockClientScript": "",
+                         "blockDataScript": "",
+                         "blockId": "07og2739w",
+                         "children": [],
+                         "classes": [],
+                         "customAttributes": {},
+                         "dataKey": null,
+                         "dynamicValues": [
+                          {
+                           "comesFrom": "blockDataScript",
+                           "key": "description",
+                           "property": "innerHTML",
+                           "type": "key"
+                          }
+                         ],
+                         "element": "p",
+                         "innerHTML": "<p>Text</p>",
+                         "mobileStyles": {},
+                         "props": {},
+                         "rawStyles": {},
+                         "tabletStyles": {}
+                        }
+                       ],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [],
+                       "element": "div",
+                       "mobileStyles": {},
+                       "props": {},
+                       "rawStyles": {},
+                       "tabletStyles": {}
+                      }
+                     ],
+                     "classes": [
+                      "spec-row"
+                     ],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "div",
+                     "mobileStyles": {},
+                     "props": {},
+                     "rawStyles": {
+                      "border-left": "0px",
+                      "border-right": "0px",
+                      "border-top": "0px"
+                     },
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {
+                    "data-items": ""
+                   },
+                   "dataKey": {
+                    "comesFrom": "blockDataScript",
+                    "key": "item_details.details.website_specifications",
+                    "property": "innerHTML",
+                    "type": "key"
+                   },
+                   "dynamicValues": [],
+                   "element": "div",
+                   "isRepeaterBlock": true,
+                   "mobileStyles": {},
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "div",
+                 "mobileStyles": {},
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "div",
+               "mobileStyles": {},
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {},
+               "visibilityCondition": {
+                "comesFrom": "blockDataScript",
+                "key": "has_specs"
+               }
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "flex-start",
+                "alignSelf": "stretch",
+                "display": "flex",
+                "flexDirection": "column",
+                "width": "100%"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "fst0573gb",
+               "blockName": "Accordion Sections",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "alignSelf": "stretch",
+                  "borderColor": "#e2e2e2",
+                  "borderStyle": "solid",
+                  "borderWidth": "1px",
+                  "boxSizing": "border-box",
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "justifyContent": "space-between",
+                  "padding": "16px 16px 16px 0",
+                  "position": "static",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "\n",
+                 "blockDataScript": "",
+                 "blockId": "2wyrjwbvg",
+                 "blockName": "Section",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "flexShrink": 0,
+                    "height": "fit-content",
+                    "justifyContent": "space-between",
+                    "overflow": "hidden",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "let is_open = false;\n\nfunction new_custom_event() {\n  const custom_event = new CustomEvent(\"state_change\", { detail: !is_open });\n  return custom_event;\n}\n\nthis.addEventListener(\"click\", () => {\n  this.closest(\"[data-wrapper]\").dispatchEvent(new_custom_event());\n  is_open = !is_open;\n});",
+                   "blockDataScript": "",
+                   "blockId": "wr6cstkly",
+                   "blockName": "Label",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "color": "rgb(0, 0, 0)",
+                      "fontSize": "16px",
+                      "fontWeight": "600",
+                      "letterSpacing": "0.24px",
+                      "lineHeight": "150% "
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "kaowm359y",
+                     "blockName": "Details",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [
+                      {
+                       "comesFrom": "blockDataScript",
+                       "key": "label",
+                       "property": "innerHTML",
+                       "type": "key"
+                      }
+                     ],
+                     "element": "p",
+                     "innerHTML": "<p>Details</p>",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    },
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {},
+                     "blockClientScript": "const lucidePromise = import(\"https://esm.sh/lucide\");\n\nconst renderIcon = async () => {\n  // remove previous svgs\n  this.querySelectorAll(\"svg\").forEach(elem => elem.remove());\n  \n  const icon = document.createElement(\"i\");\n  icon.dataset.lucide = props.icon_name;\n  this.appendChild(icon);\n\n  const lucide = await lucidePromise;\n  const { createIcons } = lucide;\n\n  // convert kebab-case → PascalCase\n  const iconName = props.icon_name\n    .split(\"-\")\n    .map(w => w[0].toUpperCase() + w.slice(1))\n    .join(\"\");\n\n  const Icon = lucide[iconName];\n\n  createIcons({\n    icons: {\n      [iconName]: Icon\n    }\n  });\n};\n\n\nrenderIcon();\n\nconst wrapper = this.closest(\"[data-wrapper]\")\nif (wrapper) {\n  wrapper.addEventListener(\"state_change\", (ev) => {\n    if (ev.detail) {\n      this.style.transform = \"rotate(180deg)\";\n    } else {\n      this.style.transform = \"rotate(0deg)\";\n    }\n  });\n}",
+                     "blockDataScript": "",
+                     "blockId": "4s9sq1i3k",
+                     "blockName": "container",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "extendedFromComponent": "826df5a3c09b1b06",
+                     "mobileStyles": {},
+                     "props": {
+                      "icon_name": {
+                       "comesFrom": null,
+                       "isDynamic": false,
+                       "isPassedDown": true,
+                       "isStandard": true,
+                       "label": "Icon Name",
+                       "propOptions": {
+                        "isRequired": false,
+                        "options": {
+                         "defaultValue": "house"
+                        },
+                        "type": "string"
+                       },
+                       "value": "chevron-down"
+                      }
+                     },
+                     "rawStyles": {
+                      "transition": "all 0.1s ease-out"
+                     },
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "button",
+                   "mobileStyles": {},
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexShrink": 0,
+                    "height": "fit-content",
+                    "overflow": "hidden",
+                    "position": "static",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "const wrapper = this.closest(\"[data-wrapper]\");\n\nthis.style.maxHeight = \"0px\";\nif (wrapper) {\n  wrapper.addEventListener(\"state_change\", (ev) => {\n    if (ev.detail) {\n      this.style.maxHeight = \"240px\";\n    } else {\n      this.style.maxHeight = \"0px\";\n    }\n  });\n}\n",
+                   "blockDataScript": "",
+                   "blockId": "k46jynkvi",
+                   "blockName": "container",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "fontSize": "16px",
+                      "height": "fit-content",
+                      "lineHeight": "1.4",
+                      "minWidth": "10px",
+                      "paddingBottom": "10px",
+                      "paddingLeft": "0px",
+                      "paddingRight": "0px",
+                      "paddingTop": "10px",
+                      "position": "static",
+                      "width": "100%"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "n4eq6rcs7",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [
+                      {
+                       "comesFrom": "blockDataScript",
+                       "key": "content",
+                       "property": "innerHTML",
+                       "type": "key"
+                      }
+                     ],
+                     "element": "p",
+                     "innerHTML": "<p>Text</p>",
+                     "mobileStyles": {},
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "div",
+                   "mobileStyles": {},
+                   "props": {},
+                   "rawStyles": {
+                    "transition": "all 0.3s ease-out"
+                   },
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {
+                  "data-wrapper": ""
+                 },
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {
+                  "border-left": "0px",
+                  "border-right": "0px",
+                  "border-top": "0px"
+                 },
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": {
+                "comesFrom": "blockDataScript",
+                "key": "item_details.details.tabs",
+                "property": "innerHTML",
+                "type": "key"
+               },
+               "dynamicValues": [],
+               "element": "section",
+               "innerHTML": "",
+               "isRepeaterBlock": true,
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {},
+               "visibilityCondition": {
+                "comesFrom": "blockDataScript",
+                "key": "item_details.details.show_tabbed_section"
+               }
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "div",
+             "mobileStyles": {},
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "section",
+           "innerHTML": "",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "element": "section",
+         "innerHTML": "",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "tabletStyles": {}
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "element": "section",
+       "innerHTML": "",
+       "mobileStyles": {},
+       "originalElement": "",
+       "props": {},
+       "rawStyles": {},
+       "tabletStyles": {}
+      },
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {
+        "__last_display": "flex",
+        "display": "none",
+        "flexDirection": "row",
+        "flexShrink": 0,
+        "gap": "40px",
+        "height": "fit-content",
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%"
+       },
+       "blockClientScript": "",
+       "blockDataScript": "",
+       "blockId": "bkjzbssj7",
+       "blockName": "More Details",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {
+          "backgroundColor": "#ededed",
+          "display": "flex",
+          "flexDirection": "column",
+          "flexShrink": 0,
+          "height": "0px",
+          "overflow": "hidden",
+          "position": "static",
+          "width": "450px"
+         },
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "b3jquudli",
+         "blockName": "container",
+         "children": [],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "element": "div",
+         "mobileStyles": {},
+         "props": {},
+         "rawStyles": {},
+         "tabletStyles": {}
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "element": "div",
+       "mobileStyles": {},
+       "props": {},
+       "rawStyles": {},
+       "tabletStyles": {}
+      },
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {
+        "alignItems": "center",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": "32px",
+        "justifyContent": "center",
+        "width": "100%"
+       },
+       "blockClientScript": "",
+       "blockDataScript": "",
+       "blockId": "uctt7l7v6",
+       "blockName": "Similar Products",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {
+          "alignItems": "flex-start",
+          "display": "flex",
+          "flexDirection": "column",
+          "gap": "32px",
+          "width": "100%"
+         },
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "2xm425aoq",
+         "blockName": "Wrapper",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "flex-start",
+            "alignSelf": "stretch",
+            "display": "flex",
+            "justifyContent": "space-between",
+            "width": "100%"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "7b84t2w59",
+           "blockName": "Top Bar",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "center",
+              "display": "flex",
+              "gap": "16px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "76r8nbaxq",
+             "blockName": "Collection Name",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "color": "rgb(0, 0, 0)",
+                "fontSize": "32px",
+                "fontWeight": "600",
+                "letterSpacing": "0.48px",
+                "lineHeight": "160% "
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "sflgz4dkz",
+               "blockName": "Products",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [
+                {
+                 "comesFrom": "blockDataScript",
+                 "key": "collection.collection_name",
+                 "property": "innerHTML",
+                 "type": "key"
+                }
+               ],
+               "element": "p",
+               "innerHTML": "<p>Similar Products</p>",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "section",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "section",
+           "innerHTML": "",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "flex-start",
+            "alignSelf": "stretch",
+            "display": "grid",
+            "gap": "24px",
+            "gridAutoColumns": "minmax(0, 1fr)",
+            "gridTemplateColumns": "repeat(4, minmax(0, 1fr))",
+            "width": "100%"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "igjxu6g2p",
+           "blockName": "Products",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "center",
+              "backgroundColor": "rgb(255, 255, 255)",
+              "borderRadius": "12px",
+              "display": "flex",
+              "gap": "10px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "block.price = frappe.call(\"webshop.webshop.api.get_item_price\", item_code=props[\"item_code\"])",
+             "blockId": "2vhi725vl",
+             "blockName": "Product Card",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "flex-start",
+                "display": "flex",
+                "flexDirection": "column",
+                "gap": "16px",
+                "width": "100%"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "hjili2xgz",
+               "blockName": "Frame 22",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "alignSelf": "stretch",
+                  "border": "1px solid  #E2E2E2",
+                  "borderColor": "rgb(226, 226, 226)",
+                  "borderRadius": "8px",
+                  "borderStyle": "solid",
+                  "borderWidth": "1px",
+                  "display": "flex",
+                  "gap": "10px",
+                  "height": "282px",
+                  "overflowX": "hidden",
+                  "overflowY": "hidden",
+                  "position": "relative",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "e1np5mudz",
+                 "blockName": "Frame 19",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {
+                    "src": "/assets/webshop/builder_assets/image.webp"
+                   },
+                   "baseStyles": {
+                    "alignSelf": "stretch",
+                    "objectFit": "cover"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "taxqiwla5",
+                   "blockName": "image 2",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [
+                    {
+                     "comesFrom": "blockDataScript",
+                     "key": "thumbnail",
+                     "property": "src",
+                     "type": "attribute"
+                    }
+                   ],
+                   "element": "img",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {
+                    "flex": "1 0 0"
+                   },
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "backgroundColor": "rgb(228, 250, 235)",
+                    "borderRadius": "5px",
+                    "display": "flex",
+                    "gap": "4px",
+                    "justifyContent": "center",
+                    "left": "10px",
+                    "padding": "3px 6px",
+                    "position": "absolute",
+                    "top": "10px"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "mvmxevuqz",
+                   "blockName": "tag",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "color": "rgb(19, 121, 73)",
+                      "fontSize": "12px",
+                      "fontWeight": "500",
+                      "letterSpacing": "0.24px",
+                      "lineHeight": "115% "
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "r1mvr29c7",
+                     "blockName": "Discover",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "p",
+                     "innerHTML": "<p>SALE</p>",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "div",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {
+                  "aspectRatio": "1/1"
+                 },
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "flex-start",
+                  "alignSelf": "stretch",
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "gap": "20px",
+                  "padding": "10px 0",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "g1m75irie",
+                 "blockName": "Frame 20",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "alignSelf": "stretch",
+                    "display": "flex",
+                    "justifyContent": "space-between",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "jt6mcxtde",
+                   "blockName": "Frame 188",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "color": "rgb(0, 0, 0)",
+                      "fontSize": "16px",
+                      "fontWeight": "500",
+                      "letterSpacing": "0.24px",
+                      "lineHeight": "115% "
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "ph83f127k",
+                     "blockName": "Product name",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [
+                      {
+                       "comesFrom": "blockDataScript",
+                       "key": "item_name",
+                       "property": "innerHTML",
+                       "type": "key"
+                      }
+                     ],
+                     "element": "p",
+                     "innerHTML": "<p>Product name</p>",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    },
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "color": "rgb(0, 0, 0)",
+                      "fontSize": "16px",
+                      "fontWeight": "500",
+                      "letterSpacing": "0.24px",
+                      "lineHeight": "115% "
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "xbpuey8vb",
+                     "blockName": "₹998",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [
+                      {
+                       "comesFrom": "blockDataScript",
+                       "key": "price.formatted_price_sales_uom",
+                       "property": "innerHTML",
+                       "type": "key"
+                      }
+                     ],
+                     "element": "p",
+                     "innerHTML": "<p>₹998</p>",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "section",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "alignSelf": "stretch",
+                    "backgroundColor": "rgb(243, 243, 243)",
+                    "borderRadius": " 8px",
+                    "display": "flex",
+                    "gap": "8px",
+                    "justifyContent": "center",
+                    "padding": "6px 8px",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "afdra8k94",
+                   "blockName": "button",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "color": "rgb(56, 56, 56)",
+                      "fontSize": "14px",
+                      "fontWeight": "420",
+                      "letterSpacing": "0.28px",
+                      "lineHeight": "115% "
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "2ttas09ll",
+                     "blockName": "Discover",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "p",
+                     "innerHTML": "<p>Add to cart</p>",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "div",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "section",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {
+                "flex": "1 0 0"
+               },
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [
+              {
+               "comesFrom": "blockDataScript",
+               "key": "website_item",
+               "property": "href",
+               "type": "attribute"
+              }
+             ],
+             "element": "a",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {
+              "item_code": {
+               "comesFrom": "blockDataScript",
+               "isDynamic": true,
+               "isPassedDown": true,
+               "isStandard": false,
+               "label": "",
+               "propOptions": {},
+               "value": "website_item"
+              }
+             },
+             "rawStyles": {
+              "flex": "1 0 0"
+             },
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": {
+            "comesFrom": "blockDataScript",
+            "key": "item_details.details.recommended_items",
+            "property": "innerHTML",
+            "type": "key"
+           },
+           "dynamicValues": [],
+           "element": "section",
+           "innerHTML": "",
+           "isRepeaterBlock": true,
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "element": "section",
+         "innerHTML": "",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "tabletStyles": {}
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "element": "section",
+       "innerHTML": "",
+       "mobileStyles": {},
+       "originalElement": "",
+       "props": {},
+       "rawStyles": {},
+       "tabletStyles": {}
+      }
+     ],
+     "classes": [],
+     "customAttributes": {},
+     "dataKey": null,
+     "dynamicValues": [],
+     "element": "section",
+     "innerHTML": "",
+     "mobileStyles": {},
+     "originalElement": "",
+     "props": {},
+     "rawStyles": {},
+     "tabletStyles": {}
+    },
+    {
+     "activeState": null,
+     "attributes": {},
+     "baseStyles": {},
+     "blockClientScript": "",
+     "blockDataScript": "",
+     "blockId": "fitc32r2s",
+     "blockName": "Footer",
+     "children": [
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {},
+       "blockClientScript": "",
+       "blockDataScript": "",
+       "blockId": "sv82l6zkn",
+       "blockName": "Frame 27",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "hnp9n97sa",
+         "blockName": "Frame 46",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "48oqapug1",
+           "blockName": "Frame 4",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "3ijj2mwas",
+             "blockName": "app logo",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "2iv3ncsbn",
+               "blockName": "Union",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "aqlijcteb",
+                 "blockName": "Vector",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "322d1281307af2af",
+                 "mobileStyles": {},
+                 "originalElement": "__raw_html__",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "6ln0lx5uk",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "iyzw2fkag",
+                 "blockName": "Vector",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "322d1281307af2af",
+                 "mobileStyles": {},
+                 "originalElement": "__raw_html__",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "bji5tvyel",
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "322d1281307af2af",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "noxl565wu",
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "322d1281307af2af",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "3wbkr9noe",
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "qrrfv0nz2",
+             "blockName": "Shop",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "322d1281307af2af",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "ofytrnmg9",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "322d1281307af2af",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "8fey2m53n",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "4td0e0ses",
+           "blockName": "Engineered for comfort. Designed for builders. The official merchandise store for the Frappe community.",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "322d1281307af2af",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "349h8s160",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "322d1281307af2af",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "c30oktp89",
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "cfh61s2du",
+         "blockName": "Frame 52",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "e6uj189ps",
+           "blockName": "Frame 49",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "24ralms8k",
+             "blockName": "Shop",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "322d1281307af2af",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "ezwers3vh",
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "ct9vjk1a2",
+             "blockName": "Frame 48",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "68xgexpdf",
+               "blockName": "New Arrivals",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "322d1281307af2af",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "kvi9a2mtp",
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "y8tohb87i",
+               "blockName": "Apparel",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "322d1281307af2af",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "q9vl9h7ot",
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "7n14j6pdt",
+               "blockName": "Accessories",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "322d1281307af2af",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "0wuatwlbx",
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "qrydc3p9t",
+               "blockName": "Gift cards",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "322d1281307af2af",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "55mckiue9",
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "322d1281307af2af",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "5cwfe21b4",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "322d1281307af2af",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "wpmrwapx6",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "a3vvngkw6",
+           "blockName": "Frame 50",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "wt72pomev",
+             "blockName": "Support",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "322d1281307af2af",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "yu2pcp4k7",
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "sjtjmksxt",
+             "blockName": "Frame 48",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "allg4ipl6",
+               "blockName": "Help Center",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "322d1281307af2af",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "c12in8y6l",
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "2sdipou0h",
+               "blockName": "Returns",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "322d1281307af2af",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "jf3r7lztn",
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "vq4naddh3",
+               "blockName": "Contact Us",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "322d1281307af2af",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "um51gzxee",
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "322d1281307af2af",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "h9by2vv77",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "322d1281307af2af",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "6geaqlhzh",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "l12uvzju7",
+           "blockName": "Frame 51",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "d0mx1ubto",
+             "blockName": "Legal",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "322d1281307af2af",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "1kkfn8jlf",
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "vqnsn18lm",
+             "blockName": "Frame 48",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "f7bqt65cl",
+               "blockName": "Privacy",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "322d1281307af2af",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "moslnn067",
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "o0c693uro",
+               "blockName": "Terms",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "322d1281307af2af",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "c32fjums4",
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "322d1281307af2af",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "aqv1en6ky",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "322d1281307af2af",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "25x2qvm2r",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "322d1281307af2af",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "kr2akrdl5",
+         "tabletStyles": {}
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "isChildOfComponent": "322d1281307af2af",
+       "mobileStyles": {},
+       "originalElement": "",
+       "props": {},
+       "rawStyles": {},
+       "referenceBlockId": "jgu386igh",
+       "tabletStyles": {}
+      }
+     ],
+     "classes": [],
+     "customAttributes": {},
+     "dataKey": null,
+     "dynamicValues": [],
+     "extendedFromComponent": "322d1281307af2af",
+     "mobileStyles": {},
+     "originalElement": "",
+     "props": {},
+     "rawStyles": {},
+     "tabletStyles": {}
+    }
+   ],
+   "classes": [],
+   "customAttributes": {},
+   "dataKey": null,
+   "draggable": false,
+   "dynamicValues": [],
+   "element": "div",
+   "mobileStyles": {},
+   "originalElement": "body",
+   "props": {},
+   "rawStyles": {},
+   "tabletStyles": {}
+  }
+ ],
+ "client_scripts": [],
+ "creation": "2026-03-17 18:09:43.139367",
+ "disable_indexing": 0,
+ "docstatus": 0,
+ "doctype": "Builder Page",
+ "draft_blocks": null,
+ "dynamic_route": 1,
+ "idx": 0,
+ "is_standard": 1,
+ "is_template": 0,
+ "modified": "2026-03-19 11:09:02.877440",
+ "modified_by": "Administrator",
+ "name": "page-358ab97f",
+ "owner": "Administrator",
+ "page_name": "page-358ab97f",
+ "page_title": "Item",
+ "preview": "/files/page-358ab97f-preview.webp?v=af3ae",
+ "project_folder": "webshop",
+ "published": 1,
+ "route": "item/:item_code"
+}

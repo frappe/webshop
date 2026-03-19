@@ -71,7 +71,7 @@ class ItemVariantsCacheManager:
 			.join(item)
 			.on(item.name == iva.parent)
 			.select(iva.parent, iva.attribute, iva.attribute_value)
-			.where((iva.variant_of == parent_item_code) & (item.disabled == 0))
+			.where((iva.variant_of == parent_item_code) & (item.disabled == 0) & (item.published_in_website))
 			.orderby(iva.name)
 		)
 		item_variants_data = query.run()
@@ -109,6 +109,7 @@ class ItemVariantsCacheManager:
 			frappe.cache().hdel(key, self.item_code)
 
 	def rebuild_cache(self):
+		print("Rebuilding cache...")
 		self.clear_cache()
 		enqueue_build_cache(self.item_code)
 
