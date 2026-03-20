@@ -5,6 +5,7 @@
 import json
 
 import frappe
+from frappe.model.document import Document
 from frappe.utils import cint
 
 from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
@@ -24,7 +25,8 @@ from webshop.webshop.utils.product import (
 	get_web_item_qty_in_stock,
 )
 from webshop.webshop.shopping_cart.cart import get_party
-
+from webshop.webshop.utils.query_builder import build_criterion, order_col_map, website_item
+from pypika import Order
 
 def is_empty(val):
 	return val in (None, "", [], {}, ())
@@ -57,10 +59,12 @@ def merge_dicts(primary, secondary):
 
 
 @frappe.whitelist(allow_guest=True)
-def has_permission_for_webshop(doctype: str = "Website Item", doc=None):
+def has_permission_for_webshop(
+	doctype: str = "Website Item", doc: Document | None = None
+):
 	if frappe.session.user == "Administrator":
 		return True
-	
+
 	if not frappe.db.get_single_value(
 		"Webshop Settings", "login_required_to_view_products"
 	):
@@ -75,6 +79,7 @@ def has_permission_for_webshop(doctype: str = "Website Item", doc=None):
 @frappe.whitelist(allow_guest=True)
 def get_product_filter_data(query_args=None):
 	"""
+	# Depricated in favor of list_items
 	Returns filtered products and discount filters.
 
 	Args:
@@ -147,6 +152,41 @@ def get_product_filter_data(query_args=None):
 @frappe.whitelist(allow_guest=True)
 def get_guest_redirect_on_action():
 	return frappe.db.get_single_value("Webshop Settings", "redirect_on_action")
+
+
+@frappe.whitelist(allow_guest=True)
+def list_items(
+	filters: dict | None = None,
+	limit: int = 20,
+	offset: int = 0,
+	order: dict | None = None,  # e.g. {"created_at": "desc"} or {"ranking": "asc"}
+) -> str:
+
+	if not has_permission_for_webshop():
+		frappe.throw_permission_error()
+
+	q = (
+		frappe.qb.from_(website_item)
+		.select(website_item.star)
+		.limit(limit)
+		.offset(offset)
+	)
+
+	if filters:
+		criterion = build_criterion(filters)
+		if criterion is not None:
+			q = q.where(criterion)
+
+	if order:
+		for field_name, direction in order.items():
+			col = order_col_map.get(field_name, website_item.field(field_name))
+			q = q.orderby(col, order=Order.desc if direction == "desc" else Order.asc)
+	else:
+		# default: ranking desc, then newest first
+		q = q.orderby(website_item.ranking, order=Order.desc)
+		q = q.orderby(website_item.creation, order=Order.desc)
+
+	return q.run(as_dict=True)
 
 
 @frappe.whitelist(allow_guest=True)
