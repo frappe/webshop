@@ -1438,7 +1438,7 @@
       "width": "100%"
      },
      "blockClientScript": "",
-     "blockDataScript": "web_item_code = frappe.form_dict.item_code\nif web_item_code:\n  details = frappe.call(\"webshop.webshop.api.get_item\", item_code=web_item_code)\n  \n  block.item_details = details.product_info\n  block.cart_settings = details.cart_settings\n\n  has_variants = block.item_details.get(\"details\").get(\"has_variants\", False)\n  variant_of = block.item_details.get(\"details\").get(\"variant_of\", None)\n\n  block.show_variant_selector = bool(has_variants or variant_of)\n  if has_variants or variant_of:\n    block.show_variant_selector = bool(has_variants or variant_of)\n    block.variant_template_item_code = block.item_details.get(\"details\").get(\"item_code\") if has_variants else variant_of\n\n  block.has_specs = bool(len(details.product_info.get(\"details\").get(\"website_specifications\")))\n\n  images = []\n  if details.product_info.get(\"details\").get(\"website_image\"):\n    images.append({\"url\": details.product_info.get(\"details\").get(\"website_image\")})\n  if len(block.item_details.get(\"slideshow\", {}).get(\"slideshow_items\", {})):\n    for item in block.item_details.get(\"slideshow\", {}).get(\"slideshow_items\", {}):\n      images.append({\"url\": item.get(\"image\")})\n  # images.extend(images)\n  block.images = images\n  block.initially_selected_image = images[0] if len(images) else None",
+     "blockDataScript": "web_item_code = frappe.form_dict.item_code\nif web_item_code:\n  details = frappe.call(\"webshop.webshop.api.get_item\", item_code=web_item_code)\n  \n  block.item_details = details.product_info\n  block.cart_settings = details.cart_settings\n\n  has_variants = block.item_details.get(\"details\").get(\"has_variants\", False)\n  variant_of = block.item_details.get(\"details\").get(\"variant_of\", None)\n\n  block.show_variant_selector = bool(has_variants or variant_of)\n  if has_variants or variant_of:\n    block.show_variant_selector = bool(has_variants or variant_of)\n    block.variant_template_item_code = block.item_details.get(\"details\").get(\"item_code\") if has_variants else variant_of\n\n  block.has_specs = bool(len(details.product_info.get(\"details\").get(\"website_specifications\")))\n\n  images = []\n  if details.product_info.get(\"details\").get(\"website_image\"):\n    images.append({\"url\": details.product_info.get(\"details\").get(\"website_image\")})\n  if len(block.item_details.get(\"slideshow\", {}).get(\"slideshow_items\", {})):\n    for item in block.item_details.get(\"slideshow\", {}).get(\"slideshow_items\", {}):\n      images.append({\"url\": item.get(\"image\")})\n  # images.extend(images)\n  block.images = images\n  block.initially_selected_image = images[0] if len(images) else None\n\n  if block.item_details.get(\"attributes\"):\n    selected_attribute = \",\".join([f'{{\"attribute\": \"{item.attribute}\", \"value\": \"{item.attribute_value}\"}}' for item in block.item_details.get(\"attributes\")])\n    block.selected_attribute = f\"[{selected_attribute}]\"",
      "blockId": "gpd4a30qk",
      "blockName": "Product Details",
      "children": [
@@ -2071,8 +2071,8 @@
                 "flexDirection": "column",
                 "gap": "16px"
                },
-               "blockClientScript": "",
-               "blockDataScript": "if bool(props[\"has_variant\"]):\n  variants = frappe.call(\"webshop.webshop.variant_selector.utils.get_attributes_and_values\", item_code=props[\"variant_template_item_code\"])\n\n  for variant in variants:\n    variant[\"values\"] = [{\"name\": name} for name in variant[\"values\"]]\n  block.variants = variants",
+               "blockClientScript": "const initially_attribute_values = JSON.parse(props[\"initally_selected_attribute\"])\n\nfor (const attribute of initially_attribute_values){\n  const event = new CustomEvent(\"selected-attribute\", {detail: attribute});\n  this.dispatchEvent(event);\n}",
+               "blockDataScript": "if bool(props[\"has_variant\"]):\n  variants = frappe.call(\"webshop.webshop.variant_selector.utils.get_attributes_and_values\", item_code=props[\"variant_template_item_code\"])\n\n  for index, variant in enumerate(variants):\n    variant[\"values\"] = [{\"index\": index, \"name\": name} for index, name in enumerate(variant[\"values\"])]\n    variants[index][\"index\"] = index\n  block.variants = variants",
                "blockId": "7q7iogb9j",
                "blockName": "Variant Selector",
                "children": [
@@ -2199,7 +2199,7 @@
                         "minWidth": "66px",
                         "padding": "6px 8px"
                        },
-                       "blockClientScript": "",
+                       "blockClientScript": "const variant_wrapper = this.closest(\"[data-variant-selector]\");\n\nvariant_wrapper.addEventListener(\"selected-attribute\", (ev) => {\n  if (\n    ev.detail.attribute == props[\"attribute\"] &&\n    ev.detail.value == props[\"value'\"]\n  ) {\n    this.style.background = \"rgb(56, 56, 56)\";\n    if (this.querySelector(\".value-name\")){\n      this.querySelector(\".value-name\").style.color = \"white\";\n    }\n  }\n});\n\nif (props[\"variant_index\"]) {\n  this.disabled = true\n  this.style.cursor = \"not-allowed\";\n  this.style.background = \"rgb(240,240,240)\";\n  this.querySelector(\"div\").style.color = \"rgb(128,128,128)\"\n}",
                        "blockDataScript": "",
                        "blockId": "58kwo3ypp",
                        "blockName": "tag",
@@ -2221,7 +2221,9 @@
                          "blockId": "36lci16os",
                          "blockName": "Name",
                          "children": [],
-                         "classes": [],
+                         "classes": [
+                          "value-name"
+                         ],
                          "customAttributes": {},
                          "dataKey": null,
                          "dynamicValues": [
@@ -2245,11 +2247,20 @@
                        "customAttributes": {},
                        "dataKey": null,
                        "dynamicValues": [],
-                       "element": "div",
+                       "element": "button",
                        "innerHTML": "",
                        "mobileStyles": {},
                        "originalElement": "",
-                       "props": {},
+                       "props": {
+                        "value'": {
+                         "comesFrom": "blockDataScript",
+                         "isDynamic": true,
+                         "isPassedDown": true,
+                         "isStandard": false,
+                         "label": "",
+                         "value": "name"
+                        }
+                       },
                        "rawStyles": {},
                        "tabletStyles": {}
                       }
@@ -2274,14 +2285,34 @@
                     }
                    ],
                    "classes": [],
-                   "customAttributes": {},
+                   "customAttributes": {
+                    "": ""
+                   },
                    "dataKey": null,
                    "dynamicValues": [],
                    "element": "section",
                    "innerHTML": "",
                    "mobileStyles": {},
                    "originalElement": "",
-                   "props": {},
+                   "props": {
+                    "attribute": {
+                     "comesFrom": "blockDataScript",
+                     "isDynamic": true,
+                     "isPassedDown": true,
+                     "isStandard": false,
+                     "label": "",
+                     "value": "attribute"
+                    },
+                    "variant_index": {
+                     "comesFrom": "blockDataScript",
+                     "isDynamic": true,
+                     "isPassedDown": true,
+                     "isStandard": false,
+                     "label": "",
+                     "propOptions": {},
+                     "value": "index"
+                    }
+                   },
                    "rawStyles": {},
                    "tabletStyles": {}
                   }
@@ -2304,7 +2335,9 @@
                 }
                ],
                "classes": [],
-               "customAttributes": {},
+               "customAttributes": {
+                "data-variant-selector": ""
+               },
                "dataKey": null,
                "dynamicValues": [],
                "element": "section",
@@ -2320,6 +2353,14 @@
                  "label": "",
                  "propOptions": {},
                  "value": "show_variant_selector"
+                },
+                "initally_selected_attribute": {
+                 "comesFrom": "blockDataScript",
+                 "isDynamic": true,
+                 "isPassedDown": true,
+                 "isStandard": false,
+                 "label": "",
+                 "value": "selected_attribute"
                 },
                 "variant_template_item_code": {
                  "comesFrom": "blockDataScript",
@@ -4653,13 +4694,13 @@
  "idx": 0,
  "is_standard": 1,
  "is_template": 0,
- "modified": "2026-03-19 11:09:02.877440",
+ "modified": "2026-03-23 00:18:47.292648",
  "modified_by": "Administrator",
  "name": "page-358ab97f",
  "owner": "Administrator",
  "page_name": "page-358ab97f",
  "page_title": "Item",
- "preview": "/files/page-358ab97f-preview.webp?v=af3ae",
+ "preview": "/files/page-358ab97f-preview.webp?v=e49f4",
  "project_folder": "webshop",
  "published": 1,
  "route": "item/:item_code"
