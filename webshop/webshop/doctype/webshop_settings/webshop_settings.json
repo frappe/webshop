@@ -336,7 +336,8 @@
    "label": "Guest Display Settings"
   },
   {
-   "description": "Link to redirect Guest on actions that need login such as add to cart, wishlist, etc. <b>E.g.: /login</b>",
+   "default": "/login",
+   "description": "Link to redirect Guest on actions that need login such as add to cart, wishlist, etc. Defaults to : /login",
    "fieldname": "redirect_on_action",
    "fieldtype": "Data",
    "label": "Redirect on Action"
@@ -387,7 +388,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-03-22 13:01:51.906319",
+ "modified": "2026-03-22 21:10:19.774960",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Webshop Settings",
@@ -408,6 +409,7 @@
    "role": "All"
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
