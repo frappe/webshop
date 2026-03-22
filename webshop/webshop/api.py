@@ -25,37 +25,13 @@ from webshop.webshop.utils.product import (
 	get_web_item_qty_in_stock,
 )
 from webshop.webshop.shopping_cart.cart import get_party
-from webshop.webshop.utils.query_builder import build_criterion, order_col_map, website_item
+from webshop.webshop.utils.query_builder import (
+	build_criterion,
+	merge_dicts,
+	order_col_map,
+	website_item,
+)
 from pypika import Order
-
-def is_empty(val):
-	return val in (None, "", [], {}, ())
-
-
-def merge_dicts(primary, secondary):
-	result = {}
-
-	keys = set(primary.keys()) | set(secondary.keys())
-
-	for key in keys:
-		v1 = primary.get(key)
-		v2 = secondary.get(key)
-
-		# Both are dicts → recurse
-		if isinstance(v1, dict) and isinstance(v2, dict):
-			result[key] = merge_dicts(v1, v2)
-
-		# Prefer non-empty
-		elif is_empty(v1) and not is_empty(v2):
-			result[key] = v2
-		elif not is_empty(v1) and is_empty(v2):
-			result[key] = v1
-
-		# Both non-empty → priority to primary
-		else:
-			result[key] = v1 if not is_empty(v1) else v2
-
-	return result
 
 
 @frappe.whitelist(allow_guest=True)
@@ -151,7 +127,7 @@ def get_product_filter_data(query_args=None):
 
 @frappe.whitelist(allow_guest=True)
 def get_guest_redirect_on_action():
-	return frappe.db.get_single_value("Webshop Settings", "redirect_on_action")
+	return frappe.db.get_single_value("Webshop Settings", "redirect_on_action") or "/login"
 
 
 @frappe.whitelist(allow_guest=True)
@@ -161,7 +137,6 @@ def list_items(
 	offset: int = 0,
 	order: dict | None = None,  # e.g. {"created_at": "desc"} or {"ranking": "asc"}
 ) -> str:
-
 	if not has_permission_for_webshop():
 		frappe.throw_permission_error()
 

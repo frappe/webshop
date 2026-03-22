@@ -4,7 +4,38 @@ from pypika import functions as fn
 from typing import Any
 from frappe.query_builder import DocType
 
-# ── Tables ────────────────────────────────────────────────────────────────────
+# misc. utils
+def is_empty(val):
+	return val in (None, "", [], {}, ())
+
+
+def merge_dicts(primary, secondary):
+	result = {}
+
+	keys = set(primary.keys()) | set(secondary.keys())
+
+	for key in keys:
+		v1 = primary.get(key)
+		v2 = secondary.get(key)
+
+		# Both are dicts → recurse
+		if isinstance(v1, dict) and isinstance(v2, dict):
+			result[key] = merge_dicts(v1, v2)
+
+		# Prefer non-empty
+		elif is_empty(v1) and not is_empty(v2):
+			result[key] = v2
+		elif not is_empty(v1) and is_empty(v2):
+			result[key] = v1
+
+		# Both non-empty → priority to primary
+		else:
+			result[key] = v1 if not is_empty(v1) else v2
+
+	return result
+# list_item helper code
+
+# Tables
 website_item = DocType("Website Item")
 item_table = DocType("Website Item Table")  # junction for both
 website_category = DocType("Website Category")
@@ -22,9 +53,8 @@ order_col_map = {
 	"title": website_item.web_item_name,
 	"name": website_item.name,
 }
-# ── OperatorMap ───────────────────────────────────────────────────────────────
 
-
+# OperatorMap
 def apply_operator_map(field: Field, value: Any) -> Criterion | None:
 	if not isinstance(value, dict):
 		if isinstance(value, list):
@@ -63,7 +93,6 @@ def _get_category_with_descendants(category_names: list[str]) -> list[str]:
 	if not category_names:
 		return []
 
-	# Step 1: get the lft/rgt bounds of the requested categories
 	bounds = (
 		frappe.qb.from_(website_category)
 		.select(website_category.lft, website_category.rgt)
@@ -73,8 +102,6 @@ def _get_category_with_descendants(category_names: list[str]) -> list[str]:
 	if not bounds:
 		return []
 
-	# Step 2: find all categories whose range falls within any of those bounds
-	# e.g. Wearables has lft=1, rgt=10 → find all cats with lft>=1 AND rgt<=10
 	range_criterion = None
 	for bound in bounds:
 		c = (website_category.lft >= bound["lft"]) & (
@@ -106,13 +133,11 @@ def _junction_subquery(ids: list, parenttype: str) -> object:
 	)
 
 
-# ── Recursive filter builder ──────────────────────────────────────────────────
-
-
+# Recursive filter builder
 def build_criterion(filters: dict) -> Criterion | None:
 	parts = []
 
-	# ── $and / $or (recursive) ────────────────────────────────────────────────
+	# $and / $or (recursive)
 	if "$and" in filters:
 		sub = [build_criterion(f) for f in filters["$and"]]
 		sub = [s for s in sub if s is not None]
@@ -131,7 +156,7 @@ def build_criterion(filters: dict) -> Criterion | None:
 				c = c | s
 			parts.append(c)
 
-	# ── Full-text search (q) ──────────────────────────────────────────────────
+	# Full-text search (q)
 	# searches: web_item_name, item_code, short_description
 	if "q" in filters:
 		q = f"%{filters['q']}%"
@@ -141,31 +166,31 @@ def build_criterion(filters: dict) -> Criterion | None:
 			| website_item.short_description.like(q)
 		)
 
-	# ── id (maps to `name` in Frappe) ─────────────────────────────────────────
+	# id (maps to `name` in Frappe)
 	if "id" in filters:
 		c = apply_operator_map(website_item.name, filters["id"])
 		if c:
 			parts.append(c)
 
-	# ── item_code ─────────────────────────────────────────────────────────────
+	# item_code
 	if "item_code" in filters:
 		c = apply_operator_map(website_item.item_code, filters["item_code"])
 		if c:
 			parts.append(c)
 
-	# ── handle (maps to `route`) ──────────────────────────────────────────────
+	# handle (maps to `route`)
 	if "handle" in filters:
 		c = apply_operator_map(website_item.route, filters["handle"])
 		if c:
 			parts.append(c)
 
-	# ── title (maps to `web_item_name`) ───────────────────────────────────────
+	# title (maps to `web_item_name`)
 	if "title" in filters:
 		c = apply_operator_map(website_item.web_item_name, filters["title"])
 		if c:
 			parts.append(c)
 
-	# ── published / status ────────────────────────────────────────────────────
+	# published / status
 	# accepts either bool/int (True/1) or medusa-style "published"/"draft"
 	if "published" in filters:
 		val = filters["published"]
@@ -179,29 +204,29 @@ def build_criterion(filters: dict) -> Criterion | None:
 			val = 1 if val == "published" else 0
 		parts.append(website_item.published == int(val))
 
-	# ── brand ─────────────────────────────────────────────────────────────────
+	# brand
 	if "brand" in filters:
 		c = apply_operator_map(website_item.brand, filters["brand"])
 		if c:
 			parts.append(c)
 
-	# ── item_group ────────────────────────────────────────────────────────────
+	# item_group
 	if "item_group" in filters:
 		c = apply_operator_map(website_item.item_group, filters["item_group"])
 		if c:
 			parts.append(c)
 
-	# ── variant_of ────────────────────────────────────────────────────────────
+	# variant_of
 	if "variant_of" in filters:
 		c = apply_operator_map(website_item.variant_of, filters["variant_of"])
 		if c:
 			parts.append(c)
 
-	# ── has_variants ──────────────────────────────────────────────────────────
+	# has_variants
 	if "has_variants" in filters:
 		parts.append(website_item.has_variants == int(filters["has_variants"]))
 
-	# ── created_at / updated_at ───────────────────────────────────────────────
+	# created_at / updated_at
 	for key, col in [
 		("created_at", website_item.creation),
 		("updated_at", website_item.modified),
@@ -211,7 +236,7 @@ def build_criterion(filters: dict) -> Criterion | None:
 			if c:
 				parts.append(c)
 
-	# ── collection ────────────────────────────────────────────────────────────────
+	# collection
 	# filters["collection"] = "Best Sellers" | ["Best Sellers", "Summer Sale"]
 	if "collection" in filters:
 		val = filters["collection"]
@@ -220,7 +245,7 @@ def build_criterion(filters: dict) -> Criterion | None:
 			website_item.name.isin(_junction_subquery(ids, "Website Collection"))
 		)
 
-	# ── category ──────────────────────────────────────────────────────────────────
+	# category
 	# filters["category"] = "T-Shirts"
 	# filters["category"] = ["T-Shirts", "Wearables"]
 	# filters["category"] = {"id": "T-Shirts", "subtree": True}
@@ -245,7 +270,7 @@ def build_criterion(filters: dict) -> Criterion | None:
 				website_item.name.isin(_junction_subquery(ids, "Website Category"))
 			)
 
-	# ── Combine everything with AND ───────────────────────────────────────────
+	# Combine everything with AND
 	if not parts:
 		return None
 	result = parts[0]
