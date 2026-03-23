@@ -5,7 +5,9 @@ from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 	get_shopping_cart_settings,
 )
 from webshop.webshop.shopping_cart.cart import _set_price_list
-from webshop.webshop.variant_selector.item_variants_cache import ItemVariantsCacheManager
+from webshop.webshop.variant_selector.item_variants_cache import (
+	ItemVariantsCacheManager,
+)
 from erpnext.utilities.product import get_price
 
 
@@ -58,11 +60,11 @@ def get_item_codes_by_attributes(attribute_filters, template_item_code=None):
 				t1.parent
 			ORDER BY
 				NULL
-		""".format(
-			attribute_query=attribute_query, variant_of_query=variant_of_query
-		)
+		""".format(attribute_query=attribute_query, variant_of_query=variant_of_query)
 
-		item_codes = set([r[0] for r in frappe.db.sql(query, query_values)])  # nosemgrep
+		item_codes = set(
+			[r[0] for r in frappe.db.sql(query, query_values)]
+		)  # nosemgrep
 		items.append(item_codes)
 
 	res = list(set.intersection(*items))
@@ -88,7 +90,9 @@ def get_attributes_and_values(item_code):
 			valid_options.setdefault(attribute, set()).add(attribute_value)
 
 	item_attribute_values = frappe.db.get_all(
-		"Item Attribute Value", ["parent", "attribute_value", "idx"], order_by="parent asc, idx asc"
+		"Item Attribute Value",
+		["parent", "attribute_value", "idx"],
+		order_by="parent asc, idx asc",
 	)
 	ordered_attribute_value_map = frappe._dict()
 	for iv in item_attribute_values:
@@ -101,7 +105,10 @@ def get_attributes_and_values(item_code):
 	"""
 	for attr_name in attribute_list:
 		if attr_name not in ordered_attribute_value_map:
-			numeric_list = sorted([i for i in valid_options[attr_name] if i.replace(".","").isnumeric()], key=float)
+			numeric_list = sorted(
+				[i for i in valid_options[attr_name] if i.replace(".", "").isnumeric()],
+				key=float,
+			)
 			ordered_attribute_value_map[attr_name] = numeric_list
 
 	# build attribute values in idx order
@@ -160,10 +167,14 @@ def get_next_attribute_and_values(item_code, selected_attributes):
 	optional_attributes = item_cache.get_optional_attributes()
 	exact_match = []
 	# search for exact match if all selected attributes are required attributes
-	if len(selected_attributes.keys()) >= (len(attribute_list) - len(optional_attributes)):
+	if len(selected_attributes.keys()) >= (
+		len(attribute_list) - len(optional_attributes)
+	):
 		item_attribute_value_map = item_cache.get_item_attribute_value_map()
 		for item_code, attr_dict in item_attribute_value_map.items():
-			if item_code in filtered_items and set(attr_dict.keys()) == set(selected_attributes.keys()):
+			if item_code in filtered_items and set(attr_dict.keys()) == set(
+				selected_attributes.keys()
+			):
 				exact_match.append(item_code)
 
 	filtered_items_count = len(filtered_items)
@@ -173,13 +184,18 @@ def get_next_attribute_and_values(item_code, selected_attributes):
 		product_info = get_item_variant_price_dict(exact_match[0], cart_settings)
 
 		if product_info:
-			product_info["is_stock_item"] = frappe.get_cached_value("Item", exact_match[0], "is_stock_item")
-			product_info["allow_items_not_in_stock"] = cint(cart_settings.allow_items_not_in_stock)
+			product_info["is_stock_item"] = frappe.get_cached_value(
+				"Item", exact_match[0], "is_stock_item"
+			)
+			product_info["allow_items_not_in_stock"] = cint(
+				cart_settings.allow_items_not_in_stock
+			)
 	else:
 		product_info = None
 
 	product_id = ""
 	warehouse = ""
+	web_item_name = ""
 	if exact_match or filtered_items:
 		if exact_match and len(exact_match) == 1:
 			product_id = exact_match[0]
@@ -191,6 +207,11 @@ def get_next_attribute_and_values(item_code, selected_attributes):
 			"Website Item", {"item_code": product_id}, "website_warehouse"
 		)
 
+	if exact_match and product_id:
+		web_item_name = frappe.get_cached_value(
+			"Website Item", {"item_code": product_id}, "name"
+		)
+
 	available_qty = 0.0
 	if warehouse and frappe.get_cached_value("Warehouse", warehouse, "is_group") == 1:
 		warehouses = get_child_warehouses(warehouse)
@@ -199,7 +220,9 @@ def get_next_attribute_and_values(item_code, selected_attributes):
 
 	for warehouse in warehouses:
 		available_qty += flt(
-			frappe.db.get_value("Bin", {"item_code": product_id, "warehouse": warehouse}, "actual_qty")
+			frappe.db.get_value(
+				"Bin", {"item_code": product_id, "warehouse": warehouse}, "actual_qty"
+			)
 		)
 
 	return {
@@ -208,6 +231,7 @@ def get_next_attribute_and_values(item_code, selected_attributes):
 		"filtered_items_count": filtered_items_count,
 		"filtered_items": filtered_items if filtered_items_count < 10 else [],
 		"exact_match": exact_match,
+		"exact_match_web_item_code": web_item_name,
 		"product_info": product_info,
 		"available_qty": available_qty,
 	}
@@ -253,7 +277,10 @@ def get_item_variant_price_dict(item_code, cart_settings):
 		if not is_guest or not cart_settings.hide_price_for_guest:
 			price_list = _set_price_list(cart_settings, None)
 			price = get_price(
-				item_code, price_list, cart_settings.default_customer_group, cart_settings.company
+				item_code,
+				price_list,
+				cart_settings.default_customer_group,
+				cart_settings.company,
 			)
 			return {"price": price}
 

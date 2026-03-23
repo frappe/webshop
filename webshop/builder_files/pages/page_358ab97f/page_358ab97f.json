@@ -1438,7 +1438,7 @@
       "width": "100%"
      },
      "blockClientScript": "",
-     "blockDataScript": "web_item_code = frappe.form_dict.item_code\nif web_item_code:\n  details = frappe.call(\"webshop.webshop.api.get_item\", item_code=web_item_code)\n  \n  block.item_details = details.product_info\n  block.cart_settings = details.cart_settings\n\n  has_variants = block.item_details.get(\"details\").get(\"has_variants\", False)\n  variant_of = block.item_details.get(\"details\").get(\"variant_of\", None)\n\n  block.show_variant_selector = bool(has_variants or variant_of)\n  if has_variants or variant_of:\n    block.show_variant_selector = bool(has_variants or variant_of)\n    block.variant_template_item_code = block.item_details.get(\"details\").get(\"item_code\") if has_variants else variant_of\n\n  block.has_specs = bool(len(details.product_info.get(\"details\").get(\"website_specifications\")))\n\n  images = []\n  if details.product_info.get(\"details\").get(\"website_image\"):\n    images.append({\"url\": details.product_info.get(\"details\").get(\"website_image\")})\n  if len(block.item_details.get(\"slideshow\", {}).get(\"slideshow_items\", {})):\n    for item in block.item_details.get(\"slideshow\", {}).get(\"slideshow_items\", {}):\n      images.append({\"url\": item.get(\"image\")})\n  # images.extend(images)\n  block.images = images\n  block.initially_selected_image = images[0] if len(images) else None\n\n  if block.item_details.get(\"attributes\"):\n    selected_attribute = \",\".join([f'{{\"attribute\": \"{item.attribute}\", \"value\": \"{item.attribute_value}\"}}' for item in block.item_details.get(\"attributes\")])\n    block.selected_attribute = f\"[{selected_attribute}]\"",
+     "blockDataScript": "web_item_code = frappe.form_dict.item_code\nif web_item_code:\n  details = frappe.call(\"webshop.webshop.api.get_item\", item_code=web_item_code)\n  \n  block.item_details = details.product_info\n  block.cart_settings = details.cart_settings\n\n  has_variants = block.item_details.get(\"details\").get(\"has_variants\", False)\n  variant_of = block.item_details.get(\"details\").get(\"variant_of\", None)\n\n  block.show_variant_selector = bool(has_variants or variant_of)\n  if has_variants or variant_of:\n    block.show_variant_selector = bool(has_variants or variant_of)\n    block.variant_template_item_code = block.item_details.get(\"details\").get(\"item_code\") if has_variants else variant_of\n\n  block.has_specs = bool(len(details.product_info.get(\"details\").get(\"website_specifications\")))\n\n  images = []\n  if details.product_info.get(\"details\").get(\"website_image\"):\n    images.append({\"url\": details.product_info.get(\"details\").get(\"website_image\")})\n  if len(block.item_details.get(\"slideshow\", {}).get(\"slideshow_items\", {})):\n    for item in block.item_details.get(\"slideshow\", {}).get(\"slideshow_items\", {}):\n      images.append({\"url\": item.get(\"image\")})\n  # images.extend(images)\n  block.images = images\n  block.initially_selected_image = images[0] if len(images) else None\n  block.has_image = bool(len(images))\n\n  if block.item_details.get(\"attributes\"):\n    selected_attributes = {}\n    for item in block.item_details.get(\"attributes\"):\n      \n      selected_attributes[item.get(\"attribute\")] = item.get(\"attribute_value\")\n    block.selected_attribute = frappe.call(\"webshop.webshop.utils.misc.as_json\", val= block.item_details.get(\"attributes\"))\n    \n      ",
      "blockId": "gpd4a30qk",
      "blockName": "Product Details",
      "children": [
@@ -1474,11 +1474,14 @@
            "activeState": null,
            "attributes": {},
            "baseStyles": {
-            "alignItems": "flex-start",
+            "alignItems": "center",
             "display": "flex",
             "flexDirection": "column",
             "flexShrink": "0",
             "gap": "12px",
+            "justifyContent": "center",
+            "minHeight": "450px",
+            "position": "static",
             "width": "449px"
            },
            "blockClientScript": "",
@@ -1526,7 +1529,11 @@
              "rawStyles": {
               "aspectRatio": "1/1"
              },
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": {
+              "comesFrom": "blockDataScript",
+              "key": "has_image"
+             }
             },
             {
              "activeState": null,
@@ -1648,6 +1655,45 @@
              "props": {},
              "rawStyles": {},
              "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "fontSize": "16px",
+              "height": "fit-content",
+              "lineHeight": "1.4",
+              "minWidth": "10px",
+              "position": "static",
+              "width": "fit-content"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "block.does_not_have_image = not props[\"has_image\"]",
+             "blockId": "3hermlo5h",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "p",
+             "innerHTML": "No Image Available",
+             "mobileStyles": {},
+             "props": {
+              "has_image": {
+               "comesFrom": "blockDataScript",
+               "isDynamic": true,
+               "isPassedDown": false,
+               "isStandard": false,
+               "label": "",
+               "value": "has_image"
+              }
+             },
+             "rawStyles": {},
+             "tabletStyles": {},
+             "visibilityCondition": {
+              "comesFrom": "blockDataScript",
+              "key": "does_not_have_image"
+             }
             }
            ],
            "classes": [],
@@ -1662,7 +1708,8 @@
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": {}
           },
           {
            "activeState": null,
@@ -2071,7 +2118,7 @@
                 "flexDirection": "column",
                 "gap": "16px"
                },
-               "blockClientScript": "const initially_attribute_values = JSON.parse(props[\"initally_selected_attribute\"])\n\nfor (const attribute of initially_attribute_values){\n  const event = new CustomEvent(\"selected-attribute\", {detail: attribute});\n  this.dispatchEvent(event);\n}",
+               "blockClientScript": "const initially_attribute_values = JSON.parse(\n  props[\"initally_selected_attribute\"]\n);\n\nlet selected_top_attribute = {};\nlet selected_attributes = {};\n\nfor (const attribute of initially_attribute_values) {\n  const event = new CustomEvent(\"selected-attribute\", { detail: attribute });\n  this.dispatchEvent(event);\n  selected_attributes[attribute[\"attribute\"]] = attribute[\"attribute_value\"];\n}\n\nthis.addEventListener(\"select-attribute\", (ev) => {\n  if (ev.detail.is_top_attribute) {\n    selected_top_attribute[ev.detail.attribute] = ev.detail.value;\n    selected_attributes = {};\n    selected_attributes[ev.detail.attribute] = ev.detail.value;\n    if (!ev.detail.suppress_reset) {\n      const event = new CustomEvent(\"reset-options\");\n      this.dispatchEvent(event);\n    }\n  } else {\n    selected_attributes[ev.detail.attribute] = ev.detail.value;\n  }\n  fetch(\n    \"/api/method/webshop.webshop.variant_selector.utils.get_next_attribute_and_values\",\n    {\n      method: \"POST\",\n      headers: { \"content-type\": \"application/json\" },\n      body: JSON.stringify({\n        item_code: props[\"variant_template_item_code\"],\n        selected_attributes,\n      }),\n    }\n  )\n    .then(async (res) => {\n      res = (await res.json()).message;\n      for (const attribute in res.valid_options_for_attributes) {\n        const allowedOptionEvent = new CustomEvent(\"allowed-option\", {\n          detail: {\n            attribute,\n            values: res.valid_options_for_attributes[attribute],\n          },\n        });\n        this.dispatchEvent(allowedOptionEvent);\n        const selectedAttributeEvent = new CustomEvent(\"selected-attribute\", {\n          detail: {\n            attribute: ev.detail.attribute,\n            attribute_value: ev.detail.value,\n          },\n        });\n        this.dispatchEvent(selectedAttributeEvent);\n        if (res.exact_match_web_item_code){\n          window.location.href = res.exact_match_web_item_code\n        }\n      }\n    })\n    .catch((err) => {\n      console.log(err);\n    });\n});\n",
                "blockDataScript": "if bool(props[\"has_variant\"]):\n  variants = frappe.call(\"webshop.webshop.variant_selector.utils.get_attributes_and_values\", item_code=props[\"variant_template_item_code\"])\n\n  for index, variant in enumerate(variants):\n    variant[\"values\"] = [{\"index\": index, \"name\": name} for index, name in enumerate(variant[\"values\"])]\n    variants[index][\"index\"] = index\n  block.variants = variants",
                "blockId": "7q7iogb9j",
                "blockName": "Variant Selector",
@@ -2199,7 +2246,7 @@
                         "minWidth": "66px",
                         "padding": "6px 8px"
                        },
-                       "blockClientScript": "const variant_wrapper = this.closest(\"[data-variant-selector]\");\n\nvariant_wrapper.addEventListener(\"selected-attribute\", (ev) => {\n  if (\n    ev.detail.attribute == props[\"attribute\"] &&\n    ev.detail.value == props[\"value'\"]\n  ) {\n    this.style.background = \"rgb(56, 56, 56)\";\n    if (this.querySelector(\".value-name\")){\n      this.querySelector(\".value-name\").style.color = \"white\";\n    }\n  }\n});\n\nif (props[\"variant_index\"]) {\n  this.disabled = true\n  this.style.cursor = \"not-allowed\";\n  this.style.background = \"rgb(240,240,240)\";\n  this.querySelector(\"div\").style.color = \"rgb(128,128,128)\"\n}",
+                       "blockClientScript": "const variant_wrapper = this.closest(\"[data-variant-selector]\");\nlet is_selected = false;\nconst toggle_disabled = (disabled) => {\n  if (disabled) {\n    this.disabled = true;\n    this.style.cursor = \"not-allowed\";\n    this.style.background = \"rgb(240,240,240)\";\n    this.querySelector(\"div\").style.color = \"rgb(128,128,128)\";\n  } else {\n    this.disabled = false;\n    this.style.cursor = \"pointer\";\n    this.style.background = \"white\";\n    this.querySelector(\"div\").style.color = \"rgb(56,56,56)\";\n  }\n};\n\nvariant_wrapper.addEventListener(\"selected-attribute\", (ev) => {\n  if (ev.detail.attribute == props[\"attribute\"]) {\n    if (ev.detail.attribute_value == props[\"value\"]) {\n      is_selected = true;\n      this.style.background = \"rgb(56, 56, 56)\";\n      if (this.querySelector(\".value-name\")) {\n        this.querySelector(\".value-name\").style.color = \"white\";\n      }\n      if (!props[\"variant_index\"]) {\n        document.addEventListener(\"DOMContentLoaded\", () => {\n          const event = new CustomEvent(\"select-attribute\", {\n            detail: {\n              attribute: props[\"attribute\"],\n              value: props[\"value\"],\n              is_top_attribute: true,\n              suppress_reset: true,\n            },\n          });\n          variant_wrapper.dispatchEvent(event);\n        });\n      }\n    } else {\n      this.style.background = \"white\";\n      if (this.querySelector(\".value-name\")) {\n        this.querySelector(\".value-name\").style.color = \"rgb(56, 56, 56)\";\n      }\n    }\n  }\n});\n\nvariant_wrapper.addEventListener(\"allowed-option\", (ev) => {\n  if (is_selected || props[\"variant_index\"] == 0) return;\n  if (ev.detail.attribute == props[\"attribute\"]) {\n    if (ev.detail.values.includes(props[\"value\"])) toggle_disabled(false);\n    else toggle_disabled(true);\n  }\n});\n\nvariant_wrapper.addEventListener(\"reset-options\", (ev) => {\n  if (props[\"variant_index\"] == 0) return;\n  this.disabled = false;\n  this.style.cursor = \"pointer\";\n  this.style.background = \"white\";\n  this.querySelector(\"div\").style.color = \"rgb(56,56,56)\";\n});\n\nthis.addEventListener(\"click\", () => {\n  let event = new CustomEvent(\"select-attribute\", {\n    detail: {\n      attribute: props[\"attribute\"],\n      value: props[\"value\"],\n      is_top_attribute: !props[\"variant_index\"],\n    },\n  });\n  variant_wrapper.dispatchEvent(event);\n  event = new CustomEvent(\"selected-attribute\", {\n    detail: {\n      attribute: props[\"attribute\"],\n      value: props[\"value\"],\n    },\n  });\n  variant_wrapper.dispatchEvent(event);\n});\n",
                        "blockDataScript": "",
                        "blockId": "58kwo3ypp",
                        "blockName": "tag",
@@ -2252,12 +2299,13 @@
                        "mobileStyles": {},
                        "originalElement": "",
                        "props": {
-                        "value'": {
+                        "value": {
                          "comesFrom": "blockDataScript",
                          "isDynamic": true,
                          "isPassedDown": true,
                          "isStandard": false,
                          "label": "",
+                         "propOptions": {},
                          "value": "name"
                         }
                        },
@@ -4694,13 +4742,13 @@
  "idx": 0,
  "is_standard": 1,
  "is_template": 0,
- "modified": "2026-03-23 00:18:47.292648",
+ "modified": "2026-03-23 11:42:24.170081",
  "modified_by": "Administrator",
  "name": "page-358ab97f",
  "owner": "Administrator",
  "page_name": "page-358ab97f",
  "page_title": "Item",
- "preview": "/files/page-358ab97f-preview.webp?v=e49f4",
+ "preview": "/files/page-358ab97f-preview.webp?v=798e0",
  "project_folder": "webshop",
  "published": 1,
  "route": "item/:item_code"
