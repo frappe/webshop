@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "collection_name",
+  "description",
   "website_items",
   "collection_image"
  ],
@@ -30,13 +31,18 @@
    "fieldtype": "Attach Image",
    "hidden": 1,
    "label": "Collection Image"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
   }
  ],
  "grid_page_length": 50,
  "image_field": "collection_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-12 09:31:52.147416",
+ "modified": "2026-03-24 11:42:43.337673",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Website Collection",

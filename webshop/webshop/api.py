@@ -7,6 +7,7 @@ import json
 import frappe
 from frappe.query_builder.functions import Count
 from frappe.model.document import Document
+from frappe.rate_limiter import rate_limit
 from frappe.utils import cint
 
 from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
@@ -128,7 +129,9 @@ def get_product_filter_data(query_args=None):
 
 @frappe.whitelist(allow_guest=True)
 def get_guest_redirect_on_action():
-	return frappe.db.get_single_value("Webshop Settings", "redirect_on_action") or "/login"
+	return (
+		frappe.db.get_single_value("Webshop Settings", "redirect_on_action") or "/login"
+	)
 
 
 @frappe.whitelist(allow_guest=True)
@@ -167,6 +170,7 @@ def list_items(
 		q = q.orderby(website_item.creation, order=Order.desc)
 
 	return q.run(as_dict=True)
+
 
 @frappe.whitelist(allow_guest=True)
 def total_items(filters: dict | None = None, exclude_variants: bool = False) -> int:
@@ -261,7 +265,6 @@ def get_item(item_code: str, combine_template: bool = False):
 		if stock_status.on_backorder:
 			product_info["on_backorder"] = True
 		else:
-
 			if cart_settings.show_quantity_in_website:
 				product_info["stock_qty"] = stock_status.stock_qty
 			product_info["in_stock"] = (
@@ -384,6 +387,7 @@ def get_category(
 def list_categories(
 	parent: str = "All Website Categories",
 	only_immediate_subcategories: bool = False,
+	query: str | None = None,
 	limit: int | None = None,
 	start: int = 0,
 ):
@@ -392,13 +396,19 @@ def list_categories(
 
 	parent_doc = frappe.get_doc("Website Category", parent)
 	filters = {"lft": [">", parent_doc.lft], "rgt": ["<", parent_doc.rgt]}
+	or_filters = {}
+	if query:
+		or_filters["name"] = ["like", f"%{query}%"]
+		or_filters["description"] = ["like", f"%{query}%"]
+
 	if only_immediate_subcategories:
 		filters["parent_website_category"] = parent
 	categories = frappe.get_all(
 		"Website Category",
 		filters=filters,
+		or_filters=or_filters,
 		order_by="lft asc",
-		fields=["name", "category_image"],
+		fields=["name", "category_image", "description"],
 		limit=limit,
 		start=start,
 	)
@@ -406,17 +416,59 @@ def list_categories(
 
 
 @frappe.whitelist(allow_guest=True)
-def list_collections(limit: int | None = None, start: int = 0):
+def list_collections(
+	query: str | None = None, limit: int | None = None, start: int = 0
+):
 	if not has_permission_for_webshop("Website Collection"):
 		frappe.throw_permission_error()
+
+	filters = {}
+	or_filters = {}
+
+	if query:
+		or_filters["name"] = ["like", f"%{query}%"]
+		or_filters["description"] = ["like", f"%{query}%"]
+
 	collections = frappe.get_all(
 		"Website Collection",
+		filters=filters,
+		or_filters=or_filters,
 		order_by="creation desc",
-		fields=["name", "collection_image"],
+		fields=["name", "collection_image", "description"],
 		limit=limit,
 		start=start,
 	)
 	return collections
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(limit=1000, seconds=60 * 60)
+def search_all(query: str, exclude_variants: bool = False, limit: int | None = None, start: int = 0):
+	if not has_permission_for_webshop():
+		frappe.throw_permission_error()
+
+	item_filters = {
+		"item_name": ["like", f"%{query}%"],
+		"web_item_name": ["like", f"%{query}%"],
+		"short_description": ["like", f"%{query}%"],
+		"web_long_description": ["like", f"%{query}%"],
+	}
+	
+	items = frappe.get_all(
+		"Website Item",
+		or_filters=item_filters,
+		filters={"variant_of": None} if exclude_variants else {},
+		order_by="creation desc",
+		fields=["name", "web_item_name", "website_image", "short_description"],
+		limit=limit,
+		start=start,
+	)
+
+	collections = list_collections(query=query, limit=limit, start=start)
+	categories = list_categories(query=query, limit=limit, start=start)
+
+	return {"items": items, "collections": collections, "categories": categories}
+
 
 # TODO: unify all webshop settings to be exposed
 @frappe.whitelist(allow_guest=True)
@@ -425,7 +477,7 @@ def hide_variant_in_product_list():
 		frappe.throw_permission_error()
 	return get_shopping_cart_settings().hide_variants
 
+
 @frappe.whitelist(allow_guest=True)
 def products_per_page():
 	return get_shopping_cart_settings().products_per_page
-
