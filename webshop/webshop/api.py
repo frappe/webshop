@@ -5,6 +5,7 @@
 import json
 
 import frappe
+from frappe.query_builder.functions import Count
 from frappe.model.document import Document
 from frappe.utils import cint
 
@@ -133,7 +134,8 @@ def get_guest_redirect_on_action():
 @frappe.whitelist(allow_guest=True)
 def list_items(
 	filters: dict | None = None,
-	limit: int = 20,
+	exclude_variants: bool = False,
+	limit: int = 15,
 	offset: int = 0,
 	order: dict | None = None,  # e.g. {"created_at": "desc"} or {"ranking": "asc"}
 ) -> str:
@@ -152,6 +154,9 @@ def list_items(
 		if criterion is not None:
 			q = q.where(criterion)
 
+	if exclude_variants:
+		q = q.where(website_item.variant_of.isnull())  # noqa: E711
+
 	if order:
 		for field_name, direction in order.items():
 			col = order_col_map.get(field_name, website_item.field(field_name))
@@ -162,6 +167,24 @@ def list_items(
 		q = q.orderby(website_item.creation, order=Order.desc)
 
 	return q.run(as_dict=True)
+
+@frappe.whitelist(allow_guest=True)
+def total_items(filters: dict | None = None, exclude_variants: bool = False) -> int:
+	if not has_permission_for_webshop():
+		frappe.throw_permission_error()
+
+	q = frappe.qb.from_(website_item).select(Count("*").as_("total"))
+
+	if filters:
+		criterion = build_criterion(filters)
+		if criterion is not None:
+			q = q.where(criterion)
+
+	if exclude_variants:
+		q = q.where(website_item.variant_of.isnull())  # noqa: E711
+
+	result = q.run(as_dict=True)
+	return result[0].total if result else 0
 
 
 @frappe.whitelist(allow_guest=True)
@@ -238,7 +261,9 @@ def get_item(item_code: str, combine_template: bool = False):
 		if stock_status.on_backorder:
 			product_info["on_backorder"] = True
 		else:
-			product_info["stock_qty"] = stock_status.stock_qty
+
+			if cart_settings.show_quantity_in_website:
+				product_info["stock_qty"] = stock_status.stock_qty
 			product_info["in_stock"] = (
 				stock_status.in_stock
 				if stock_status.is_stock_item
@@ -373,7 +398,7 @@ def list_categories(
 		"Website Category",
 		filters=filters,
 		order_by="lft asc",
-		fields=["category_name", "category_image"],
+		fields=["name", "category_image"],
 		limit=limit,
 		start=start,
 	)
@@ -392,3 +417,15 @@ def list_collections(limit: int | None = None, start: int = 0):
 		start=start,
 	)
 	return collections
+
+# TODO: unify all webshop settings to be exposed
+@frappe.whitelist(allow_guest=True)
+def hide_variant_in_product_list():
+	if not has_permission_for_webshop("Webshop Settings"):
+		frappe.throw_permission_error()
+	return get_shopping_cart_settings().hide_variants
+
+@frappe.whitelist(allow_guest=True)
+def products_per_page():
+	return get_shopping_cart_settings().products_per_page
+
