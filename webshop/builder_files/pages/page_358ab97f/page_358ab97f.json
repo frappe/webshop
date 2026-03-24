@@ -1855,7 +1855,11 @@
                   "stroke": " #000",
                   "strokeWidth": "1px"
                  },
-                 "tabletStyles": {}
+                 "tabletStyles": {},
+                 "visibilityCondition": {
+                  "comesFrom": "blockDataScript",
+                  "key": "cart_settings.enable_reviews"
+                 }
                 },
                 {
                  "activeState": null,
@@ -2057,7 +2061,11 @@
                  "originalElement": "",
                  "props": {},
                  "rawStyles": {},
-                 "tabletStyles": {}
+                 "tabletStyles": {},
+                 "visibilityCondition": {
+                  "comesFrom": "blockDataScript",
+                  "key": "cart_settings.enable_reviews"
+                 }
                 }
                ],
                "classes": [],
@@ -2469,7 +2477,7 @@
                     "gap": "20px",
                     "width": "100%"
                    },
-                   "blockClientScript": "",
+                   "blockClientScript": "console.log(props)",
                    "blockDataScript": "",
                    "blockId": "jyly4web0",
                    "blockName": "Frame 206",
@@ -2796,7 +2804,24 @@
                "innerHTML": "",
                "mobileStyles": {},
                "originalElement": "",
-               "props": {},
+               "props": {
+                "in_stock": {
+                 "comesFrom": "blockDataScript",
+                 "isDynamic": true,
+                 "isPassedDown": true,
+                 "isStandard": false,
+                 "label": "",
+                 "value": "item_details.in_stock"
+                },
+                "stock_qty": {
+                 "comesFrom": "blockDataScript",
+                 "isDynamic": true,
+                 "isPassedDown": true,
+                 "isStandard": false,
+                 "label": "",
+                 "value": "item_details.stock_qty"
+                }
+               },
                "rawStyles": {},
                "tabletStyles": {},
                "visibilityCondition": {
@@ -4742,13 +4767,13 @@
  "idx": 0,
  "is_standard": 1,
  "is_template": 0,
- "modified": "2026-03-23 11:42:24.170081",
+ "modified": "2026-03-23 13:15:13.522147",
  "modified_by": "Administrator",
  "name": "page-358ab97f",
  "owner": "Administrator",
  "page_name": "page-358ab97f",
  "page_title": "Item",
- "preview": "/files/page-358ab97f-preview.webp?v=798e0",
+ "preview": "/files/page-358ab97f-preview.webp?v=b59d0",
  "project_folder": "webshop",
  "published": 1,
  "route": "item/:item_code"
