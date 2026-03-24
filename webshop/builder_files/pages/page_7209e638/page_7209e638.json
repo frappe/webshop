@@ -1,0 +1,2846 @@
+{
+ "app": "webshop",
+ "authenticated_access": 0,
+ "blocks": [
+  {
+   "activeState": null,
+   "attributes": {},
+   "baseStyles": {
+    "alignItems": "center",
+    "display": "flex",
+    "flexDirection": "column",
+    "flexShrink": 0,
+    "flexWrap": "wrap"
+   },
+   "blockClientScript": "",
+   "blockDataScript": "",
+   "blockId": "root",
+   "children": [
+    {
+     "activeState": null,
+     "attributes": {},
+     "baseStyles": {},
+     "blockClientScript": "",
+     "blockDataScript": "",
+     "blockId": "wdhqqgrbc",
+     "blockName": "Variants",
+     "children": [
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {},
+       "blockClientScript": "",
+       "blockDataScript": "",
+       "blockId": "p3a2de6bn",
+       "blockName": "Nav - Links - Center",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "r7maktvks",
+         "blockName": "Logo",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "y51lcu043",
+           "blockName": "app logo",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "06g333h8i",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "gll1iz5rd",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "v01j7tpza",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "oy0lbwbah",
+           "blockName": "Shop",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "0nexyo02j",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "iiov2zold",
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "5gzf2ikjo",
+         "blockName": "Links",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "a8i3n2blp",
+           "blockName": "Shop",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [
+            {
+             "comesFrom": "props",
+             "key": "key",
+             "property": "innerHTML",
+             "type": "key"
+            },
+            {
+             "comesFrom": "props",
+             "key": "value",
+             "property": "href",
+             "type": "attribute"
+            }
+           ],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "7ztsldfo7",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "isRepeaterBlock": true,
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "bwbujss5c",
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "urifici0k",
+         "blockName": "Icons",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "0q09xegwf",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "search"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "1azgkwe1e",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "ybr9kzgo6",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "user"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "yx94bfu9f",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "cxv9iovnz",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "shopping-cart"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "r9p8qohkf",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "c9dbfx9aa",
+         "tabletStyles": {}
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "isChildOfComponent": "93080ef6abd56c4e",
+       "mobileStyles": {},
+       "originalElement": "",
+       "props": {},
+       "rawStyles": {},
+       "referenceBlockId": "s8vujuf86",
+       "tabletStyles": {},
+       "visibilityCondition": {
+        "comesFrom": "blockDataScript",
+        "key": "is_visible"
+       }
+      },
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {},
+       "blockClientScript": "",
+       "blockDataScript": "",
+       "blockId": "mxsd1spwm",
+       "blockName": "Nav - Links - Right",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "l62pmsswb",
+         "blockName": "Logo",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "xt115l5w9",
+           "blockName": "app logo",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "ijo7q1bd1",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "mr60auid8",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "dltuvwa67",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "vy1bs1qba",
+           "blockName": "Shop",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "ftlh5oul8",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "hkpurnzsm",
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "kj9hd3jm4",
+         "blockName": "Links and Icons",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "888bwffqx",
+           "blockName": "Links",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "uq8ngmpcn",
+             "blockName": "Shop",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [
+              {
+               "comesFrom": "props",
+               "key": "key",
+               "property": "innerHTML",
+               "type": "key"
+              },
+              {
+               "comesFrom": "props",
+               "key": "value",
+               "property": "href",
+               "type": "attribute"
+              }
+             ],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "1qloi2m3p",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "isRepeaterBlock": true,
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "899w6k7ai",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "htdc37vln",
+           "blockName": "divider",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "7zn554wir",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "qsnt983l6",
+           "blockName": "Icons",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "height": "16px",
+              "width": "16px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "hyv0l4l4r",
+             "blockName": "container",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "extendedFromComponent": "826df5a3c09b1b06",
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "props": {
+              "icon_name": {
+               "comesFrom": null,
+               "isDynamic": false,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Icon Name",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "house"
+                },
+                "type": "string"
+               },
+               "value": "search"
+              }
+             },
+             "rawStyles": {},
+             "referenceBlockId": "8xxczjtw7",
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "height": "16px",
+              "width": "16px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "30q3gl8oc",
+             "blockName": "container",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "extendedFromComponent": "826df5a3c09b1b06",
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "props": {
+              "icon_name": {
+               "comesFrom": null,
+               "isDynamic": false,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Icon Name",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "house"
+                },
+                "type": "string"
+               },
+               "value": "user"
+              }
+             },
+             "rawStyles": {},
+             "referenceBlockId": "k4nr3fde6",
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "height": "16px",
+              "width": "16px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "kw05mii6z",
+             "blockName": "container",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "extendedFromComponent": "826df5a3c09b1b06",
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "props": {
+              "icon_name": {
+               "comesFrom": null,
+               "isDynamic": false,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Icon Name",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "house"
+                },
+                "type": "string"
+               },
+               "value": "shopping-cart"
+              }
+             },
+             "rawStyles": {},
+             "referenceBlockId": "mk73iw75z",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "mvspa99t1",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "wj3i9io0c",
+         "tabletStyles": {}
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "isChildOfComponent": "93080ef6abd56c4e",
+       "mobileStyles": {},
+       "originalElement": "",
+       "props": {},
+       "rawStyles": {},
+       "referenceBlockId": "2s0366k6t",
+       "tabletStyles": {},
+       "visibilityCondition": {
+        "comesFrom": "blockDataScript",
+        "key": "is_visible"
+       }
+      },
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {},
+       "blockClientScript": "",
+       "blockDataScript": "",
+       "blockId": "y7rnkiumi",
+       "blockName": "Nav - Links - Left",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "98ny22hj3",
+         "blockName": "Logo and Links",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "w4heuh2iy",
+           "blockName": "Logo",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "bbp1tr9q0",
+             "blockName": "app logo",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "dzd3dxa3c",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "93080ef6abd56c4e",
+               "mobileStyles": {},
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "tnhej669s",
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "ew0ghclsf",
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "8cw3l6rzy",
+             "blockName": "Shop",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "fimh1mgpk",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "m4iww0axy",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "wivz7hcay",
+           "blockName": "divider",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "cdttcvijw",
+             "blockName": "value",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "originalElement": "__raw_html__",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "qrzr28l4p",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "yrxb01q9y",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "skqwps45r",
+           "blockName": "Links",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "si2e5c8sk",
+             "blockName": "Shop",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [
+              {
+               "comesFrom": "props",
+               "key": "key",
+               "property": "innerHTML",
+               "type": "key"
+              },
+              {
+               "comesFrom": "props",
+               "key": "value",
+               "property": "href",
+               "type": "attribute"
+              }
+             ],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "12q8tbpjl",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "isRepeaterBlock": true,
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "thxg1gn2l",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "339ftqogr",
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "kpnmgfce7",
+         "blockName": "Icons",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "g3ejtqwr1",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "search"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "fxzfw1esz",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "exucwiovy",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "user"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "na24hs84e",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "kszvr1acd",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "shopping-cart"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "xy5nwr9qb",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "hg6y39j6c",
+         "tabletStyles": {}
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "isChildOfComponent": "93080ef6abd56c4e",
+       "mobileStyles": {},
+       "originalElement": "",
+       "props": {},
+       "rawStyles": {},
+       "referenceBlockId": "c9ua4ifix",
+       "tabletStyles": {},
+       "visibilityCondition": {
+        "comesFrom": "blockDataScript",
+        "key": "is_visible"
+       }
+      },
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {},
+       "blockClientScript": "",
+       "blockDataScript": "",
+       "blockId": "8jcxw4oca",
+       "blockName": "Nav - Logo - Center",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "3n9vdn4oy",
+         "blockName": "Links",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "kzwm0trft",
+           "blockName": "Shop",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [
+            {
+             "comesFrom": "props",
+             "key": "key",
+             "property": "innerHTML",
+             "type": "key"
+            },
+            {
+             "comesFrom": "props",
+             "key": "value",
+             "property": "href",
+             "type": "attribute"
+            }
+           ],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "hqqstqulg",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "isRepeaterBlock": true,
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "6hycd5mzw",
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "1lfxoesvr",
+         "blockName": "Logo",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "3jnjvfnx0",
+           "blockName": "app logo",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "je3cq4fef",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "i39bn0erz",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "xg7vupgsp",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "ak5syn6cp",
+           "blockName": "Shop",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "mqyrajmok",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "bhmwh7vmb",
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "60j1zmgri",
+         "blockName": "Icons",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "wikaeo0ud",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "search"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "h08e5mam3",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "jijexkbko",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "user"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "57kao6gyn",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "height": "16px",
+            "width": "16px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "kgykfew9a",
+           "blockName": "container",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "extendedFromComponent": "826df5a3c09b1b06",
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {
+            "icon_name": {
+             "comesFrom": null,
+             "isDynamic": false,
+             "isPassedDown": true,
+             "isStandard": true,
+             "label": "Icon Name",
+             "propOptions": {
+              "isRequired": false,
+              "options": {
+               "defaultValue": "house"
+              },
+              "type": "string"
+             },
+             "value": "shopping-cart"
+            }
+           },
+           "rawStyles": {},
+           "referenceBlockId": "78qa0tp4p",
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "isChildOfComponent": "93080ef6abd56c4e",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "ampu5vbhr",
+         "tabletStyles": {}
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "isChildOfComponent": "93080ef6abd56c4e",
+       "mobileStyles": {},
+       "originalElement": "",
+       "props": {},
+       "rawStyles": {},
+       "referenceBlockId": "it77ce733",
+       "tabletStyles": {},
+       "visibilityCondition": {
+        "comesFrom": "blockDataScript",
+        "key": "is_visible"
+       }
+      }
+     ],
+     "classes": [],
+     "customAttributes": {},
+     "dataKey": null,
+     "dynamicValues": [],
+     "extendedFromComponent": "93080ef6abd56c4e",
+     "mobileStyles": {},
+     "props": {
+      "links": {
+       "comesFrom": null,
+       "isDynamic": false,
+       "isPassedDown": true,
+       "isStandard": true,
+       "label": "Links",
+       "propOptions": {
+        "isRequired": false,
+        "options": {
+         "defaultValue": {
+          "About": "/about",
+          "Collections": "/collections",
+          "Shop": "/shop"
+         },
+         "maxItems": null,
+         "minItems": null
+        },
+        "type": "object"
+       },
+       "value": null
+      },
+      "variant": {
+       "comesFrom": null,
+       "isDynamic": false,
+       "isPassedDown": true,
+       "isStandard": true,
+       "label": "Variant",
+       "propOptions": {
+        "isRequired": false,
+        "options": {
+         "defaultValue": "Links - Left",
+         "options": [
+          "Links - Right",
+          "Links - Center",
+          "Links - Left",
+          "Logo - Center"
+         ]
+        },
+        "type": "select"
+       },
+       "value": "Logo - Center"
+      }
+     },
+     "rawStyles": {},
+     "tabletStyles": {}
+    },
+    {
+     "activeState": null,
+     "attributes": {},
+     "baseStyles": {
+      "display": "flex",
+      "flexDirection": "column",
+      "flexShrink": 0,
+      "height": "fit-content",
+      "overflow": "hidden",
+      "width": "fit-content"
+     },
+     "blockClientScript": "",
+     "blockDataScript": "selected_categories = (frappe.form_dict.Categories).split(\",\") if frappe.form_dict.Categories else \"\"\nselected_collections = (frappe.form_dict.Collections).split(\",\") if frappe.form_dict.Collections else \"\"\n\nfilters = {}\n\nif len(selected_categories):\n  filters[\"category\"] = {\"id\": selected_categories, \"subtree\": True}\n\nif len(selected_collections):\n  filters[\"collection\"] = selected_collections\n\nblock.filters = frappe.call(\"webshop.webshop.utils.misc.as_json\", val=filters)",
+     "blockId": "u8ps2ruv8",
+     "blockName": "container",
+     "children": [
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "flexShrink": "0",
+        "gap": "24px",
+        "height": "100%",
+        "paddingBottom": "60px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "paddingTop": "60px",
+        "position": "static",
+        "width": "800px"
+       },
+       "blockClientScript": "",
+       "blockDataScript": "page = 1\nif frappe.form_dict.page:\n  try:\n    page = int(frappe.form_dict.page)\n  except:\n    pass\n\ndef fill_missing_keys(data, keys, default=\"N/A\"):\n    def is_null(value):\n        return value is None or value == \"\" or value == [] or value == {}\n\n    for key in keys:\n        if key not in data or is_null(data[key]):\n            data[key] = default\n\n    return data\n\n\nhide_variants = bool(frappe.call(\"webshop.webshop.api.hide_variant_in_product_list\"))\nproducts_per_page = frappe.call(\"webshop.webshop.api.products_per_page\")\n\nfilters = frappe.call(\"webshop.webshop.utils.misc.parse_json\", val=props[\"filters\"])\n\ntotal_items = frappe.call(\n    \"webshop.webshop.api.total_items\", filters=filters, exclude_variants=hide_variants\n)\nblock.total_items = total_items\n\noffset = products_per_page * (page - 1)\noverflowed = offset >= total_items\n\nitems = frappe.call(\n    \"webshop.webshop.api.list_items\",\n    filters=filters,\n    limit=products_per_page,\n    offset=offset if not overflowed else 0,\n    exclude_variants=hide_variants,\n)\n\npage = page if not overflowed else 1\nif (page - 1) * products_per_page + len(items) < total_items:\n    block.more_pages = True\nelse:\n    block.more_pages = False\nblock.page = page\n\n\nfor item in items:\n    item[\"route\"] = f\"/item/{item.name}\"\n\nblock.items = [fill_missing_keys(item, [\"website_image\"], \"\") for item in items]\n",
+       "blockId": "wcaz6r00u",
+       "blockName": "Frame 62",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {
+          "alignItems": "flex-end",
+          "alignSelf": "stretch",
+          "display": "flex",
+          "flexDirection": "column",
+          "gap": "32px",
+          "justifyContent": "flex-end",
+          "width": "100%"
+         },
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "wvitztyin",
+         "blockName": "Frame 30",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "flex-start",
+            "alignSelf": "stretch",
+            "display": "flex",
+            "flexDirection": "column",
+            "justifyContent": "center",
+            "width": "100%"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "l8krx34jq",
+           "blockName": "Frame 30",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "color": "rgb(0, 0, 0)",
+              "fontSize": "32px",
+              "fontWeight": "600",
+              "letterSpacing": "0.48px",
+              "lineHeight": "160% "
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "iwz4mozo5",
+             "blockName": "All Products",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "p",
+             "innerHTML": "<p>All Products</p>",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "color": "rgb(0, 0, 0)",
+              "fontSize": "18px",
+              "fontWeight": "400",
+              "letterSpacing": "0.18px",
+              "lineHeight": "150% "
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "u0tjp6690",
+             "blockName": "Official merchandise for the Frappe community.",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "p",
+             "innerHTML": "Official merchandise for the Frappe community.",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "section",
+           "innerHTML": "",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "center",
+            "alignSelf": "stretch",
+            "display": "flex",
+            "gap": "12px",
+            "justifyContent": "space-between",
+            "width": "100%"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "8w734p3jx",
+           "blockName": "Frame 64",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "display": "flex",
+              "flexDirection": "row",
+              "flexShrink": 0,
+              "gap": "12px",
+              "height": "45px",
+              "overflow": "hidden",
+              "position": "relative",
+              "width": "50%"
+             },
+             "blockClientScript": "/*\n * Created by David Adams\n * https://codeshack.io/multi-select-dropdown-html-javascript/\n *\n * Released under the MIT license\n */\n\nconst styles = `\n[data-select-wrapper] > div {\n  flex-grow: 1;\n}\n.multi-select {\n  display: flex;\n  box-sizing: border-box;\n  flex-direction: column;\n  position: relative;\n  width: 100%;\n  user-select: none;\n}\n.multi-select .multi-select-header {\n  border: 1px solid #dee2e6;\n  padding: 7px 30px 7px 12px;\n  overflow: hidden;\n  gap: 7px;\n  min-height: 45px;\n}\n.multi-select .multi-select-header::after {\n  content: \"\";\n  display: block;\n  position: absolute;\n  top: 50%;\n  right: 15px;\n  transform: translateY(-50%);\n  background-image: url(\"https://ucarecdn.com/279e3230-335f-4fda-8889-7048837a483c/\");\n  height: 12px;\n  width: 12px;\n}\n.multi-select .multi-select-header.multi-select-header-active {\n  border-color: #cdcdcd;\n}\n.multi-select .multi-select-header.multi-select-header-active::after {\n  transform: translateY(-50%) rotate(180deg);\n}\n.multi-select\n  .multi-select-header.multi-select-header-active\n  + .multi-select-options {\n  display: flex;\n}\n.multi-select .multi-select-header .multi-select-header-placeholder {\n  color: #65727e;\n}\n.multi-select .multi-select-header .multi-select-header-option {\n  display: inline-flex;\n  align-items: center;\n  background-color: #f3f4f7;\n  font-size: 14px;\n  padding: 3px 8px;\n  border-radius: 5px;\n}\n.multi-select .multi-select-header .multi-select-header-max {\n  font-size: 14px;\n  color: #65727e;\n}\n.multi-select .multi-select-options {\n  display: none;\n  box-sizing: border-box;\n  flex-flow: wrap;\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  z-index: 999;\n  margin-top: 5px;\n  padding: 5px;\n  background-color: #fff;\n  border-radius: 5px;\n  max-height: 200px;\n  overflow-y: auto;\n  overflow-x: hidden;\n  width: fit-content;\n  max-width: 50vw;\n  border: 1px solid #cdcdcd;\n}\n.multi-select .multi-select-options::-webkit-scrollbar {\n  width: 3px;\n}\n.multi-select .multi-select-options::-webkit-scrollbar-track {\n  background: #f0f1f3;\n}\n.multi-select .multi-select-options::-webkit-scrollbar-thumb {\n  background: #cdcfd1;\n}\n.multi-select .multi-select-options::-webkit-scrollbar-thumb:hover {\n  background: #b2b6b9;\n}\n.multi-select .multi-select-options .multi-select-option,\n.multi-select .multi-select-options .multi-select-all {\n  padding: 4px 12px;\n  height: 42px;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option\n  .multi-select-option-radio,\n.multi-select\n  .multi-select-options\n  .multi-select-all\n  .multi-select-option-radio {\n  margin-right: 14px;\n  height: 14px;\n  width: 14px;\n  border: 1px solid #ced4da;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option\n  .multi-select-option-text,\n.multi-select\n  .multi-select-options\n  .multi-select-all\n  .multi-select-option-text {\n  box-sizing: border-box;\n  flex: 1;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  color: inherit;\n  font-size: 16px;\n  line-height: 20px;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option.multi-select-selected\n  .multi-select-option-radio,\n.multi-select\n  .multi-select-options\n  .multi-select-all.multi-select-selected\n  .multi-select-option-radio {\n  border-color: #000;\n  background-color: #000;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option.multi-select-selected\n  .multi-select-option-radio::after,\n.multi-select\n  .multi-select-options\n  .multi-select-all.multi-select-selected\n  .multi-select-option-radio::after {\n  content: \"\";\n  display: block;\n  width: 4px;\n  height: 9px;\n  margin: 0 33%;\n  border: solid #fff;\n  border-width: 0 0.1em 0.1em 0;\n  transform: rotate(45deg);\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option.multi-select-selected\n  .multi-select-option-text,\n.multi-select\n  .multi-select-options\n  .multi-select-all.multi-select-selected\n  .multi-select-option-text {\n  color: #000;\n}\n.multi-select .multi-select-options .multi-select-option:hover,\n.multi-select .multi-select-options .multi-select-option:active,\n.multi-select .multi-select-options .multi-select-all:hover,\n.multi-select .multi-select-options .multi-select-all:active {\n  background-color: #f3f4f7;\n}\n.multi-select .multi-select-options .multi-select-all {\n  border-bottom: 1px solid #f1f3f5;\n  border-radius: 0;\n}\n.multi-select .multi-select-options .multi-select-search {\n  padding: 7px 10px;\n  border: 1px solid #dee2e6;\n  border-radius: 5px;\n  margin: 10px 10px 5px 10px;\n  width: 100%;\n  outline: none;\n  font-size: 16px;\n}\n.multi-select .multi-select-options .multi-select-search::placeholder {\n  color: #b2b5b9;\n}\n.multi-select .multi-select-header,\n.multi-select .multi-select-option,\n.multi-select .multi-select-all {\n  display: flex;\n  box-sizing: border-box;\n  align-items: center;\n  border-radius: 5px;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  width: 100%;\n  font-size: 16px;\n  color: #212529;\n}\n.multi-select-all {\n  width: 100% !important;\n}\n`;\nconst styleTag = document.createElement(\"style\");\nstyleTag.innerText = styles;\nthis.appendChild(styleTag);\n\nclass MultiSelect {\n  constructor(element, options = {}) {\n    let defaults = {\n      placeholder: \"Select item(s)\",\n      max: null,\n      search: true,\n      selectAll: true,\n      listAll: true,\n      closeListOnItemSelect: false,\n      name: \"\",\n      width: \"\",\n      height: \"\",\n      dropdownWidth: \"\",\n      dropdownHeight: \"\",\n      data: [],\n      onChange: function () {},\n      onSelect: function () {},\n      onUnselect: function () {},\n    };\n    this.options = Object.assign(defaults, options);\n    this.selectElement =\n      typeof element === \"string\" ? document.querySelector(element) : element;\n\n    const booleanOptions = [\n      \"search\",\n      \"selectAll\",\n      \"listAll\",\n      \"closeListOnItemSelect\",\n    ];\n    for (const prop in this.selectElement.dataset) {\n      if (this.options.hasOwnProperty(prop)) {\n        let value = this.selectElement.dataset[prop];\n        if (booleanOptions.includes(prop)) {\n          this.options[prop] = value === \"true\";\n        } else if (prop === \"max\" && value !== null && value !== \"\") {\n          this.options[prop] = parseInt(value, 10);\n        } else if (value !== null && value !== \"\") {\n          this.options[prop] = value;\n        }\n      }\n    }\n    this.name = this.selectElement.getAttribute(\"name\")\n      ? this.selectElement.getAttribute(\"name\")\n      : \"multi-select-\" + Math.floor(Math.random() * 1000000);\n    if (!this.options.data.length) {\n      let options = this.selectElement.querySelectorAll(\"option\");\n      for (let i = 0; i < options.length; i++) {\n        this.options.data.push({\n          value: options[i].value,\n          text: options[i].innerHTML,\n          selected: options[i].selected,\n          html: options[i].getAttribute(\"data-html\"),\n        });\n      }\n    }\n    this.element = this._template();\n    this.selectElement.replaceWith(this.element);\n    this._updateSelected();\n    this._eventHandlers();\n    this._updateSelectAllButtonState(); // Initial state update\n  }\n\n  _template() {\n    let optionsHTML = \"\";\n    for (let i = 0; i < this.data.length; i++) {\n      optionsHTML += `\n                <div class=\"multi-select-option${\n                  this.selectedValues.includes(this.data[i].value)\n                    ? \" multi-select-selected\"\n                    : \"\"\n                }\" data-value=\"${this.data[i].value}\">\n                    <span class=\"multi-select-option-radio\"></span>\n                    <span class=\"multi-select-option-text\">${\n                      this.data[i].html ? this.data[i].html : this.data[i].text\n                    }</span>\n                </div>\n            `;\n    }\n    let selectAllHTML = \"\";\n    // Simplified boolean check\n    if (this.options.selectAll) {\n      selectAllHTML = `<div class=\"multi-select-all\">\n                <span class=\"multi-select-option-radio\"></span>\n                <span class=\"multi-select-option-text\">Select all</span>\n            </div>`;\n    }\n    let template = `\n            <div class=\"multi-select ${this.name}\"${\n      this.selectElement.id ? ' id=\"' + this.selectElement.id + '\"' : \"\"\n    } style=\"${this.width ? \"width:\" + this.width + \";\" : \"\"}${\n      this.height ? \"height:\" + this.height + \";\" : \"\"\n    }\">\n                ${this.selectedValues\n                  .map(\n                    (value) =>\n                      `<input type=\"hidden\" name=\"${this.name}[]\" value=\"${value}\">`\n                  )\n                  .join(\"\")}\n                <div class=\"multi-select-header\" style=\"${\n                  this.width ? \"width:\" + this.width + \";\" : \"\"\n                }${this.height ? \"height:\" + this.height + \";\" : \"\"}\">\n                    <span class=\"multi-select-header-max\">${\n                      this.options.max\n                        ? this.selectedValues.length + \"/\" + this.options.max\n                        : \"\"\n                    }</span>\n                    <span class=\"multi-select-header-placeholder\">${\n                      this.placeholder\n                    }</span>\n                </div>\n                <div class=\"multi-select-options\" style=\"${\n                  this.options.dropdownWidth\n                    ? \"width:\" + this.options.dropdownWidth + \";\"\n                    : \"\"\n                }${\n      this.options.dropdownHeight\n        ? \"height:\" + this.options.dropdownHeight + \";\"\n        : \"\"\n    }\">\n                    ${\n                      this.options.search === true ||\n                      this.options.search === \"true\"\n                        ? '<input type=\"text\" class=\"multi-select-search\" placeholder=\"Search...\">'\n                        : \"\"\n                    }\n                    ${selectAllHTML}\n                    ${optionsHTML}\n                </div>\n            </div>\n        `;\n    let element = document.createElement(\"div\");\n    element.innerHTML = template;\n    element.style.minWidth = this.width;\n    return element;\n  }\n\n  _eventHandlers() {\n    let headerElement = this.element.querySelector(\".multi-select-header\");\n    this.element.querySelectorAll(\".multi-select-option\").forEach((option) => {\n      option.onclick = () => {\n        let selected = true;\n        if (!option.classList.contains(\"multi-select-selected\")) {\n          if (\n            this.options.max &&\n            this.selectedValues.length >= this.options.max\n          ) {\n            return;\n          }\n          option.classList.add(\"multi-select-selected\");\n          this.element\n            .querySelector(\".multi-select\")\n            .insertAdjacentHTML(\n              \"afterbegin\",\n              `<input type=\"hidden\" name=\"${this.name}[]\" value=\"${option.dataset.value}\">`\n            );\n          this.data.filter(\n            (data) => data.value == option.dataset.value\n          )[0].selected = true;\n        } else {\n          option.classList.remove(\"multi-select-selected\");\n          this.element\n            .querySelector(`input[value=\"${option.dataset.value}\"]`)\n            .remove();\n          this.data.filter(\n            (data) => data.value == option.dataset.value\n          )[0].selected = false;\n          selected = false;\n        }\n        if (!this.options.listAll) {\n          if (this.element.querySelector(\".multi-select-header-option\")) {\n            this.element.querySelector(\".multi-select-header-option\").remove();\n          }\n          headerElement.insertAdjacentHTML(\n            \"afterbegin\",\n            `<span class=\"multi-select-header-option\">${this.selectedValues.length} selected</span>`\n          );\n        }\n        if (this.options.max) {\n          this.element.querySelector(\".multi-select-header-max\").innerHTML =\n            this.selectedValues.length + \"/\" + this.options.max;\n        }\n        if (this.options.search) {\n          this.element.querySelector(\".multi-select-search\").value = \"\";\n        }\n        this.element\n          .querySelectorAll(\".multi-select-option\")\n          .forEach((option) => (option.style.display = \"flex\"));\n        if (this.options.closeListOnItemSelect) {\n          headerElement.classList.remove(\"multi-select-header-active\");\n        }\n        this.options.onChange(\n          option.dataset.value,\n          option.querySelector(\".multi-select-option-text\").innerHTML,\n          option\n        );\n        if (selected) {\n          this.options.onSelect(\n            option.dataset.value,\n            option.querySelector(\".multi-select-option-text\").innerHTML,\n            option\n          );\n        } else {\n          this.options.onUnselect(\n            option.dataset.value,\n            option.querySelector(\".multi-select-option-text\").innerHTML,\n            option\n          );\n        }\n        this._updateSelectAllButtonState(); // Update after individual click\n      };\n    });\n    headerElement.onclick = () =>\n      headerElement.classList.toggle(\"multi-select-header-active\");\n\n    if (this.options.search) {\n      let search = this.element.querySelector(\".multi-select-search\");\n      search.oninput = () => {\n        this.element\n          .querySelectorAll(\".multi-select-option\")\n          .forEach((option) => {\n            option.style.display =\n              option\n                .querySelector(\".multi-select-option-text\")\n                .innerHTML.toLowerCase()\n                .indexOf(search.value.toLowerCase()) > -1\n                ? \"flex\"\n                : \"none\";\n          });\n        this._updateSelectAllButtonState(); // Update after search filters items\n      };\n    }\n\n    if (this.options.selectAll) {\n      let selectAllButton = this.element.querySelector(\".multi-select-all\");\n      selectAllButton.onclick = () => {\n        let isCurrentlySelectAllActive = selectAllButton.classList.contains(\n          \"multi-select-selected\"\n        );\n        let changedItems = [];\n        let currentSelectedCount = this.selectedValues.length;\n\n        this.element\n          .querySelectorAll(\".multi-select-option\")\n          .forEach((option) => {\n            // Only consider visible options for select/deselect all\n            if (option.style.display === \"none\") return;\n\n            let dataItem = this.data.find(\n              (data) => data.value == option.dataset.value\n            );\n            if (!dataItem) return;\n\n            const shouldBeSelected = !isCurrentlySelectAllActive;\n\n            if (dataItem.selected !== shouldBeSelected) {\n              if (shouldBeSelected) {\n                // Try to select\n                if (\n                  !this.options.max ||\n                  currentSelectedCount < this.options.max\n                ) {\n                  option.classList.add(\"multi-select-selected\");\n                  this.element\n                    .querySelector(\".multi-select\")\n                    .insertAdjacentHTML(\n                      \"afterbegin\",\n                      `<input type=\"hidden\" name=\"${this.name}[]\" value=\"${option.dataset.value}\">`\n                    );\n                  dataItem.selected = true;\n                  currentSelectedCount++;\n                  changedItems.push({\n                    value: option.dataset.value,\n                    text: option.querySelector(\".multi-select-option-text\")\n                      .innerHTML,\n                    option: option,\n                    selected: true,\n                  });\n                }\n              } else {\n                // Try to unselect\n                option.classList.remove(\"multi-select-selected\");\n                this.element\n                  .querySelector(`input[value=\"${option.dataset.value}\"]`)\n                  ?.remove();\n                dataItem.selected = false;\n                currentSelectedCount--;\n                changedItems.push({\n                  value: option.dataset.value,\n                  text: option.querySelector(\".multi-select-option-text\")\n                    .innerHTML,\n                  option: option,\n                  selected: false,\n                });\n              }\n            }\n          });\n\n        this._processBatchChanges(changedItems);\n        this._updateSelectAllButtonState(); // Update button state based on actual selections\n      };\n    }\n    if (\n      this.selectElement.id &&\n      document.querySelector('label[for=\"' + this.selectElement.id + '\"]')\n    ) {\n      document.querySelector(\n        'label[for=\"' + this.selectElement.id + '\"]'\n      ).onclick = () => {\n        headerElement.classList.toggle(\"multi-select-header-active\");\n      };\n    }\n    document.addEventListener(\"click\", (event) => {\n      if (\n        !event.target.closest(\".\" + this.name) &&\n        !event.target.closest('label[for=\"' + this.selectElement.id + '\"]')\n      ) {\n        headerElement.classList.remove(\"multi-select-header-active\");\n      }\n    });\n  }\n\n  _processBatchChanges(changedItems) {\n    if (changedItems.length === 0) return;\n\n    // Update header\n    if (!this.options.listAll) {\n      const headerOption = this.element.querySelector(\n        \".multi-select-header-option\"\n      );\n      if (headerOption) headerOption.remove();\n      this.element\n        .querySelector(\".multi-select-header\")\n        .insertAdjacentHTML(\n          \"afterbegin\",\n          `<span class=\"multi-select-header-option\">${this.selectedValues.length} selected</span>`\n        );\n    }\n\n    // Update max count if needed\n    if (this.options.max) {\n      this.element.querySelector(\".multi-select-header-max\").innerHTML =\n        this.selectedValues.length + \"/\" + this.options.max;\n    }\n\n    // Trigger single onChange for all items\n    this.options.onChange(\n      changedItems.map((item) => item.value),\n      changedItems.map((item) => item.text),\n      changedItems.map((item) => item.option)\n    );\n\n    // Trigger onSelect/onUnselect for items\n    changedItems.forEach((item) => {\n      if (item.selected) {\n        this.options.onSelect(item.value, item.text, item.option);\n      } else {\n        this.options.onUnselect(item.value, item.text, item.option);\n      }\n    });\n  }\n\n  _updateSelected() {\n    if (\n      this.element.querySelector(\".multi-select-header-option\") &&\n      this.element.querySelector(\".multi-select-header-placeholder\")\n    ) {\n      this.element.querySelector(\".multi-select-header-placeholder\").remove();\n    }\n    // Call _updateSelectAllButtonState here if not called at the end of constructor\n    // this._updateSelectAllButtonState();\n  }\n\n  _updateSelectAllButtonState() {\n    if (!this.options.selectAll) return;\n    const selectAllButton = this.element.querySelector(\".multi-select-all\");\n    if (!selectAllButton) return;\n\n    const visibleOptions = Array.from(\n      this.element.querySelectorAll(\".multi-select-option\")\n    ).filter((opt) => opt.style.display !== \"none\");\n\n    if (visibleOptions.length === 0) {\n      selectAllButton.classList.remove(\"multi-select-selected\");\n      return;\n    }\n\n    const selectedVisibleOptionsCount = visibleOptions.filter((opt) =>\n      opt.classList.contains(\"multi-select-selected\")\n    ).length;\n\n    if (selectedVisibleOptionsCount === visibleOptions.length) {\n      // All visible items are selected\n      selectAllButton.classList.add(\"multi-select-selected\");\n    } else {\n      // Not all visible items are selected\n      selectAllButton.classList.remove(\"multi-select-selected\");\n    }\n  }\n\n  get selectedValues() {\n    return this.data.filter((data) => data.selected).map((data) => data.value);\n  }\n\n  get selectedItems() {\n    return this.data.filter((data) => data.selected);\n  }\n\n  set data(value) {\n    this.options.data = value;\n  }\n\n  get data() {\n    return this.options.data;\n  }\n\n  set selectElement(value) {\n    this.options.selectElement = value;\n  }\n\n  get selectElement() {\n    return this.options.selectElement;\n  }\n\n  set element(value) {\n    this.options.element = value;\n  }\n\n  get element() {\n    return this.options.element;\n  }\n\n  set placeholder(value) {\n    this.options.placeholder = value;\n  }\n\n  get placeholder() {\n    return this.options.placeholder;\n  }\n\n  set name(value) {\n    this.options.name = value;\n  }\n\n  get name() {\n    return this.options.name;\n  }\n\n  set width(value) {\n    this.options.width = value;\n  }\n\n  get width() {\n    return this.options.width;\n  }\n\n  set height(value) {\n    this.options.height = value;\n  }\n\n  get height() {\n    return this.options.height;\n  }\n}\n\nconst loadMultiSelectUI = (element, data, placeholder) => {\n  let obj = new MultiSelect(element, {\n    data,\n    name: placeholder,\n    placeholder,\n    onChange: (value, text, option) => {\n      items = obj.selectedItems.map((item) => item.value);\n      key = placeholder;\n      console.log(key, items);\n      const params = new URLSearchParams(window.location.search);\n      const url = new URL(window.location.href);\n\n      // Set or replace the target key\n      if (items.length) params.set(key, items.join(\",\"));\n      else params.delete(key);\n      console.log(params);\n      // Reload page with updated params\n      window.location.search = params.toString();\n    },\n  });\n};\n\nwindow.loadMultiSelectUI = loadMultiSelectUI;\n\nconst isInBuilder = Boolean(this.dataset.blockId);\nif (isInBuilder) {\n  setTimeout(() => {\n    this.dispatchEvent(new CustomEvent(\"multiselect-available\"));\n  }, 250);\n} else {\n  this.dispatchEvent(new CustomEvent(\"multiselect-available\"));\n}\n",
+             "blockDataScript": "def as_json(val):\n  return frappe.call(\"webshop.webshop.utils.misc.as_json\", val=val)\n  \nblock.collections = as_json(frappe.call(\"webshop.webshop.api.list_collections\"))\nblock.categories = as_json(frappe.call(\"webshop.webshop.api.list_categories\"))\nblock.selected_categories = frappe.form_dict.Categories or \"\"\nblock.selected_collections = frappe.form_dict.Collections or \"\"",
+             "blockId": "w9ngt47xl",
+             "blockName": "container",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "border": "1px solid  #E2E2E2",
+                "borderColor": "rgb(226, 226, 226)",
+                "borderRadius": "8px",
+                "borderStyle": "solid",
+                "borderWidth": "1px",
+                "boxSizing": "border-box",
+                "display": "flex",
+                "justifyContent": "space-between",
+                "padding": "8px 10px",
+                "position": "static",
+                "width": "191px"
+               },
+               "blockClientScript": "const available_collections = JSON.parse(props[\"available_collections\"])\nconst selected_collections = props[\"selected_collections\"].split(\",\")\nconsole.log(selected_collections, props[\"selected_collections\"])\nthis.closest(\"[data-select-wrapper]\").addEventListener(\n  \"multiselect-available\",\n  () => {\n    let loadUI = window.loadMultiSelectUI;\n    const data = available_collections.map((item) => ({\"text\": item.name, \"value\": item.name, \"selected\": selected_collections.includes(item.name)}));\n    loadUI(this, data, \"Collections\");\n  }\n);\n\n\n",
+               "blockDataScript": "",
+               "blockId": "jpxy0kqaa",
+               "blockName": "input-select",
+               "children": [],
+               "classes": [
+                "multi-select-filter"
+               ],
+               "customAttributes": {
+                "data-multi-select": "",
+                "multiple": ""
+               },
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "select",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {
+                "available_collections": {
+                 "comesFrom": "blockDataScript",
+                 "isDynamic": true,
+                 "isPassedDown": true,
+                 "isStandard": false,
+                 "label": "",
+                 "value": "collections"
+                },
+                "selected_collections": {
+                 "comesFrom": "blockDataScript",
+                 "isDynamic": true,
+                 "isPassedDown": true,
+                 "isStandard": false,
+                 "label": "",
+                 "value": "selected_collections"
+                }
+               },
+               "rawStyles": {
+                "flex": "1 0 0"
+               },
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "border": "1px solid  #E2E2E2",
+                "borderColor": "rgb(226, 226, 226)",
+                "borderRadius": "8px",
+                "borderStyle": "solid",
+                "borderWidth": "1px",
+                "boxSizing": "border-box",
+                "display": "flex",
+                "justifyContent": "space-between",
+                "padding": "8px 10px",
+                "position": "static",
+                "width": "191px"
+               },
+               "blockClientScript": "const available_categories = JSON.parse(props[\"available_categories\"])\nconst selected_categories = props[\"selected_categories\"].split(\",\")\nconsole.log(selected_categories, props[\"selected_categories\"])\nthis.closest(\"[data-select-wrapper]\").addEventListener(\n  \"multiselect-available\",\n  () => {\n    let loadUI = window.loadMultiSelectUI;\n    const data = available_categories.map((item) => ({\"text\": item.name, \"value\": item.name, \"selected\": selected_categories.includes(item.name)}));\n    loadUI(this, data, \"Categories\");\n  }\n);\n\n\n",
+               "blockDataScript": "",
+               "blockId": "40w8qlfdq",
+               "blockName": "input-select",
+               "children": [],
+               "classes": [
+                "multi-select-filter"
+               ],
+               "customAttributes": {
+                "data-multi-select": "",
+                "multiple": ""
+               },
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "select",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {
+                "available_categories": {
+                 "comesFrom": "blockDataScript",
+                 "isDynamic": true,
+                 "isPassedDown": true,
+                 "isStandard": false,
+                 "label": "",
+                 "propOptions": {},
+                 "value": "categories"
+                },
+                "selected_categories": {
+                 "comesFrom": "blockDataScript",
+                 "isDynamic": true,
+                 "isPassedDown": true,
+                 "isStandard": false,
+                 "label": "",
+                 "propOptions": {},
+                 "value": "selected_categories"
+                }
+               },
+               "rawStyles": {
+                "flex": "1 0 0"
+               },
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {
+              "data-select-wrapper": ""
+             },
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "div",
+             "mobileStyles": {},
+             "props": {},
+             "rawStyles": {
+              "overflow": "visible"
+             },
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "__last_display": "flex",
+              "display": "none",
+              "flexDirection": "row",
+              "flexShrink": 0,
+              "gap": "12px",
+              "height": "fit-content",
+              "overflow": "hidden",
+              "width": "50%"
+             },
+             "blockClientScript": "/*\n * Created by David Adams\n * https://codeshack.io/multi-select-dropdown-html-javascript/\n *\n * Released under the MIT license\n */\n\nconst styles = `\n[data-select-wrapper] > div {\n  flex-grow: 1;\n}\n.multi-select {\n  display: flex;\n  box-sizing: border-box;\n  flex-direction: column;\n  position: relative;\n  width: 100%;\n  user-select: none;\n}\n.multi-select .multi-select-header {\n  border: 1px solid #dee2e6;\n  padding: 7px 30px 7px 12px;\n  overflow: hidden;\n  gap: 7px;\n  min-height: 45px;\n}\n.multi-select .multi-select-header::after {\n  content: \"\";\n  display: block;\n  position: absolute;\n  top: 50%;\n  right: 15px;\n  transform: translateY(-50%);\n  background-image: url(\"https://ucarecdn.com/279e3230-335f-4fda-8889-7048837a483c/\");\n  height: 12px;\n  width: 12px;\n}\n.multi-select .multi-select-header.multi-select-header-active {\n  border-color: #cdcdcd;\n}\n.multi-select .multi-select-header.multi-select-header-active::after {\n  transform: translateY(-50%) rotate(180deg);\n}\n.multi-select\n  .multi-select-header.multi-select-header-active\n  + .multi-select-options {\n  display: flex;\n}\n.multi-select .multi-select-header .multi-select-header-placeholder {\n  color: #65727e;\n}\n.multi-select .multi-select-header .multi-select-header-option {\n  display: inline-flex;\n  align-items: center;\n  background-color: #f3f4f7;\n  font-size: 14px;\n  padding: 3px 8px;\n  border-radius: 5px;\n}\n.multi-select .multi-select-header .multi-select-header-max {\n  font-size: 14px;\n  color: #65727e;\n}\n.multi-select .multi-select-options {\n  display: none;\n  box-sizing: border-box;\n  flex-flow: wrap;\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  z-index: 999;\n  margin-top: 5px;\n  padding: 5px;\n  background-color: #fff;\n  border-radius: 5px;\n  max-height: 200px;\n  overflow-y: auto;\n  overflow-x: hidden;\n  width: fit-content;\n  max-width: 50vw;\n  border: 1px solid #cdcdcd;\n}\n.multi-select .multi-select-options::-webkit-scrollbar {\n  width: 3px;\n}\n.multi-select .multi-select-options::-webkit-scrollbar-track {\n  background: #f0f1f3;\n}\n.multi-select .multi-select-options::-webkit-scrollbar-thumb {\n  background: #cdcfd1;\n}\n.multi-select .multi-select-options::-webkit-scrollbar-thumb:hover {\n  background: #b2b6b9;\n}\n.multi-select .multi-select-options .multi-select-option,\n.multi-select .multi-select-options .multi-select-all {\n  padding: 4px 12px;\n  height: 42px;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option\n  .multi-select-option-radio,\n.multi-select\n  .multi-select-options\n  .multi-select-all\n  .multi-select-option-radio {\n  margin-right: 14px;\n  height: 14px;\n  width: 14px;\n  border: 1px solid #ced4da;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option\n  .multi-select-option-text,\n.multi-select\n  .multi-select-options\n  .multi-select-all\n  .multi-select-option-text {\n  box-sizing: border-box;\n  flex: 1;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  color: inherit;\n  font-size: 16px;\n  line-height: 20px;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option.multi-select-selected\n  .multi-select-option-radio,\n.multi-select\n  .multi-select-options\n  .multi-select-all.multi-select-selected\n  .multi-select-option-radio {\n  border-color: #000;\n  background-color: #000;\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option.multi-select-selected\n  .multi-select-option-radio::after,\n.multi-select\n  .multi-select-options\n  .multi-select-all.multi-select-selected\n  .multi-select-option-radio::after {\n  content: \"\";\n  display: block;\n  width: 4px;\n  height: 9px;\n  margin: 0 33%;\n  border: solid #fff;\n  border-width: 0 0.1em 0.1em 0;\n  transform: rotate(45deg);\n}\n.multi-select\n  .multi-select-options\n  .multi-select-option.multi-select-selected\n  .multi-select-option-text,\n.multi-select\n  .multi-select-options\n  .multi-select-all.multi-select-selected\n  .multi-select-option-text {\n  color: #000;\n}\n.multi-select .multi-select-options .multi-select-option:hover,\n.multi-select .multi-select-options .multi-select-option:active,\n.multi-select .multi-select-options .multi-select-all:hover,\n.multi-select .multi-select-options .multi-select-all:active {\n  background-color: #f3f4f7;\n}\n.multi-select .multi-select-options .multi-select-all {\n  border-bottom: 1px solid #f1f3f5;\n  border-radius: 0;\n}\n.multi-select .multi-select-options .multi-select-search {\n  padding: 7px 10px;\n  border: 1px solid #dee2e6;\n  border-radius: 5px;\n  margin: 10px 10px 5px 10px;\n  width: 100%;\n  outline: none;\n  font-size: 16px;\n}\n.multi-select .multi-select-options .multi-select-search::placeholder {\n  color: #b2b5b9;\n}\n.multi-select .multi-select-header,\n.multi-select .multi-select-option,\n.multi-select .multi-select-all {\n  display: flex;\n  box-sizing: border-box;\n  align-items: center;\n  border-radius: 5px;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  width: 100%;\n  font-size: 16px;\n  color: #212529;\n}\n.multi-select-all {\n  width: 100% !important;\n}\n`;\nconst styleTag = document.createElement(\"style\");\nstyleTag.innerText = styles;\nthis.appendChild(styleTag);\n\nclass MultiSelect {\n  constructor(element, options = {}) {\n    let defaults = {\n      placeholder: \"Select item(s)\",\n      max: null,\n      search: true,\n      selectAll: true,\n      listAll: true,\n      closeListOnItemSelect: false,\n      name: \"\",\n      width: \"\",\n      height: \"\",\n      dropdownWidth: \"\",\n      dropdownHeight: \"\",\n      data: [],\n      onChange: function () {},\n      onSelect: function () {},\n      onUnselect: function () {},\n    };\n    this.options = Object.assign(defaults, options);\n    this.selectElement =\n      typeof element === \"string\" ? document.querySelector(element) : element;\n\n    const booleanOptions = [\n      \"search\",\n      \"selectAll\",\n      \"listAll\",\n      \"closeListOnItemSelect\",\n    ];\n    for (const prop in this.selectElement.dataset) {\n      if (this.options.hasOwnProperty(prop)) {\n        let value = this.selectElement.dataset[prop];\n        if (booleanOptions.includes(prop)) {\n          this.options[prop] = value === \"true\";\n        } else if (prop === \"max\" && value !== null && value !== \"\") {\n          this.options[prop] = parseInt(value, 10);\n        } else if (value !== null && value !== \"\") {\n          this.options[prop] = value;\n        }\n      }\n    }\n    this.name = this.selectElement.getAttribute(\"name\")\n      ? this.selectElement.getAttribute(\"name\")\n      : \"multi-select-\" + Math.floor(Math.random() * 1000000);\n    if (!this.options.data.length) {\n      let options = this.selectElement.querySelectorAll(\"option\");\n      for (let i = 0; i < options.length; i++) {\n        this.options.data.push({\n          value: options[i].value,\n          text: options[i].innerHTML,\n          selected: options[i].selected,\n          html: options[i].getAttribute(\"data-html\"),\n        });\n      }\n    }\n    this.element = this._template();\n    this.selectElement.replaceWith(this.element);\n    this._updateSelected();\n    this._eventHandlers();\n    this._updateSelectAllButtonState(); // Initial state update\n  }\n\n  _template() {\n    let optionsHTML = \"\";\n    for (let i = 0; i < this.data.length; i++) {\n      optionsHTML += `\n                <div class=\"multi-select-option${\n                  this.selectedValues.includes(this.data[i].value)\n                    ? \" multi-select-selected\"\n                    : \"\"\n                }\" data-value=\"${this.data[i].value}\">\n                    <span class=\"multi-select-option-radio\"></span>\n                    <span class=\"multi-select-option-text\">${\n                      this.data[i].html ? this.data[i].html : this.data[i].text\n                    }</span>\n                </div>\n            `;\n    }\n    let selectAllHTML = \"\";\n    // Simplified boolean check\n    if (this.options.selectAll) {\n      selectAllHTML = `<div class=\"multi-select-all\">\n                <span class=\"multi-select-option-radio\"></span>\n                <span class=\"multi-select-option-text\">Select all</span>\n            </div>`;\n    }\n    let template = `\n            <div class=\"multi-select ${this.name}\"${\n      this.selectElement.id ? ' id=\"' + this.selectElement.id + '\"' : \"\"\n    } style=\"${this.width ? \"width:\" + this.width + \";\" : \"\"}${\n      this.height ? \"height:\" + this.height + \";\" : \"\"\n    }\">\n                ${this.selectedValues\n                  .map(\n                    (value) =>\n                      `<input type=\"hidden\" name=\"${this.name}[]\" value=\"${value}\">`\n                  )\n                  .join(\"\")}\n                <div class=\"multi-select-header\" style=\"${\n                  this.width ? \"width:\" + this.width + \";\" : \"\"\n                }${this.height ? \"height:\" + this.height + \";\" : \"\"}\">\n                    <span class=\"multi-select-header-max\">${\n                      this.options.max\n                        ? this.selectedValues.length + \"/\" + this.options.max\n                        : \"\"\n                    }</span>\n                    <span class=\"multi-select-header-placeholder\">${\n                      this.placeholder\n                    }</span>\n                </div>\n                <div class=\"multi-select-options\" style=\"${\n                  this.options.dropdownWidth\n                    ? \"width:\" + this.options.dropdownWidth + \";\"\n                    : \"\"\n                }${\n      this.options.dropdownHeight\n        ? \"height:\" + this.options.dropdownHeight + \";\"\n        : \"\"\n    }\">\n                    ${\n                      this.options.search === true ||\n                      this.options.search === \"true\"\n                        ? '<input type=\"text\" class=\"multi-select-search\" placeholder=\"Search...\">'\n                        : \"\"\n                    }\n                    ${selectAllHTML}\n                    ${optionsHTML}\n                </div>\n            </div>\n        `;\n    let element = document.createElement(\"div\");\n    element.innerHTML = template;\n    element.style.minWidth = this.width;\n    return element;\n  }\n\n  _eventHandlers() {\n    let headerElement = this.element.querySelector(\".multi-select-header\");\n    this.element.querySelectorAll(\".multi-select-option\").forEach((option) => {\n      option.onclick = () => {\n        let selected = true;\n        if (!option.classList.contains(\"multi-select-selected\")) {\n          if (\n            this.options.max &&\n            this.selectedValues.length >= this.options.max\n          ) {\n            return;\n          }\n          option.classList.add(\"multi-select-selected\");\n          this.element\n            .querySelector(\".multi-select\")\n            .insertAdjacentHTML(\n              \"afterbegin\",\n              `<input type=\"hidden\" name=\"${this.name}[]\" value=\"${option.dataset.value}\">`\n            );\n          this.data.filter(\n            (data) => data.value == option.dataset.value\n          )[0].selected = true;\n        } else {\n          option.classList.remove(\"multi-select-selected\");\n          this.element\n            .querySelector(`input[value=\"${option.dataset.value}\"]`)\n            .remove();\n          this.data.filter(\n            (data) => data.value == option.dataset.value\n          )[0].selected = false;\n          selected = false;\n        }\n        if (!this.options.listAll) {\n          if (this.element.querySelector(\".multi-select-header-option\")) {\n            this.element.querySelector(\".multi-select-header-option\").remove();\n          }\n          headerElement.insertAdjacentHTML(\n            \"afterbegin\",\n            `<span class=\"multi-select-header-option\">${this.selectedValues.length} selected</span>`\n          );\n        }\n        if (this.options.max) {\n          this.element.querySelector(\".multi-select-header-max\").innerHTML =\n            this.selectedValues.length + \"/\" + this.options.max;\n        }\n        if (this.options.search) {\n          this.element.querySelector(\".multi-select-search\").value = \"\";\n        }\n        this.element\n          .querySelectorAll(\".multi-select-option\")\n          .forEach((option) => (option.style.display = \"flex\"));\n        if (this.options.closeListOnItemSelect) {\n          headerElement.classList.remove(\"multi-select-header-active\");\n        }\n        this.options.onChange(\n          option.dataset.value,\n          option.querySelector(\".multi-select-option-text\").innerHTML,\n          option\n        );\n        if (selected) {\n          this.options.onSelect(\n            option.dataset.value,\n            option.querySelector(\".multi-select-option-text\").innerHTML,\n            option\n          );\n        } else {\n          this.options.onUnselect(\n            option.dataset.value,\n            option.querySelector(\".multi-select-option-text\").innerHTML,\n            option\n          );\n        }\n        this._updateSelectAllButtonState(); // Update after individual click\n      };\n    });\n    headerElement.onclick = () =>\n      headerElement.classList.toggle(\"multi-select-header-active\");\n\n    if (this.options.search) {\n      let search = this.element.querySelector(\".multi-select-search\");\n      search.oninput = () => {\n        this.element\n          .querySelectorAll(\".multi-select-option\")\n          .forEach((option) => {\n            option.style.display =\n              option\n                .querySelector(\".multi-select-option-text\")\n                .innerHTML.toLowerCase()\n                .indexOf(search.value.toLowerCase()) > -1\n                ? \"flex\"\n                : \"none\";\n          });\n        this._updateSelectAllButtonState(); // Update after search filters items\n      };\n    }\n\n    if (this.options.selectAll) {\n      let selectAllButton = this.element.querySelector(\".multi-select-all\");\n      selectAllButton.onclick = () => {\n        let isCurrentlySelectAllActive = selectAllButton.classList.contains(\n          \"multi-select-selected\"\n        );\n        let changedItems = [];\n        let currentSelectedCount = this.selectedValues.length;\n\n        this.element\n          .querySelectorAll(\".multi-select-option\")\n          .forEach((option) => {\n            // Only consider visible options for select/deselect all\n            if (option.style.display === \"none\") return;\n\n            let dataItem = this.data.find(\n              (data) => data.value == option.dataset.value\n            );\n            if (!dataItem) return;\n\n            const shouldBeSelected = !isCurrentlySelectAllActive;\n\n            if (dataItem.selected !== shouldBeSelected) {\n              if (shouldBeSelected) {\n                // Try to select\n                if (\n                  !this.options.max ||\n                  currentSelectedCount < this.options.max\n                ) {\n                  option.classList.add(\"multi-select-selected\");\n                  this.element\n                    .querySelector(\".multi-select\")\n                    .insertAdjacentHTML(\n                      \"afterbegin\",\n                      `<input type=\"hidden\" name=\"${this.name}[]\" value=\"${option.dataset.value}\">`\n                    );\n                  dataItem.selected = true;\n                  currentSelectedCount++;\n                  changedItems.push({\n                    value: option.dataset.value,\n                    text: option.querySelector(\".multi-select-option-text\")\n                      .innerHTML,\n                    option: option,\n                    selected: true,\n                  });\n                }\n              } else {\n                // Try to unselect\n                option.classList.remove(\"multi-select-selected\");\n                this.element\n                  .querySelector(`input[value=\"${option.dataset.value}\"]`)\n                  ?.remove();\n                dataItem.selected = false;\n                currentSelectedCount--;\n                changedItems.push({\n                  value: option.dataset.value,\n                  text: option.querySelector(\".multi-select-option-text\")\n                    .innerHTML,\n                  option: option,\n                  selected: false,\n                });\n              }\n            }\n          });\n\n        this._processBatchChanges(changedItems);\n        this._updateSelectAllButtonState(); // Update button state based on actual selections\n      };\n    }\n    if (\n      this.selectElement.id &&\n      document.querySelector('label[for=\"' + this.selectElement.id + '\"]')\n    ) {\n      document.querySelector(\n        'label[for=\"' + this.selectElement.id + '\"]'\n      ).onclick = () => {\n        headerElement.classList.toggle(\"multi-select-header-active\");\n      };\n    }\n    document.addEventListener(\"click\", (event) => {\n      if (\n        !event.target.closest(\".\" + this.name) &&\n        !event.target.closest('label[for=\"' + this.selectElement.id + '\"]')\n      ) {\n        headerElement.classList.remove(\"multi-select-header-active\");\n      }\n    });\n  }\n\n  _processBatchChanges(changedItems) {\n    if (changedItems.length === 0) return;\n\n    // Update header\n    if (!this.options.listAll) {\n      const headerOption = this.element.querySelector(\n        \".multi-select-header-option\"\n      );\n      if (headerOption) headerOption.remove();\n      this.element\n        .querySelector(\".multi-select-header\")\n        .insertAdjacentHTML(\n          \"afterbegin\",\n          `<span class=\"multi-select-header-option\">${this.selectedValues.length} selected</span>`\n        );\n    }\n\n    // Update max count if needed\n    if (this.options.max) {\n      this.element.querySelector(\".multi-select-header-max\").innerHTML =\n        this.selectedValues.length + \"/\" + this.options.max;\n    }\n\n    // Trigger single onChange for all items\n    this.options.onChange(\n      changedItems.map((item) => item.value),\n      changedItems.map((item) => item.text),\n      changedItems.map((item) => item.option)\n    );\n\n    // Trigger onSelect/onUnselect for items\n    changedItems.forEach((item) => {\n      if (item.selected) {\n        this.options.onSelect(item.value, item.text, item.option);\n      } else {\n        this.options.onUnselect(item.value, item.text, item.option);\n      }\n    });\n  }\n\n  _updateSelected() {\n    if (\n      this.element.querySelector(\".multi-select-header-option\") &&\n      this.element.querySelector(\".multi-select-header-placeholder\")\n    ) {\n      this.element.querySelector(\".multi-select-header-placeholder\").remove();\n    }\n    // Call _updateSelectAllButtonState here if not called at the end of constructor\n    // this._updateSelectAllButtonState();\n  }\n\n  _updateSelectAllButtonState() {\n    if (!this.options.selectAll) return;\n    const selectAllButton = this.element.querySelector(\".multi-select-all\");\n    if (!selectAllButton) return;\n\n    const visibleOptions = Array.from(\n      this.element.querySelectorAll(\".multi-select-option\")\n    ).filter((opt) => opt.style.display !== \"none\");\n\n    if (visibleOptions.length === 0) {\n      selectAllButton.classList.remove(\"multi-select-selected\");\n      return;\n    }\n\n    const selectedVisibleOptionsCount = visibleOptions.filter((opt) =>\n      opt.classList.contains(\"multi-select-selected\")\n    ).length;\n\n    if (selectedVisibleOptionsCount === visibleOptions.length) {\n      // All visible items are selected\n      selectAllButton.classList.add(\"multi-select-selected\");\n    } else {\n      // Not all visible items are selected\n      selectAllButton.classList.remove(\"multi-select-selected\");\n    }\n  }\n\n  get selectedValues() {\n    return this.data.filter((data) => data.selected).map((data) => data.value);\n  }\n\n  get selectedItems() {\n    return this.data.filter((data) => data.selected);\n  }\n\n  set data(value) {\n    this.options.data = value;\n  }\n\n  get data() {\n    return this.options.data;\n  }\n\n  set selectElement(value) {\n    this.options.selectElement = value;\n  }\n\n  get selectElement() {\n    return this.options.selectElement;\n  }\n\n  set element(value) {\n    this.options.element = value;\n  }\n\n  get element() {\n    return this.options.element;\n  }\n\n  set placeholder(value) {\n    this.options.placeholder = value;\n  }\n\n  get placeholder() {\n    return this.options.placeholder;\n  }\n\n  set name(value) {\n    this.options.name = value;\n  }\n\n  get name() {\n    return this.options.name;\n  }\n\n  set width(value) {\n    this.options.width = value;\n  }\n\n  get width() {\n    return this.options.width;\n  }\n\n  set height(value) {\n    this.options.height = value;\n  }\n\n  get height() {\n    return this.options.height;\n  }\n}\n\nconst loadMultiSelectUI = (element, data, placeholder) => {\n  let obj = new MultiSelect(element, {\n    data,\n    name: placeholder,\n    placeholder,\n    onChange: (value, text, option) => {\n      items = obj.selectedItems.map((item) => item.value);\n      key = placeholder;\n      console.log(key, items);\n      const params = new URLSearchParams(window.location.search);\n      const url = new URL(window.location.href);\n\n      // Set or replace the target key\n      if (items.length) params.set(key, items.join(\",\"));\n      else params.delete(key);\n      console.log(params);\n      // Reload page with updated params\n      window.location.search = params.toString();\n    },\n  });\n};\n\nwindow.loadMultiSelectUI = loadMultiSelectUI;\n\nsetTimeout(() => {\n  this.dispatchEvent(new CustomEvent(\"multiselect-available\"));\n}, 100);\n",
+             "blockDataScript": "",
+             "blockId": "6m0rr2bzl",
+             "blockName": "container",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "border": "1px solid  #E2E2E2",
+                "borderColor": "rgb(226, 226, 226)",
+                "borderRadius": "8px",
+                "borderStyle": "solid",
+                "borderWidth": "1px",
+                "boxSizing": "border-box",
+                "display": "flex",
+                "justifyContent": "space-between",
+                "padding": "8px 10px",
+                "width": "191px"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "o1fm2sjau",
+               "blockName": "input-select",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "color": "rgb(82, 82, 82)",
+                  "fontSize": "14px",
+                  "fontWeight": "420",
+                  "letterSpacing": "0.28px",
+                  "lineHeight": "115% "
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "ip0wqnefz",
+                 "blockName": "text",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "p",
+                 "innerHTML": "Category",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "flex-start",
+                  "display": "flex",
+                  "gap": "8px"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "nnqiywy1r",
+                 "blockName": "suffix",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "height": "16px",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "rfzln9g9o",
+                   "blockName": "icon/line/down",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "svg",
+                   "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M13.3536 5.68649C13.5488 5.88175 13.5488 6.19825 13.3536 6.39352L8.35355 11.3935C8.15829 11.5888 7.84178 11.5888 7.64652 11.3935L2.64652 6.39352C2.45126 6.19825 2.45126 5.88175 2.64652 5.68649C2.84178 5.49122 3.15829 5.49122 3.35355 5.68649L8.00004 10.333L12.6465 5.68649C12.8418 5.49122 13.1583 5.49122 13.3536 5.68649Z\" fill=\"#525252\"/>\n</svg>\n",
+                   "mobileStyles": {},
+                   "originalElement": "__raw_html__",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "div",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {
+                "flex": "1 0 0"
+               },
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "border": "1px solid  #E2E2E2",
+                "borderColor": "rgb(226, 226, 226)",
+                "borderRadius": "8px",
+                "borderStyle": "solid",
+                "borderWidth": "1px",
+                "boxSizing": "border-box",
+                "display": "flex",
+                "justifyContent": "space-between",
+                "padding": "8px 10px",
+                "width": "191px"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "jb4n02uyj",
+               "blockName": "input-select",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "color": "rgb(82, 82, 82)",
+                  "fontSize": "14px",
+                  "fontWeight": "420",
+                  "letterSpacing": "0.28px",
+                  "lineHeight": "115% "
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "kvqzhp2ei",
+                 "blockName": "text",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "p",
+                 "innerHTML": "Size",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "flex-start",
+                  "display": "flex",
+                  "gap": "8px"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "ye08sse83",
+                 "blockName": "suffix",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "height": "16px",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "h5i7l0btc",
+                   "blockName": "icon/line/down",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "svg",
+                   "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M13.3536 5.68649C13.5488 5.88175 13.5488 6.19825 13.3536 6.39352L8.35355 11.3935C8.15829 11.5888 7.84178 11.5888 7.64652 11.3935L2.64652 6.39352C2.45126 6.19825 2.45126 5.88175 2.64652 5.68649C2.84178 5.49122 3.15829 5.49122 3.35355 5.68649L8.00004 10.333L12.6465 5.68649C12.8418 5.49122 13.1583 5.49122 13.3536 5.68649Z\" fill=\"#525252\"/>\n</svg>\n",
+                   "mobileStyles": {},
+                   "originalElement": "__raw_html__",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "div",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {
+                "flex": "1 0 0"
+               },
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "div",
+             "mobileStyles": {},
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "__last_display": "flex",
+              "alignItems": "center",
+              "border": "1px solid  #E2E2E2",
+              "borderColor": "rgb(226, 226, 226)",
+              "borderRadius": "8px",
+              "borderStyle": "solid",
+              "borderWidth": "1px",
+              "boxSizing": "border-box",
+              "display": "none",
+              "justifyContent": "space-between",
+              "padding": "8px 10px",
+              "width": "25%"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "xun6jmsm7",
+             "blockName": "input-select",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "color": "rgb(82, 82, 82)",
+                "fontSize": "14px",
+                "fontWeight": "420",
+                "letterSpacing": "0.28px",
+                "lineHeight": "115% "
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "ept0bvb0x",
+               "blockName": "text",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "p",
+               "innerHTML": "Price: Low to High",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "flex-start",
+                "display": "flex",
+                "gap": "8px"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "011uo1ow2",
+               "blockName": "suffix",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "height": "16px",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "2w4rik84i",
+                 "blockName": "icon/line/down",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "svg",
+                 "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M13.3536 5.68649C13.5488 5.88175 13.5488 6.19825 13.3536 6.39352L8.35355 11.3935C8.15829 11.5888 7.84178 11.5888 7.64652 11.3935L2.64652 6.39352C2.45126 6.19825 2.45126 5.88175 2.64652 5.68649C2.84178 5.49122 3.15829 5.49122 3.35355 5.68649L8.00004 10.333L12.6465 5.68649C12.8418 5.49122 13.1583 5.49122 13.3536 5.68649Z\" fill=\"#525252\"/>\n</svg>\n",
+                 "mobileStyles": {},
+                 "originalElement": "__raw_html__",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "section",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "div",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "section",
+           "innerHTML": "",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "element": "section",
+         "innerHTML": "",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {
+          "alignItems": "center",
+          "alignSelf": "stretch",
+          "display": "flex",
+          "flexDirection": "column",
+          "justifyContent": "center",
+          "width": "100%"
+         },
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "4rmmonsaq",
+         "blockName": "Wrapper",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "display": "grid",
+            "flexDirection": "column",
+            "flexShrink": 0,
+            "gap": "32px",
+            "gridAutoColumns": "minmax(0, 1fr)",
+            "gridTemplateColumns": "repeat(3, minmax(0, 1fr))",
+            "overflow": "hidden",
+            "width": "100%"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "u5mjenmii",
+           "blockName": "Product List",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "flex-start",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "16px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "1ffwkfk0x",
+             "blockName": "Frame 22",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "alignSelf": "stretch",
+                "border": "1px solid  #E2E2E2",
+                "borderColor": "rgb(226, 226, 226)",
+                "borderRadius": "8px",
+                "borderStyle": "solid",
+                "borderWidth": "1px",
+                "display": "flex",
+                "gap": "10px",
+                "justifyContent": "center",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "position": "relative",
+                "width": "100%"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "block.is_image_available = bool(props[\"website_image\"])",
+               "blockId": "s50fg1trz",
+               "blockName": "Frame 19",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {
+                  "src": "/assets/webshop/builder_assets/image.webp"
+                 },
+                 "baseStyles": {
+                  "alignSelf": "stretch",
+                  "objectFit": "cover"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "c449cspp0",
+                 "blockName": "image 2",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [
+                  {
+                   "comesFrom": "blockDataScript",
+                   "key": "website_image",
+                   "property": "src",
+                   "type": "attribute"
+                  }
+                 ],
+                 "element": "img",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {
+                  "flex": "1 0 0"
+                 },
+                 "tabletStyles": {},
+                 "visibilityCondition": {
+                  "comesFrom": "blockDataScript",
+                  "key": "is_image_available"
+                 }
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "fontSize": "16px",
+                  "height": "fit-content",
+                  "lineHeight": "1.4",
+                  "minWidth": "10px",
+                  "position": "static",
+                  "width": "fit-content"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "block.is_image_not_available = not bool(props[\"website_image\"])",
+                 "blockId": "vsh0allkj",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "p",
+                 "innerHTML": "<p>No Image Available</p>",
+                 "mobileStyles": {},
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {},
+                 "visibilityCondition": {
+                  "comesFrom": "blockDataScript",
+                  "key": "is_image_not_available"
+                 }
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "section",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {
+                "website_image": {
+                 "comesFrom": "blockDataScript",
+                 "isDynamic": true,
+                 "isPassedDown": true,
+                 "isStandard": false,
+                 "label": "",
+                 "value": "website_image"
+                }
+               },
+               "rawStyles": {
+                "aspectRatio": "1/1"
+               },
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "flex-start",
+                "alignSelf": "stretch",
+                "display": "flex",
+                "flexDirection": "column",
+                "gap": "20px",
+                "paddingTop": "10px",
+                "width": "100%"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "lnpmj4uvx",
+               "blockName": "Frame 20",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "alignSelf": "stretch",
+                  "display": "flex",
+                  "justifyContent": "space-between",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "rmkmligkf",
+                 "blockName": "Frame 188",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "color": "rgb(0, 0, 0)",
+                    "fontSize": "16px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.24px",
+                    "lineHeight": "115% "
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "e35zlldv0",
+                   "blockName": "Product name",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [
+                    {
+                     "comesFrom": "blockDataScript",
+                     "key": "web_item_name",
+                     "property": "innerHTML",
+                     "type": "key"
+                    }
+                   ],
+                   "element": "p",
+                   "innerHTML": "<p>Product name</p>",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "color": "rgb(0, 0, 0)",
+                    "fontSize": "16px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.24px",
+                    "lineHeight": "115% "
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "uiftvqqxb",
+                   "blockName": "₹998",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "p",
+                   "innerHTML": "₹998",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "alignSelf": "stretch",
+                  "backgroundColor": "rgb(243, 243, 243)",
+                  "borderRadius": " 8px",
+                  "display": "flex",
+                  "gap": "8px",
+                  "height": "32px",
+                  "justifyContent": "center",
+                  "padding": "7px 10px",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "plrjf754p",
+                 "blockName": "button",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "color": "rgb(56, 56, 56)",
+                    "fontSize": "14px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.21px",
+                    "lineHeight": "115% "
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "pw8jsjh12",
+                   "blockName": "Discover",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "p",
+                   "innerHTML": "Add to cart",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "div",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "section",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [
+              {
+               "comesFrom": "blockDataScript",
+               "key": "route",
+               "property": "href",
+               "type": "attribute"
+              }
+             ],
+             "element": "a",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {},
+             "visibilityCondition": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": {
+            "comesFrom": "blockDataScript",
+            "key": "items",
+            "property": "innerHTML",
+            "type": "key"
+           },
+           "dynamicValues": [],
+           "element": "div",
+           "isRepeaterBlock": true,
+           "mobileStyles": {},
+           "props": {},
+           "rawStyles": {},
+           "tabletStyles": {},
+           "visibilityCondition": {
+            "comesFrom": "blockDataScript",
+            "key": "total_items"
+           }
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "column",
+            "flexShrink": 0,
+            "height": "fit-content",
+            "justifyContent": "center",
+            "minHeight": "240px",
+            "overflow": "hidden",
+            "position": "relative",
+            "width": "fit-content"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "block.visible = not bool(props[\"total_items\"])\nprint(props[\"total_items\"])",
+           "blockId": "fgpbkq1oi",
+           "blockName": "container",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "fontSize": "16px",
+              "height": "fit-content",
+              "lineHeight": "1.4",
+              "minWidth": "10px",
+              "position": "static",
+              "width": "fit-content"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "txik3912y",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "p",
+             "innerHTML": "<p>No Items!</p>",
+             "mobileStyles": {},
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "div",
+           "mobileStyles": {},
+           "props": {
+            "total_items": {
+             "comesFrom": "blockDataScript",
+             "isDynamic": true,
+             "isPassedDown": true,
+             "isStandard": false,
+             "label": "",
+             "value": "total_items"
+            }
+           },
+           "rawStyles": {},
+           "tabletStyles": {},
+           "visibilityCondition": {
+            "comesFrom": "blockDataScript",
+            "key": "visible"
+           }
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "element": "section",
+         "innerHTML": "",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {
+          "columnGap": "32px",
+          "gridTemplateColumns": "repeat(3,minmax(0,1fr))",
+          "gridTemplateRows": "repeat(5,fit-content(100%))",
+          "rowGap": "32px"
+         },
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {
+          "alignItems": "center",
+          "display": "flex",
+          "flexDirection": "row",
+          "gap": "10px",
+          "justifyContent": "space-between",
+          "paddingTop": "8px",
+          "width": "100%"
+         },
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "k4tbv695k",
+         "blockName": "Frame 65",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "center",
+            "border": "1px solid  #383838",
+            "borderColor": "rgb(56, 56, 56)",
+            "borderRadius": "10px",
+            "borderStyle": "solid",
+            "borderWidth": "1px",
+            "boxSizing": "border-box",
+            "display": "flex",
+            "gap": "8px",
+            "height": "40px",
+            "justifyContent": "center",
+            "padding": "10px 12px"
+           },
+           "blockClientScript": "this.addEventListener(\"click\", () => {\n  const url = new URL(window.location.href);\n  url.searchParams.set(\"page\", parseInt(props[\"page\"]) - 1);\n\n  window.location.href = url.toString();\n});\n",
+           "blockDataScript": "block.visible = int(props[\"page\"]) > 1",
+           "blockId": "qdz08ab3y",
+           "blockName": "button",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "color": "rgb(56, 56, 56)",
+              "fontSize": "16px",
+              "fontWeight": "500",
+              "letterSpacing": "0.24px",
+              "lineHeight": "115% "
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "ue0t4vdd9",
+             "blockName": "Discover",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "p",
+             "innerHTML": "Prev Page",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "button",
+           "innerHTML": "",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {
+            "page": {
+             "comesFrom": "blockDataScript",
+             "isDynamic": true,
+             "isPassedDown": true,
+             "isStandard": false,
+             "label": "",
+             "value": "page"
+            }
+           },
+           "rawStyles": {},
+           "tabletStyles": {},
+           "visibilityCondition": {
+            "comesFrom": "blockDataScript",
+            "key": "visible"
+           }
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "center",
+            "border": "1px solid  #383838",
+            "borderColor": "rgb(56, 56, 56)",
+            "borderRadius": "10px",
+            "borderStyle": "solid",
+            "borderWidth": "1px",
+            "boxSizing": "border-box",
+            "display": "flex",
+            "gap": "8px",
+            "height": "40px",
+            "justifyContent": "center",
+            "padding": "10px 12px"
+           },
+           "blockClientScript": "this.addEventListener(\"click\", () => {\n  const url = new URL(window.location.href);\n  url.searchParams.set(\"page\", parseInt(props[\"page\"]) + 1);\n\n  window.location.href = url.toString();\n});\n",
+           "blockDataScript": "",
+           "blockId": "jjxp9dl3v",
+           "blockName": "button",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "color": "rgb(56, 56, 56)",
+              "fontSize": "16px",
+              "fontWeight": "500",
+              "letterSpacing": "0.24px",
+              "lineHeight": "115% "
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "ef8cyoqsa",
+             "blockName": "Discover",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "p",
+             "innerHTML": "<p>Next Page</p>",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "button",
+           "innerHTML": "",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {
+            "page": {
+             "comesFrom": "blockDataScript",
+             "isDynamic": true,
+             "isPassedDown": true,
+             "isStandard": false,
+             "label": "",
+             "value": "page"
+            }
+           },
+           "rawStyles": {},
+           "tabletStyles": {},
+           "visibilityCondition": {
+            "comesFrom": "blockDataScript",
+            "key": "more_pages"
+           }
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "element": "section",
+         "innerHTML": "",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "tabletStyles": {}
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "element": "section",
+       "innerHTML": "",
+       "mobileStyles": {},
+       "originalElement": "",
+       "props": {
+        "filters": {
+         "comesFrom": "blockDataScript",
+         "isDynamic": true,
+         "isPassedDown": true,
+         "isStandard": false,
+         "label": "",
+         "propOptions": {},
+         "value": "filters"
+        }
+       },
+       "rawStyles": {},
+       "tabletStyles": {}
+      }
+     ],
+     "classes": [],
+     "customAttributes": {},
+     "dataKey": null,
+     "dynamicValues": [],
+     "element": "div",
+     "mobileStyles": {},
+     "props": {},
+     "rawStyles": {},
+     "tabletStyles": {}
+    }
+   ],
+   "classes": [],
+   "customAttributes": {},
+   "dataKey": null,
+   "draggable": false,
+   "dynamicValues": [],
+   "element": "div",
+   "mobileStyles": {},
+   "originalElement": "body",
+   "props": {},
+   "rawStyles": {},
+   "tabletStyles": {}
+  }
+ ],
+ "client_scripts": [],
+ "creation": "2026-03-23 13:15:57.522065",
+ "disable_indexing": 0,
+ "docstatus": 0,
+ "doctype": "Builder Page",
+ "draft_blocks": null,
+ "dynamic_route": 0,
+ "idx": 0,
+ "is_standard": 1,
+ "is_template": 0,
+ "modified": "2026-03-24 10:35:24.272221",
+ "modified_by": "Administrator",
+ "name": "page-7209e638",
+ "owner": "Administrator",
+ "page_name": "page-7209e638",
+ "page_title": "Products",
+ "preview": "/files/page-7209e638-preview.webp?v=ecad6",
+ "project_folder": "webshop",
+ "published": 1,
+ "route": "products"
+}
