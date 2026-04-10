@@ -93,6 +93,7 @@ def get_billing_addresses(party=None):
 
 @frappe.whitelist()
 def place_order():
+    frappe.logger("momo").error("MOMO_DEBUG: place_order called")
     quotation = _get_cart_quotation()
     cart_settings = frappe.get_cached_doc("Webshop Settings")
 
