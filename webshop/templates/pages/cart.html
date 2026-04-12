@@ -27,7 +27,7 @@
 							<th class="item-column">{{ _('Item') }}</th>
 							<th width="20%">{{ _('Quantity') }}</th>
 							{% if cart_settings.enable_checkout or cart_settings.show_price_in_quotation %}
-								<th width="20" class="text-right column-sm-view">{{ _('Subtotal') }}</th>
+								<th width="25%" class="text-right column-sm-view">{{ _('Subtotal') }}</th>
 							{% endif %}
 							<th width="10%" class="column-sm-view"></th>
 						</tr>
@@ -110,7 +110,7 @@
 					</div>
 				</div>
 
-				{% include "templates/includes/cart/cart_address.html" %}
+				<!-- Address section removed, moved to /checkout -->
 			</div>
 		</div>
 		{% endif %}

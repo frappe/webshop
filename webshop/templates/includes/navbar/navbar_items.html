@@ -2,7 +2,7 @@
 
 {% block navbar_right_extension %}
 	<li class="shopping-cart cart-icon hidden">
-		<a class="nav-link" href="/cart">
+		<a class="nav-link cart-drawer-toggle" href="javascript:void(0)" onclick="webshop.webshop.shopping_cart.toggle_drawer()">
 			<svg class="icon icon-lg">
 				<use href="#icon-assets"></use>
 			</svg>
@@ -19,4 +19,6 @@
 			</a>
 		</li>
 	{% endif %}
+
+	{% include 'webshop/templates/includes/cart_drawer.html' %}
 {% endblock %}

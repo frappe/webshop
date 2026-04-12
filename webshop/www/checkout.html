@@ -1,0 +1,586 @@
+{% extends "templates/web.html" %}
+
+{% block title %} {{ _("Checkout") }} {% endblock %}
+
+{% block header %}
+{{ include_style("assets/webshop/css/webshop-modern.css") }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/css/intlTelInput.min.css">
+<style>
+	.checkout-container { display: block !important; opacity: 1 !important; visibility: visible !important; }
+	.glass-card { background: rgba(255, 255, 255, 0.8) !important; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); }
+	.shipping-card { transition: all 0.2s ease; border: 2px solid #e9ecef !important; cursor: pointer; }
+	.shipping-card:hover { border-color: var(--primary) !important; background: rgba(var(--primary-rgb), 0.05); }
+	input[name="shipping_method"]:checked + .shipping-card,
+	input[name="payment_method"]:checked + .shipping-card { border-color: var(--primary) !important; background: rgba(var(--primary-rgb), 0.1); box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.15); }
+	input[name="shipping_method"]:checked + .shipping-card .method-price,
+	/* Unified Premium Form Fields */
+	.checkout-form-section .form-control,
+	.country-picker-search,
+	.selected-country-box {
+		border-radius: 8px !important;
+		padding: 10px 14px !important;
+		min-height: 46px !important;
+		height: auto !important;
+		border: 1px solid #ced4da !important;
+		background-color: #fff !important;
+		transition: all 0.2s ease !important;
+		font-size: 14px !important;
+		box-shadow: none !important;
+	}
+
+	.checkout-form-section .form-control:focus,
+	.country-picker-search:focus,
+	.selected-country-box:hover,
+	.selected-country-box:focus {
+		border-color: var(--primary) !important;
+		box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1) !important;
+		outline: none !important;
+	}
+
+	/* Phone Field - Premium Alignment (Using official library CSS) */
+	.iti { width: 100% !important; display: block !important; }
+	.iti__country-list { border-radius: 8px !important; margin-top: 5px !important; box-shadow: var(--ws-shadow-lg) !important; border: 1px solid var(--ws-border) !important; z-index: 1001 !important; }
+	
+	/* Ensure the input matches the design system while respecting ITI padding */
+	#checkout-phone {
+		border-radius: var(--ws-radius-sm) !important;
+		min-height: 46px !important;
+		height: 46px !important;
+		padding-left: 95px !important;
+		border: 1px solid var(--ws-border) !important;
+		background-color: var(--ws-surface) !important;
+		color: var(--ws-text) !important;
+		font-family: 'Inter', sans-serif !important;
+		font-size: 1rem !important;
+		font-weight: 400 !important;
+		transition: var(--ws-transition) !important;
+	}
+	#checkout-phone::placeholder {
+		color: var(--ws-text-light) !important;
+		opacity: 1 !important;
+	}
+	#checkout-phone:focus {
+		border-color: var(--ws-primary) !important;
+		box-shadow: 0 0 0 4px hsla(var(--ws-primary-h), var(--ws-primary-s), var(--ws-primary-l), 0.1) !important;
+	}
+	
+	/* Match ITI elements to Design System */
+	.iti__selected-dial-code {
+		color: var(--ws-text) !important;
+		font-weight: 500 !important;
+		font-size: 1rem !important;
+		font-family: 'Inter', sans-serif !important;
+		padding-left: 4px !important;
+	}
+	.iti__selected-country {
+		padding-left: 12px !important;
+	}
+	
+	/* User Greeting & Address Cards */
+	.user-greeting { border-left: 4px solid var(--ws-primary); }
+	.bg-primary-light { background-color: var(--ws-primary-light) !important; }
+	.hover-primary:hover { color: var(--ws-primary) !important; text-decoration: none; }
+	
+	.address-list-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 1.5rem;
+	}
+	.address-card {
+		background: var(--ws-surface);
+		border-color: var(--ws-border) !important;
+		position: relative;
+		height: 100%;
+		transition: var(--ws-transition);
+	}
+	.address-card:hover {
+		border-color: var(--ws-primary) !important;
+		box-shadow: var(--ws-shadow-sm);
+	}
+	.address-card-actions { border-top: 1px solid #f1f3f5; }
+	.btn-edit-address i, .btn-delete-address i, .btn-set-primary i { transition: all 0.2s ease; cursor: pointer; }
+	.btn-edit-address:hover i { color: var(--ws-primary) !important; transform: scale(1.2); }
+	.btn-delete-address:hover i { color: #dc3545 !important; transform: scale(1.2); }
+	.btn-set-primary:hover i { color: var(--ws-primary) !important; transform: scale(1.2); }
+	.border-top-light { border-top: 1px solid #f1f3f5 !important; }
+	.badge-primary-light { background-color: rgba(0, 123, 255, 0.1); color: var(--ws-primary); }
+	.extra-small { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 6px; border-radius: 4px; }
+
+	.address-card-option input:checked + .address-card {
+		border-color: var(--ws-primary) !important;
+		background-color: hsla(var(--ws-primary-h), var(--ws-primary-s), var(--ws-primary-l), 0.02);
+		box-shadow: 0 0 0 1px var(--ws-primary);
+	}
+	.select-icon {
+		display: none;
+		font-size: 1.2rem;
+	}
+	.address-card-option input:checked + .address-card .select-icon {
+		display: block;
+	}
+	.border-dashed { border-style: dashed !important; }
+	
+	.manual-address-form.d-none { display: none !important; }
+	.mt-8 { margin-top: 2rem !important; }
+	
+	/* Custom Country Picker Adjustments */
+	.country-picker-container { position: relative; width: 100%; }
+	.selected-country-box { cursor: pointer; justify-content: space-between; display: flex; align-items: center; }
+	.selected-country-info { display: flex; align-items: center; gap: 10px; }
+	.country-picker-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ced4da; border-radius: 8px; margin-top: 5px; z-index: 1000; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 300px; overflow-y: auto; padding: 8px; }
+	.country-picker-search { margin-bottom: 10px; position: sticky; top: 0; z-index: 10; width: 100%; }
+	.country-option { display: flex; align-items: center; gap: 10px; padding: 8px 12px; cursor: pointer; border-radius: 6px; transition: background 0.2s; font-size: 14px; }
+	.country-option:hover { background: #f8f9fa; }
+	.country-option.selected { background: rgba(var(--primary-rgb), 0.1); color: var(--primary); font-weight: bold; }
+	.country-picker-container.open .country-picker-dropdown { display: block; animation: slideDown 0.2s ease-out; }
+	
+	/* Button Customization */
+	.btn-lg { border-radius: 8px !important; padding: 14px 28px !important; font-weight: 600 !important; }
+	
+	@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/css/intlTelInput.min.css">
+{% endblock %}
+
+{% block page_content %}
+<div class="checkout-container py-8">
+	<div class="row">
+		<!-- Left: Form Section -->
+		<div class="col-md-7">
+			<div class="checkout-form-section frappe-card p-6 mb-4 glass-card">
+				{% if frappe.session.user != 'Guest' %}
+				<div class="user-greeting mb-6 p-4 bg-primary-light rounded-lg">
+					<div class="d-flex align-items-center">
+						<div class="user-avatar mr-3 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-weight: bold;">
+							{{ frappe.get_fullname(frappe.session.user)[0]|upper }}
+						</div>
+						<div>
+							<h5 class="mb-0 font-weight-bold text-primary">{{ _("Hello, {0}!").format(frappe.get_fullname(frappe.session.user)) }}</h5>
+							<a href="/me" class="text-muted small hover-primary"><i class="fa fa-edit mr-1"></i>{{ _("Edit Profile") }}</a>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+
+				<div class="d-flex justify-content-between align-items-center mb-5">
+					<h4 class="mb-0">{{ _("Contact Information") }}</h4>
+					{% if frappe.session.user == 'Guest' %}
+					<a href="/login?redirect-to=/checkout" class="text-primary small font-weight-bold">
+						{{ _("Already have an account? Log In") }}
+					</a>
+					{% endif %}
+				</div>
+
+				{% if frappe.session.user == 'Guest' %}
+				<div class="row mb-4">
+					<div class="col-sm-6 mb-3">
+						<label class="form-label text-muted small">{{ _("Full Name") }} <span class="text-danger">*</span></label>
+						<input type="text" id="checkout-full-name" class="form-control" placeholder="{{ _('e.g. John Doe') }}" value="">
+					</div>
+					<div class="col-sm-6 mb-3">
+						<label class="form-label text-muted small">{{ _("Email Address") }} <span class="text-danger">*</span></label>
+						<input type="email" id="checkout-email" class="form-control" placeholder="{{ _('e.g. john@example.com') }}" value="">
+					</div>
+					<div class="col-sm-12 mb-3">
+						<label class="form-label text-muted small">{{ _("Phone Number") }} <span class="text-danger">*</span></label>
+						<input type="tel" id="checkout-phone" class="form-control" placeholder="{{ _('e.g. 300 1234567') }}">
+					</div>
+					<div class="col-sm-12">
+						<div class="d-flex align-items-center mt-3">
+							<input type="checkbox" id="checkout-create-account" class="mr-2" style="width: 16px; height: 16px; cursor: pointer;">
+							<label class="mb-0 text-muted small cursor-pointer" for="checkout-create-account">
+								{{ _("Create an account for faster checkout next time") }}
+							</label>
+						</div>
+					</div>
+				</div>
+				{% else %}
+				<p class="text-muted small mb-6">{{ _("Using account details for order notifications.") }}</p>
+				<!-- Hidden inputs to satisfy JS validation/logic if needed -->
+				<input type="hidden" id="checkout-full-name" value="{{ frappe.get_fullname(frappe.session.user) }}">
+				<input type="hidden" id="checkout-email" value="{{ frappe.session.user }}">
+				{# For logged in users, phone is fetched from their profile in backend #}
+				<input type="hidden" id="checkout-phone" value="STAY_LOGGED_IN">
+				{% endif %}
+
+				<h4 class="mt-8 mb-4">{{ _("Shipping Address") }}</h4>
+				
+				{% if shipping_addresses and frappe.session.user != 'Guest' %}
+				<p class="text-muted small mb-4">{{ _("Select your preferred delivery location.") }}</p>
+				<div class="address-list-grid mb-6">
+					{% set default_address = doc.shipping_address_name %}
+					{% if not default_address %}
+						{% for addr in shipping_addresses %}
+							{% if addr.is_primary and not default_address %}
+								{% set default_address = addr.name %}
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+					{% if not default_address and shipping_addresses %}
+						{% set default_address = shipping_addresses[0].name %}
+					{% endif %}
+
+					{% for addr in shipping_addresses %}
+					<div class="address-card-option mb-3">
+						<input type="radio" name="shipping_address_name" id="addr-{{ addr.name }}" value="{{ addr.name }}" class="d-none" {{ 'checked' if default_address == addr.name }}>
+						<label for="addr-{{ addr.name }}" class="address-card p-4 rounded-lg border d-flex flex-column cursor-pointer transition-all">
+							<div class="d-flex justify-content-between align-items-start mb-2">
+								<div class="d-flex flex-column">
+									<span class="font-weight-bold h6 mb-0">{{ addr.title or _("Address") }}</span>
+									{% if addr.is_primary %}
+									<span class="badge badge-primary-light text-primary extra-small mt-1" style="width: fit-content;">{{ _("Primary") }}</span>
+									{% endif %}
+								</div>
+								<i class="fa fa-check-circle text-primary select-icon"></i>
+							</div>
+							<div class="address-display text-muted small">
+								{{ addr.display|safe }}
+							</div>
+							<div class="address-card-actions mt-3 pt-3 border-top-light d-flex justify-content-between align-items-center">
+								<div class="d-flex align-items-center">
+									{% if not addr.is_primary %}
+									<button class="btn-set-primary text-primary p-0 mr-3 border-0 bg-transparent" data-name="{{ addr.name }}" title="{{ _('Set as Primary') }}">
+										<i class="fa fa-star-o"></i>
+									</button>
+									{% endif %}
+									<button class="btn-edit-address text-muted p-0 mr-3 border-0 bg-transparent" 
+										data-name="{{ addr.name }}" 
+										data-line1="{{ addr.address_line1 or '' }}"
+										data-city="{{ addr.city or '' }}"
+										data-state="{{ addr.state or '' }}"
+										data-country="{{ addr.country or '' }}"
+										data-pincode="{{ addr.pincode or '' }}"
+										data-phone="{{ addr.phone or '' }}"
+										title="{{ _('Edit Address') }}">
+										<i class="fa fa-pencil"></i>
+									</button>
+								</div>
+								<button class="btn-delete-address text-danger p-0 border-0 bg-transparent" data-name="{{ addr.name }}" title="{{ _('Delete Address') }}">
+									<i class="fa fa-trash-o"></i>
+								</button>
+							</div>
+						</label>
+					</div>
+					{% endfor %}
+					
+					<div class="address-card-option mb-3">
+						<input type="radio" name="shipping_address_name" id="addr-new" value="new" class="d-none">
+						<label for="addr-new" class="address-card p-4 rounded-lg border border-dashed d-flex align-items-center justify-content-center cursor-pointer transition-all" style="min-height: 100px;">
+							<div class="text-center">
+								<i class="fa fa-plus-circle h4 mb-2 text-primary"></i>
+								<div class="font-weight-bold small">{{ _("Add New Address") }}</div>
+							</div>
+						</label>
+					</div>
+				</div>
+				{% endif %}
+
+				<div class="manual-address-form row {% if shipping_addresses and frappe.session.user != 'Guest' %}d-none{% endif %}">
+					<input type="hidden" id="editing-address-name" value="">
+					<div class="col-sm-12 mb-3">
+						<label class="form-label text-muted small">{{ _("Address Line 1") }} <span class="text-danger">*</span></label>
+						<input type="text" id="checkout-addr-line1" class="form-control" placeholder="{{ _('Street name, Apartment, etc.') }}">
+					</div>
+					<div class="col-sm-6 mb-3">
+						<label class="form-label text-muted small">{{ _("City") }} <span class="text-danger">*</span></label>
+						<input type="text" id="checkout-city" class="form-control" placeholder="{{ _('e.g. Lahore') }}">
+					</div>
+					<div class="col-sm-6 mb-3">
+						<label class="form-label text-muted small">{{ _("State / Province") }}</label>
+						<input type="text" id="checkout-state" class="form-control" placeholder="{{ _('e.g. Punjab') }}">
+					</div>
+					<div class="col-sm-6">
+						<label class="form-label text-muted small">{{ _("Country") }} <span class="text-danger">*</span></label>
+						<div id="country-picker-wrapper" class="country-picker-container">
+							<div class="selected-country-box">
+								<div class="selected-country-info">
+									<div class="iti__flag iti__pk"></div>
+									<span class="selected-country-name">{{ _("Pakistan") }}</span>
+								</div>
+								<i class="fa fa-chevron-down small text-muted"></i>
+							</div>
+							<div class="country-picker-dropdown">
+								<input type="text" class="country-picker-search" placeholder="{{ _('Search country...') }}">
+								<div class="country-picker-options"></div>
+							</div>
+						</div>
+						<input type="hidden" id="checkout-country" name="country" value="Pakistan">
+					</div>
+					<div class="col-sm-6">
+						<label class="form-label text-muted small">{{ _("Postal Code / Pincode") }}</label>
+						<input type="text" id="checkout-pincode" class="form-control" placeholder="{{ _('e.g. 54000') }}">
+					</div>
+					{% if frappe.session.user != 'Guest' %}
+					<div class="col-sm-12 mt-4 text-right">
+						<button id="btn-confirm-new-address" class="btn btn-outline-primary btn-sm px-4">
+							<i class="fa fa-check-circle mr-1"></i> {{ _("Confirm & Save Address") }}
+						</button>
+					</div>
+					{% endif %}
+				</div>
+
+				{% if available_shipping_methods %}
+				<h4 class="mt-8 mb-4">{{ _("Shipping Method") }}</h4>
+				<p class="text-muted small mb-5">{{ _("Choose how you would like your order delivered.") }}</p>
+				<div class="shipping-methods-grid">
+					{% for method in available_shipping_methods %}
+					<div class="shipping-method-option mb-3">
+						<input type="radio" name="shipping_method" id="method-{{ method.name }}" value="{{ method.name }}" class="d-none" {{ 'checked' if (loop.first and not selected_shipping_method) or (selected_shipping_method == method.name) }}>
+						<label for="method-{{ method.name }}" class="shipping-card p-4 rounded-lg border d-flex justify-content-between align-items-center cursor-pointer transition-all">
+							<div class="method-info">
+								<div class="d-flex align-items-center">
+									<i class="fa fa-truck mr-3 text-muted"></i>
+									<span class="font-weight-bold">{{ _(method.label) }}</span>
+								</div>
+								{% if method.cost == 0 %}
+								<span class="badge badge-success mt-1 small bg-success text-white px-2 py-1">{{ _("Free Shipping!") }}</span>
+								{% endif %}
+							</div>
+							<div class="method-price h6 mb-0 font-weight-bold">
+								{% if method.cost > 0 %}
+									{{ frappe.format(method.cost, "Currency", doc.currency) }}
+								{% else %}
+									{{ _("Rs 0.00") }}
+								{% endif %}
+							</div>
+						</label>
+					</div>
+					{% endfor %}
+				</div>
+				{% endif %}
+
+				<h4 class="mt-8 mb-4 d-flex align-items-center">
+					<span class="mr-3">{{ _("Payment Method") }} <span class="text-danger">*</span></span>
+					<hr class="flex-grow-1 border-top-light" style="opacity: 0.1;">
+				</h4>
+				<p class="text-muted small mb-5">{{ _("Choose how you would like to pay for your order.") }}</p>
+				
+				<div class="payment-methods-grid mb-8">
+					<!-- Raast QR Payment -->
+					{% if cart_settings.enable_raast %}
+					<div class="payment-method-option mb-3">
+						<input type="radio" name="payment_method" id="pay-raast" value="Raast" class="d-none">
+						<label for="pay-raast" class="shipping-card p-4 rounded-lg border d-flex justify-content-between align-items-center cursor-pointer transition-all">
+							<div class="method-info">
+								<div class="d-flex align-items-center">
+									<i class="fa fa-qrcode mr-3 text-primary" style="font-size: 1.2rem;"></i>
+									<span class="font-weight-bold">{{ _("Raast QR Payment") }}</span>
+								</div>
+								<div class="text-muted extra-small mt-1">{{ _("Scan and pay instantly from your Bank/Wallet app.") }}</div>
+							</div>
+							<div class="method-icon">
+								<i class="fa fa-chevron-right text-muted small opacity-50"></i>
+							</div>
+						</label>
+					</div>
+					{% endif %}
+
+					<!-- Digital Gateways -->
+					{% if cart_settings.payment_gateway_account %}
+					<div class="payment-method-option mb-3">
+						<input type="radio" name="payment_method" id="pay-primary" value="{{ cart_settings.payment_gateway_account }}" class="d-none">
+						<label for="pay-primary" class="shipping-card p-4 rounded-lg border d-flex justify-content-between align-items-center cursor-pointer transition-all">
+							<div class="method-info">
+								<div class="d-flex align-items-center">
+									<i class="fa fa-credit-card mr-3 text-primary" style="font-size: 1.2rem;"></i>
+									<span class="font-weight-bold">{{ _("Pay with Credit / Debit Card") }}</span>
+								</div>
+								<div class="text-muted extra-small mt-1">{{ _("Secure checkout via ") }} {{ cart_settings.payment_gateway_account }}</div>
+							</div>
+							<div class="method-icon">
+								<i class="fa fa-chevron-right text-muted small opacity-50"></i>
+							</div>
+						</label>
+					</div>
+					{% endif %}
+
+					{% for gateway in cart_settings.payment_gateways %}
+					<div class="payment-method-option mb-3">
+						<input type="radio" name="payment_method" id="pay-{{ loop.index }}" value="{{ gateway.payment_gateway }}" class="d-none">
+						<label for="pay-{{ loop.index }}" class="shipping-card p-4 rounded-lg border d-flex justify-content-between align-items-center cursor-pointer transition-all">
+							<div class="method-info">
+								<div class="d-flex align-items-center">
+									<i class="fa fa-credit-card mr-3 text-primary" style="font-size: 1.2rem;"></i>
+									<span class="font-weight-bold">{{ gateway.payment_gateway }}</span>
+								</div>
+							</div>
+							<div class="method-icon">
+								<i class="fa fa-chevron-right text-muted small opacity-50"></i>
+							</div>
+						</label>
+					</div>
+					{% endfor %}
+
+					<!-- Cash on Delivery -->
+					{% if cart_settings.enable_cod %}
+					<div class="payment-method-option mb-3">
+						<input type="radio" name="payment_method" id="pay-cod" value="COD" class="d-none">
+						<label for="pay-cod" class="shipping-card p-4 rounded-lg border d-flex justify-content-between align-items-center cursor-pointer transition-all">
+							<div class="method-info">
+								<div class="d-flex align-items-center">
+									<i class="fa fa-money mr-3 text-primary" style="font-size: 1.2rem;"></i>
+									<span class="font-weight-bold">{{ _("Cash on Delivery (COD)") }}</span>
+								</div>
+								<div class="text-muted extra-small mt-1">{{ _("Pay in cash when your order is delivered.") }}</div>
+							</div>
+							<div class="method-icon">
+								<i class="fa fa-chevron-right text-muted small opacity-50"></i>
+							</div>
+						</label>
+					</div>
+					{% endif %}
+
+					<!-- Bank Transfer -->
+					{% if cart_settings.enable_bank_transfer %}
+					<div class="payment-method-option mb-3">
+						<input type="radio" name="payment_method" id="pay-bank" value="Bank Transfer" class="d-none">
+						<label for="pay-bank" class="shipping-card p-4 rounded-lg border d-flex justify-content-between align-items-center cursor-pointer transition-all">
+							<div class="method-info">
+								<div class="d-flex align-items-center">
+									<i class="fa fa-university mr-3 text-primary" style="font-size: 1.2rem;"></i>
+									<span class="font-weight-bold">{{ _("Bank Transfer") }}</span>
+								</div>
+								<div class="text-muted extra-small mt-1">{{ _("Direct bank transfer for high-value orders.") }}</div>
+							</div>
+							<div class="method-icon">
+								<i class="fa fa-chevron-right text-muted small opacity-50"></i>
+							</div>
+						</label>
+					</div>
+
+					{% endif %}
+				</div>
+			</div>
+		</div>
+
+		<!-- Right: Order Summary Section -->
+		<div class="col-md-5">
+			<div class="order-summary-card sticky-top pb-4" style="top: 2rem; z-index: 10;">
+				<div class="frappe-card p-6 glass-card border-primary">
+					<h4 class="mb-5">{{ _("Order Summary") }}</h4>
+					<div class="checkout-items mb-5 max-h-96 overflow-y-auto">
+						{% for item in doc.items %}
+						<div class="checkout-item-row d-flex align-items-center mb-4 pb-4 border-bottom-light">
+							<div class="item-thumb-container mr-4">
+								<img src="{{ item.thumbnail or '/assets/webshop/images/item-placeholder.png' }}" class="rounded shadow-sm" style="width: 64px; height: 64px; object-fit: cover;">
+							</div>
+							<div class="item-info flex-grow-1">
+								<p class="mb-0 font-weight-bold text-dark small">{{ item.web_item_name or item.item_code }}</p>
+								<p class="mb-0 text-muted extra-small">Qty: {{ item.qty }}</p>
+							</div>
+							<div class="item-price font-weight-bold">
+								{{ item.get_formatted("amount") }}
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+
+					<div id="checkout-summary-totals" class="summary-totals pt-2">
+						{% include "webshop/templates/includes/cart/checkout_summary_totals.html" %}
+					</div>
+
+					<!-- Payment Instructions (Conditional) -->
+					{% if cart_settings.enable_raast %}
+					<div id="raast-qr-container" class="mt-4 text-center d-none p-5 rounded-lg border border-primary-light shadow-sm" style="background: rgba(var(--primary-rgb), 0.02);">
+						<p class="small font-weight-bold text-dark mb-4">{{ _("Scan the QR code below to pay") }}</p>
+						<div id="raast-qr-wrapper" class="qr-wrapper d-inline-block p-3 bg-white rounded shadow-sm border mb-4">
+							<div class="qr-placeholder d-flex align-items-center justify-content-center" style="width: 200px; height: 200px; background: #f8f9fa;">
+								<i class="fa fa-spinner fa-spin text-muted"></i>
+							</div>
+						</div>
+						<p class="extra-small text-muted px-2">
+							{{ _("Once you have transferred the amount, upload the receipt below and click 'Complete Order'.") }}
+						</p>
+					</div>
+					{% endif %}
+
+					{% if cart_settings.enable_bank_transfer %}
+					<div id="bank-details-container" class="mt-4 p-5 rounded-lg border d-none shadow-sm" style="background: rgba(var(--primary-rgb), 0.02); border-color: rgba(var(--primary-rgb), 0.1) !important;">
+						<div class="d-flex align-items-start">
+							<i class="fa fa-info-circle mr-2 mt-1 text-primary"></i>
+							<div class="w-100">
+								<h6 class="font-weight-bold mb-2 small">{{ _("Bank Transfer Details") }}</h6>
+								<div class="bank-details-content p-3 bg-white rounded border extra-small font-family-monospace" style="white-space: pre-line;">
+									{{ cart_settings.bank_details }}
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endif %}
+
+					{% if cart_settings.enable_cod %}
+					<div id="cod-instructions-container" class="mt-4 p-5 rounded-lg border d-none text-center shadow-sm" style="background: rgba(var(--primary-rgb), 0.02);">
+						<i class="fa fa-money mb-2 text-primary" style="font-size: 1.5rem;"></i>
+						<h6 class="font-weight-bold mb-1 small">{{ _("Cash on Delivery") }}</h6>
+						<p class="extra-small text-muted mb-0">{{ _("Please keep the exact amount ready at the time of delivery.") }}</p>
+					</div>
+					{% endif %}
+
+					<div id="digital-payment-container" class="mt-4 p-5 rounded-lg border d-none text-center shadow-sm" style="background: rgba(var(--primary-rgb), 0.02);">
+						<i class="fa fa-lock mb-2 text-primary" style="font-size: 1.5rem;"></i>
+						<h6 class="font-weight-bold mb-1 small">{{ _("Secure Digital Payment") }}</h6>
+						<p class="extra-small text-muted mb-0">{{ _("You will be redirected to the secure payment portal after clicking 'Complete Order'.") }}</p>
+					</div>
+
+					<!-- Payment Receipt Upload (Conditional) -->
+					{% if cart_settings.enable_receipt_upload %}
+					<div id="receipt-upload-container" class="mt-4 p-5 rounded-lg border d-none" style="background: #fff; border-style: dashed !important;">
+						<h6 class="font-weight-bold mb-3 small d-flex align-items-center">
+							<i class="fa fa-file-image-o mr-2 text-primary"></i>
+							{{ _("Upload Payment Receipt") }}
+						</h6>
+						<div class="custom-file">
+							<input type="file" class="custom-file-input" id="payment-receipt-file" accept="image/*,.pdf">
+							<label class="custom-file-label extra-small" for="payment-receipt-file" style="overflow: hidden; white-space: nowrap;">{{ _("Choose proof of payment...") }}</label>
+						</div>
+						<div id="receipt-preview" class="mt-2 d-none">
+							<p class="extra-small text-success mb-0 d-flex align-items-center">
+								<i class="fa fa-check-circle mr-1"></i>
+								<span id="receipt-filename" class="text-truncate" style="max-width: 150px;"></span>
+							</p>
+						</div>
+					</div>
+					{% endif %}
+
+					<div class="place-order-action mt-8">
+						<div id="checkout-error" class="alert alert-danger px-4 py-3 mb-4 small" style="display: none;"></div>
+						<button id="btn-final-place-order" class="btn btn-primary btn-lg w-100 shadow-custom-primary">
+							{{ _("Complete Order") }}
+						</button>
+						<p class="text-center text-muted mt-4 extra-small">
+							{{ _("By clicking 'Complete Order', you agree to our") }}
+							<a href="/terms" class="text-primary mx-1" target="_blank">{{ _("Terms and Conditions") }}</a>
+							{{ _("and") }}
+							<a href="/privacy-policy" class="text-primary ml-1" target="_blank">{{ _("Privacy Policy") }}</a>.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block base_scripts %}
+{{ include_script("frappe-web.bundle.js") }}
+{{ include_script("file_uploader.bundle.js") }}
+{{ include_script("controls.bundle.js") }}
+{{ include_script("dialog.bundle.js") }}
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/js/intlTelInput.min.js"></script>
+{{ include_script("checkout.js") }}
+<script>
+	frappe.ready(() => {
+		window.deliverable_countries = [
+			{% if cart_settings and cart_settings.deliverable_countries %}
+				{% for d in cart_settings.deliverable_countries %}
+					{ "country": "{{ d.country }}" },
+				{% endfor %}
+			{% endif %}
+		].filter(function(c) { return c && c.country; });
+		
+		if (window.checkout && typeof window.checkout.init === "function") {
+			window.checkout.init();
+		}
+	});
+</script>
+{% endblock %}

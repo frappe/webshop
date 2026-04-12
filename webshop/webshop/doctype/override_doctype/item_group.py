@@ -5,7 +5,6 @@ from frappe.utils import get_url, cint
 from frappe.website.website_generator import WebsiteGenerator
 from erpnext.setup.doctype.item_group.item_group import ItemGroup
 from frappe.website.utils import clear_cache
-from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
 
 class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 	nsm_parent_field = "parent_item_group"
@@ -54,6 +53,7 @@ class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 		)
 		context.search_link = "/product_search"
 
+		from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
 		filter_engine = ProductFiltersBuilder(self.name)
 
 		context.field_filters = filter_engine.get_field_filters()

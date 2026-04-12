@@ -1,13 +1,17 @@
-{% set column_size = 5 if slides else 4 %}
-<div class="col-md-{{ column_size }} h-100 d-flex mb-4">
+{% set column_size = 5 %}
+<div class="col-md-{{ column_size }} h-100 d-flex flex-column mb-4 pr-md-5">
 	{% if slides %}
-		<div class="item-slideshow d-flex flex-column mr-3">
+		<div class="product-image-main ws-glass ws-shadow-sm mb-3 d-flex align-items-center justify-content-center p-3" 
+			style="min-height: 480px; border-radius: var(--ws-radius-xl); overflow: hidden; background: var(--ws-bg-secondary);">
+			{{ product_image(slides[0].image, 'product-image', no_border=True) }}
+		</div>
+		<div class="item-slideshow d-flex flex-row overflow-auto pb-3 custom-scrollbar">
 			{% for item in slides %}
-			<img class="item-slideshow-image mb-2 {% if loop.first %}active{% endif %}"
-					src="{{ item.image }}" alt="{{ item.heading }}">
+			<img class="item-slideshow-image mr-3 ws-shadow-sm {% if loop.first %}active{% endif %}"
+					src="{{ item.image }}" alt="{{ item.heading }}" 
+					style="width: 88px; height: 88px; object-fit: cover; border-radius: var(--ws-radius-lg); cursor: pointer; border: 2px solid transparent; transition: all 0.3s ease;">
 			{% endfor %}
 		</div>
-		{{ product_image(slides[0].image, 'product-image') }}
 		<!-- Simple image slideshow -->
 		<script>
 			frappe.ready(() => {
@@ -18,20 +22,22 @@
 					$product_image.find('a').prop('href', link);
 					$product_image.find('img').prop('src', link);
 
-					$('.item-slideshow-image').removeClass('active');
-					$img.addClass('active');
+					$('.item-slideshow-image').css('border-color', 'transparent').removeClass('active');
+					$img.css('border-color', 'var(--ws-primary)').addClass('active');
 				});
 			})
 		</script>
 	{% else %}
-		{{ product_image(doc.website_image, alt=doc.website_image_alt or doc.item_name) }}
+		<div class="product-image-main ws-glass ws-shadow-sm d-flex align-items-center justify-content-center p-4" 
+			style="min-height: 480px; border-radius: var(--ws-radius-xl); overflow: hidden; background: var(--ws-bg-secondary);">
+			{{ product_image(doc.website_image, alt=doc.website_image_alt or doc.item_name, no_border=True) }}
+		</div>
 	{% endif %}
 
 	<!-- Simple image preview -->
-
 	<div class="image-zoom-view" style="display: none;">
-		<button type="button" class="close" aria-label="Close">
-			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+		<button type="button" class="btn btn-link close" aria-label="Close">
+			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
 			stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
 				<line x1="18" y1="6" x2="6" y2="18"></line>
 				<line x1="6" y1="6" x2="18" y2="18"></line>

@@ -3,56 +3,45 @@
 {% set product_info = shopping_cart.product_info %}
 {% set price_info = product_info.get('price') or {} %}
 
-<div class="col-md-7 product-details {{ width_class }}">
-	<div class="d-flex">
+<div class="col-md-7 product-details {{ width_class }} pl-md-5">
+	<div class="d-flex align-items-start justify-content-between mb-3">
 		<!-- title -->
-		<div class="product-title col-11" itemprop="name">
+		<div class="product-title" itemprop="name">
 			{{ _(doc.web_item_name) }}
 		</div>
 
 		<!-- Wishlist -->
 		{% if cart_settings.enable_wishlist %}
-			<div class="like-action-item-fp like-action {{ 'like-action-wished' if wished else ''}} ml-2"
-				data-item-code="{{ doc.item_code }}">
-				<svg class="icon sm">
+			<button class="btn ws-glass ws-shadow-sm like-action-item-fp like-action {{ 'like-action-wished' if wished else ''}} p-0 d-flex align-items-center justify-content-center"
+				data-item-code="{{ doc.item_code }}" style="width: 44px; height: 44px; border-radius: var(--ws-radius-md); transition: var(--ws-transition);">
+				<svg class="icon icon-md" style="width: 22px; height: 22px;">
 					<use class="{{ 'wished' if wished else 'not-wished' }} wish-icon" href="#icon-heart"></use>
 				</svg>
-			</div>
+			</button>
 		{% endif %}
 	</div>
 
-	<div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-	</div>
-
-	<div itemprop="review" itemscope itemtype="https://schema.org/Review">
-	</div>
-
-	<p class="product-code">
-		<span class="product-item-group">
+	<div class="d-flex align-items-center mb-5">
+		<span class="product-badge mr-3">
+			<svg class="icon icon-sm mr-1" style="width: 14px; height: 14px; vertical-align: middle;">
+				<use href="#icon-folder"></use>
+			</svg>
 			{{ _(doc.item_group) }}
 		</span>
-		<span class="product-item-code" itemprop="name">
-			{{ _("Item Code") }}:
-		</span>
-		<span itemprop="name">{{ _(doc.item_code) }}</span>
-	</p>
-	{% if has_variants %}
-		<!-- configure template -->
-		{% include "templates/generators/item/item_configure.html" %}
-	{% else %}
-		<!-- add variant to cart -->
-		{% include "templates/generators/item/item_add_to_cart.html" %}
-	{% endif %}
-	<!-- description -->
-	<div class="product-description" itemprop="description">
-	{% if frappe.utils.strip_html(doc.web_long_description or '') %}
-		{{ _(doc.web_long_description) | safe }}
-	{% elif frappe.utils.strip_html(doc.description or '')  %}
-		{{ _(doc.description) | safe }}
-	{% else %}
-		{{ "" }}
-	{% endif  %}
+		<div class="text-muted small" style="letter-spacing: 0.02em;">
+			{{ _("Item Code") }}: <span class="font-weight-600 text-dark ml-1">{{ _(doc.item_code) }}</span>
+		</div>
 	</div>
+
+	<div class="product-actions-section">
+		{% if has_variants %}
+			{% include "templates/generators/item/item_configure.html" %}
+		{% else %}
+			{% include "templates/generators/item/item_add_to_cart.html" %}
+		{% endif %}
+	</div>
+
+
 </div>
 
 {% block base_scripts %}

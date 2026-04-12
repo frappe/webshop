@@ -79,13 +79,13 @@
 
 {% if is_featured %}
 <div class="col-sm-{{ col_size*2 }} item-card">
-	<div class="card featured-item {{ align_items_class }}" style="height: 360px;">
+	<div class="card featured-item ws-card ws-shadow {{ align_items_class }}" style="min-height: 380px;">
 		{% if image %}
-		<div class="row no-gutters">
-			<div class="col-md-5 ml-4">
-				<img class="card-img" src="{{ image }}" alt="{{ _(title) }}">
+		<div class="row no-gutters h-100">
+			<div class="col-md-5 d-flex align-items-center justify-content-center p-4">
+				<img class="img-fluid" src="{{ image }}" alt="{{ _(title) }}" style="max-height: 300px; object-fit: contain;">
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-7 d-flex flex-column justify-content-center">
 				{{ item_card_body(title, description, item, is_featured, align,template) }}
 			</div>
 		</div>
@@ -97,8 +97,8 @@
 	</div>
 </div>
 {% else %}
-<div class="col-sm-{{ col_size }} item-card">
-	<div class="card {{ align_items_class }}" style="height: 360px;">
+<div class="col-sm-{{ col_size }} item-card mb-4">
+	<div class="card ws-card ws-shadow {{ align_items_class }}" style="height: 100%;">
 		{% if image %}
 			<div class="card-img-container">
 				<a href="/{{ item.route or '#' }}" style="text-decoration: none;">
@@ -107,8 +107,8 @@
 			</div>
 		{% else %}
 		<a href="/{{ item.route or '#' }}" style="text-decoration: none;">
-			<div class="card-img-top no-image">
-				{{ frappe.utils.get_abbr(title) }}
+			<div class="card-img-top no-image d-flex align-items-center justify-content-center" style="height: 200px; background: var(--ws-primary-light);">
+				<span class="h1 font-weight-bold" style="color: var(--ws-primary);">{{ frappe.utils.get_abbr(title) }}</span>
 			</div>
 		</a>
 		{% endif %}
@@ -125,22 +125,44 @@
 	'text-left': align == 'Left' or is_featured,
 }) -%}
 <div class="card-body {{ align_class }}" style="width:100%">
-	<div class="mt-4">
-		<a href="/{{ item.route or '#' }}">
-			<div class="product-title">
+	<div class="mb-2">
+		{% if template != "Product Card" %}
+		<div class="product-category mb-1">{{ item.item_group or '' }}</div>
+		{% endif %}
+		<a href="/{{ item.route or '#' }}" class="text-decoration-none">
+			<div class="product-title h5 font-weight-bold mb-2">
 				{{ title or '' }}
 			</div>
 		</a>
 	</div>
 	{% if is_featured %}
-		<div class="product-description ellipsis text-muted" style="white-space: normal;">
+		<div class="product-description ellipsis text-muted small mb-3" style="white-space: normal; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
 			{{ _(description) or '' }}
 		</div>
-	{% else %}
-		{% if template != "Product Card" %}
-		<div class="product-category">{{ item.item_group or '' }}</div>
-		{% endif %}
 	{% endif %}
+	<div class="mt-auto">
+		{% if item.formatted_mrp or item.formatted_discount_percent %}
+			<div class="d-flex align-items-center mb-1">
+				{% if item.formatted_mrp %}
+					<del class="text-muted mr-2" style="font-size: 0.8rem; opacity: 0.6;">{{ item.formatted_mrp }}</del>
+				{% endif %}
+				<span class="badge badge-pill px-2 py-0" style="font-size: 0.65rem; background: #fff5f5; color: #e53e3e; border: 1px solid #feb2b2; font-weight: 600;">
+					{{ item.formatted_discount_percent or _("SALE") }}
+				</span>
+			</div>
+		{% endif %}
+		<div class="d-flex align-items-center justify-content-between">
+			<div class="product-price h6 font-weight-bold text-primary mb-0">
+				{{ item.get("formatted_price") or '' }}
+			</div>
+			<button class="btn btn-primary btn-sm rounded-pill px-3">
+				<svg class="icon icon-sm mr-1">
+					<use href="#icon-add"></use>
+				</svg>
+				{{ _("Add") }}
+			</button>
+		</div>
+	</div>
 </div>
 {%- endmacro -%}
 
@@ -362,36 +384,32 @@
 {%- endmacro -%}
 
 {%- macro recommended_item_row(item)-%}
-<div class="recommended-item mb-6 d-flex">
-	<div class="r-item-image">
+<div class="recommended-item mb-4 d-flex align-items-center p-2 ws-glass ws-shadow-sm" style="border-radius: var(--ws-radius-lg); transition: all 0.3s ease;">
+	<div class="r-item-image mr-3" style="width: 80px; height: 80px; flex-shrink: 0; overflow: hidden; border-radius: var(--ws-radius-md);">
 		{% if item.website_item_thumbnail %}
-			{{ product_image(item.website_item_thumbnail, css_class="r-product-image", alt="item.website_item_name", no_border=True) }}
+			<img src="{{ item.website_item_thumbnail }}" alt="{{ item.website_item_name }}" style="width: 100%; height: 100%; object-fit: cover;">
 		{% else %}
-			<div class="no-image-r-item">
+			<div class="no-image-r-item d-flex align-items-center justify-content-center bg-light w-100 h-100 text-muted small">
 				{{ frappe.utils.get_abbr(item.website_item_name) or "NA" }}
 			</div>
 		{% endif %}
 	</div>
-	<div class="r-item-info">
-		<a href="/{{ item.route or '#'}}" target="_blank">
+	<div class="r-item-info flex-grow-1">
+		<a href="/{{ item.route or '#'}}" class="text-dark font-weight-600 mb-1 d-block" style="font-size: 0.9rem; line-height: 1.3; font-family: 'Outfit', sans-serif;">
 			{% set title = item.website_item_name %}
-			{{ title[:70] + "..." if title|len > 70 else title }}
+			{{ title[:50] + "..." if title|len > 50 else title }}
 		</a>
 
 		{% if item.get('price_info') %}
 			{% set price = item.get('price_info') %}
-			<div class="mt-2">
-				<span class="item-price">
+			<div class="d-flex align-items-center flex-wrap">
+				<span class="item-price text-primary font-weight-700 mr-2" style="font-size: 0.95rem;">
 					{{ price.get('formatted_price') or '' }}
 				</span>
 
 				{% if price.get('formatted_mrp') %}
-					<br>
-					<span class="striked-item-price">
-						<s>MRP {{ _(price.formatted_mrp) }}</s>
-					</span>
-					<span class="in-green">
-						- {{ price.get('formatted_discount_percent') or price.get('formatted_discount_rate')}}
+					<span class="badge badge-success py-1 px-2" style="font-size: 0.65rem; background: var(--ws-primary); border: none; border-radius: var(--ws-radius-sm);">
+						{{ price.get('formatted_discount_percent') or price.get('formatted_discount_rate')}}
 					</span>
 				{% endif %}
 			</div>

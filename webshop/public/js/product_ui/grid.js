@@ -127,13 +127,17 @@ webshop.ProductGrid = class {
 				${ item.formatted_price || '' }
 		`;
 
-		if (item.formatted_mrp) {
+		if (item.formatted_mrp || item.discount) {
+			if (item.formatted_mrp) {
+				price_html += `
+					<small class="striked-price">
+						<s>${ item.formatted_mrp ? item.formatted_mrp.replace(/ +/g, "") : "" }</s>
+					</small>
+				`;
+			}
 			price_html += `
-				<small class="striked-price">
-					<s>${ item.formatted_mrp ? item.formatted_mrp.replace(/ +/g, "") : "" }</s>
-				</small>
 				<small class="ml-1 product-info-green">
-					${ item.discount } ${ __("OFF") }
+					${ item.discount || __("SALE") }
 				</small>
 			`;
 		}

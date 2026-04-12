@@ -142,6 +142,9 @@ class ProductFiltersBuilder:
 		return out
 
 	def get_discount_filters(self, discounts):
+		if not discounts:
+			return []
+
 		discount_filters = []
 
 		# [25.89, 60.5] min max

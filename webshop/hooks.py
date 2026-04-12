@@ -10,7 +10,7 @@ app_version = _version
 
 required_apps = ["payments", "erpnext"]
 
-web_include_css = "webshop-web.bundle.css"
+web_include_css = ["webshop-web.bundle.css", "/assets/webshop/css/webshop-modern.css"]
 
 web_include_js = "web.bundle.js"
 
@@ -72,7 +72,21 @@ doc_events = {
     },
 }
 
+
 has_website_permission = {
     "Website Item": "webshop.webshop.doctype.website_item.website_item.has_website_permission_for_website_item",
     "Item Group": "webshop.webshop.doctype.website_item.website_item.has_website_permission_for_item_group"
+}
+
+custom_fields = {
+    "Sales Order": [
+        {
+            "fieldname": "payment_method",
+            "label": "Payment Method",
+            "fieldtype": "Data",
+            "insert_after": "payment_gateway_account",
+            "read_only": 1,
+            "in_list_view": 1
+        }
+    ]
 }

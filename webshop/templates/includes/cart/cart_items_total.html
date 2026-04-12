@@ -1,10 +1,34 @@
 <!-- Total at the end of the cart items -->
-<tr>
-	<th></th>
-	<th class="text-left item-grand-total" colspan="1">
-		{{ _("Net Total") }}
+<!-- Net Total -->
+<tr class="cart-net-total">
+	<th class="text-right pr-4 border-top" colspan="4">
+		<span class="text-muted small">{{ _("Net Total") }}</span>
 	</th>
-	<th class="text-left item-grand-total totals" colspan="3">
-		{{ doc.get_formatted("total") }}
+	<th class="text-left border-top font-weight-bold" colspan="1" style="min-width: 120px;">
+		{{ doc.get_formatted("net_total") }}
+	</th>
+</tr>
+
+<!-- Taxes and Charges (including Shipping) -->
+{% for d in doc.taxes %}
+	{% if d.tax_amount or d.is_free_item %}
+	<tr class="cart-tax-row">
+		<th class="text-right pr-4 border-0 py-1" colspan="4">
+			<span class="text-muted small">{{ d.description }}</span>
+		</th>
+		<th class="text-left border-0 py-1 font-weight-bold" colspan="1">
+			{{ d.get_formatted("tax_amount") if not d.is_free_item else _("Free") }}
+		</th>
+	</tr>
+	{% endif %}
+{% endfor %}
+
+<!-- Grand Total -->
+<tr class="cart-grand-total">
+	<th class="text-right pr-4 border-top pt-3" colspan="4">
+		<span class="h5 mb-0 font-weight-bold">{{ _("Grand Total") }}</span>
+	</th>
+	<th class="text-left border-top pt-3 h5 mb-0 font-weight-bold text-primary" colspan="1">
+		{{ doc.get_formatted("grand_total") }}
 	</th>
 </tr>

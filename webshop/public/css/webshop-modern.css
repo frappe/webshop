@@ -1,0 +1,332 @@
+/* Modern Webshop UI - Design System */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Colors */
+    --ws-primary-h: 220;
+    --ws-primary-s: 100%;
+    --ws-primary-l: 50%;
+    --ws-primary: hsl(var(--ws-primary-h), var(--ws-primary-s), var(--ws-primary-l));
+    --ws-primary-hover: hsl(var(--ws-primary-h), var(--ws-primary-s), 40%);
+    --ws-primary-light: hsl(var(--ws-primary-h), var(--ws-primary-s), 95%);
+    
+    --ws-bg: hsl(220, 20%, 98%);
+    --ws-surface: hsl(0, 0%, 100%);
+    --ws-border: hsl(220, 10%, 90%);
+    --ws-border-hover: hsl(220, 10%, 80%);
+    
+    --ws-text: hsl(220, 30%, 12%);
+    --ws-text-muted: hsl(220, 15%, 45%);
+    --ws-text-light: hsl(220, 10%, 65%);
+    
+    --ws-success: hsl(145, 60%, 45%);
+    --ws-warning: hsl(45, 90%, 50%);
+    --ws-error: hsl(0, 80%, 55%);
+
+    /* Shadows */
+    --ws-shadow-sm: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
+    --ws-shadow-md: 0 4px 12px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05);
+    --ws-shadow-lg: 0 12px 24px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.05);
+    
+    /* Radii */
+    --ws-radius-sm: 6px;
+    --ws-radius-md: 10px;
+    --ws-radius-lg: 16px;
+    --ws-radius-full: 9999px;
+
+    /* Transitions */
+    --ws-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --ws-transition: all 0.3s var(--ws-ease);
+}
+
+/* Global Styles */
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--ws-bg);
+    color: var(--ws-text);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .product-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+}
+
+/* Utility Classes */
+.ws-glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.ws-shadow {
+    box-shadow: var(--ws-shadow-md);
+    transition: var(--ws-transition);
+}
+
+.ws-shadow:hover {
+    box-shadow: var(--ws-shadow-lg);
+    transform: translateY(-2px);
+}
+
+.ws-card {
+    background: var(--ws-surface);
+    border: 1px solid var(--ws-border);
+    border-radius: var(--ws-radius-md);
+    overflow: hidden;
+}
+
+/* Base Overrides */
+.btn-primary {
+    background-color: var(--ws-primary) !important;
+    border-color: var(--ws-primary) !important;
+    border-radius: var(--ws-radius-sm);
+    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+    transition: var(--ws-transition);
+}
+
+.btn-primary:hover {
+    background-color: var(--ws-primary-hover) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px hsla(var(--ws-primary-h), var(--ws-primary-s), var(--ws-primary-l), 0.3);
+}
+
+/* Form Controls */
+.form-control {
+    border: 1px solid var(--ws-border);
+    border-radius: var(--ws-radius-sm);
+    padding: 0.6rem 1rem;
+    transition: var(--ws-transition);
+}
+
+.form-control:focus {
+    border-color: var(--ws-primary);
+    box-shadow: 0 0 0 4px hsla(var(--ws-primary-h), var(--ws-primary-s), var(--ws-primary-l), 0.1);
+}
+
+/* Item Card Overrides */
+.item-card .card {
+    border: none;
+    background: var(--ws-surface);
+    border-radius: var(--ws-radius-lg);
+    box-shadow: var(--ws-shadow-sm);
+    transition: var(--ws-transition);
+    overflow: hidden;
+}
+
+.item-card .card:hover {
+    box-shadow: var(--ws-shadow-lg);
+    transform: translateY(-4px);
+}
+
+.item-card .card-img-container {
+    padding: 1.5rem;
+    background: var(--ws-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.item-card .card-img {
+    mix-blend-mode: multiply;
+    max-height: 180px;
+    object-fit: contain;
+}
+
+.item-card .card-body {
+    padding: 1.5rem;
+}
+
+.item-card .product-title {
+    font-size: 1.1rem;
+    color: var(--ws-text);
+    margin-bottom: 0.5rem;
+    transition: var(--ws-transition);
+}
+
+.item-card .product-title:hover {
+    color: var(--ws-primary);
+}
+
+.item-card .product-category {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ws-text-light);
+    font-weight: 600;
+}
+
+/* Toolbar & Filters */
+.toolbar {
+    background: var(--ws-surface);
+    padding: 1rem;
+    border-radius: var(--ws-radius-md);
+    box-shadow: var(--ws-shadow-sm);
+    margin-bottom: 2rem;
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ws-text-light);
+    pointer-events: none;
+}
+
+#search-box {
+    border-radius: var(--ws-radius-full);
+    padding-left: 1.5rem;
+    padding-right: 3rem;
+}
+
+/* Side Drawer Styles */
+.ws-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 450px;
+    height: 100vh;
+    background: var(--ws-surface);
+    z-index: 1100; /* Higher than standard modals */
+    transform: translateX(100%);
+    transition: transform 0.4s var(--ws-ease);
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    margin: 0 !important; /* Prevent center alignment */
+}
+
+.ws-drawer.open {
+    transform: translateX(0);
+}
+
+.ws-drawer-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 1090;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--ws-transition);
+}
+
+.ws-drawer-backdrop.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Scrollbar for Drawer */
+.ws-drawer-body::-webkit-scrollbar {
+    width: 6px;
+}
+.ws-drawer-body::-webkit-scrollbar-thumb {
+    background: var(--ws-border);
+    border-radius: 10px;
+}
+
+.cart-drawer-close {
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: var(--ws-text-muted);
+}
+
+.cart-drawer-close:hover {
+    color: var(--ws-text);
+}
+
+@media (max-width: 576px) {
+    .ws-drawer {
+        width: 100%;
+        right: -100%;
+    }
+    .ws-drawer.open {
+        transform: translateX(-100%);
+    }
+}
+
+/* Product Detail Actions */
+.ws-qty-selector {
+    background: rgba(var(--ws-bg-rgb), 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--ws-text-rgb), 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ws-qty-selector .qty-input {
+    background: transparent;
+    border: none;
+    text-align: center;
+    font-weight: 700;
+    width: 50px;
+    color: var(--ws-text);
+}
+
+.ws-qty-selector button {
+    background: transparent;
+    border: none;
+    padding: 0 15px;
+    font-size: 1.25rem;
+    color: var(--ws-text);
+    transition: var(--ws-transition);
+}
+
+.ws-qty-selector button:hover {
+    color: var(--ws-primary);
+    transform: scale(1.1);
+}
+
+.btn-add-to-cart {
+    background: rgba(var(--ws-bg-rgb), 0.8) !important;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(var(--ws-text-rgb), 0.1) !important;
+    color: var(--ws-text) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    transition: var(--ws-transition);
+}
+
+.btn-add-to-cart:hover {
+    background: var(--ws-surface) !important;
+    border-color: var(--ws-primary) !important;
+    color: var(--ws-primary) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--ws-shadow-lg);
+}
+
+.btn-buy-now {
+    background: var(--ws-primary) !important;
+    border: none !important;
+    color: white !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    transition: var(--ws-transition);
+}
+
+.btn-buy-now:hover {
+    background: var(--ws-primary-hover) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px hsla(var(--ws-primary-h), var(--ws-primary-s), var(--ws-primary-l), 0.3);
+}
+
+/* RGB Helper Variables (for rgba usage) */
+:root {
+    --ws-text-rgb: 18, 22, 28;    /* hsl(220, 30%, 12%) */
+    --ws-bg-rgb: 247, 248, 249;   /* hsl(220, 20%, 98%) */
+}

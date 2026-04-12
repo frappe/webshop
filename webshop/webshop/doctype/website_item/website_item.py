@@ -20,14 +20,19 @@ from webshop.webshop.redisearch_utils import (
     insert_item_to_index,
     update_index_for_item,
 )
-from webshop.webshop.shopping_cart.cart import _set_price_list
+from webshop.webshop.redisearch_utils import (
+    delete_item_from_index,
+    insert_item_to_index,
+    update_index_for_item,
+)
 from webshop.webshop.doctype.override_doctype.item_group import (
     get_parent_item_groups,
     invalidate_cache_for,
 )
 from erpnext.stock.doctype.item.item import Item
 from erpnext.utilities.product import get_price
-from webshop.webshop.shopping_cart.cart import get_party
+from erpnext.stock.doctype.item.item import Item
+from erpnext.utilities.product import get_price
 from webshop.webshop.variant_selector.item_variants_cache import (
     ItemVariantsCacheManager,
 )
@@ -407,6 +412,8 @@ class WebsiteItem(WebsiteGenerator):
 			if is_guest and settings.hide_price_for_guest:
 				return items
 
+
+			from webshop.webshop.shopping_cart.cart import _set_price_list, get_party
 			selling_price_list = _set_price_list(settings, None)
 			party = get_party()
 

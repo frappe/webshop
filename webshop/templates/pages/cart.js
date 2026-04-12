@@ -22,8 +22,8 @@ $.extend(shopping_cart, {
 	},
 
 	bind_place_order: function() {
-		$(".btn-place-order").on("click", function() {
-			shopping_cart.place_order(this);
+		$(".btn-proceed-checkout").on("click", function() {
+			window.location.href = "/checkout";
 		});
 	},
 
@@ -140,6 +140,67 @@ $.extend(shopping_cart, {
 	},
 
 	place_order: function(btn) {
+		if (frappe.session.user === "Guest") {
+			const d = new frappe.ui.Dialog({
+				title: __("Guest Checkout"),
+				fields: [
+					{
+						label: __("Full Name"),
+						fieldname: "full_name",
+						fieldtype: "Data",
+						reqd: 1
+					},
+					{
+						label: __("Email"),
+						fieldname: "email",
+						fieldtype: "Data",
+						options: "Email",
+						reqd: 1
+					},
+					{
+						label: __("Phone"),
+						fieldname: "phone",
+						fieldtype: "Data"
+					}
+				],
+				primary_action_label: __("Proceed"),
+				primary_action(values) {
+					d.hide();
+					shopping_cart.freeze();
+					frappe.call({
+						method: "webshop.webshop.shopping_cart.cart.convert_guest_cart_to_customer",
+						args: {
+							email: values.email,
+							full_name: values.full_name,
+							phone: values.phone
+						},
+						callback: function(r) {
+							if (r.message && r.message.status === "success") {
+								// After conversion, we can proceed to place the order
+								// Since a customer is created, we can call place_order again
+								// However, the session is still Guest until login.
+								// For now, let's just place the order using the newly created quotation.
+								frappe.call({
+									method: "webshop.webshop.shopping_cart.cart.place_order",
+									callback: function(res) {
+										shopping_cart.unfreeze();
+										if (!res.exc) {
+											window.location.href = '/orders/' + encodeURIComponent(res.message);
+										}
+									}
+								});
+							} else {
+								shopping_cart.unfreeze();
+								frappe.msgprint(r.message ? r.message.message : __("Conversion failed"));
+							}
+						}
+					});
+				}
+			});
+			d.show();
+			return;
+		}
+
 		shopping_cart.freeze();
 
 		return frappe.call({

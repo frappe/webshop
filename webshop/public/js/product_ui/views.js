@@ -18,7 +18,7 @@ webshop.ProductView =  class {
 
 	prepare_toolbar() {
 		this.products_section.append(`
-			<div class="toolbar d-flex">
+			<div class="toolbar d-flex align-items-center justify-content-between ws-glass ws-shadow mb-5">
 			</div>
 		`);
 		this.prepare_search();
@@ -142,7 +142,8 @@ webshop.ProductView =  class {
 			attribute_filters: attribute_filters,
 			item_group: this.item_group,
 			start: filters.start || null,
-			from_filters: this.from_filters || false
+			from_filters: this.from_filters || false,
+			search: $("#search-box").val() || null
 		};
 	}
 
@@ -185,37 +186,38 @@ webshop.ProductView =  class {
 
 	prepare_search() {
 		$(".toolbar").append(`
-			<div class="input-group col-8 p-0">
-				<div class="dropdown w-100" id="dropdownMenuSearch">
-					<input type="search" name="query" id="search-box" class="form-control font-md"
-						placeholder="${__("Search for Products")}"
-						aria-label="Product" aria-describedby="button-addon2">
-					<div class="search-icon">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor" stroke-width="2" stroke-linecap="round"
-							stroke-linejoin="round"
-							class="feather feather-search">
-							<circle cx="11" cy="11" r="8"></circle>
-							<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-						</svg>
-					</div>
-					<!-- Results dropdown rendered in product_search.js -->
+			<div class="input-group col-8 p-0" style="position: relative;" id="dropdownMenuSearch">
+				<input type="search" name="query" id="search-box" class="form-control"
+					placeholder="${__("Search for Products")}"
+					aria-label="Product" aria-describedby="button-addon2">
+				<div class="search-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor" stroke-width="2" stroke-linecap="round"
+						stroke-linejoin="round"
+						class="feather feather-search">
+						<circle cx="11" cy="11" r="8"></circle>
+						<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+					</svg>
 				</div>
 			</div>
 		`);
+
+		$("#search-box").on("input", frappe.utils.debounce((e) => {
+			this.make(true);
+		}, 500));
 	}
 
 	render_view_toggler() {
-		$(".toolbar").append(`<div class="toggle-container col-4 p-0"></div>`);
+		$(".toolbar").append(`<div class="toggle-container d-flex p-0"></div>`);
 
 		["btn-list-view", "btn-grid-view"].forEach(view => {
 			let icon = view === "btn-list-view" ? "list" : "image-view";
 			$(".toggle-container").append(`
 				<div class="form-group mb-0" id="toggle-view">
-					<button id="${ icon }" class="btn ${ view } mr-2">
+					<button id="${ icon }" class="btn ${ view } ml-2 ws-shadow-sm" style="border-radius: var(--ws-radius-md); padding: 0.5rem;">
 						<span>
-							<svg class="icon icon-md">
+							<svg class="icon icon-md" style="width: 20px; height: 20px;">
 								<use href="#icon-${ icon }"></use>
 							</svg>
 						</span>
