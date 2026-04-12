@@ -5,7 +5,14 @@
 {% for tax in doc.taxes %}
 <div class="d-flex justify-content-between mb-2">
     <span class="text-muted small">{{ tax.description }}</span>
-    <span class="font-weight-bold">{{ tax.get_formatted("tax_amount") }}</span>
+    <span class="font-weight-bold">
+        {% if tax.is_free_shipping %}
+            <s class="text-muted mr-2 small" style="font-weight: normal; opacity: 0.6;">{{ frappe.format(tax.original_shipping_cost, {"fieldtype": "Currency", "currency": doc.currency}) }}</s>
+            <span class="text-success">{{ _("Free") }}</span>
+        {% else %}
+            {{ tax.get_formatted("tax_amount") }}
+        {% endif %}
+    </span>
 </div>
 {% endfor %}
 <div class="d-flex justify-content-between mt-4 pt-4 border-top-light">

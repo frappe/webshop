@@ -193,11 +193,14 @@
 						<input type="tel" id="checkout-phone" class="form-control" placeholder="{{ _('e.g. 300 1234567') }}">
 					</div>
 					<div class="col-sm-12">
-						<div class="d-flex align-items-center mt-3">
-							<input type="checkbox" id="checkout-create-account" class="mr-2" style="width: 16px; height: 16px; cursor: pointer;">
-							<label class="mb-0 text-muted small cursor-pointer" for="checkout-create-account">
-								{{ _("Create an account for faster checkout next time") }}
-							</label>
+						<div class="create-account-wrapper mt-3 p-3 rounded-lg border-dashed" style="background-color: hsla(var(--ws-primary-h), var(--ws-primary-s), var(--ws-primary-l), 0.03); border: 1px dashed var(--ws-primary);">
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input" id="checkout-create-account" style="cursor: pointer;">
+								<label class="custom-control-label small text-dark font-weight-bold cursor-pointer" for="checkout-create-account" style="padding-top: 2px;">
+									{{ _("Create an account for faster checkout next time") }}
+									<span class="d-block text-muted font-weight-normal mt-1">{{ _("Save your details and track your orders easily.") }}</span>
+								</label>
+							</div>
 						</div>
 					</div>
 				</div>

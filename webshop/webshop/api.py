@@ -87,3 +87,60 @@ def get_product_filter_data(query_args=None):
 @frappe.whitelist(allow_guest=True)
 def get_guest_redirect_on_action():
 	return frappe.db.get_single_value("Webshop Settings", "redirect_on_action")
+
+
+@frappe.whitelist(allow_guest=True)
+def get_wishlist_items_details(item_codes):
+	if isinstance(item_codes, str):
+		item_codes = json.loads(item_codes)
+
+	if not item_codes:
+		return []
+
+	from webshop.webshop.doctype.webshop_settings.webshop_settings import get_shopping_cart_settings
+	from webshop.webshop.shopping_cart.cart import _set_price_list, get_party
+	from erpnext.utilities.product import get_price
+
+	settings = get_shopping_cart_settings()
+	selling_price_list = _set_price_list(settings)
+	party = get_party()
+
+	items = frappe.get_all(
+		"Website Item",
+		filters={"item_code": ["in", item_codes]},
+		fields=[
+			"web_item_name",
+			"item_code",
+			"item_name",
+			"name as website_item",
+			"website_wearhouse as warehouse",
+			"website_image as image",
+			"item_group",
+			"route",
+		],
+	)
+
+	# Fetch price and stock details
+	for item in items:
+		price_details = get_price(
+			item.item_code,
+			selling_price_list,
+			settings.default_customer_group,
+			settings.company,
+			party=party,
+		)
+
+		if price_details:
+			item.formatted_price = price_details.get("formatted_price")
+			item.formatted_mrp = price_details.get("formatted_mrp")
+			if item.formatted_mrp:
+				item.discount = price_details.get("formatted_discount_percent") or price_details.get("formatted_discount_rate")
+
+		# Stock availability
+		if settings.show_stock_availability:
+			from webshop.templates.pages.wishlist import get_stock_availability
+			item.available = get_stock_availability(item.item_code, item.warehouse)
+		else:
+			item.available = True
+
+	return items

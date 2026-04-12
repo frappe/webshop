@@ -200,14 +200,19 @@ def get_guest_cart_quotation(for_checkout=False, is_cart_page=False):
 		if methods:
 			selected_method = next((m for m in methods if m['name'] == shipping_method), methods[0])
 			
-			if selected_method and selected_method.get('cost', 0) > 0:
+			if selected_method:
 				account_head = cart_settings.get("shipping_account") or "4110 - Sales - VK"
-				doc.append("taxes", {
+				tax_row = doc.append("taxes", {
 					"charge_type": "Actual",
 					"account_head": account_head,
 					"description": selected_method['label'],
 					"tax_amount": flt(selected_method['cost'])
 				})
+				
+				# Add metadata for UI (strikethrough)
+				if selected_method.get('is_free'):
+					tax_row.is_free_shipping = True
+					tax_row.original_shipping_cost = flt(selected_method.get('original_cost'))
 
 	# 3. Apply Pricing Rules (Coupons) and final calculation
 	doc.ignore_pricing_rule = 0
@@ -263,16 +268,22 @@ def get_shipping_methods_list(cart_total):
 	
 	methods = []
 	if s.get("enable_standard_shipping"):
+		standard_cost = flt(s.get("standard_shipping_charge") or 0)
 		methods.append({
 			"name": "Standard",
 			"label": "Standard Shipping",
-			"cost": 0 if is_free else flt(s.get("standard_shipping_charge") or 0)
+			"cost": 0 if is_free else standard_cost,
+			"original_cost": standard_cost,
+			"is_free": is_free
 		})
 	if s.get("enable_express_shipping"):
+		express_cost = flt(s.get("express_shipping_charge") or 0)
 		methods.append({
 			"name": "Express",
 			"label": "Express Shipping",
-			"cost": 0 if is_free else flt(s.get("express_shipping_charge") or 0)
+			"cost": 0 if is_free else express_cost,
+			"original_cost": express_cost,
+			"is_free": is_free
 		})
 	return methods
 
@@ -642,7 +653,7 @@ def convert_guest_cart_to_customer(email, full_name, phone=None, create_account=
 		return {"status": "error", "message": "Cart is empty"}
 
 	# 1. Create User if requested
-	if create_account:
+	if frappe.cint(create_account):
 		if not frappe.db.exists("User", email):
 			try:
 				user = frappe.new_doc("User")
@@ -793,13 +804,19 @@ def convert_guest_cart_to_customer(email, full_name, phone=None, create_account=
 	methods = get_shipping_methods_list(total_before_tax)
 	selected_method = next((m for m in methods if m['name'] == shipping_method), methods[0])
 	
-	if selected_method and selected_method.get('cost', 0) > 0:
-		qdoc.append("taxes", {
+	if selected_method:
+		account_head = cart_settings.get("shipping_account") or "4110 - Sales - VK"
+		tax_row = qdoc.append("taxes", {
 			"charge_type": "Actual",
-			"account_head": cart_settings.shipping_account or "4110 - Sales - VK",
+			"account_head": account_head,
 			"description": selected_method['label'],
 			"tax_amount": flt(selected_method['cost'])
 		})
+		
+		# Metadata for UI
+		if selected_method.get('is_free'):
+			tax_row.is_free_shipping = True
+			tax_row.original_shipping_cost = flt(selected_method.get('original_cost'))
 	
 	qdoc.run_method("calculate_taxes_and_totals")
 
