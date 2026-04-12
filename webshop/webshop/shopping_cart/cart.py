@@ -91,6 +91,7 @@ def get_cart_quotation(doc=None, for_checkout=False, is_cart_page=False):
 
 	context = {
 		"doc": decorate_quotation_doc(doc),
+		"party": party,
 		"shipping_addresses": get_shipping_addresses(party),
 		"billing_addresses": get_billing_addresses(party),
 		"shipping_rules": get_applicable_shipping_rules(party),
@@ -627,7 +628,7 @@ def update_guest_cart(item_code, qty, with_items=0, uom=None, variant_txt=None):
 
 
 @frappe.whitelist(allow_guest=True)
-def convert_guest_cart_to_customer(email, full_name, phone=None, create_account=False, address_data=None):
+def convert_guest_cart_to_customer(email, full_name, phone=None, create_account=False, address_data=None, billing_address_data=None):
 	"""Converts a guest cart to a real Customer and Quotation, including Address"""
 	if frappe.session.user != "Guest":
 		return {"status": "success", "message": "User already logged in"}
@@ -673,31 +674,57 @@ def convert_guest_cart_to_customer(email, full_name, phone=None, create_account=
 			customer_name = frappe.db.get_value("Customer", {"email_id": email})
 	
 	# 2. Add Address if data provided
-	address_name = None
+	shipping_address_name = None
 	if address_data:
 		if isinstance(address_data, str):
 			address_data = frappe.parse_json(address_data)
 			
-		address = frappe.new_doc("Address")
-		address.address_title = full_name
-		address.address_type = "Shipping"
-		address.address_line1 = address_data.get("address_line1")
-		address.city = address_data.get("city")
-		address.state = address_data.get("state")
-		address.country = address_data.get("country")
-		address.pincode = address_data.get("pincode")
-		address.phone = phone
-		address.email_id = email
+		shipping_address = frappe.new_doc("Address")
+		shipping_address.address_title = full_name
+		shipping_address.address_type = "Shipping"
+		shipping_address.address_line1 = address_data.get("address_line1")
+		shipping_address.city = address_data.get("city")
+		shipping_address.state = address_data.get("state")
+		shipping_address.country = address_data.get("country")
+		shipping_address.pincode = address_data.get("pincode")
+		shipping_address.phone = phone
+		shipping_address.email_id = email
 		
 		# Link to Customer
-		address.append("links", {
+		shipping_address.append("links", {
 			"link_doctype": "Customer",
 			"link_name": customer_name
 		})
 		
-		address.flags.ignore_permissions = True
-		address.insert()
-		address_name = address.name
+		shipping_address.flags.ignore_permissions = True
+		shipping_address.insert()
+		shipping_address_name = shipping_address.name
+
+	billing_address_name = shipping_address_name
+	if billing_address_data:
+		if isinstance(billing_address_data, str):
+			billing_address_data = frappe.parse_json(billing_address_data)
+			
+		billing_address = frappe.new_doc("Address")
+		billing_address.address_title = full_name
+		billing_address.address_type = "Billing"
+		billing_address.address_line1 = billing_address_data.get("address_line1")
+		billing_address.city = billing_address_data.get("city")
+		billing_address.state = billing_address_data.get("state")
+		billing_address.country = billing_address_data.get("country")
+		billing_address.pincode = billing_address_data.get("pincode")
+		billing_address.phone = phone
+		billing_address.email_id = email
+		
+		# Link to Customer
+		billing_address.append("links", {
+			"link_doctype": "Customer",
+			"link_name": customer_name
+		})
+		
+		billing_address.flags.ignore_permissions = True
+		billing_address.insert()
+		billing_address_name = billing_address.name
 
 	# 3. Create Quotation for this Customer
 	cart_settings = frappe.get_cached_doc("Webshop Settings")
@@ -706,8 +733,8 @@ def convert_guest_cart_to_customer(email, full_name, phone=None, create_account=
 		"naming_series": cart_settings.quotation_series or "QTN-CART-",
 		"quotation_to": "Customer",
 		"party_name": customer_name,
-		"customer_address": address_name,
-		"shipping_address_name": address_name,
+		"customer_address": billing_address_name,
+		"shipping_address_name": shipping_address_name,
 		"company": cart_settings.company,
 		"currency": frappe.get_cached_value("Company", cart_settings.company, "default_currency"),
 		"conversion_rate": 1.0,

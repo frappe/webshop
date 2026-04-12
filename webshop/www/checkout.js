@@ -9,20 +9,60 @@ frappe.ready(function() {
 			this.bind_coupon_logic();
 			this.bind_events();
 			this.bind_shipping_events();
+			this.bind_billing_toggle();
+		},
+
+		bind_billing_toggle: function() {
+			const me = this;
+			$('input[name="billing_address_type"]').on('change', function() {
+				const val = $(this).val();
+				if (val === 'different') {
+					$('#billing-address-section').removeClass('d-none');
+					// Focus logic / smooth scroll slightly
+					frappe.utils.scroll_to('#billing-address-section');
+					
+					// Auto select existing billing if new none chosen
+					let curBill = $('input[name="customer_address"]:checked').val();
+					if(curBill && curBill !== 'new') {
+						me.select_billing_address(curBill);
+					}
+				} else {
+					$('#billing-address-section').addClass('d-none');
+					// Align billing with shipping immediately in backend
+					const shipVal = $('input[name="shipping_address_name"]:checked').val();
+					if (shipVal && shipVal !== 'new') {
+						me.select_billing_address(shipVal);
+					}
+				}
+			});
 		},
 
 		bind_address_selection: function() {
 			const me = this;
-			$('.address-card-option input[name="shipping_address_name"]').on('change', function() {
+			$('.address-card-option input[name="shipping_address_name"], .address-card-option input[name="customer_address"]').on('change', function() {
 				const val = $(this).val();
+				const isShipping = $(this).attr('name') === 'shipping_address_name';
 				if (val === 'new') {
 					$('#editing-address-name').val('');
 					$("#btn-confirm-new-address").html('<i class="fa fa-check-circle mr-1"></i>' + __("Confirm & Save Address"));
 					$('.manual-address-form').removeClass('d-none');
 					frappe.utils.scroll_to('.manual-address-form');
 				} else {
-					$('.manual-address-form').addClass('d-none');
-					me.select_shipping_address(val);
+					if (isShipping) {
+						me.select_shipping_address(val);
+						// Sync to billing if 'Same as shipping' is selected
+						if ($('input[name="billing_address_type"]:checked').val() === 'same') {
+							me.select_billing_address(val);
+						}
+					} else {
+						me.select_billing_address(val);
+					}
+					
+					const shipVal = $('input[name="shipping_address_name"]:checked').val();
+					const billVal = $('input[name="customer_address"]:checked').val();
+					if (shipVal !== 'new' && billVal !== 'new') {
+						$('.manual-address-form').addClass('d-none');
+					}
 				}
 			});
 
@@ -152,6 +192,21 @@ frappe.ready(function() {
 			});
 		},
 
+		select_billing_address: function(address_name) {
+			frappe.call({
+				method: "webshop.webshop.shopping_cart.cart.update_cart_address",
+				args: {
+					address_type: "billing",
+					address_name: address_name
+				},
+				callback: (r) => {
+					if (r.message) {
+						this.update_cart_summary_from_resp(r.message);
+					}
+				}
+			});
+		},
+
 		update_cart_summary: function() {
 			frappe.call({
 				method: "webshop.webshop.shopping_cart.cart.get_cart_quotation",
@@ -270,45 +325,51 @@ frappe.ready(function() {
 				phone: (() => {
 					if ($("#checkout-phone").val() === "STAY_LOGGED_IN") return "STAY_LOGGED_IN";
 					let num = this.iti ? this.iti.getNumber() : "";
-					const rawVal = $("#checkout-phone").val();
+					let rawVal = ($("#checkout-phone").val() || "").trim();
 					if (!num && rawVal) {
-						const dialCode = $(".iti__selected-dial-code").text() || "";
+						let dialCode = $(".iti__selected-dial-code").text() || "";
+						if (dialCode && rawVal.startsWith("0")) {
+							rawVal = rawVal.substring(1);
+						}
 						num = (dialCode + rawVal).replace(/\s+/g, '');
 					}
 					return num || rawVal;
 				})(),
-				shipping_address_name: $('input[name="shipping_address_name"]:checked').val()
+				shipping_address_name: $('input[name="shipping_address_name"]:checked').val(),
+				customer_address_name: $('input[name="billing_address_type"]:checked').val() === 'different' 
+					? $('input[name="customer_address"]:checked').val() 
+					: $('input[name="shipping_address_name"]:checked').val(),
+				billing_address_line1: $("#billing-addr-line1").val(),
+				billing_city: $("#billing-city").val(),
+				billing_state: $("#billing-state").val(),
+				billing_country: $("#billing-country").val(),
+				billing_pincode: $("#billing-pincode").val()
 			};
 		},
 
 		init_phone: function() {
-			const input = document.querySelector("#checkout-phone");
-			if (input) {
-				// Cleanup any existing instances or wrappers to prevent "ghosting"
-				if (this.iti) {
-					this.iti.destroy();
-				}
-				const existingWrapper = input.closest('.iti');
-				if (existingWrapper) {
-					$(input).unwrap();
-				}
+			const phone_input = document.querySelector("#checkout-phone");
+			if (!phone_input || phone_input.type === 'hidden') return;
 
-				this.iti = window.intlTelInput(input, {
-					initialCountry: "auto",
-					geoIpLookup: function(callback) {
-						fetch("https://ipapi.co/json")
-							.then(res => res.json())
-							.then(data => callback(data.country_code))
-							.catch(() => callback("pk"));
-					},
-					separateDialCode: true,
-					preferredCountries: ["pk", "ae", "sa", "gb", "us"],
-					utilsScript: "https://unpkg.com/intl-tel-input@24.5.3/build/js/utils.js"
-				});
-				
-				// Wait a bit for ITI to be ready with data
-				setTimeout(() => this.setup_country_picker(), 500);
-			}
+			this.iti = window.intlTelInput(phone_input, {
+				initialCountry: "auto",
+				geoIpLookup: function(success, failure) {
+					fetch("https://ipapi.co/json")
+						.then((res) => res.json())
+						.then((data) => success(data.country_code))
+						.catch(() => success("US"));
+				},
+				utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/js/utils.js",
+				separateDialCode: true,
+				nationalMode: true,
+				autoFormat: true,
+				customPlaceholder: function(selectedCountryPlaceholder, selectedCountryData) {
+					return selectedCountryPlaceholder; // Ensure library doesn't wipe our styling
+				}
+			});
+			
+			// Wait a bit for ITI to be ready with data
+			setTimeout(() => this.setup_country_picker(), 500);
 		},
 
 		setup_country_picker: function() {
@@ -387,20 +448,35 @@ frappe.ready(function() {
 			if (!values.email) errors.push(__("Email is required"));
 			
 			// Only validate phone and manual address fields if not using a stored address
-			const using_stored_address = values.shipping_address_name && values.shipping_address_name !== 'new';
+			const is_guest = !values.shipping_address_name && !values.customer_address_name;
+			const ship_new = values.shipping_address_name === 'new';
+			const bill_new = values.customer_address_name === 'new';
+			
+			const using_stored_address = !is_guest && !ship_new;
+			const using_stored_billing = !is_guest && !bill_new;
 			
 			if (!using_stored_address) {
 				if (!values.phone) {
 					errors.push(__("Phone Number is required"));
-				} else if (this.iti && !this.iti.isValidNumber()) {
-					errors.push(__("Please enter a valid Phone Number"));
+				} else if (values.phone !== "STAY_LOGGED_IN" && this.iti && !this.iti.isValidNumber()) {
+					// Fallback: If library thinks it's invalid but it has at least 7 digits, accept it
+					const digitsOnly = values.phone.replace(/\D/g, '');
+					if (digitsOnly.length < 7) {
+						errors.push(__("Please enter a valid Phone Number"));
+					}
 				}
-				if (!values.address_line1) errors.push(__("Address Line 1 is required"));
-				if (!values.city) errors.push(__("City is required"));
-				if (!values.country) errors.push(__("Country is required"));
+				if (!values.address_line1) errors.push(__("Delivery Address Line 1 is required"));
+				if (!values.city) errors.push(__("Delivery City is required"));
+				if (!values.country) errors.push(__("Delivery Country is required"));
 			}
-			
-			if (!values.payment_method) errors.push(__("Please select a Payment Method"));
+
+			if ($('input[name="billing_address_type"]:checked').val() === 'different' && !using_stored_billing) {
+				if (!values.billing_address_line1) errors.push(__("Billing Address Line 1 is required"));
+				if (!values.billing_city) errors.push(__("Billing City is required"));
+				if (!values.billing_country) errors.push(__("Billing Country is required"));
+			}
+
+			if (!values.payment_method) {errors.push(__("Please select a Payment Method"));}
 			
 			if (errors.length) {
 				this.show_error(errors.join("<br>"));
@@ -457,21 +533,33 @@ frappe.ready(function() {
 		},
 
 		convert_guest_to_customer: function(values) {
+			let ajax_args = {
+				email: values.email,
+				full_name: values.full_name,
+				phone: values.phone,
+				create_account: values.create_account,
+				address_data: {
+					address_line1: values.address_line1,
+					city: values.city,
+					state: values.state,
+					country: values.country,
+					pincode: values.pincode
+				}
+			};
+
+			if ($('input[name="billing_address_type"]:checked').val() === 'different') {
+				ajax_args.billing_address_data = {
+					address_line1: values.billing_address_line1,
+					city: values.billing_city,
+					state: values.billing_state,
+					country: values.billing_country,
+					pincode: values.billing_pincode
+				};
+			}
+
 			frappe.call({
 				method: "webshop.webshop.shopping_cart.cart.convert_guest_cart_to_customer",
-				args: {
-					email: values.email,
-					full_name: values.full_name,
-					phone: values.phone,
-					create_account: values.create_account,
-					address_data: {
-						address_line1: values.address_line1,
-						city: values.city,
-						state: values.state,
-						country: values.country,
-						pincode: values.pincode
-					}
-				},
+				args: ajax_args,
 				callback: (r) => {
 					if (r.message && r.message.status === "success") {
 						this.submit_order(r.message.quotation);

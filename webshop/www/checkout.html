@@ -18,7 +18,9 @@
 	.country-picker-search,
 	.selected-country-box {
 		border-radius: 8px !important;
-		padding: 10px 14px !important;
+		padding-top: 10px !important;
+		padding-bottom: 10px !important;
+		padding-right: 14px !important;
 		min-height: 46px !important;
 		height: auto !important;
 		border: 1px solid #ced4da !important;
@@ -26,6 +28,12 @@
 		transition: all 0.2s ease !important;
 		font-size: 14px !important;
 		box-shadow: none !important;
+	}
+	
+	.checkout-form-section .form-control:not(#checkout-phone),
+	.country-picker-search,
+	.selected-country-box {
+		padding-left: 14px !important;
 	}
 
 	.checkout-form-section .form-control:focus,
@@ -46,7 +54,6 @@
 		border-radius: var(--ws-radius-sm) !important;
 		min-height: 46px !important;
 		height: 46px !important;
-		padding-left: 95px !important;
 		border: 1px solid var(--ws-border) !important;
 		background-color: var(--ws-surface) !important;
 		color: var(--ws-text) !important;
@@ -195,17 +202,35 @@
 					</div>
 				</div>
 				{% else %}
-				<p class="text-muted small mb-6">{{ _("Using account details for order notifications.") }}</p>
+				<!-- Contact Information Card for Logged In User -->
+				<div class="address-card p-4 rounded-lg border d-flex flex-column mb-6 bg-light" style="pointer-events: none;">
+					<div class="d-flex justify-content-between align-items-start mb-2">
+						<span class="font-weight-bold h6 mb-0">{{ frappe.get_fullname(frappe.session.user) }}</span>
+						<a href="/me" class="text-primary small" style="pointer-events: auto;" target="_blank">{{ _("Edit") }}</a>
+					</div>
+					<div class="text-muted small">
+						<div class="mb-1">{{ frappe.session.user }}</div>
+						{% if party and party.mobile_no %}
+						<div>{{ _("Phone") }}: {{ party.mobile_no }}</div>
+						{% elif doc.contact_mobile %}
+						<div>{{ _("Phone") }}: {{ doc.contact_mobile }}</div>
+						{% endif %}
+					</div>
+				</div>
+
 				<!-- Hidden inputs to satisfy JS validation/logic if needed -->
 				<input type="hidden" id="checkout-full-name" value="{{ frappe.get_fullname(frappe.session.user) }}">
 				<input type="hidden" id="checkout-email" value="{{ frappe.session.user }}">
 				{# For logged in users, phone is fetched from their profile in backend #}
 				<input type="hidden" id="checkout-phone" value="STAY_LOGGED_IN">
+				
+
 				{% endif %}
 
 				<h4 class="mt-8 mb-4">{{ _("Shipping Address") }}</h4>
-				
-				{% if shipping_addresses and frappe.session.user != 'Guest' %}
+
+				{% if frappe.session.user != 'Guest' %}
+				{% if shipping_addresses %}
 				<p class="text-muted small mb-4">{{ _("Select your preferred delivery location.") }}</p>
 				<div class="address-list-grid mb-6">
 					{% set default_address = doc.shipping_address_name %}
@@ -273,7 +298,11 @@
 						</label>
 					</div>
 				</div>
+				{% else %}
+				<p class="text-muted small mb-6">{{ _("Using account details for order notifications.") }}</p>
 				{% endif %}
+				{% endif %}
+
 
 				<div class="manual-address-form row {% if shipping_addresses and frappe.session.user != 'Guest' %}d-none{% endif %}">
 					<input type="hidden" id="editing-address-name" value="">
@@ -317,6 +346,93 @@
 						</button>
 					</div>
 					{% endif %}
+				</div>
+
+
+				<!-- BILLING ADDRESS GLOBAL TOGGLE -->
+				<h4 class="mt-8 mb-4">{{ _("Billing Address") }}</h4>
+				<div class="address-card p-4 rounded-lg border mb-5 bg-light">
+					<div class="custom-control custom-radio mb-3">
+						<input type="radio" id="billing-same" name="billing_address_type" class="custom-control-input" value="same" checked>
+						<label class="custom-control-label font-weight-bold cursor-pointer" style="margin-top:2px;" for="billing-same">{{ _("Same as shipping address") }}</label>
+					</div>
+					<div class="custom-control custom-radio">
+						<input type="radio" id="billing-different" name="billing_address_type" class="custom-control-input" value="different">
+						<label class="custom-control-label font-weight-bold cursor-pointer" style="margin-top:2px;" for="billing-different">{{ _("Use a different billing address") }}</label>
+					</div>
+				</div>
+
+				<div id="billing-address-section" class="d-none">
+					{% if frappe.session.user != 'Guest' %}
+					{% if shipping_addresses %}
+					<p class="text-muted small mb-4">{{ _("Select your preferred contact / billing location.") }}</p>
+					<div class="address-list-grid mb-6">
+						{% set default_billing_address = doc.customer_address %}
+						{% if not default_billing_address %}
+							{% for addr in shipping_addresses %}
+								{% if addr.is_primary and not default_billing_address %}
+									{% set default_billing_address = addr.name %}
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+						{% if not default_billing_address and shipping_addresses %}
+							{% set default_billing_address = shipping_addresses[0].name %}
+						{% endif %}
+
+						{% for addr in shipping_addresses %}
+						<div class="address-card-option mb-3">
+							<input type="radio" name="customer_address" id="billing-addr-{{ addr.name }}" value="{{ addr.name }}" class="d-none" {{ 'checked' if default_billing_address == addr.name }}>
+							<label for="billing-addr-{{ addr.name }}" class="address-card p-4 rounded-lg border d-flex flex-column cursor-pointer transition-all">
+								<div class="d-flex justify-content-between align-items-start mb-2">
+									<div class="d-flex flex-column">
+										<span class="font-weight-bold h6 mb-0">{{ addr.title or _("Address") }}</span>
+										{% if addr.is_primary %}
+										<span class="badge badge-primary-light text-primary extra-small mt-1" style="width: fit-content;">{{ _("Primary") }}</span>
+										{% endif %}
+									</div>
+									<i class="fa fa-check-circle text-primary select-icon"></i>
+								</div>
+								<div class="address-display text-muted small">
+									{{ addr.display|safe }}
+								</div>
+							</label>
+						</div>
+						{% endfor %}
+
+						<div class="address-card-option mb-3">
+							<input type="radio" name="customer_address" id="billing-addr-new" value="new" class="d-none">
+							<label for="billing-addr-new" class="address-card p-4 rounded-lg border border-dashed d-flex align-items-center justify-content-center cursor-pointer transition-all" style="min-height: 100px;">
+								<div class="text-center">
+									<i class="fa fa-plus-circle h4 mb-2 text-primary"></i>
+									<div class="font-weight-bold small">{{ _("Add New Address") }}</div>
+								</div>
+							</label>
+						</div>
+					</div>
+					{% endif %}
+					{% endif %}
+<div class="billing-manual-address-form row {% if shipping_addresses and frappe.session.user != 'Guest' %}d-none{% endif %}">
+						<div class="col-sm-12 mb-3">
+							<label class="form-label text-muted small">{{ _("Address Line 1") }} <span class="text-danger">*</span></label>
+							<input type="text" id="billing-addr-line1" class="form-control" placeholder="{{ _('Street name, Apartment, etc.') }}">
+						</div>
+						<div class="col-sm-6 mb-3">
+							<label class="form-label text-muted small">{{ _("City") }} <span class="text-danger">*</span></label>
+							<input type="text" id="billing-city" class="form-control" placeholder="{{ _('e.g. Lahore') }}">
+						</div>
+						<div class="col-sm-6 mb-3">
+							<label class="form-label text-muted small">{{ _("State / Province") }}</label>
+							<input type="text" id="billing-state" class="form-control" placeholder="{{ _('e.g. Punjab') }}">
+						</div>
+						<div class="col-sm-6">
+							<label class="form-label text-muted small">{{ _("Country") }} <span class="text-danger">*</span></label>
+							<input type="text" id="billing-country" class="form-control" value="Pakistan" readonly>
+						</div>
+						<div class="col-sm-6">
+							<label class="form-label text-muted small">{{ _("Postal Code / Pincode") }}</label>
+							<input type="text" id="billing-pincode" class="form-control" placeholder="{{ _('e.g. 54000') }}">
+						</div>
+					</div>
 				</div>
 
 				{% if available_shipping_methods %}
