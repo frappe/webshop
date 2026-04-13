@@ -1,0 +1,77 @@
+{% from "webshop/templates/includes/macros.html" import product_image %}
+
+{% for d in doc.items %}
+<div class="cart-drawer-item d-flex align-items-center mb-3 pb-3 border-bottom" data-item-code="{{ d.item_code }}">
+    <div class="item-img mr-3" style="width: 60px; height: 60px; flex-shrink: 0;">
+        {% if d.thumbnail %}
+            {{ product_image(d.thumbnail, alt=d.web_item_name, no_border=True) }}
+        {% else %}
+            <div class="no-image-cart-item d-flex align-items-center justify-content-center bg-light rounded" style="width: 100%; height: 100%; font-size: 1rem;">
+                {{ frappe.utils.get_abbr(d.web_item_name) or "NA" }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="item-info flex-grow-1 min-width-0 px-2 d-flex flex-column">
+        <div class="item-name font-weight-bold text-truncate" title="{{ d.web_item_name or d.item_name }}">
+            {{ d.web_item_name or d.item_name }}
+        </div>
+        {% if d.description %}
+            <div class="item-variant-info mt-1 small text-muted" style="font-size: 0.75rem; line-height: 1.2;">
+                {{ d.description | safe }}
+            </div>
+        {% endif %}
+        
+        <div class="item-meta d-flex flex-column align-items-start mb-2">
+            {% if d.formatted_mrp %}
+                <del class="text-muted mb-1" style="font-size: 0.7rem; opacity: 0.5;">{{ d.formatted_mrp }}</del>
+            {% endif %}
+            {% if d.formatted_discount_percent %}
+                <span class="badge badge-pill px-1 py-0 mb-1" style="font-size: 0.65rem; background: #fff5f5; color: #e53e3e; border: 1px solid #feb2b2; font-weight: 700; line-height: 1.4;">
+                    {{ d.formatted_discount_percent or _("SALE") }}
+                </span>
+            {% endif %}
+            <div class="text-muted small" style="font-size: 0.7rem; opacity: 0.8;">
+                {{ _('Rate:') }} {{ d.get_formatted('rate') }}
+            </div>
+        </div>
+        
+        <div class="drawer-qty-controls-wrapper d-flex flex-column" style="gap: 4px;">
+            <div class="drawer-qty-controls d-flex align-items-center bg-light rounded" style="width: fit-content; padding: 2px;">
+                <button class="btn btn-sm btn-qty btn-qty-minus py-0 px-2" 
+                    data-item-code="{{ d.item_code }}" data-dir="dwn"
+                    data-min-qty="{{ d.minimum_qty or 1 }}">
+                    -
+                </button>
+                <input type="text" class="qty-input text-center border-0 bg-transparent font-weight-bold" 
+                    value="{{ d.qty|int }}" data-item-code="{{ d.item_code }}" 
+                    style="width: 30px; pointer-events: none; font-size: 0.85rem;">
+                <button class="btn btn-sm btn-qty btn-qty-plus py-0 px-2" data-item-code="{{ d.item_code }}" data-dir="up">
+                    +
+                </button>
+            </div>
+            {% if d.minimum_qty > 1 %}
+                <div class="min-qty-note text-muted" style="font-size: 0.65rem; font-weight: 500;">
+                    {{ _("Min: {0}").format(d.minimum_qty | int) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="item-right text-right d-flex flex-column align-items-end justify-content-between h-100 py-1" style="min-width: 80px;">
+        <button class="btn btn-link text-muted p-0 mb-2 btn-remove-item" data-item-code="{{ d.item_code }}" title="Remove item" style="font-size: 1.2rem; line-height: 1;">
+            &times;
+        </button>
+        <div class="item-amount text-primary font-weight-bold" style="font-size: 1rem;">
+            {{ d.get_formatted("amount") }}
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% if not doc.items %}
+<div class="text-center py-5">
+    <p class="text-muted small">Your cart is currently empty.</p>
+    <a href="/all-products" class="btn btn-sm btn-primary px-3">Start Shopping</a>
+</div>
+{% endif %}

@@ -1,0 +1,121 @@
+{% extends "templates/web.html" %}
+
+{% block title %} {{ _("Track Order") }} {% endblock %}
+
+{% block header %}
+{{ include_style("assets/webshop/css/webshop-modern.css") }}
+<style>
+	.track-card {
+		max-width: 600px;
+		margin: 4rem auto;
+		padding: 3rem;
+		border-radius: 20px;
+		background: #fff;
+		box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+	}
+	.tracking-status-bar {
+		margin-top: 3rem;
+		padding: 2rem;
+		background: #f8f9fa;
+		border-radius: 12px;
+	}
+	.status-badge {
+		padding: 0.5rem 1rem;
+		border-radius: 20px;
+		font-weight: bold;
+		text-transform: uppercase;
+		font-size: 0.75rem;
+		letter-spacing: 1px;
+	}
+	.badge-pending { background: #fff3cd; color: #856404; }
+	.badge-shipped { background: #d1ecf1; color: #0c5460; }
+	.badge-delivered { background: #d4edda; color: #155724; }
+	.badge-closed { background: #e2e3e5; color: #383d41; }
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="container">
+	<div class="track-card glass-card">
+		<h2 class="mb-5 text-center">{{ _("Track Your Order") }}</h2>
+		<p class="text-muted text-center mb-6 small">
+			{{ _("Enter your Order ID and the Email address used during checkout to see the current status.") }}
+		</p>
+		
+		<form id="track-order-form">
+			<div class="form-group mb-4">
+				<label class="form-label text-muted small">{{ _("Order ID") }}</label>
+				<input type="text" id="track-order-id" class="form-control" value="{{ order_id or '' }}" placeholder="{{ _('e.g. SAL-ORD-2026-0001') }}" required>
+			</div>
+			<div class="form-group mb-6">
+				<label class="form-label text-muted small">{{ _("Email Address") }}</label>
+				<input type="email" id="track-email" class="form-control" placeholder="{{ _('e.g. your@email.com') }}" required>
+			</div>
+			
+			<div id="track-error" class="alert alert-danger px-4 py-3 mb-4 small" style="display: none;"></div>
+			
+			<button type="submit" id="btn-track" class="btn btn-primary btn-lg w-100 shadow-custom-primary">
+				{{ _("Check Status") }}
+			</button>
+		</form>
+
+		<div id="tracking-result" class="tracking-status-bar" style="display: none;">
+			<div class="d-flex justify-content-between align-items-center mb-4">
+				<span class="text-muted small">{{ _("Status") }}:</span>
+				<span id="order-status-badge" class="status-badge"></span>
+			</div>
+			<div class="d-flex justify-content-between align-items-center mb-4">
+				<span class="text-muted small">{{ _("Delivery Status") }}:</span>
+				<span id="delivery-status" class="font-weight-bold"></span>
+			</div>
+			<div class="d-flex justify-content-between align-items-center pt-4 border-top">
+				<span class="font-weight-bold">{{ _("Amount") }}:</span>
+				<span id="grand-total-display" class="font-weight-bold h5 text-primary"></span>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block base_scripts %}
+{{ include_script("frappe-web.bundle.js") }}
+<script>
+frappe.ready(function() {
+	$("#track-order-form").on("submit", function(e) {
+		e.preventDefault();
+		const orderId = $("#track-order-id").val();
+		const email = $("#track-email").val();
+		
+		$("#btn-track").prop("disabled", true).html(__("Checking..."));
+		$("#track-error").hide();
+		$("#tracking-result").hide();
+		
+		frappe.call({
+			method: "webshop.webshop.shopping_cart.cart.get_order_status",
+			args: {
+				order_id: orderId,
+				email: email
+			},
+			callback: function(r) {
+				$("#btn-track").prop("disabled", false).html(__("Check Status"));
+				if (r.message) {
+					const order = r.message;
+					$("#order-status-badge")
+						.text(__(order.status))
+						.attr("class", "status-badge badge-" + order.status.toLowerCase());
+					
+					$("#delivery-status").text(__(order.delivery_status || "Not Shipped"));
+					$("#grand-total-display").text(order.currency + " " + order.grand_total.toLocaleString());
+					
+					$("#tracking-result").fadeIn();
+				}
+			},
+			error: function(r) {
+				$("#btn-track").prop("disabled", false).html(__("Check Status"));
+				$("#track-error").text(__("Invalid Order ID or Email. Please double-check.")).show();
+			}
+		});
+	});
+});
+</script>
+{% endblock %}

@@ -15,43 +15,277 @@ from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 )
 from webshop.webshop.utils.product import get_web_item_qty_in_stock
 from erpnext.selling.doctype.quotation.quotation import _make_sales_order
+from webshop.webshop.shopping_cart.raast_qr import generate_raast_emvco_string
 
 
 class WebsitePriceListMissingError(frappe.ValidationError):
     pass
 
 
+def get_target_uom(item_code, customer_group=None):
+	"""Determines the default UOM based on the Item Price record in the active price list"""
+	cart_settings = get_shopping_cart_settings()
+	if not customer_group:
+		customer_group = cart_settings.default_customer_group
+	
+	item_meta = frappe.db.get_value("Item", item_code, ["stock_uom", "sales_uom"], as_dict=True)
+	selling_price_list = _set_price_list(cart_settings)
+
+	# Determine preferred UOM
+	preferred_uom = item_meta.stock_uom if customer_group == "Retailer" else (item_meta.sales_uom or item_meta.stock_uom)
+
+	# 1. Try to find UOM from Price List with preferred UOM
+	uom_from_price = frappe.db.get_value("Item Price", {
+		"item_code": item_code,
+		"price_list": selling_price_list,
+		"uom": preferred_uom
+	}, "uom")
+
+	# 2. Fallback to any UOM in this price list
+	if not uom_from_price:
+		uom_from_price = frappe.db.get_value("Item Price", {
+			"item_code": item_code,
+			"price_list": selling_price_list
+		}, "uom")
+
+	return uom_from_price or preferred_uom
+
+
 def set_cart_count(quotation=None):
 	if cint(frappe.db.get_singles_value("Webshop Settings", "enabled")):
 		if not quotation:
-			quotation = _get_cart_quotation()
+			if frappe.session.user == "Guest":
+				cart_data = get_guest_cart_quotation()
+				quotation = cart_data.get("doc")
+			else:
+				quotation = _get_cart_quotation()
+
 		cart_count = cstr(cint(quotation.get("total_qty")))
 
 		if hasattr(frappe.local, "cookie_manager"):
 			frappe.local.cookie_manager.set_cookie("cart_count", cart_count)
 
 
-@frappe.whitelist()
-def get_cart_quotation(doc=None):
-	party = get_party()
+@frappe.whitelist(allow_guest=True)
+def get_cart_quotation(doc=None, for_checkout=False, is_cart_page=False):
+	if frappe.session.user == "Guest":
+		return get_guest_cart_quotation(for_checkout=for_checkout, is_cart_page=is_cart_page)
 
+	party = get_party()
 	if not doc:
 		quotation = _get_cart_quotation(party)
 		doc = quotation
 		set_cart_count(quotation)
 
 	addresses = get_address_docs(party=party)
-
 	if not doc.customer_address and addresses:
 		update_cart_address("billing", addresses[0].name)
 
-	return {
+	customer_group = frappe.db.get_value("Customer", party.name, "customer_group")
+	
+	shipping_method = frappe.cache().get_value(f"shipping_method_{frappe.session.id}") or "Standard"
+	
+	available_methods = []
+	if customer_group == "Retailer":
+		available_methods = get_shipping_methods_list(doc.grand_total if doc else 0)
+
+	context = {
 		"doc": decorate_quotation_doc(doc),
+		"party": party,
 		"shipping_addresses": get_shipping_addresses(party),
 		"billing_addresses": get_billing_addresses(party),
 		"shipping_rules": get_applicable_shipping_rules(party),
 		"cart_settings": frappe.get_cached_doc("Webshop Settings"),
+		"available_shipping_methods": available_methods,
+		"selected_shipping_method": shipping_method
 	}
+
+	if for_checkout:
+		context.update({
+			"items": frappe.render_template("webshop/templates/includes/cart/cart_items.html" if is_cart_page else "webshop/templates/includes/cart/cart_drawer_items.html", context),
+			"total": frappe.render_template("webshop/templates/includes/cart/cart_items_total.html", context),
+			"taxes_and_totals": frappe.render_template("webshop/templates/includes/cart/cart_drawer_summary.html", context),
+		})
+
+	return context
+
+def get_guest_cart_quotation(for_checkout=False, is_cart_page=False):
+	cart_items = frappe.cache().get_value(f"cart_{frappe.session.id}") or []
+	cart_settings = frappe.get_doc("Webshop Settings")
+	shipping_method = frappe.cache().get_value(f"shipping_method_{frappe.session.id}") or "Standard"
+	applied_coupon = frappe.cache().get_value(f"applied_coupon_{frappe.session.id}")
+	
+	doc = frappe.get_doc({
+		"doctype": "Quotation",
+		"items": [],
+		"taxes": [],
+		"total_qty": 0,
+		"net_total": 0,
+		"grand_total": 0,
+		"base_grand_total": 0,
+		"currency": frappe.get_cached_value("Company", cart_settings.company, "default_currency"),
+		"company": cart_settings.company,
+		"conversion_rate": 1.0,
+		"plc_conversion_rate": 1.0,
+		"price_list_currency": frappe.get_cached_value("Company", cart_settings.company, "default_currency"),
+		"customer_address": None,
+		"shipping_address_name": None,
+		"coupon_code": applied_coupon,
+		"transaction_date": frappe.utils.today()
+	})
+
+	selling_price_list = _set_price_list(cart_settings)
+
+	for item in cart_items:
+		item_doc = frappe.get_cached_doc("Website Item", {"item_code": item['item_code']})
+		target_uom = item.get('uom') or get_target_uom(item['item_code'])
+		
+		# Fetch price and UOM from Price List
+		price_data = frappe.db.get_value("Item Price", {
+			"item_code": item['item_code'],
+			"price_list": selling_price_list,
+			"uom": target_uom
+		}, ["price_list_rate", "uom"], as_dict=True)
+
+		# Fallback to any price in this price list
+		if not price_data:
+			price_data = frappe.db.get_value("Item Price", {
+				"item_code": item['item_code'],
+				"price_list": selling_price_list
+			}, ["price_list_rate", "uom"], as_dict=True)
+
+		if price_data:
+			price = price_data.price_list_rate
+			target_uom = price_data.uom
+		else:
+			price = 0
+		
+		item_description = item_doc.description or ''
+		if item.get('variant_txt'):
+			item_description = f'{item_description}<br><b>Variant:</b> {item["variant_txt"]}'
+
+		minimum_qty = frappe.db.get_value("Website Item", {"item_code": item['item_code']}, "minimum_qty") or 1
+
+		item_row = {
+			'description': item_description,
+			"item_code": item['item_code'],
+			"qty": item['qty'],
+			"uom": target_uom,
+			"rate": flt(price),
+			"base_rate": flt(price),
+			"amount": flt(item['qty']) * flt(price),
+			"base_amount": flt(item['qty']) * flt(price),
+			"web_item_name": item_doc.web_item_name,
+			"thumbnail": item_doc.thumbnail,
+			"minimum_qty": minimum_qty
+		}
+
+		# Add Simulated Discount if MRP is missing
+		from webshop.webshop.shopping_cart.product_info import calculate_simulated_discount
+		
+		# Ensure price is handled correctly if it were returned as a tuple/list
+		price_val = price[0] if isinstance(price, (list, tuple)) else price
+		
+		simulated_data = calculate_simulated_discount(item['item_code'], price_val, doc.currency)
+		if simulated_data:
+			item_row.update(simulated_data)
+		
+		doc.append("items", item_row)
+
+	# 2. Add Shipping Charge (Sales Taxes and Charges table) - Only for Checkout
+	if for_checkout:
+		# Use net total before taxes for shipping threshold check
+		doc.run_method("calculate_taxes_and_totals")
+		methods = get_shipping_methods_list(doc.net_total)
+		if methods:
+			selected_method = next((m for m in methods if m['name'] == shipping_method), methods[0])
+			
+			if selected_method:
+				account_head = cart_settings.get("shipping_account") or "4110 - Sales - VK"
+				tax_row = doc.append("taxes", {
+					"charge_type": "Actual",
+					"account_head": account_head,
+					"description": selected_method['label'],
+					"tax_amount": flt(selected_method['cost'])
+				})
+				
+				# Add metadata for UI (strikethrough)
+				if selected_method.get('is_free'):
+					tax_row.is_free_shipping = True
+					tax_row.original_shipping_cost = flt(selected_method.get('original_cost'))
+
+	# 3. Apply Pricing Rules (Coupons) and final calculation
+	doc.ignore_pricing_rule = 0
+	doc.run_method("apply_pricing_rule")
+	doc.run_method("calculate_taxes_and_totals")
+
+	# Ensure grand_total is updated even if net_total is tiny or 0
+	if not doc.grand_total and doc.taxes:
+		doc.grand_total = doc.net_total + sum(flt(t.tax_amount) for t in doc.taxes)
+
+	doc.base_grand_total = doc.grand_total
+	doc.base_net_total = doc.net_total
+
+	context = {
+		"doc": decorate_quotation_doc(doc),
+		"shipping_addresses": [],
+		"billing_addresses": [],
+		"shipping_rules": [],
+		"cart_settings": cart_settings,
+		"is_guest": True,
+		"available_shipping_methods": get_shipping_methods_list(doc.grand_total),
+		"selected_shipping_method": shipping_method
+	}
+
+	if for_checkout:
+		context.update({
+			"items": frappe.render_template("webshop/templates/includes/cart/cart_items.html" if is_cart_page else "webshop/templates/includes/cart/cart_drawer_items.html", context),
+			"total": frappe.render_template("webshop/templates/includes/cart/cart_items_total.html", context),
+			"taxes_and_totals": frappe.render_template("webshop/templates/includes/cart/cart_drawer_summary.html", context),
+		})
+
+	return context
+
+@frappe.whitelist(allow_guest=True)
+def get_shipping_methods():
+	"""Returns available methods based on current Guest Cart total"""
+	quotation_data = get_guest_cart_quotation()
+	return quotation_data.get("available_shipping_methods", [])
+
+@frappe.whitelist(allow_guest=True)
+def set_guest_shipping_method(method):
+	"""Stores the guest's shipping choice in cache"""
+	frappe.cache().set_value(f"shipping_method_{frappe.session.id}", method, expires_in_sec=86400)
+	return {"status": "success"}
+
+def get_shipping_methods_list(cart_total):
+	"""Internal helper to calculate shipping based on Webshop Settings"""
+	s = frappe.get_doc("Webshop Settings")
+	cart_total = flt(cart_total)
+	
+	threshold = flt(s.get("free_shipping_threshold") or 0)
+	is_free = (threshold > 0 and cart_total >= threshold)
+	
+	methods = []
+	if s.get("enable_standard_shipping"):
+		standard_cost = flt(s.get("standard_shipping_charge") or 0)
+		methods.append({
+			"name": "Standard",
+			"label": "Standard Shipping",
+			"cost": 0 if is_free else standard_cost,
+			"original_cost": standard_cost,
+			"is_free": is_free
+		})
+	if s.get("enable_express_shipping"):
+		express_cost = flt(s.get("express_shipping_charge") or 0)
+		methods.append({
+			"name": "Express",
+			"label": "Express Shipping",
+			"cost": 0 if is_free else express_cost,
+			"original_cost": express_cost,
+			"is_free": is_free
+		})
+	return methods
 
 
 @frappe.whitelist()
@@ -64,9 +298,16 @@ def get_shipping_addresses(party=None):
 			"name": address.name,
 			"title": address.address_title,
 			"display": address.display,
+			"is_primary": address.is_primary_address,
+			"address_type": address.address_type,
+			"address_line1": address.address_line1,
+			"city": address.city,
+			"state": address.state,
+			"country": address.country,
+			"pincode": address.pincode,
+			"phone": address.phone,
 		}
 		for address in addresses
-		if address.address_type == "Shipping"
 	]
 
 
@@ -86,9 +327,54 @@ def get_billing_addresses(party=None):
 	]
 
 
-@frappe.whitelist()
-def place_order():
-	quotation = _get_cart_quotation()
+@frappe.whitelist(allow_guest=True)
+def get_raast_qr():
+	"""Generates a dynamic Raast QR code for the current cart amount"""
+	try:
+		cart_settings = get_shopping_cart_settings()
+		
+		if not cart_settings.enable_raast:
+			return {"error": "Raast is not enabled in Webshop Settings"}
+			
+		if not getattr(cart_settings, "raast_id", None):
+			return {"error": "Raast ID (Alias/IBAN) is missing in Webshop Settings"}
+
+		# Use get_cart_quotation with for_checkout=True to ensure shipping and taxes are applied
+		try:
+			context = get_cart_quotation(for_checkout=True)
+			quotation = context.get("doc")
+		except Exception as e:
+			frappe.log_error(f"Error fetching cart for QR: {str(e)}", "Raast QR")
+			return {"error": "Error fetching cart total"}
+
+		if not quotation or not getattr(quotation, "grand_total", 0):
+			return {"error": "Cart is empty or total is zero"}
+
+		qr_string = generate_raast_emvco_string(
+			raast_id=cart_settings.raast_id,
+			amount=quotation.grand_total,
+			merchant_name=cart_settings.raast_account_title or frappe.defaults.get_global_default("company") or "Webshop"
+		)
+
+		if not qr_string:
+			return {"error": "Failed to generate QR string"}
+
+		return {
+			"qr_string": qr_string,
+			"amount": quotation.grand_total,
+			"currency": quotation.currency
+		}
+	except Exception as e:
+		frappe.log_error(frappe.get_traceback(), "Raast QR Generation Error")
+		return {"error": str(e)}
+
+
+@frappe.whitelist(allow_guest=True)
+def place_order(quotation_name=None, payment_method=None, receipt_info=None):
+	if quotation_name:
+		quotation = frappe.get_doc("Quotation", quotation_name)
+	else:
+		quotation = _get_cart_quotation()
 	cart_settings = frappe.get_cached_doc("Webshop Settings")
 	quotation.company = cart_settings.company
 
@@ -129,6 +415,29 @@ def place_order():
 						)
 					)
 
+	if payment_method:
+		# Map friendly name to internal gateway and store method for admin visibility
+		if payment_method == "COD":
+			sales_order.payment_method = "Cash on Delivery"
+			sales_order.payment_gateway_account = cart_settings.cod_gateway
+		elif payment_method == "Raast":
+			sales_order.payment_method = "Raast QR"
+			sales_order.payment_gateway_account = cart_settings.raast_gateway
+		elif payment_method == "Bank Transfer":
+			sales_order.payment_method = "Bank Transfer"
+			sales_order.payment_gateway_account = cart_settings.bank_gateway
+		else:
+			# Native gateway or direct gateway account selection
+			sales_order.payment_method = payment_method
+			sales_order.payment_gateway_account = payment_method
+
+		# Add a comment for the timeline
+		sales_order.add_comment("Comment", _("Checkout Payment Method: {0}").format(sales_order.payment_method))
+		
+		# For non-immediate/unverified payments, don't auto-submit the SO
+		if payment_method in ["COD", "Raast", "Bank Transfer"]:
+			sales_order.submit_on_creation = 0
+	
 	sales_order.flags.ignore_permissions = True
 	sales_order.insert()
 	sales_order.submit()
@@ -136,7 +445,46 @@ def place_order():
 	if hasattr(frappe.local, "cookie_manager"):
 		frappe.local.cookie_manager.delete_cookie("cart_count")
 
+	if receipt_info:
+		try:
+			from frappe.utils.file_manager import save_file
+			import json
+
+			if isinstance(receipt_info, str):
+				receipt_info = json.loads(receipt_info)
+
+			filename = receipt_info.get("filename")
+			filedata = receipt_info.get("filedata")
+
+			if filename and filedata:
+				file_doc = save_file(
+					fname=filename,
+					content=filedata,
+					dt="Sales Order",
+					dn=sales_order.name,
+					folder="Home/Attachments",
+					decode=True,
+					is_private=1
+				)
+				sales_order.add_comment("Comment", _("Payment receipt uploaded: {0}").format(file_doc.file_url))
+		except Exception as e:
+			frappe.log_error(f"Receipt Attach Error: {str(e)}", "Webshop Checkout")
+
 	return sales_order.name
+
+
+@frappe.whitelist(allow_guest=True)
+def get_order_status(order_id, email):
+	"""Returns basic order status for guest tracking"""
+	order = frappe.db.get_value("Sales Order", {
+		"name": order_id,
+		"contact_email": email
+	}, ["name", "status", "delivery_status", "grand_total", "currency"], as_dict=True)
+	
+	if not order:
+		frappe.throw(_("Order not found or email mismatch."), frappe.PermissionError)
+		
+	return order
 
 
 @frappe.whitelist()
@@ -152,8 +500,12 @@ def request_for_quotation():
 	return quotation.name
 
 
-@frappe.whitelist()
-def update_cart(item_code, qty, additional_notes=None, with_items=False):
+@frappe.whitelist(allow_guest=True)
+@frappe.whitelist(allow_guest=True)
+def update_cart(item_code, qty, additional_notes=None, with_items=False, uom=None, variant_txt=None):
+	if frappe.session.user == "Guest":
+		return update_guest_cart(item_code, qty, with_items, uom, variant_txt)
+
 	quotation = _get_cart_quotation()
 
 	empty_card = False
@@ -166,24 +518,46 @@ def update_cart(item_code, qty, additional_notes=None, with_items=False):
 			empty_card = True
 
 	else:
+		minimum_qty = frappe.db.get_value("Website Item", {"item_code": item_code}, "minimum_qty") or 1
+		if qty < minimum_qty:
+			qty = minimum_qty
+
 		warehouse = frappe.get_cached_value(
 			"Website Item", {"item_code": item_code}, "website_warehouse"
 		)
 
 		quotation_items = quotation.get("items", {"item_code": item_code})
 		if not quotation_items:
+			if not uom:
+				uom = get_target_uom(item_code)
+
+			item_doc = frappe.get_cached_doc("Item", item_code)
+			description = item_doc.description
+			if variant_txt:
+				description = f"{description}<br><b>Variant:</b> {variant_txt}"
+
 			quotation.append(
 				"items",
 				{
 					"doctype": "Quotation Item",
 					"item_code": item_code,
 					"qty": qty,
+					"uom": uom,
+					"description": description,
 					"additional_notes": additional_notes,
 					"warehouse": warehouse,
 				},
 			)
 		else:
 			quotation_items[0].qty = qty
+			if uom:
+				quotation_items[0].uom = uom
+			
+			if variant_txt:
+				item_doc = frappe.get_cached_doc("Item", item_code)
+				description = item_doc.description
+				quotation_items[0].description = f"{description}<br><b>Variant:</b> {variant_txt}"
+
 			quotation_items[0].warehouse = warehouse
 			quotation_items[0].additional_notes = additional_notes
 
@@ -198,22 +572,264 @@ def update_cart(item_code, qty, additional_notes=None, with_items=False):
 		quotation = None
 
 	set_cart_count(quotation)
-
+	
 	if cint(with_items):
-		context = get_cart_quotation(quotation)
+		is_cart_page = False
+		if frappe.request and frappe.request.referrer:
+			if "/cart" in frappe.request.referrer:
+				is_cart_page = True
+		
+		context = get_cart_quotation(quotation, for_checkout=True, is_cart_page=is_cart_page)
 		return {
-			"items": frappe.render_template(
-				"templates/includes/cart/cart_items.html", context
-			),
-			"total": frappe.render_template(
-				"templates/includes/cart/cart_items_total.html", context
-			),
-			"taxes_and_totals": frappe.render_template(
-				"templates/includes/cart/cart_payment_summary.html", context
-			),
+			"items": context.get("items"),
+			"total": context.get("total"),
+			"taxes_and_totals": context.get("taxes_and_totals"),
 		}
 	else:
-		return {"name": quotation.name}
+		return {"name": quotation.name if quotation else None}
+
+def update_guest_cart(item_code, qty, with_items=0, uom=None, variant_txt=None):
+	# Store guest cart in cache
+	session_id = frappe.session.id
+	cache_key = f"cart_{session_id}"
+	cart_items = frappe.cache().get_value(cache_key) or []
+	
+	qty = flt(qty)
+	if qty == 0:
+		cart_items = [item for item in cart_items if item['item_code'] != item_code]
+	else:
+		minimum_qty = frappe.db.get_value("Website Item", {"item_code": item_code}, "minimum_qty") or 1
+		if qty < minimum_qty:
+			qty = minimum_qty
+
+		if not uom:
+			uom = get_target_uom(item_code)
+
+		found = False
+		for item in cart_items:
+			if item['item_code'] == item_code:
+				item['qty'] = qty
+				item['uom'] = uom
+				if variant_txt:
+					item['variant_txt'] = variant_txt
+				found = True
+				break
+		if not found:
+			item_data = {'item_code': item_code, 'qty': qty, 'uom': uom}
+			if variant_txt:
+				item_data['variant_txt'] = variant_txt
+			cart_items.append(item_data)
+	
+	frappe.cache().set_value(cache_key, cart_items, expires_in_sec=86400) # 24 hours
+	set_cart_count()
+
+	if cint(with_items):
+		is_cart_page = False
+		if frappe.request and frappe.request.referrer:
+			if "/cart" in frappe.request.referrer:
+				is_cart_page = True
+				
+		context = get_guest_cart_quotation(for_checkout=True, is_cart_page=is_cart_page)
+		return {
+			"items": context.get("items"),
+			"total": context.get("total"),
+			"taxes_and_totals": context.get("taxes_and_totals"),
+		}
+	return {"name": "GuestCart"}
+
+
+@frappe.whitelist(allow_guest=True)
+def convert_guest_cart_to_customer(email, full_name, phone=None, create_account=False, address_data=None, billing_address_data=None):
+	"""Converts a guest cart to a real Customer and Quotation, including Address"""
+	if frappe.session.user != "Guest":
+		return {"status": "success", "message": "User already logged in"}
+
+	# 0. Get Guest Cart Items FIRST (Before any DB operations that might affect session/cache)
+	session_id = frappe.session.id
+	cache_key = f"cart_{session_id}"
+	cart_items = frappe.cache().get_value(cache_key) or []
+	
+	if not cart_items:
+		return {"status": "error", "message": "Cart is empty"}
+
+	# 1. Create User if requested
+	if frappe.cint(create_account):
+		if not frappe.db.exists("User", email):
+			try:
+				user = frappe.new_doc("User")
+				user.email = email
+				user.first_name = full_name
+				user.enabled = 1
+				user.send_welcome_email = 1
+				user.append("roles", {"role": "Customer"})
+				user.flags.ignore_permissions = True
+				user.insert()
+			except Exception as e:
+				# Log error but don't block order placement
+				frappe.log_error(f"Failed to create user at checkout: {str(e)}")
+
+	# 2. Create or Find Customer
+	customer_name = frappe.db.get_value("Customer", {"email_id": email})
+	if not customer_name:
+		try:
+			customer = frappe.new_doc("Customer")
+			customer.customer_name = full_name
+			customer.customer_type = "Individual"
+			customer.email_id = email
+			customer.mobile_no = phone
+			customer.flags.ignore_mandatory = True
+			customer.insert(ignore_permissions=True)
+			customer_name = customer.name
+			frappe.db.commit() # Commit to ensure ID is available for Address/Quotation
+		except frappe.DuplicateEntryError:
+			customer_name = frappe.db.get_value("Customer", {"email_id": email})
+	
+	# 2. Add Address if data provided
+	shipping_address_name = None
+	if address_data:
+		if isinstance(address_data, str):
+			address_data = frappe.parse_json(address_data)
+			
+		shipping_address = frappe.new_doc("Address")
+		shipping_address.address_title = full_name
+		shipping_address.address_type = "Shipping"
+		shipping_address.address_line1 = address_data.get("address_line1")
+		shipping_address.city = address_data.get("city")
+		shipping_address.state = address_data.get("state")
+		shipping_address.country = address_data.get("country")
+		shipping_address.pincode = address_data.get("pincode")
+		shipping_address.phone = phone
+		shipping_address.email_id = email
+		
+		# Link to Customer
+		shipping_address.append("links", {
+			"link_doctype": "Customer",
+			"link_name": customer_name
+		})
+		
+		shipping_address.flags.ignore_permissions = True
+		shipping_address.insert()
+		shipping_address_name = shipping_address.name
+
+	billing_address_name = shipping_address_name
+	if billing_address_data:
+		if isinstance(billing_address_data, str):
+			billing_address_data = frappe.parse_json(billing_address_data)
+			
+		billing_address = frappe.new_doc("Address")
+		billing_address.address_title = full_name
+		billing_address.address_type = "Billing"
+		billing_address.address_line1 = billing_address_data.get("address_line1")
+		billing_address.city = billing_address_data.get("city")
+		billing_address.state = billing_address_data.get("state")
+		billing_address.country = billing_address_data.get("country")
+		billing_address.pincode = billing_address_data.get("pincode")
+		billing_address.phone = phone
+		billing_address.email_id = email
+		
+		# Link to Customer
+		billing_address.append("links", {
+			"link_doctype": "Customer",
+			"link_name": customer_name
+		})
+		
+		billing_address.flags.ignore_permissions = True
+		billing_address.insert()
+		billing_address_name = billing_address.name
+
+	# 3. Create Quotation for this Customer
+	cart_settings = frappe.get_cached_doc("Webshop Settings")
+	qdoc = frappe.get_doc({
+		"doctype": "Quotation",
+		"naming_series": cart_settings.quotation_series or "QTN-CART-",
+		"quotation_to": "Customer",
+		"party_name": customer_name,
+		"customer_address": billing_address_name,
+		"shipping_address_name": shipping_address_name,
+		"company": cart_settings.company,
+		"currency": frappe.get_cached_value("Company", cart_settings.company, "default_currency"),
+		"conversion_rate": 1.0,
+		"plc_conversion_rate": 1.0,
+		"price_list_currency": frappe.get_cached_value("Company", cart_settings.company, "default_currency"),
+		"order_type": "Shopping Cart",
+		"status": "Draft",
+		"contact_email": email
+	})
+
+	selling_price_list = _set_price_list(cart_settings)
+	qdoc.selling_price_list = selling_price_list
+
+	for item in cart_items:
+		warehouse = frappe.get_cached_value("Website Item", {"item_code": item['item_code']}, "website_warehouse")
+		
+		# Ensure UOM is fetched the same way get_guest_cart_quotation does
+		target_uom = item.get('uom') or get_target_uom(item['item_code'])
+		
+		# Fetch EXACT price using the same fallback logic as the guest cart
+		price_data = frappe.db.get_value("Item Price", {
+			"item_code": item['item_code'],
+			"price_list": selling_price_list,
+			"uom": target_uom
+		}, ["price_list_rate", "uom"], as_dict=True)
+
+		if not price_data:
+			price_data = frappe.db.get_value("Item Price", {
+				"item_code": item['item_code'],
+				"price_list": selling_price_list
+			}, ["price_list_rate", "uom"], as_dict=True)
+
+		price = price_data.price_list_rate if price_data else 0
+		if price_data and price_data.uom:
+			target_uom = price_data.uom
+		
+		qdoc.append("items", {
+			"item_code": item['item_code'],
+			"qty": item['qty'],
+			"uom": target_uom,
+			"price_list_rate": flt(price),
+			"rate": flt(price),
+			"warehouse": warehouse
+		})
+
+	qdoc.flags.ignore_permissions = True
+	qdoc.run_method("set_missing_values")
+	
+	# Explicitly re-apply pricing rule after set missing values to ensure correct storefront discounts applying
+	qdoc.ignore_pricing_rule = 0
+	qdoc.run_method("apply_pricing_rule")
+	
+	# Apply Shipping Method to real Quotation
+	shipping_method = frappe.cache().get_value(f"shipping_method_{frappe.session.id}") or "Standard"
+	total_before_tax = qdoc.grand_total
+	methods = get_shipping_methods_list(total_before_tax)
+	selected_method = next((m for m in methods if m['name'] == shipping_method), methods[0])
+	
+	if selected_method:
+		account_head = cart_settings.get("shipping_account") or "4110 - Sales - VK"
+		tax_row = qdoc.append("taxes", {
+			"charge_type": "Actual",
+			"account_head": account_head,
+			"description": selected_method['label'],
+			"tax_amount": flt(selected_method['cost'])
+		})
+		
+		# Metadata for UI
+		if selected_method.get('is_free'):
+			tax_row.is_free_shipping = True
+			tax_row.original_shipping_cost = flt(selected_method.get('original_cost'))
+	
+	qdoc.run_method("calculate_taxes_and_totals")
+
+	qdoc.save()
+	
+	# 4. Clear Guest Cache
+	frappe.cache().delete_value(cache_key)
+	
+	return {
+		"status": "success",
+		"quotation": qdoc.name,
+		"customer": customer_name
+	}
 
 
 @frappe.whitelist()
@@ -315,7 +931,125 @@ def update_cart_address(address_type, address_name):
 		"address": frappe.render_template(
 			"templates/includes/cart/address_card.html", context
 		),
+		"taxes_and_totals": frappe.render_template(
+			"webshop/templates/includes/cart/checkout_summary_totals.html", context
+		),
 	}
+
+
+@frappe.whitelist()
+def save_new_address_and_update_cart(address_data):
+	"""Saves a new address for a logged-in user and updates their cart quotation"""
+	if frappe.session.user == "Guest":
+		frappe.throw(_("Please log in to save addresses."))
+
+	party = get_party()
+	if isinstance(address_data, str):
+		address_data = frappe.parse_json(address_data)
+
+	# 1. Create Address
+	address = frappe.new_doc("Address")
+	address.address_title = address_data.get("address_title") or party.customer_name
+	address.address_type = "Shipping"
+	address.address_line1 = address_data.get("address_line1")
+	address.city = address_data.get("city")
+	address.state = address_data.get("state")
+	address.country = address_data.get("country")
+	address.pincode = address_data.get("pincode")
+	address.phone = address_data.get("phone")
+	address.email_id = frappe.session.user
+	
+	address.append("links", {
+		"link_doctype": party.doctype,
+		"link_name": party.name
+	})
+	
+	address.flags.ignore_permissions = True
+	address.insert()
+	
+	# 2. Update Cart
+	return update_cart_address("shipping", address.name)
+
+
+@frappe.whitelist()
+def update_existing_address(address_name, address_data):
+	"""Updates an existing address for a logged-in user"""
+	if frappe.session.user == "Guest":
+		frappe.throw(_("Please log in to update addresses."))
+
+	if isinstance(address_data, str):
+		address_data = frappe.parse_json(address_data)
+
+	address = frappe.get_doc("Address", address_name)
+	
+	# Basic ownership check via Dynamic Link
+	party = get_party()
+	if not any(link.link_name == party.name for link in address.links):
+		frappe.throw(_("Not authorized to update this address."))
+
+	address.update({
+		"address_line1": address_data.get("address_line1"),
+		"city": address_data.get("city"),
+		"state": address_data.get("state"),
+		"country": address_data.get("country"),
+		"pincode": address_data.get("pincode"),
+		"phone": address_data.get("phone")
+	})
+	
+	address.flags.ignore_permissions = True
+	address.save()
+	
+	return update_cart_address("shipping", address.name)
+
+
+@frappe.whitelist()
+def delete_existing_address(address_name):
+	"""Deletes an existing address for a logged-in user"""
+	if frappe.session.user == "Guest":
+		frappe.throw(_("Please log in to delete addresses."))
+
+	address = frappe.get_doc("Address", address_name)
+	
+	# Basic ownership check
+	party = get_party()
+	if not any(link.link_name == party.name for link in address.links):
+		frappe.throw(_("Not authorized to delete this address."))
+
+	address.flags.ignore_permissions = True
+	address.delete()
+	
+	return {"status": "success"}
+
+
+@frappe.whitelist()
+def set_address_as_primary(address_name):
+	"""Sets an address as primary for the current user's customer"""
+	if frappe.session.user == "Guest":
+		frappe.throw(_("Please log in to manage addresses."))
+
+	party = get_party()
+	
+	# 1. Unset primary for all addresses linked to this party
+	linked_addresses = frappe.db.get_all("Dynamic Link", filters={
+		"link_doctype": party.doctype,
+		"link_name": party.name,
+		"parenttype": "Address"
+	}, pluck="parent")
+
+	for addr_name in linked_addresses:
+		addr = frappe.get_doc("Address", addr_name)
+		if addr.is_primary_address:
+			addr.is_primary_address = 0
+			addr.flags.ignore_permissions = True
+			addr.save()
+
+	# 2. Set primary for the target address
+	target_addr = frappe.get_doc("Address", address_name)
+	target_addr.is_primary_address = 1
+	target_addr.flags.ignore_permissions = True
+	target_addr.save()
+
+	return update_cart_address("shipping", address_name)
 
 
 def guess_territory():
@@ -333,7 +1067,7 @@ def guess_territory():
 def decorate_quotation_doc(doc):
 	for d in doc.get("items", []):
 		item_code = d.item_code
-		fields = ["web_item_name", "thumbnail", "website_image", "description", "route"]
+		fields = ["web_item_name", "thumbnail", "website_image", "description", "route", "minimum_qty"]
 
 		# Variant Item
 		if not frappe.db.exists("Website Item", {"item_code": item_code}):
@@ -362,6 +1096,13 @@ def decorate_quotation_doc(doc):
 		)
 
 		d.warehouse = website_warehouse
+
+		# Add Simulated Discount if MRP is missing
+		from webshop.webshop.shopping_cart.product_info import calculate_simulated_discount
+		
+		simulated_data = calculate_simulated_discount(item_code, d.rate, doc.currency)
+		if simulated_data:
+			d.update(simulated_data)
 
 	return doc
 
@@ -457,7 +1198,9 @@ def apply_cart_settings(party=None, quotation=None):
 
 	set_taxes(quotation, cart_settings)
 
-	_apply_shipping_rule(party, quotation, cart_settings)
+	customer_group = frappe.db.get_value("Customer", party.name, "customer_group")
+	if customer_group == "Retailer":
+		_apply_shipping_rule(party, quotation, cart_settings)
 
 
 def set_price_list_and_rate(quotation, cart_settings):
@@ -483,21 +1226,39 @@ def set_price_list_and_rate(quotation, cart_settings):
 
 
 def _set_price_list(cart_settings, quotation=None):
-	"""Set price list based on customer or shopping cart default"""
+	"""Set price list based on customer, customer group or shopping cart default"""
 	from erpnext.accounts.party import get_default_price_list
 
 	party_name = quotation.get("party_name") if quotation else get_party().get("name")
 	selling_price_list = None
 
-	# check if default customer price list exists
+	# 1. Check if default customer price list exists
 	if party_name and frappe.db.exists("Customer", party_name):
 		selling_price_list = get_default_price_list(
 			frappe.get_doc("Customer", party_name)
 		)
 
-	# check default price list in shopping cart
+	# 2. Check if default Customer Group price list exists
+	if not selling_price_list:
+		customer_group = None
+		if party_name and frappe.db.exists("Customer", party_name):
+			customer_group = frappe.db.get_value("Customer", party_name, "customer_group")
+		
+		# Fallback to Guest Customer Group from settings if no customer group found
+		if not customer_group:
+			customer_group = cart_settings.default_customer_group
+
+		if customer_group:
+			selling_price_list = frappe.db.get_value("Customer Group", customer_group, "default_price_list")
+
+	# 3. Check default price list in shopping cart
 	if not selling_price_list:
 		selling_price_list = cart_settings.price_list
+
+	if quotation:
+		quotation.selling_price_list = selling_price_list
+	
+	return selling_price_list
 
 	if quotation:
 		quotation.selling_price_list = selling_price_list
@@ -768,9 +1529,7 @@ def show_terms(doc):
 
 
 @frappe.whitelist(allow_guest=True)
-def apply_coupon_code(applied_code, applied_referral_sales_partner):
-	quotation = True
-
+def apply_coupon_code(applied_code, applied_referral_sales_partner=None):
 	if not applied_code:
 		frappe.throw(_("Please enter a coupon code"))
 
@@ -780,12 +1539,25 @@ def apply_coupon_code(applied_code, applied_referral_sales_partner):
 
 	coupon_name = coupon_list[0].name
 
+	# Validate coupon using ERPNext logic
 	from erpnext.accounts.doctype.pricing_rule.utils import validate_coupon_code
+	
+	if frappe.session.user == "Guest":
+		# For guest, we simulate a quotation to validate
+		cart_data = get_guest_cart_quotation()
+		doc = cart_data.get("doc")
+		
+		# Validate coupon against the virtual doc
+		validate_coupon_code(doc.name, coupon_name, doc.transaction_date, doc.company, doc.customer)
+		
+		frappe.cache().set_value(f"applied_coupon_{frappe.session.id}", coupon_name, expires_in_sec=86400)
+		return get_guest_cart_quotation()
 
-	validate_coupon_code(coupon_name)
 	quotation = _get_cart_quotation()
-	quotation.ignore_pricing_rule = 0
 	quotation.coupon_code = coupon_name
+	validate_coupon_code(quotation.name, coupon_name, quotation.transaction_date, quotation.company, quotation.customer)
+	
+	quotation.ignore_pricing_rule = 0
 	quotation.flags.ignore_permissions = True
 	quotation.save()
 
@@ -799,15 +1571,21 @@ def apply_coupon_code(applied_code, applied_referral_sales_partner):
 			quotation.flags.ignore_permissions = True
 			quotation.save()
 
-	return quotation
+	return get_cart_quotation(quotation)
 
  
 @frappe.whitelist(allow_guest=True)
 def remove_coupon_code():
+	if frappe.session.user == "Guest":
+		frappe.cache().delete_value(f"applied_coupon_{frappe.session.id}")
+		return get_guest_cart_quotation()
+
 	quotation = _get_cart_quotation()
 	quotation.coupon_code = ""
 	quotation.referral_sales_partner = ""
 	quotation.flags.ignore_permissions = True
+	quotation.save()
+	return quotation
 
 	# reset discount amount if coupon code is removed (on desk it is done in client side)
 	# as we are enabling ignore_pricing_rule, so we also need to manually reset discount percentage

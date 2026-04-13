@@ -1,0 +1,103 @@
+{% extends "templates/web.html" %}
+
+{% block title %} {{ _("Order Successful") }} {% endblock %}
+
+{% block header %}
+{{ include_style("assets/webshop/css/webshop-modern.css") }}
+<style>
+	.success-card {
+		max-width: 600px;
+		margin: 4rem auto;
+		text-align: center;
+		padding: 3rem;
+		border-radius: 20px;
+		background: #fff;
+		box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+	}
+	.success-icon {
+		width: 100px;
+		height: 100px;
+		background: #ebfaf2;
+		color: #28a745;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0 auto 2rem;
+		font-size: 3rem;
+	}
+	.order-number {
+		font-family: monospace;
+		background: #f8f9fa;
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		font-weight: bold;
+		color: #1a1a1a;
+	}
+	.action-btns {
+		margin-top: 3rem;
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+	}
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="container">
+	<div class="success-card glass-card">
+		<div class="success-icon animate__animated animate__bounceIn">
+			<i class="fa fa-check"></i>
+		</div>
+		<h1 class="mb-4">{{ _("Thank You!") }}</h1>
+		<p class="lead mb-6 text-muted">
+			{{ _("Your order has been placed successfully. We've sent a confirmation email to your inbox.") }}
+		</p>
+		
+		{% if not doc and frappe.form_dict.id %}
+			{% set doc = frappe.get_doc("Sales Order", frappe.form_dict.id) %}
+		{% endif %}
+		
+		<div class="order-info mb-8">
+			<p class="mb-2 small text-muted text-uppercase letter-spacing-1">{{ _("Order Reference") }}</p>
+			<span class="order-number h4">{{ doc.name if doc else frappe.form_dict.id }}</span>
+		</div>
+
+		{% if doc.payment_method %}
+		<div class="payment-instructions p-6 rounded-lg text-center mb-8 border" style="background: rgba(var(--primary-rgb), 0.02);">
+			<h5 class="mb-3 font-weight-bold">{{ _("Payment: ") }} {{ doc.payment_method }}</h5>
+			
+			{% if doc.payment_method == "Raast QR" %}
+				<p class="small text-muted mb-4">{{ _("Please scan this QR code to complete your payment if you haven't already.") }}</p>
+				<div class="qr-wrapper d-inline-block p-3 bg-white rounded shadow-sm border mb-4">
+					<img src="{{ cart_settings.raast_qr_code }}" class="img-fluid" style="max-width: 200px;">
+				</div>
+			{% elif doc.payment_method == "Bank Transfer" %}
+				<p class="small text-muted mb-4">{{ _("Please transfer the amount to the following bank account:") }}</p>
+				<div class="bank-details-content p-4 bg-white rounded border small font-family-monospace text-left" style="white-space: pre-line;">
+					{{ cart_settings.bank_details }}
+				</div>
+			{% elif doc.payment_method == "Cash on Delivery" %}
+				<p class="small text-muted mb-0">{{ _("Please keep the exact amount ready for the delivery partner.") }}</p>
+			{% endif %}
+		</div>
+		{% endif %}
+
+		<div class="track-info p-6 bg-light rounded-lg text-left mb-8">
+			<h5 class="mb-3"><i class="fa fa-truck mr-2"></i> {{ _("Track Your Order") }}</h5>
+			<p class="small text-muted mb-4">
+				{{ _("You can track your order status at any time using your Order ID and Email address.") }}
+			</p>
+			<a href="/track-order?id={{ order_id }}" class="btn btn-outline-primary btn-sm">
+				{{ _("Track Status Now") }}
+			</a>
+		</div>
+
+		<div class="action-btns">
+			<a href="/all-products" class="btn btn-primary btn-lg shadow-custom-primary">
+				{{ _("Continue Shopping") }}
+			</a>
+		</div>
+	</div>
+</div>
+{% endblock %}

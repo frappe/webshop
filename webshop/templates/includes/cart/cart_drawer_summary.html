@@ -1,0 +1,33 @@
+<!-- Cart Drawer Summary -->
+<div class="ws-drawer-summary p-4 bg-white border-top rounded-top" style="margin-top: -10px; position: relative; z-index: 5;">
+    <div class="summary-row d-flex justify-content-between mb-2">
+        <span class="text-muted small">Net Total ({{ doc.total_qty|int }} Items)</span>
+        <span class="font-weight-bold">{{ doc.get_formatted("net_total") }}</span>
+    </div>
+
+    {% for d in doc.taxes %}
+        {% if d.tax_amount or d.is_free_item %}
+        <div class="summary-row d-flex justify-content-between mb-2">
+            <span class="text-muted small">{{ d.description }}</span>
+            <span class="font-weight-bold {% if d.is_free_item %}text-success{% endif %}">
+                {{ d.get_formatted("tax_amount") if not d.is_free_item else _("Free") }}
+            </span>
+        </div>
+        {% endif %}
+    {% endfor %}
+
+    {% if doc.coupon_code %}
+    <div class="summary-row d-flex justify-content-between mb-3 p-2 bg-light rounded text-primary">
+        <div class="d-flex align-items-center">
+            <svg class="icon icon-sm mr-2" style="width: 14px; height: 14px;"><use href="#icon-assets"></use></svg>
+            <span class="small font-weight-bold">Coupon: {{ doc.coupon_code }}</span>
+        </div>
+        <button class="btn btn-link btn-xs text-danger p-0 btn-remove-coupon" title="Remove coupon">Remove</button>
+    </div>
+    {% endif %}
+
+    <div class="summary-row d-flex justify-content-between border-top mt-3 pt-3">
+        <span class="font-weight-bold h5 mb-0">Grand Total</span>
+        <span class="font-weight-bold h5 mb-0 text-primary">{{ doc.get_formatted("grand_total") }}</span>
+    </div>
+</div>

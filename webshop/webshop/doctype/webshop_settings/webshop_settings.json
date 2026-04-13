@@ -12,6 +12,8 @@
   "enable_attribute_filters",
   "filter_attributes",
   "display_settings_section",
+  "enable_global_simulated_discount",
+  "simulated_discount_percentage",
   "hide_variants",
   "enable_variants",
   "show_price",
@@ -38,8 +40,35 @@
   "show_price_in_quotation",
   "column_break_27",
   "save_quotations_as_draft",
+  "enable_cod",
+  "cod_gateway",
   "payment_gateway_account",
+  "payment_gateways",
   "payment_success_url",
+  "raast_settings_section",
+  "enable_raast",
+  "raast_gateway",
+  "raast_id",
+  "raast_account_title",
+  "raast_qr_code",
+  "enable_receipt_upload",
+  "bank_payment_section",
+  "enable_bank_transfer",
+  "bank_gateway",
+  "bank_details",
+  "whatsapp_settings_section",
+  "enable_whatsapp_order",
+  "whatsapp_number",
+  "whatsapp_message_template",
+  "shipping_settings_section",
+  "enable_standard_shipping",
+  "standard_shipping_charge",
+  "column_break_shipping",
+  "enable_express_shipping",
+  "express_shipping_charge",
+  "shipping_account",
+  "free_shipping_threshold",
+  "deliverable_countries",
   "add_ons_section",
   "enable_wishlist",
   "column_break_22",
@@ -54,6 +83,8 @@
   "shop_by_category_section",
   "slideshow",
   "guest_display_settings_section",
+  "guest_customer_group",
+  "guest_price_list",
   "hide_price_for_guest",
   "redirect_on_action"
  ],
@@ -119,6 +150,21 @@
    "fieldname": "display_settings_section",
    "fieldtype": "Section Break",
    "label": "Display Settings"
+  },
+  {
+   "default": "1",
+   "description": "Enable the global percentage-off fallback if an item has no specific discount or offer.",
+   "fieldname": "enable_global_simulated_discount",
+   "fieldtype": "Check",
+   "label": "Enable Global Simulated Discount"
+  },
+  {
+   "default": "40",
+   "depends_on": "enable_global_simulated_discount",
+   "description": "Global percentage-off discount shown if an item has no MRP set.",
+   "fieldname": "simulated_discount_percentage",
+   "fieldtype": "Percent",
+   "label": "Global Discount Percentage"
   },
   {
    "default": "0",
@@ -253,12 +299,154 @@
    "label": "Save Quotations as Draft"
   },
   {
+   "default": "0",
+   "depends_on": "enable_checkout",
+   "fieldname": "enable_cod",
+   "fieldtype": "Check",
+   "label": "Enable Cash on Delivery"
+  },
+  {
+   "depends_on": "enable_cod",
+   "fieldname": "cod_gateway",
+   "fieldtype": "Link",
+   "label": "COD Payment Gateway Account",
+   "options": "Payment Gateway Account"
+  },
+  {
    "depends_on": "enable_checkout",
    "fieldname": "payment_gateway_account",
    "fieldtype": "Link",
-   "label": "Payment Gateway Account",
+   "label": "Primary Payment Gateway Account",
    "mandatory_depends_on": "enable_checkout",
    "options": "Payment Gateway Account"
+  },
+  {
+   "depends_on": "enable_checkout",
+   "fieldname": "payment_gateways",
+   "fieldtype": "Table",
+   "label": "Additional Payment Gateways",
+   "options": "Webshop Payment Gateway"
+  },
+  {
+    "fieldname": "raast_settings_section",
+    "fieldtype": "Section Break",
+    "label": "Raast QR Settings"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_raast",
+   "fieldtype": "Check",
+   "label": "Enable Raast QR Payment"
+  },
+  {
+   "depends_on": "enable_raast",
+   "fieldname": "raast_gateway",
+   "fieldtype": "Link",
+   "label": "Raast Payment Gateway Account",
+   "options": "Payment Gateway Account"
+  },
+  {
+   "depends_on": "enable_raast",
+   "fieldname": "raast_id",
+   "fieldtype": "Data",
+   "label": "Raast ID (Alias/IBAN)"
+  },
+  {
+   "depends_on": "enable_raast",
+   "fieldname": "raast_account_title",
+   "fieldtype": "Data",
+   "label": "Raast Account Title (Name)"
+  },
+  {
+    "depends_on": "enable_raast",
+    "fieldname": "raast_qr_code",
+    "fieldtype": "Attach Image",
+    "label": "Fallback Static Raast QR Code"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_receipt_upload",
+   "fieldtype": "Check",
+   "label": "Enable Payment Receipt Upload at Checkout"
+  },
+  {
+   "fieldname": "bank_payment_section",
+   "fieldtype": "Section Break",
+   "label": "Bank Payment Settings"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_bank_transfer",
+   "fieldtype": "Check",
+   "label": "Enable Bank Transfer"
+  },
+  {
+   "depends_on": "enable_bank_transfer",
+   "fieldname": "bank_gateway",
+   "fieldtype": "Link",
+   "label": "Bank Transfer Gateway Account",
+   "options": "Payment Gateway Account"
+  },
+  {
+   "depends_on": "enable_bank_transfer",
+   "description": "Enter your bank account details (IBAN, Swift, etc.) to show to customers.",
+   "fieldname": "bank_details",
+   "fieldtype": "Small Text",
+   "label": "Bank Account Details"
+  },
+  {
+   "fieldname": "shipping_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Shipping Settings"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_standard_shipping",
+   "fieldtype": "Check",
+   "label": "Enable Standard Shipping"
+  },
+  {
+   "default": "500",
+   "depends_on": "enable_standard_shipping",
+   "fieldname": "standard_shipping_charge",
+   "fieldtype": "Currency",
+   "label": "Standard Shipping Charge"
+  },
+  {
+   "fieldname": "column_break_shipping",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_express_shipping",
+   "fieldtype": "Check",
+   "label": "Enable Express Shipping"
+  },
+  {
+   "default": "1500",
+   "depends_on": "enable_express_shipping",
+   "fieldname": "express_shipping_charge",
+   "fieldtype": "Currency",
+   "label": "Express Shipping Charge"
+  },
+  {
+   "description": "Ledger account to record shipping income.",
+   "fieldname": "shipping_account",
+   "fieldtype": "Link",
+   "label": "Shipping Account Head",
+   "options": "Account"
+  },
+  {
+   "default": "25000",
+   "fieldname": "free_shipping_threshold",
+   "fieldtype": "Currency",
+   "label": "Free Shipping Threshold"
+  },
+  {
+   "fieldname": "deliverable_countries",
+   "fieldtype": "Table",
+   "label": "Deliverable Countries",
+   "options": "Webshop Country"
   },
   {
    "collapsible": 1,
@@ -336,6 +524,18 @@
    "label": "Guest Display Settings"
   },
   {
+   "fieldname": "guest_customer_group",
+   "fieldtype": "Link",
+   "label": "Guest Customer Group",
+   "options": "Customer Group"
+  },
+  {
+   "fieldname": "guest_price_list",
+   "fieldtype": "Link",
+   "label": "Guest Price List",
+   "options": "Price List"
+  },
+  {
    "description": "Link to redirect Guest on actions that need login such as add to cart, wishlist, etc. <b>E.g.: /login</b>",
    "fieldname": "redirect_on_action",
    "fieldtype": "Data",
@@ -382,12 +582,36 @@
    "fieldtype": "Check",
    "in_list_view": 1,
    "label": "Allow Non Website Items in Cart Quotation"
+  },
+  {
+   "fieldname": "whatsapp_settings_section",
+   "fieldtype": "Section Break",
+   "label": "WhatsApp Order Settings"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_whatsapp_order",
+   "fieldtype": "Check",
+   "label": "Enable WhatsApp Order"
+  },
+  {
+   "depends_on": "enable_whatsapp_order",
+   "fieldname": "whatsapp_number",
+   "fieldtype": "Data",
+   "label": "WhatsApp Number (with country code)"
+  },
+  {
+   "default": "Hi, I'm interested in ordering: {product_name}. Here's the link: {product_url}",
+   "depends_on": "enable_whatsapp_order",
+   "fieldname": "whatsapp_message_template",
+   "fieldtype": "Small Text",
+   "label": "WhatsApp Message Template"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-03-22 13:01:51.906319",
+ "modified": "2026-04-04 12:23:00.000000",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Webshop Settings",

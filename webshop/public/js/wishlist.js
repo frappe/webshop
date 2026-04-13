@@ -7,9 +7,11 @@ var shopping_cart = webshop.webshop.shopping_cart;
 $.extend(wishlist, {
 	set_wishlist_count: function(animate=false) {
 		// set badge count for wishlist icon
-		var wish_count = frappe.get_cookie("wish_count");
-		if (frappe.session.user==="Guest") {
-			wish_count = 0;
+		var wish_count = 0;
+		if (frappe.session.user === "Guest") {
+			wish_count = this.get_guest_wishlist().length;
+		} else {
+			wish_count = frappe.get_cookie("wish_count") || 0;
 		}
 
 		if (wish_count) {
@@ -24,7 +26,12 @@ $.extend(wishlist, {
 		} else {
 			$wishlist.css("display", "inline");
 		}
+
 		if (wish_count) {
+			if ($badge.length === 0) {
+				$wishlist.find('a').append('<span class="badge badge-danger shopping-badge" id="wish-count"></span>');
+				$badge = $wishlist.find("#wish-count");
+			}
 			$badge.html(wish_count);
 			if (animate) {
 				$wishlist.addClass('cart-animate');
@@ -37,9 +44,18 @@ $.extend(wishlist, {
 		}
 	},
 
+	get_guest_wishlist: function() {
+		let list = localStorage.getItem("guest_wishlist");
+		return list ? JSON.parse(list) : [];
+	},
+
+	set_guest_wishlist: function(list) {
+		localStorage.setItem("guest_wishlist", JSON.stringify(list));
+	},
+
 	bind_move_to_cart_action: function() {
 		// move item to cart from wishlist
-		$('.page_content').on("click", ".btn-add-to-cart", (e) => {
+		$(document.body).off("click", ".btn-add-to-cart").on("click", ".btn-add-to-cart", (e) => {
 			const $move_to_cart_btn = $(e.currentTarget);
 			let item_code = $move_to_cart_btn.data("item-code");
 
@@ -61,16 +77,23 @@ $.extend(wishlist, {
 	bind_remove_action: function() {
 		// remove item from wishlist
 		let me = this;
-
-		$('.page_content').on("click", ".remove-wish", (e) => {
+		$(document.body).off("click", ".remove-wish").on("click", ".remove-wish", (e) => {
 			const $remove_wish_btn = $(e.currentTarget);
 			let item_code = $remove_wish_btn.data("item-code");
 
 			let success_action = function() {
 				const $card_wrapper = $remove_wish_btn.closest(".wishlist-card");
 				$card_wrapper.addClass("wish-removed");
-				if (frappe.get_cookie("wish_count") == 0) {
-					$(".page_content").empty();
+				
+				let count = 0;
+				if (frappe.session.user === "Guest") {
+					count = me.get_guest_wishlist().length;
+				} else {
+					count = frappe.get_cookie("wish_count") || 0;
+				}
+
+				if (count == 0) {
+					$(".page_content .products-list").empty();
 					me.render_empty_state();
 				}
 			};
@@ -81,7 +104,7 @@ $.extend(wishlist, {
 
 	bind_wishlist_action() {
 		// 'wish'('like') or 'unwish' item in product listing
-		$('.page_content').on('click', '.like-action, .like-action-list', (e) => {
+		$(document.body).off('click', '.like-action, .like-action-list').on('click', '.like-action, .like-action-list', (e) => {
 			const $btn = $(e.currentTarget);
 			this.wishlist_action($btn);
 		});
@@ -89,13 +112,28 @@ $.extend(wishlist, {
 
 	wishlist_action(btn) {
 		const $wish_icon = btn.find('.wish-icon');
+		let item_code = btn.data('item-code');
 		let me = this;
 
-		if (frappe.session.user==="Guest") {
-			if (localStorage) {
-				localStorage.setItem("last_visited", window.location.pathname);
+		if (frappe.session.user === "Guest") {
+			let list = this.get_guest_wishlist();
+			if ($wish_icon.hasClass('wished')) {
+				// remove
+				list = list.filter(i => i !== item_code);
+				this.toggle_button_class($wish_icon, 'wished', 'not-wished');
+				btn.removeClass("like-animate");
+				btn.removeClass("like-action-wished");
+			} else {
+				// add
+				if (!list.includes(item_code)) {
+					list.push(item_code);
+				}
+				this.toggle_button_class($wish_icon, 'not-wished', 'wished');
+				btn.addClass("like-animate");
+				btn.addClass("like-action-wished");
 			}
-			this.redirect_guest();
+			this.set_guest_wishlist(list);
+			this.set_wishlist_count(true);
 			return;
 		}
 
@@ -109,7 +147,7 @@ $.extend(wishlist, {
 			btn.addClass("like-action-wished");
 			this.toggle_button_class($wish_icon, 'wished', 'not-wished');
 
-			let args = { item_code: btn.data('item-code') };
+			let args = { item_code: item_code };
 			let failure_action = function() {
 				me.toggle_button_class($wish_icon, 'not-wished', 'wished');
 			};
@@ -120,7 +158,7 @@ $.extend(wishlist, {
 			btn.addClass("like-action-wished");
 			this.toggle_button_class($wish_icon, 'not-wished', 'wished');
 
-			let args = {item_code: btn.data('item-code')};
+			let args = {item_code: item_code};
 			let failure_action = function() {
 				me.toggle_button_class($wish_icon, 'wished', 'not-wished');
 			};
@@ -134,17 +172,16 @@ $.extend(wishlist, {
 	},
 
 	add_remove_from_wishlist(action, args, success_action, failure_action, async=false) {
-		/*	AJAX call to add or remove Item from Wishlist
-			action: "add" or "remove"
-			args: args for method (item_code, price, formatted_price),
-			success_action: method to execute on successs,
-			failure_action: method to execute on failure,
-			async: make call asynchronously (true/false).	*/
-		if (frappe.session.user==="Guest") {
-			if (localStorage) {
-				localStorage.setItem("last_visited", window.location.pathname);
+		if (frappe.session.user === "Guest") {
+			let list = this.get_guest_wishlist();
+			if (action === "add") {
+				if (!list.includes(args.item_code)) list.push(args.item_code);
+			} else {
+				list = list.filter(i => i !== args.item_code);
 			}
-			this.redirect_guest();
+			this.set_guest_wishlist(list);
+			this.set_wishlist_count(true);
+			if (success_action) success_action();
 		} else {
 			let method = "webshop.webshop.doctype.wishlist.wishlist.add_to_wishlist";
 			if (action === "remove") {
@@ -180,25 +217,131 @@ $.extend(wishlist, {
 	},
 
 	render_empty_state() {
-		$(".page_content").append(`
+		$(".page_content").html(`
 			<div class="cart-empty frappe-card">
 				<div class="cart-empty-state">
 					<img src="/assets/webshop/images/cart-empty-state.png" alt="Empty Cart">
 				</div>
-				<div class="cart-empty-message mt-4">${ __('Wishlist is empty !') }</p>
+				<div class="cart-empty-message mt-4">${ __('Wishlist is empty!') }</p>
 			</div>
 		`);
-	}
+	},
 
+	initialize_guest_wishlist_icons: function() {
+		if (frappe.session.user !== "Guest") return;
+		let list = this.get_guest_wishlist();
+		$('.like-action, .like-action-list').each(function() {
+			let item_code = $(this).data('item-code');
+			if (list.includes(item_code)) {
+				let $icon = $(this).find('.wish-icon');
+				$icon.removeClass('not-wished').addClass('wished');
+				$(this).addClass('like-action-wished');
+			}
+		});
+	},
+
+	render_guest_wishlist_page: function() {
+		if (frappe.session.user !== "Guest" || window.location.pathname !== "/wishlist") return;
+		
+		let list = this.get_guest_wishlist();
+		if (list.length === 0) {
+			this.render_empty_state();
+			return;
+		}
+
+		$(".page_content").html('<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div></div>');
+
+		frappe.call({
+			method: "webshop.webshop.api.get_wishlist_items_details",
+			args: { item_codes: list },
+			callback: (r) => {
+				if (r.message && r.message.length > 0) {
+					this.render_wishlist_items(r.message);
+				} else {
+					this.render_empty_state();
+				}
+			},
+			error: (r) => {
+				$(".page_content").html(`
+					<div class="alert alert-danger m-5 text-center">
+						${__("Failed to load wishlist items. Please try again later.")}
+					</div>
+				`);
+			}
+		});
+	},
+
+	render_wishlist_items: function(items) {
+		let html = `<div class="row">
+			<div class="col-md-12 item-card-group-section">
+				<div class="row products-list">`;
+		
+		items.forEach(item => {
+			html += this.get_wishlist_card_html(item);
+		});
+
+		html += `</div></div></div>`;
+		$(".page_content").html(html);
+	},
+
+	get_wishlist_card_html: function(item) {
+		// Simplified version of the wishlist_card macro
+		let image_html = item.image ? 
+			`<img itemprop="image" class="card-img" src="${item.image}" alt="${item.web_item_name}">` :
+			`<div itemprop="image" class="card-img-top no-image">${item.item_name ? item.item_name.substring(0,2).toUpperCase() : 'NA'}</div>`;
+
+		let price_html = `<div class="product-price">${item.formatted_price || ''}`;
+		if (item.formatted_mrp) {
+			price_html += `<small class="ml-1 striked-price"><s>${item.formatted_mrp}</s></small>
+						   <small class="ml-1 product-info-green">${item.discount} OFF</small>`;
+		}
+		price_html += `</div>`;
+
+		let action_html = item.available ? 
+			`<button data-item-code="${item.item_code}" class="btn btn-primary btn-add-to-cart-list btn-add-to-cart mt-2 w-100">
+				<span class="mr-2"><svg class="icon icon-md"><use href="#icon-assets"></use></svg></span>
+				${__("Move to Cart")}
+			</button>` :
+			`<div class="out-of-stock">${__("Out of stock")}</div>`;
+
+		return `
+			<div class="col-sm-3 wishlist-card">
+				<div class="card text-center">
+					<div class="card-img-container">
+						<a href="/${item.route || '#'}" style="text-decoration: none;">
+							${image_html}
+						</a>
+						<div class="remove-wish" data-item-code="${item.item_code}">
+							<svg class="icon icon-md remove-wish-icon">
+								<use class="close" href="#icon-delete"></use>
+							</svg>
+						</div>
+					</div>
+					<div class="card-body card-body-flex text-left" style="width: 100%;">
+						<div class="mt-4">
+							<div class="product-title">${item.web_item_name || item.item_name}</div>
+							<div class="product-category">${item.item_group || ''}</div>
+						</div>
+						${price_html}
+						${action_html}
+					</div>
+				</div>
+			</div>
+		`;
+	}
 });
 
 frappe.ready(function() {
-	if (window.location.pathname !== "/wishlist") {
-		$(".wishlist").toggleClass('hidden', true);
-		wishlist.set_wishlist_count();
-	} else {
+	wishlist.set_wishlist_count();
+	wishlist.initialize_guest_wishlist_icons();
+
+	if (window.location.pathname === "/wishlist") {
 		wishlist.bind_move_to_cart_action();
 		wishlist.bind_remove_action();
+		if (frappe.session.user === "Guest") {
+			wishlist.render_guest_wishlist_page();
+		}
+	} else {
+		wishlist.bind_wishlist_action();
 	}
-
 });

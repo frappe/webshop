@@ -19,7 +19,6 @@ $(() => {
 
 		bind_card_actions() {
 			webshop.webshop.shopping_cart.bind_add_to_cart_action();
-			webshop.webshop.wishlist.bind_wishlist_action();
 		}
 	}
 

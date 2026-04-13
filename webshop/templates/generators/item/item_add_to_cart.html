@@ -5,49 +5,63 @@
 
 <div class="item-cart row mt-2" data-variant-item-code="{{ item_code }}">
 	<div class="col-md-12">
+		<!-- Short Description -->
+		{% if doc.short_description %}
+			<div class="mb-4 text-muted" style="line-height: 1.5; font-size: 0.95rem; opacity: 0.85; max-width: 90%;">
+				{{ doc.short_description }}
+			</div>
+		{% endif %}
+
 		<!-- Price and Availability -->
 		{% if cart_settings.show_price and product_info.price %}
 			{% set price_info = product_info.price %}
 
-			<div class="product-price" itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
-				<!-- Final Price -->
-				{% if price_info.formatted_mrp %}
-					<span itemprop="lowPrice" content="{{ price_info.formatted_price_sales_uom }}">{{ price_info.formatted_price_sales_uom }}</span>
-				{% else %}
-					<span itemprop="highPrice" content="{{ price_info.formatted_price_sales_uom }}">{{ price_info.formatted_price_sales_uom }}</span>
-				{% endif %}
+			<div class="product-price-section mb-4" itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
+				<!-- Final Unit Price -->
+				<div class="d-flex align-items-baseline mb-1">
+					<span class="h1 font-weight-bold text-primary mr-2 mb-0" 
+						itemprop="{% if price_info.formatted_mrp %}lowPrice{% else %}highPrice{% endif %}" 
+						content="{{ price_info.price_list_rate }}"
+						style="font-family: 'Outfit', sans-serif;">
+						{{ price_info.formatted_price }}
+					</span>
+					<span class="text-muted" style="font-size: 1.1rem; opacity: 0.8;">
+						/ {{ product_info.uom }}
+					</span>
+				</div>
 
-				<!-- Striked Price and Discount  -->
-				{% if price_info.formatted_mrp %}
-					<small itemprop="highPrice" class="formatted-price">
-						<s>MRP {{ price_info.formatted_mrp }}</s>
-					</small>
-					<small class="ml-1 formatted-price in-green">
-						-{{ price_info.get("formatted_discount_percent") or price_info.get("formatted_discount_rate")}}
-					</small>
-				{% endif %}
-
-				<!-- Price per UOM -->
-				<small class="formatted-price ml-2">
-					({{ price_info.formatted_price }} / {{ product_info.uom }})
-				</small>
+					<!-- Striked Price and Discount  -->
+					{% if price_info.formatted_mrp %}
+						<div class="d-flex align-items-center mb-1">
+							<del class="text-muted mr-2 strike-price" style="font-size: 1.1rem; opacity: 0.6;">
+								{{ price_info.formatted_mrp }}
+							</del>
+							<span class="badge badge-pill px-2 py-1" style="font-size: 0.75rem; background: #fff5f5; color: #e53e3e; border: 1px solid #feb2b2; font-weight: 600;">
+								{{ price_info.formatted_discount_percent or _("SALE") }}
+							</span>
+						</div>
+					{% endif %}
 			</div>
 		{% else %}
-			{{ _("UOM") }} : {{ product_info.uom }}
+			<div class="mb-4 text-muted d-flex align-items-center">
+				<svg class="icon icon-sm mr-2" style="width: 14px; height: 14px;"><use href="#icon-package"></use></svg>
+				{{ _("Unit") }}: <span class="font-weight-600 ml-1">{{ product_info.uom }}</span>
+			</div>
 		{% endif %}
 
 		{% if cart_settings.show_stock_availability %}
-		<div class="mt-2">
+		<div class="mt-2 mb-4">
 			{% if product_info.get("on_backorder") %}
-				<span class="no-stock out-of-stock" style="color: var(--primary-color);">
+				<span class="product-badge py-1 px-3" style="background: rgba(var(--ws-primary-rgb), 0.1); color: var(--ws-primary);">
 					{{ _('Available on backorder') }}
 				</span>
 			{% elif product_info.in_stock == 0 %}
-				<span class="no-stock out-of-stock">
+				<span class="product-badge py-1 px-3" style="background: rgba(244, 122, 122, 0.1); color: #F47A7A;">
 					{{ _('Out of stock') }}
 				</span>
 			{% elif product_info.in_stock == 1 %}
-				<span class="in-green has-stock">
+				<span class="product-badge py-1 px-3" style="background: rgba(56, 161, 96, 0.1); color: #38A160;">
+					<span class="mr-1" style="display:inline-block; width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>
 					{{ _('In stock') }}
 					{% if product_info.show_stock_qty and product_info.stock_qty %}
 						({{ product_info.stock_qty }})
@@ -91,51 +105,317 @@
 			</div>
 		{% endif %}
 
-		<!-- Add to Cart / View in Cart, Contact Us -->
-		<div class="mt-6 mb-5">
-			<div class="mb-4 d-flex">
+		<!-- CSS Dependency -->
+		{{ include_style("assets/webshop/css/webshop-modern.css") }}
+
+		<!-- Custom Variants (Color/Size) -->
+		{% if doc.website_variants %}
+			<div class="ws-variant-selector mb-4">
+				{% set colors = doc.website_variants | map(attribute='color') | unique | list %}
+				{% set sizes = doc.website_variants | map(attribute='size') | unique | list %}
+
+				{% if colors and colors[0] %}
+					<div class="variant-group mb-3">
+						<label class="text-muted small font-weight-bold text-uppercase mb-2 d-block" style="letter-spacing: 0.05em;">
+							{{ _("Color") }}
+						</label>
+						<div class="d-flex flex-wrap" style="gap: 8px;">
+							{% for color in colors %}
+								<button class="btn btn-sm btn-outline-secondary variant-pill color-pill" 
+									data-variant-type="color" data-variant-value="{{ color }}"
+									style="border-radius: var(--ws-radius-full); padding: 4px 16px; font-weight: 600; min-width: 60px; transition: all 0.2s;">
+									{{ color }}
+								</button>
+							{% endfor %}
+						</div>
+					</div>
+				{% endif %}
+
+				{% if sizes and sizes[0] %}
+					<div class="variant-group mb-3">
+						<label class="text-muted small font-weight-bold text-uppercase mb-2 d-block" style="letter-spacing: 0.05em;">
+							{{ _("Size") }}
+						</label>
+						<div class="d-flex flex-wrap" style="gap: 8px;">
+							{% for size in sizes %}
+								<button class="btn btn-sm btn-outline-secondary variant-pill size-pill" 
+									data-variant-type="size" data-variant-value="{{ size }}"
+									style="border-radius: var(--ws-radius-md); padding: 4px 16px; font-weight: 600; min-width: 50px; transition: all 0.2s;">
+									{{ size }}
+								</button>
+							{% endfor %}
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+			<!-- Variant Data for JS -->
+			<script id="ws-variant-data" type="application/json">
+				[
+					{% for v in doc.website_variants %}
+						{
+							"color": "{{ v.color or '' }}",
+							"size": "{{ v.size or '' }}",
+							"price": {{ v.price | float }},
+							"formatted_price": "{{ frappe.format(v.price, 'Currency', doc.currency) }}",
+							"image": "{{ v.image or '' }}"
+						}{% if not loop.last %},{% endif %}
+					{% endfor %}
+				]
+			</script>
+		{% endif %}
+
+		<!-- Quantity Selector and Main Action -->
+		<div class="product-actions-wrapper mt-4">
+			<div class="d-flex flex-wrap align-items-start mb-2" style="gap: 10px;">
+				<!-- Quantity Selector -->
+				{% if cart_settings.enabled %}
+					{% set min_qty = doc.minimum_qty or 1 %}
+					<div class="d-flex flex-column" style="gap: 4px;">
+						<div class="ws-qty-selector ws-glass ws-shadow-sm p-1" 
+							style="border-radius: var(--ws-radius-md); height: 44px !important; min-width: 120px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(var(--ws-text-rgb), 0.1);">
+							<button class="qty-minus" aria-label="Decrease quantity" 
+								data-min-qty="{{ min_qty }}" style="font-size: 1.1rem; padding: 0 12px;">-</button>
+							<input type="number" class="qty-input" value="{{ min_qty }}" min="{{ min_qty }}" readonly style="font-size: 0.95rem; width: 40px;">
+							<button class="qty-plus" aria-label="Increase quantity" style="font-size: 1.1rem; padding: 0 12px;">+</button>
+						</div>
+						{% if min_qty > 1 %}
+							<div class="min-qty-note text-muted" style="font-size: 0.7rem; font-weight: 500;">
+								{{ _("Min. Order Qty: {0}").format(min_qty) }}
+							</div>
+						{% endif %}
+					</div>
+				{% endif %}
+
 				<!-- Add to Cart -->
-				{% if product_info.price and (cart_settings.allow_items_not_in_stock or product_info.get("in_stock")) %}
-					<a href="/cart" class="btn btn-light btn-view-in-cart hidden mr-2 font-md"
-						role="button">
-						{{  _("View in Cart") if cart_settings.enable_checkout else _("View in Quote") }}
-					</a>
+				{% if cart_settings.enabled %}
 					<button
 						data-item-code="{{item_code}}"
-						class="btn btn-primary btn-add-to-cart mr-2 w-30-40"
+						data-uom="{{ product_info.uom }}"
+						class="btn btn-add-to-cart ws-shadow-sm"
+						style="border-radius: var(--ws-radius-md); height: 44px !important; min-width: 160px; font-size: 0.9rem; padding: 0 15px;"
 					>
 						<span class="mr-2">
-							<svg class="icon icon-md">
+							<svg class="icon icon-md" style="width: 18px; height: 18px;">
 								<use href="#icon-assets"></use>
 							</svg>
 						</span>
-						{{ _("Add to Cart") if cart_settings.enable_checkout else  _("Add to Quote") }}
+						<span class="text-nowrap">{{ _("Add to Cart") if cart_settings.enable_checkout else _("Add to Quote") }}</span>
+					</button>
+				{% endif %}
+			</div>
+
+			<!-- Main Actions: Buy Now & WhatsApp -->
+			<div class="d-flex align-items-center mb-4" style="gap: 12px; flex-wrap: nowrap;">
+				{% if cart_settings.enabled and cart_settings.enable_checkout %}
+					<button
+						data-item-code="{{item_code}}"
+						data-uom="{{ product_info.uom }}"
+						class="btn btn-buy-now ws-shadow-sm"
+						style="border-radius: var(--ws-radius-md); height: 50px !important; width: 230px; font-size: 1rem; font-weight: 600; padding: 0 10px; display: flex; align-items: center; justify-content: center;"
+					>
+						<span class="mr-2">
+							<svg class="icon icon-md" style="width: 20px; height: 20px; fill: currentColor;">
+								<use href="#icon-credit-card"></use>
+							</svg>
+						</span>
+						<span class="text-nowrap">{{ _("Buy Now") }}</span>
 					</button>
 				{% endif %}
 
-				<!-- Contact Us -->
-				{% if cart_settings.show_contact_us_button %}
-					{% include "templates/generators/item/item_inquiry.html" %}
+				{% if cart_settings.enable_whatsapp_order and cart_settings.whatsapp_number %}
+					<button
+						class="btn btn-whatsapp-order ws-shadow-sm"
+						data-item-name="{{ doc.web_item_name or doc.item_name }}"
+						style="border-radius: var(--ws-radius-md); height: 50px !important; width: 230px; font-size: 0.95rem; font-weight: 600; padding: 0 10px; background-color: #25D366; color: white; border: none; display: flex; align-items: center; justify-content: center; white-space: nowrap;"
+					>
+						<span class="mr-2">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+								<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .004 5.412.001 12.049c0 2.123.555 4.193 1.61 6.03l-1.71 6.245 6.388-1.676a11.79 11.79 0 005.759 1.493h.005c6.635 0 12.045-5.412 12.048-12.05a11.821 11.821 0 00-3.526-8.508z"/>
+							</svg>
+						</span>
+						<span class="text-nowrap" style="font-size: 0.85rem;">{{ _("Order on WhatsApp") }}</span>
+					</button>
 				{% endif %}
 			</div>
+
+
+			<!-- Traders & Wholesale Section -->
+			{% if cart_settings.show_contact_us_button and (shopping_cart.is_guest or shopping_cart.customer_group == "Retailer") %}
+				<div class="traders-section mt-5 p-4 ws-glass" style="border-radius: var(--ws-radius-lg); border: 1px dashed rgba(var(--ws-primary-rgb), 0.3);">
+					<div class="d-flex align-items-start">
+						<div class="mr-3 mt-1">
+							<svg class="icon icon-lg" style="width: 28px; height: 28px; color: var(--ws-primary);">
+								<use href="#icon-customer"></use>
+							</svg>
+						</div>
+						<div>
+							<h6 class="font-weight-bold mb-1" style="font-family: 'Outfit', sans-serif;">{{ _("Traders & Wholesale") }}</h6>
+							<p class="text-muted small mb-3">
+								{{ _("Are you a trader? Contact us for special bulk pricing and volume discounts.") }}
+							</p>
+							<button class="btn btn-outline-primary btn-sm btn-inquiry ws-shadow-sm px-4 py-2" 
+								data-item-code="{{ doc.name }}"
+								style="border-radius: var(--ws-radius-md); font-weight: 600;">
+								{{ _("Inquiry for Wholesale") }}
+							</button>
+						</div>
+					</div>
+				</div>
+				<script>
+					{% include "templates/generators/item/item_inquiry.js" %}
+				</script>
+			{% endif %}
 		</div>
+
 	</div>
 </div>
 
 <script>
 	frappe.ready(() => {
+		const get_qty = ($btn) => {
+			return parseInt($btn.closest('.product-actions-wrapper').find('.qty-input').val()) || 1;
+		};
+
+		// Quantity Selector Logic
+		$('.page_content').on('click', '.qty-plus', (e) => {
+			const $input = $(e.currentTarget).siblings('.qty-input');
+			$input.val(parseInt($input.val()) + 1);
+		});
+
+		$('.page_content').on('click', '.qty-minus', (e) => {
+			const $btn = $(e.currentTarget);
+			const $input = $btn.siblings('.qty-input');
+			const minQty = parseInt($btn.data('min-qty')) || 1;
+			const val = parseInt($input.val());
+			if (val > minQty) $input.val(val - 1);
+		});
+
+		// Custom Variant Logic
+		let selectedColor = "";
+		let selectedSize = "";
+		const variantDataJSON = $('#ws-variant-data').html();
+		const variantData = variantDataJSON ? JSON.parse(variantDataJSON) : [];
+
+		const updateVariantUI = () => {
+			const variant = variantData.find(v => 
+				(v.color === selectedColor || !selectedColor) && 
+				(v.size === selectedSize || !selectedSize)
+			);
+			if (variant) {
+				// Update price
+				const $priceSection = $('.product-price-section');
+				if ($priceSection.length) {
+					$priceSection.find('.h1').text(variant.formatted_price).fadeOut(100).fadeIn(100);
+				}
+				// Update main image
+				if (variant.image) {
+					const $mainImg = $('.product-image-main img, .website-image img');
+					if ($mainImg.length) {
+						$mainImg.attr('src', variant.image).fadeOut(100).fadeIn(100);
+					}
+				}
+			}
+		};
+
+		$('.page_content').on('click', '.variant-pill', (e) => {
+			const $btn = $(e.currentTarget);
+			const type = $btn.data('variant-type');
+			const value = $btn.data('variant-value');
+
+			$(`.variant-pill[data-variant-type="${type}"]`)
+				.removeClass('active btn-primary')
+				.addClass('btn-outline-secondary');
+			
+			$btn.addClass('active btn-primary').removeClass('btn-outline-secondary');
+
+			if (type === 'color') selectedColor = value;
+			if (type === 'size') selectedSize = value;
+
+			updateVariantUI();
+		});
+
+		// Initialize first variant
+		setTimeout(() => {
+			if ($('.color-pill').length) $('.color-pill').first().trigger('click');
+			if ($('.size-pill').length) $('.size-pill').first().trigger('click');
+		}, 100);
+
+		// WhatsApp Order
+		$('.page_content').on('click', '.btn-whatsapp-order', (e) => {
+			const $btn = $(e.currentTarget);
+			const itemName = $btn.data('item-name');
+			const itemUrl = window.location.href;
+			const waNumber = "{{ cart_settings.whatsapp_number }}";
+			let message = "{{ cart_settings.whatsapp_message_template or 'Hi, I want to order {product_name}. Link: {product_url}' }}";
+			
+			const qty = get_qty($btn);
+			let variantInfo = "";
+			if (selectedColor || selectedSize) {
+				variantInfo = ` (${selectedColor}${selectedColor && selectedSize ? ' / ' : ''}${selectedSize})`;
+			}
+
+			message = message.replace('{product_name}', itemName + variantInfo)
+							 .replace('{product_url}', itemUrl)
+							 .replace('{qty}', qty);
+			
+			const whatsappUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+			window.open(whatsappUrl, '_blank');
+		});
+
+		// Add to Cart
 		$('.page_content').on('click', '.btn-add-to-cart', (e) => {
-			// Bind action on add to cart button
 			const $btn = $(e.currentTarget);
 			$btn.prop('disabled', true);
 			const item_code = $btn.data('item-code');
+			const uom = $btn.data('uom');
+			const qty = get_qty($btn);
+
+			let variantTxt = "";
+			if (selectedColor || selectedSize) {
+				variantTxt = `${selectedColor}${selectedColor && selectedSize ? ' / ' : ''}${selectedSize}`;
+			}
+			
 			webshop.webshop.shopping_cart.update_cart({
 				item_code,
-				qty: 1,
+				qty: qty,
+				uom: uom,
+				variant_txt: variantTxt,
 				callback(r) {
 					$btn.prop('disabled', false);
-					if (r.message) {
-						$('.btn-add-to-cart, .btn-view-in-cart').toggleClass('hidden');
+					if (r.message && !r.exc) {
+						if (webshop.webshop.shopping_cart.toggle_drawer) {
+							webshop.webshop.shopping_cart.toggle_drawer();
+						} else {
+							frappe.show_alert({message: __("Added to Cart"), indicator: 'green'});
+						}
+					}
+				}
+			});
+		});
+
+		// Buy Now
+		$('.page_content').on('click', '.btn-buy-now', (e) => {
+			const $btn = $(e.currentTarget);
+			$btn.prop('disabled', true);
+			const item_code = $btn.data('item-code');
+			const uom = $btn.data('uom');
+			const qty = get_qty($btn);
+
+			let variantTxt = "";
+			if (selectedColor || selectedSize) {
+				variantTxt = `${selectedColor}${selectedColor && selectedSize ? ' / ' : ''}${selectedSize}`;
+			}
+			
+			webshop.webshop.shopping_cart.update_cart({
+				item_code,
+				qty: qty,
+				uom: uom,
+				variant_txt: variantTxt,
+				callback(r) {
+					$btn.prop('disabled', false);
+					if (r.message && !r.exc) {
+						window.location.href = "/checkout";
 					}
 				}
 			});

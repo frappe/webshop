@@ -1,21 +1,28 @@
 {% from "webshop/templates/includes/macros.html" import product_image %}
 
 {% macro item_subtotal(item) %}
-	<div>
-		{{ item.get_formatted('amount') }}
-	</div>
-
-	{% if item.is_free_item %}
-		<div class="text-success mt-4">
-			<span class="free-tag">
-				{{ _('FREE') }}
-			</span>
+	<div class="d-flex flex-column align-items-end text-right">
+		<div class="font-weight-bold" style="font-size: 1.1rem; color: #1a202c;">
+			{{ item.get_formatted('amount') }}
 		</div>
-	{% else %}
-		<span class="item-rate">
-			{{ _('Rate:') }} {{ item.get_formatted('rate') }}
-		</span>
-	{% endif %}
+		{% if item.formatted_mrp %}
+			<del class="text-muted mt-1" style="font-size: 0.8rem; opacity: 0.5;">{{ item.formatted_mrp }}</del>
+			<span class="badge badge-pill px-2 py-0 mt-1" style="font-size: 0.75rem; background: #fff5f5; color: #e53e3e; border: 1px solid #feb2b2; font-weight: 700; line-height: 1.5;">
+				{{ item.formatted_discount_percent or _("SALE") }}
+			</span>
+		{% endif %}
+		{% if not item.is_free_item %}
+			<div class="item-rate text-muted small mt-1" style="font-size: 0.75rem; opacity: 0.8;">
+				{{ _('Rate:') }} {{ item.get_formatted('rate') }}
+			</div>
+		{% else %}
+			<div class="text-success mt-1">
+				<span class="free-tag badge badge-success">
+					{{ _('FREE') }}
+				</span>
+			</div>
+		{% endif %}
+	</div>
 {% endmacro %}
 
 {% for d in doc.items %}

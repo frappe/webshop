@@ -12,12 +12,16 @@
   "route",
   "has_variants",
   "variant_of",
+  "website_variants_section",
+  "website_variants",
   "published",
+  "simulated_discount",
   "column_break_3",
   "item_code",
   "item_name",
   "item_group",
   "stock_uom",
+  "minimum_qty",
   "column_break_11",
   "description",
   "brand",
@@ -198,6 +202,13 @@
   },
   {
    "default": "0",
+   "description": "Override the global simulated discount for this item.",
+   "fieldname": "simulated_discount",
+   "fieldtype": "Percent",
+   "label": "Simulated Discount (%)"
+  },
+  {
+   "default": "0",
    "depends_on": "has_variants",
    "fetch_from": "item_code.has_variants",
    "fieldname": "has_variants",
@@ -206,6 +217,17 @@
    "label": "Has Variants",
    "no_copy": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "website_variants_section",
+   "fieldtype": "Section Break",
+   "label": "Website Variants"
+  },
+  {
+   "fieldname": "website_variants",
+   "fieldtype": "Table",
+   "label": "Website Variants",
+   "options": "Website Item Variant"
   },
   {
    "depends_on": "variant_of",
@@ -227,6 +249,13 @@
    "label": "Stock UOM",
    "options": "UOM",
    "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "minimum_qty",
+   "fieldtype": "Int",
+   "label": "Minimum Qty",
+   "description": "Minimum quantity required for a single order."
   },
   {
    "depends_on": "brand",

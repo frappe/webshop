@@ -10,14 +10,31 @@
 {% endblock %}
 
 {% block page_content %}
-<div class="product-container item-main">
+<div class="product-container item-main ws-shadow-lg p-5" style="border-radius: var(--ws-radius-xl); background: var(--ws-bg);">
 	{% from "webshop/templates/includes/macros.html" import product_image %}
 	<div class="item-content">
 		<div class="product-page-content" itemscope itemtype="http://schema.org/Product">
 			<!-- Image, Description, Add to Cart -->
-			<div class="row mb-5">
+			<div class="row align-items-start">
 				{% include "templates/generators/item/item_image.html" %}
 				{% include "templates/generators/item/item_details.html" %}
+			</div>
+
+			<!-- description -->
+			<div class="product-description mt-5 pt-4 border-top" itemprop="description">
+				<h5 class="font-weight-bold mb-4 d-flex align-items-center">
+					<span class="mr-2" style="width: 24px; height: 4px; background: var(--ws-primary); border-radius: var(--ws-radius-full); display: inline-block;"></span>
+					{{ _("Product Overview") }}
+				</h5>
+				<div class="description-content" style="max-width: 100%;">
+					{% if frappe.utils.strip_html(doc.web_long_description or '') %}
+						{{ _(doc.web_long_description) | safe }}
+					{% elif frappe.utils.strip_html(doc.description or '')  %}
+						{{ _(doc.description) | safe }}
+					{% else %}
+						<p class="text-muted italic">{{ _("No description available for this item.") }}</p>
+					{% endif  %}
+				</div>
 			</div>
 		</div>
 	</div>

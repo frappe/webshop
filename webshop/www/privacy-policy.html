@@ -1,0 +1,40 @@
+{% extends "templates/web.html" %}
+
+{% block title %} {{ _("Privacy Policy") }} {% endblock %}
+
+{% block page_content %}
+<div class="container py-8">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="frappe-card p-8 glass-card">
+                <h1 class="mb-5">{{ _("Privacy Policy") }}</h1>
+                
+                <p class="lead text-muted mb-6">
+                    {{ _("Your privacy is important to us. It is EuroPlast's policy to respect your privacy regarding any information we may collect from you across our website.") }}
+                </p>
+
+                <h4 class="mt-8 mb-4">{{ _("1. Information we collect") }}</h4>
+                <p class="text-muted">
+                    {{ _("We only ask for personal information (like your email and phone number) when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent.") }}
+                </p>
+
+                <h4 class="mt-8 mb-4">{{ _("2. Use of Information") }}</h4>
+                <p class="text-muted">
+                    {{ _("We use your information to confirm your orders, provide delivery updates, and keep your account secure. We do not share any personally identifying information with third-parties, except when required to by law or to fulfill your order (e.g. shipping partners).") }}
+                </p>
+
+                <h4 class="mt-8 mb-4">{{ _("3. Data Security") }}</h4>
+                <p class="text-muted">
+                    {{ _("We protect your data within commercially acceptable means to prevent loss and theft, as well as unauthorized access, disclosure, copying, use or modification.") }}
+                </p>
+
+                <div class="mt-10 p-5 rounded-lg border bg-light text-center">
+                    <p class="mb-0 small text-muted">
+                        {{ _("If you have any questions about how we handle user data and personal information, feel free to contact us.") }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

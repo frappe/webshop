@@ -5,7 +5,6 @@ import frappe
 from frappe.utils import flt
 
 from webshop.webshop.doctype.item_review.item_review import get_customer
-from webshop.webshop.shopping_cart.product_info import get_product_info_for_website
 from webshop.webshop.utils.product import get_non_stock_item_status
 
 
@@ -222,6 +221,8 @@ class ProductQuery:
 
 	def add_display_details(self, result, discount_list, cart_items):
 		"""Add price and availability details in result."""
+		from webshop.webshop.shopping_cart.product_info import get_product_info_for_website
+
 		for item in result:
 			product_info = get_product_info_for_website(item.item_code, skip_quotation_creation=True).get(
 				"product_info"
@@ -246,13 +247,13 @@ class ProductQuery:
 
 	def get_price_discount_info(self, item, price_object, discount_list):
 		"""Modify item object and add price details."""
-		fields = ["formatted_mrp", "formatted_price", "price_list_rate"]
+		fields = ["formatted_mrp", "formatted_price", "price_list_rate", "formatted_discount_percent"]
 		for field in fields:
 			item[field] = price_object.get(field)
 
 		if price_object.get("discount_percent"):
-			item.discount_percent = flt(price_object.discount_percent)
-			discount_list.append(price_object.discount_percent)
+			item.discount_percent = flt(price_object.get("discount_percent"))
+			discount_list.append(price_object.get("discount_percent"))
 
 		if item.formatted_mrp:
 			item.discount = price_object.get("formatted_discount_percent") or price_object.get(

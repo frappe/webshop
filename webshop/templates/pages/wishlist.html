@@ -5,6 +5,7 @@
 {% block header %}<h3 class="shopping-cart-header mt-2 mb-6">{{ _("Wishlist") }}</h1>{% endblock %}
 
 {% block page_content %}
+<div id="wishlist-container">
 {% if items %}
 	<div class="row">
 		<div class="col-md-12 item-card-group-section">
@@ -24,5 +25,5 @@
 		<div class="cart-empty-message mt-4">{{ _('Wishlist is empty!') }}</p>
 	</div>
 {% endif %}
-
+</div>
 {% endblock %}

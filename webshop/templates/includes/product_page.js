@@ -53,15 +53,15 @@ frappe.ready(function() {
 	})
 
 	$("#item-add-to-cart button").on("click", function() {
-		frappe.provide('webshop.shopping_cart');
-
-		webshop.shopping_cart.update_cart({
+		webshop.webshop.shopping_cart.update_cart({
 			item_code: get_item_code(),
 			qty: $("#item-spinner .cart-qty").val(),
 			callback: function(r) {
 				if(!r.exc) {
 					toggle_update_cart(1);
 					qty = 1;
+					// Open drawer
+					webshop.webshop.shopping_cart.toggle_drawer();
 				}
 			},
 			btn: this,
