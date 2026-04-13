@@ -29,7 +29,7 @@ $.extend(wishlist, {
 
 		if (wish_count) {
 			if ($badge.length === 0) {
-				$wishlist.append('<span class="badge badge-primary shopping-badge" id="wish-count"></span>');
+				$wishlist.find('a').append('<span class="badge badge-danger shopping-badge" id="wish-count"></span>');
 				$badge = $wishlist.find("#wish-count");
 			}
 			$badge.html(wish_count);
@@ -55,7 +55,7 @@ $.extend(wishlist, {
 
 	bind_move_to_cart_action: function() {
 		// move item to cart from wishlist
-		$('.page_content').on("click", ".btn-add-to-cart", (e) => {
+		$(document.body).off("click", ".btn-add-to-cart").on("click", ".btn-add-to-cart", (e) => {
 			const $move_to_cart_btn = $(e.currentTarget);
 			let item_code = $move_to_cart_btn.data("item-code");
 
@@ -77,8 +77,7 @@ $.extend(wishlist, {
 	bind_remove_action: function() {
 		// remove item from wishlist
 		let me = this;
-
-		$('.page_content').on("click", ".remove-wish", (e) => {
+		$(document.body).off("click", ".remove-wish").on("click", ".remove-wish", (e) => {
 			const $remove_wish_btn = $(e.currentTarget);
 			let item_code = $remove_wish_btn.data("item-code");
 
@@ -105,7 +104,7 @@ $.extend(wishlist, {
 
 	bind_wishlist_action() {
 		// 'wish'('like') or 'unwish' item in product listing
-		$('.page_content').on('click', '.like-action, .like-action-list', (e) => {
+		$(document.body).off('click', '.like-action, .like-action-list').on('click', '.like-action, .like-action-list', (e) => {
 			const $btn = $(e.currentTarget);
 			this.wishlist_action($btn);
 		});
@@ -123,6 +122,7 @@ $.extend(wishlist, {
 				list = list.filter(i => i !== item_code);
 				this.toggle_button_class($wish_icon, 'wished', 'not-wished');
 				btn.removeClass("like-animate");
+				btn.removeClass("like-action-wished");
 			} else {
 				// add
 				if (!list.includes(item_code)) {
@@ -130,6 +130,7 @@ $.extend(wishlist, {
 				}
 				this.toggle_button_class($wish_icon, 'not-wished', 'wished');
 				btn.addClass("like-animate");
+				btn.addClass("like-action-wished");
 			}
 			this.set_guest_wishlist(list);
 			this.set_wishlist_count(true);
@@ -259,6 +260,13 @@ $.extend(wishlist, {
 				} else {
 					this.render_empty_state();
 				}
+			},
+			error: (r) => {
+				$(".page_content").html(`
+					<div class="alert alert-danger m-5 text-center">
+						${__("Failed to load wishlist items. Please try again later.")}
+					</div>
+				`);
 			}
 		});
 	},

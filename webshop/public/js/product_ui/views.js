@@ -69,6 +69,11 @@ webshop.ProductView =  class {
 						me.render_list_view(result.message["items"], result.message["settings"]);
 						me.render_grid_view(result.message["items"], result.message["settings"]);
 
+						// Initialize guest wishlist icons for dynamically loaded items
+						if (webshop.webshop.wishlist && webshop.webshop.wishlist.initialize_guest_wishlist_icons) {
+							webshop.webshop.wishlist.initialize_guest_wishlist_icons();
+						}
+
 						me.products = result.message["items"];
 						me.product_count = result.message["items_count"];
 					}

@@ -113,7 +113,7 @@ def get_wishlist_items_details(item_codes):
 			"item_code",
 			"item_name",
 			"name as website_item",
-			"website_wearhouse as warehouse",
+			"website_warehouse as warehouse",
 			"website_image as image",
 			"item_group",
 			"route",
