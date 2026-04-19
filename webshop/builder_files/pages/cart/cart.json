@@ -20,6 +20,44 @@
     {
      "activeState": null,
      "attributes": {},
+     "baseStyles": {},
+     "blockClientScript": "",
+     "blockDataScript": "",
+     "blockId": "c8xpquzqm",
+     "blockName": "Script Utils",
+     "children": [],
+     "classes": [],
+     "customAttributes": {},
+     "dataKey": null,
+     "dynamicValues": [],
+     "extendedFromComponent": "b750a31e32588656",
+     "mobileStyles": {},
+     "props": {},
+     "rawStyles": {},
+     "tabletStyles": {}
+    },
+    {
+     "activeState": null,
+     "attributes": {},
+     "baseStyles": {},
+     "blockClientScript": "",
+     "blockDataScript": "",
+     "blockId": "wvr0p5h0u",
+     "blockName": "container",
+     "children": [],
+     "classes": [],
+     "customAttributes": {},
+     "dataKey": null,
+     "dynamicValues": [],
+     "extendedFromComponent": "18b46ee85b2c2ce3",
+     "mobileStyles": {},
+     "props": {},
+     "rawStyles": {},
+     "tabletStyles": {}
+    },
+    {
+     "activeState": null,
+     "attributes": {},
      "baseStyles": {
       "position": "fixed",
       "top": "-100%"
@@ -2145,21 +2183,25 @@
           "display": "flex",
           "flexDirection": "column",
           "gap": "24px",
-          "paddingTop": "80px",
+          "paddingBottom": "0px",
+          "paddingLeft": "0px",
+          "paddingRight": "0px",
+          "paddingTop": "40px",
           "width": "423.9999694824219px"
          },
          "blockClientScript": "",
          "blockDataScript": "",
          "blockId": "4ns1wsgtl",
-         "blockName": "Checkout",
+         "blockName": "Addresses and Express Checkout",
          "children": [
           {
            "activeState": null,
            "attributes": {},
            "baseStyles": {
+            "__last_display": "flex",
             "alignItems": "center",
             "alignSelf": "stretch",
-            "display": "flex",
+            "display": "none",
             "flexDirection": "column",
             "gap": "16px",
             "width": "100%"
@@ -2377,9 +2419,10 @@
            "activeState": null,
            "attributes": {},
            "baseStyles": {
+            "__last_display": "flex",
             "alignItems": "center",
             "alignSelf": "stretch",
-            "display": "flex",
+            "display": "none",
             "gap": "17px",
             "width": "100%"
            },
@@ -4921,7 +4964,7 @@
           "display": "flex",
           "gap": "10px",
           "height": "1001px",
-          "paddingTop": "80px"
+          "padding": "0px"
          },
          "blockClientScript": "",
          "blockDataScript": "",
@@ -4976,7 +5019,10 @@
           "alignItems": "center",
           "display": "flex",
           "gap": "10px",
-          "paddingTop": "80px",
+          "paddingBottom": "0px",
+          "paddingLeft": "0px",
+          "paddingRight": "0px",
+          "paddingTop": "40px",
           "width": "423.9999694824219px"
          },
          "blockClientScript": "",
@@ -5000,6 +5046,7 @@
             "flexDirection": "column",
             "gap": "24px",
             "padding": "24px",
+            "position": "static",
             "width": "100%"
            },
            "blockClientScript": "",
@@ -5441,9 +5488,9 @@
                     "width": "52.857154846191406px"
                    },
                    "blockClientScript": "",
-                   "blockDataScript": "",
+                   "blockDataScript": "block.block_data = { \"item_code\" : block.item_code,  \"qty\" : block.qty }",
                    "blockId": "0eladbee9",
-                   "blockName": "button",
+                   "blockName": "Quantity",
                    "children": [
                     {
                      "activeState": null,
@@ -5453,10 +5500,10 @@
                       "display": "flex",
                       "gap": "5.714px"
                      },
-                     "blockClientScript": "",
+                     "blockClientScript": " this.addEventListener(\"click\", async () => {\n  try {\n    const { item_code, qty } = block_data;\n    await frappe_call(\n      \"POST\",\n      \"webshop.webshop.shopping_cart.cart.update_cart\",\n      { item_code, qty: qty - 1 }\n    );\n    window.location.reload();\n  } catch (e) {\n    console.err(e);\n    dispatch(\"show-toast\", {\n      message: \"Could not edit quantity in cart!\",\n      type: \"error\",\n    });\n  }\n});\n",
                      "blockDataScript": "",
                      "blockId": "v57uo95st",
-                     "blockName": "prefix",
+                     "blockName": "Remove",
                      "children": [
                       {
                        "activeState": null,
@@ -5487,7 +5534,7 @@
                      "customAttributes": {},
                      "dataKey": null,
                      "dynamicValues": [],
-                     "element": "section",
+                     "element": "button",
                      "innerHTML": "",
                      "mobileStyles": {},
                      "originalElement": "",
@@ -5503,17 +5550,27 @@
                       "fontSize": "10px",
                       "fontWeight": "420",
                       "letterSpacing": "0.2px",
-                      "lineHeight": "115% "
+                      "lineHeight": "115% ",
+                      "transitionDuration": "300ms",
+                      "transitionProperty": "all",
+                      "transitionTimingFunction": "ease"
                      },
                      "blockClientScript": "",
-                     "blockDataScript": "",
+                     "blockDataScript": "block.int_qty = int(block.qty)",
                      "blockId": "z33hqmdr1",
-                     "blockName": "Discover",
+                     "blockName": "Qty",
                      "children": [],
                      "classes": [],
                      "customAttributes": {},
                      "dataKey": null,
-                     "dynamicValues": [],
+                     "dynamicValues": [
+                      {
+                       "comesFrom": "blockDataScript",
+                       "key": "int_qty",
+                       "property": "innerHTML",
+                       "type": "key"
+                      }
+                     ],
                      "element": "p",
                      "innerHTML": "<p>1</p>",
                      "mobileStyles": {},
@@ -5530,10 +5587,10 @@
                       "display": "flex",
                       "gap": "5.714px"
                      },
-                     "blockClientScript": "",
+                     "blockClientScript": "this.addEventListener(\"click\", async () => {\n  try {\n    const { item_code, qty } = block_data;\n    await frappe_call(\n      \"POST\",\n      \"webshop.webshop.shopping_cart.cart.update_cart\",\n      { item_code, qty: qty + 1 }\n    );\n    window.location.reload();\n  } catch (e) {\n    console.err(e);\n    dispatch(\"show-toast\", {\n      message: \"Could not edit quantity\",\n      type: \"error\",\n    });\n  }\n});\n",
                      "blockDataScript": "",
                      "blockId": "88fembumv",
-                     "blockName": "suffix",
+                     "blockName": "Add",
                      "children": [
                       {
                        "activeState": null,
@@ -5564,7 +5621,7 @@
                      "customAttributes": {},
                      "dataKey": null,
                      "dynamicValues": [],
-                     "element": "section",
+                     "element": "button",
                      "innerHTML": "",
                      "mobileStyles": {},
                      "originalElement": "",
@@ -5639,11 +5696,12 @@
               "alignItems": "flex-start",
               "alignSelf": "stretch",
               "display": "flex",
+              "flexDirection": "column",
               "gap": "8px",
               "width": "375.9999694824219px"
              },
              "blockClientScript": "",
-             "blockDataScript": "",
+             "blockDataScript": "block.coupon_code_applied = block.cart_data.get(\"cart_quotation\").get(\"coupon_code\")\nblock.coupon_code_not_applied = not bool(block.cart_data.get(\"cart_quotation\").get(\"coupon_code\"))",
              "blockId": "9dn59p5at",
              "blockName": "Coupon Code",
              "children": [
@@ -5652,65 +5710,67 @@
                "attributes": {},
                "baseStyles": {
                 "alignItems": "center",
-                "backgroundColor": "rgb(255, 255, 255)",
-                "border": "1px solid  #E2E2E2",
-                "borderColor": "rgb(226, 226, 226)",
-                "borderRadius": " 8px",
-                "borderStyle": "solid",
-                "borderWidth": "1px",
-                "boxSizing": "border-box",
                 "display": "flex",
-                "gap": "14px",
-                "height": "32px",
-                "padding": "8px 10px",
-                "width": "286px"
+                "flexDirection": "row",
+                "flexShrink": 0,
+                "height": "fit-content",
+                "justifyContent": "flex-start",
+                "marginBottom": "0px",
+                "marginLeft": "0px",
+                "marginRight": "0px",
+                "marginTop": "12px",
+                "overflow": "hidden",
+                "position": "relative",
+                "width": "100%"
                },
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "zdr660og8",
-               "blockName": "input-text",
+               "blockId": "wgpc6vqkn",
+               "blockName": "container",
                "children": [
                 {
                  "activeState": null,
                  "attributes": {},
                  "baseStyles": {
                   "alignItems": "center",
+                  "borderRadius": " 8px",
                   "display": "flex",
                   "gap": "8px",
-                  "width": "266px"
+                  "height": "32px",
+                  "justifyContent": "space-between",
+                  "position": "static",
+                  "width": "fit-content"
                  },
                  "blockClientScript": "",
                  "blockDataScript": "",
-                 "blockId": "3ibgyvfka",
-                 "blockName": "input-text",
+                 "blockId": "sluuqunls",
+                 "blockName": "container",
                  "children": [
                   {
                    "activeState": null,
                    "attributes": {},
                    "baseStyles": {
-                    "color": "rgb(153, 153, 153)",
+                    "color": "rgb(56, 56, 56)",
                     "fontSize": "14px",
-                    "fontWeight": "420",
-                    "letterSpacing": "0.28px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.21px",
                     "lineHeight": "115% "
                    },
                    "blockClientScript": "",
                    "blockDataScript": "",
-                   "blockId": "rk1o3u40y",
-                   "blockName": "title",
+                   "blockId": "lpaobjr0v",
+                   "blockName": "Code",
                    "children": [],
                    "classes": [],
                    "customAttributes": {},
                    "dataKey": null,
                    "dynamicValues": [],
                    "element": "p",
-                   "innerHTML": "Discount code or gift card",
+                   "innerHTML": "Applied Code:",
                    "mobileStyles": {},
                    "originalElement": "",
                    "props": {},
-                   "rawStyles": {
-                    "flex": "1 0 0"
-                   },
+                   "rawStyles": {},
                    "tabletStyles": {}
                   }
                  ],
@@ -5718,7 +5778,280 @@
                  "customAttributes": {},
                  "dataKey": null,
                  "dynamicValues": [],
-                 "element": "section",
+                 "element": "div",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {
+                  "flex": "1 0 0"
+                 },
+                 "tabletStyles": {},
+                 "visibilityCondition": {
+                  "comesFrom": "blockDataScript",
+                  "key": "coupon_code_applied"
+                 }
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "borderColor": "#ccc",
+                  "borderRadius": " 8px",
+                  "borderStyle": "dashed",
+                  "borderWidth": "2px",
+                  "display": "flex",
+                  "gap": "8px",
+                  "height": "32px",
+                  "justifyContent": "space-between",
+                  "padding": "7px 10px",
+                  "position": "static",
+                  "width": "fit-content"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "wvbw9nys7",
+                 "blockName": "Applied Code",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "color": "rgb(56, 56, 56)",
+                    "fontSize": "14px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.21px",
+                    "lineHeight": "115% "
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "n3dkh73se",
+                   "blockName": "Code",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [
+                    {
+                     "comesFrom": "blockDataScript",
+                     "key": "cart_data.cart_quotation.coupon_code",
+                     "property": "innerHTML",
+                     "type": "key"
+                    }
+                   ],
+                   "element": "p",
+                   "innerHTML": "<p>Apply</p>",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexShrink": 0,
+                    "height": "16px",
+                    "overflow": "hidden",
+                    "position": "static",
+                    "width": "16px"
+                   },
+                   "blockClientScript": "this.addEventListener(\"click\", async () => {\n  await frappe_call(\n    \"POST\",\n    \"webshop.webshop.shopping_cart.cart.remove_coupon_code\",\n    {}\n  );\n  window.location.reload();\n});\n",
+                   "blockDataScript": "",
+                   "blockId": "8ipkf1lwk",
+                   "blockName": "Remove Code Button",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "height": "16px",
+                      "opacity": "0.75",
+                      "width": "16px"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "oogu32fll",
+                     "blockName": "container",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "extendedFromComponent": "35a70ff03a092cde",
+                     "mobileStyles": {},
+                     "props": {
+                      "icon_name": {
+                       "comesFrom": null,
+                       "isDynamic": false,
+                       "isPassedDown": true,
+                       "isStandard": true,
+                       "label": "Icon Name",
+                       "propOptions": {
+                        "isRequired": false,
+                        "options": {
+                         "defaultValue": "home"
+                        },
+                        "type": "string"
+                       },
+                       "value": "x"
+                      }
+                     },
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "button",
+                   "mobileStyles": {},
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "div",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {},
+                 "visibilityCondition": {
+                  "comesFrom": "blockDataScript",
+                  "key": "coupon_code_applied"
+                 }
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "div",
+               "mobileStyles": {},
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "display": "flex",
+                "flexDirection": "row",
+                "flexShrink": 0,
+                "gap": "8px",
+                "height": "fit-content",
+                "overflow": "hidden",
+                "width": "fit-content"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "mny4tp7em",
+               "blockName": "Apply Code",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {
+                  "placeholder": "Discount code or Gift Card"
+                 },
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "backgroundColor": "rgb(255, 255, 255)",
+                  "border": "1px solid  #E2E2E2",
+                  "borderColor": "rgb(226, 226, 226)",
+                  "borderRadius": " 8px",
+                  "borderStyle": "solid",
+                  "borderWidth": "1px",
+                  "boxSizing": "border-box",
+                  "display": "flex",
+                  "fontSize": "14px",
+                  "gap": "14px",
+                  "height": "32px",
+                  "padding": "8px 10px",
+                  "width": "286px"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "80m6fr9xd",
+                 "blockName": "input-text",
+                 "children": [],
+                 "classes": [
+                  "coupon-code-input"
+                 ],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "input",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "backgroundColor": "rgb(243, 243, 243)",
+                  "borderRadius": " 8px",
+                  "display": "flex",
+                  "gap": "8px",
+                  "height": "32px",
+                  "justifyContent": "center",
+                  "padding": "7px 10px",
+                  "width": "81.99996948242188px"
+                 },
+                 "blockClientScript": "this.addEventListener(\"click\", async () => {\n  const input = document.querySelector(\".coupon-code-input\");\n  const code = input.value;\n  if (!code) {\n    alert(\"No code applied!\");\n    return;\n  }\n  frappe_call(\"POST\", \"webshop.webshop.shopping_cart.cart.apply_coupon_code\", {\n    applied_code: code,\n  })\n    .then((res) => {\n      window.location.reload();\n    })\n    .catch((e) => {\n      console.error(e);\n      dispatch(\"show-toast\", {\n        message: \"Could not apply coupon code!\",\n        type: \"error\",\n        timeout: 3000,\n      });\n    });\n});\n",
+                 "blockDataScript": "",
+                 "blockId": "u1ly4bict",
+                 "blockName": "button",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "color": "rgb(56, 56, 56)",
+                    "fontSize": "14px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.21px",
+                    "lineHeight": "115% "
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "vpqjf79ca",
+                   "blockName": "Discover",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "p",
+                   "innerHTML": "Apply",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "button",
                  "innerHTML": "",
                  "mobileStyles": {},
                  "originalElement": "",
@@ -5734,73 +6067,14 @@
                "dataKey": null,
                "dynamicValues": [],
                "element": "div",
-               "innerHTML": "",
                "mobileStyles": {},
-               "originalElement": "",
                "props": {},
                "rawStyles": {},
-               "tabletStyles": {}
-              },
-              {
-               "activeState": null,
-               "attributes": {},
-               "baseStyles": {
-                "alignItems": "center",
-                "backgroundColor": "rgb(243, 243, 243)",
-                "borderRadius": " 8px",
-                "display": "flex",
-                "gap": "8px",
-                "height": "32px",
-                "justifyContent": "center",
-                "padding": "7px 10px",
-                "width": "81.99996948242188px"
-               },
-               "blockClientScript": "",
-               "blockDataScript": "",
-               "blockId": "sluuqunls",
-               "blockName": "button",
-               "children": [
-                {
-                 "activeState": null,
-                 "attributes": {},
-                 "baseStyles": {
-                  "color": "rgb(56, 56, 56)",
-                  "fontSize": "14px",
-                  "fontWeight": "500",
-                  "letterSpacing": "0.21px",
-                  "lineHeight": "115% "
-                 },
-                 "blockClientScript": "",
-                 "blockDataScript": "",
-                 "blockId": "lpaobjr0v",
-                 "blockName": "Discover",
-                 "children": [],
-                 "classes": [],
-                 "customAttributes": {},
-                 "dataKey": null,
-                 "dynamicValues": [],
-                 "element": "p",
-                 "innerHTML": "Apply",
-                 "mobileStyles": {},
-                 "originalElement": "",
-                 "props": {},
-                 "rawStyles": {},
-                 "tabletStyles": {}
-                }
-               ],
-               "classes": [],
-               "customAttributes": {},
-               "dataKey": null,
-               "dynamicValues": [],
-               "element": "div",
-               "innerHTML": "",
-               "mobileStyles": {},
-               "originalElement": "",
-               "props": {},
-               "rawStyles": {
-                "flex": "1 0 0"
-               },
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": {
+                "comesFrom": "blockDataScript",
+                "key": "coupon_code_not_applied"
+               }
               }
              ],
              "classes": [],
@@ -5889,7 +6163,7 @@
              "blockClientScript": "",
              "blockDataScript": "",
              "blockId": "evmzylm3c",
-             "blockName": "Frame 108",
+             "blockName": "Amount Info",
              "children": [
               {
                "activeState": null,
@@ -5905,7 +6179,7 @@
                "blockClientScript": "",
                "blockDataScript": "",
                "blockId": "8ip3ctryi",
-               "blockName": "Frame 109",
+               "blockName": "",
                "children": [
                 {
                  "activeState": null,
@@ -5920,7 +6194,7 @@
                  "blockClientScript": "",
                  "blockDataScript": "",
                  "blockId": "bk1t9hzf9",
-                 "blockName": "Frame 105",
+                 "blockName": "Subtotal",
                  "children": [
                   {
                    "activeState": null,
@@ -5942,7 +6216,7 @@
                    "dataKey": null,
                    "dynamicValues": [],
                    "element": "p",
-                   "innerHTML": "Subtotal",
+                   "innerHTML": "<p>Subtotal</p>",
                    "mobileStyles": {},
                    "originalElement": "",
                    "props": {},
@@ -5970,7 +6244,7 @@
                    "dynamicValues": [
                     {
                      "comesFrom": "blockDataScript",
-                     "key": "cart_data.cart_quotation.formatted_net_total",
+                     "key": "cart_data.cart_quotation.formatted_total",
                      "property": "innerHTML",
                      "type": "key"
                     }
@@ -6010,7 +6284,7 @@
                  "blockClientScript": "",
                  "blockDataScript": "",
                  "blockId": "knfktk4n3",
-                 "blockName": "Frame 106",
+                 "blockName": "Shipping",
                  "children": [
                   {
                    "activeState": null,
@@ -6078,6 +6352,100 @@
                  "props": {},
                  "rawStyles": {},
                  "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "alignSelf": "stretch",
+                  "display": "flex",
+                  "justifyContent": "space-between",
+                  "opacity": "0.5",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "block.has_discount = bool(block.cart_data.get(\"cart_quotation\").get(\"discount_amount\"))",
+                 "blockId": "zt7faucue",
+                 "blockName": "Discount",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "color": "rgb(0, 0, 0)",
+                    "fontSize": "14px",
+                    "fontWeight": "420",
+                    "letterSpacing": "0.28px",
+                    "lineHeight": "115% "
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "ort1fc82a",
+                   "blockName": "Discount",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "p",
+                   "innerHTML": "<p>Discount</p>",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "color": "rgb(0, 0, 0)",
+                    "fontSize": "14px",
+                    "fontWeight": "420",
+                    "letterSpacing": "0.28px",
+                    "lineHeight": "115% "
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "block.discount_amount_formatted = \"- \" + block.cart_data.get(\"cart_quotation\").get(\"formatted_discount_amount\")",
+                   "blockId": "85jfkh4hz",
+                   "blockName": "Discount Amt.",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [
+                    {
+                     "comesFrom": "blockDataScript",
+                     "key": "discount_amount_formatted",
+                     "property": "innerHTML",
+                     "type": "key"
+                    }
+                   ],
+                   "element": "p",
+                   "innerHTML": "<p>₹2,098</p>",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {},
+                 "visibilityCondition": {
+                  "comesFrom": "blockDataScript",
+                  "key": "has_discount"
+                 }
                 }
                ],
                "classes": [],
@@ -6373,13 +6741,13 @@
  "idx": 0,
  "is_standard": 1,
  "is_template": 0,
- "modified": "2026-04-19 11:58:05.152989",
+ "modified": "2026-04-20 00:26:07.349350",
  "modified_by": "Administrator",
  "name": "cart",
  "owner": "Administrator",
  "page_name": "cart",
  "page_title": "Cart",
- "preview": "/files/page-24e9f11d-preview.webp?v=8148b",
+ "preview": "/files/cart-preview.webp?v=c2da5",
  "project_folder": "webshop",
  "published": 1,
  "route": "cart-new"

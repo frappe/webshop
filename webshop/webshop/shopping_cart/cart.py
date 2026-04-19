@@ -6,7 +6,7 @@ import frappe.defaults
 from frappe import _, throw
 from frappe.contacts.doctype.address.address import get_address_display
 from frappe.contacts.doctype.contact.contact import get_contact_name
-from frappe.utils import cint, cstr, flt, get_fullname
+from frappe.utils import cint, cstr, flt, fmt_money, get_fullname
 from frappe.utils.nestedset import get_root_of
 
 from erpnext.accounts.utils import get_account_name
@@ -790,7 +790,7 @@ def show_terms(doc):
 
 
 @frappe.whitelist(allow_guest=True)
-def apply_coupon_code(applied_code, applied_referral_sales_partner):
+def apply_coupon_code(applied_code, applied_referral_sales_partner=False):
 	quotation = True
 
 	if not applied_code:

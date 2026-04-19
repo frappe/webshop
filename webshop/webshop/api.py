@@ -493,18 +493,21 @@ def hide_variant_in_product_list():
 		frappe.throw_permission_error()
 	return get_shopping_cart_settings().hide_variants
 
+
 @frappe.whitelist(allow_guest=True)
 def is_cart_enabled():
 	if not has_permission_for_webshop("Webshop Settings"):
 		frappe.throw_permission_error()
 	return get_shopping_cart_settings().enabled
 
+
 @frappe.whitelist(allow_guest=True)
 def products_per_page():
 	return get_shopping_cart_settings().products_per_page
 
+
 @frappe.whitelist()
-def get_cart(doc=None, get_formatted=["net_total","grand_total"]):
+def get_cart(doc=None, get_formatted=["total", "net_total", "grand_total", "discount_amount"]):
 	party = get_party()
 
 	if not doc:
