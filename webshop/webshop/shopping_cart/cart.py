@@ -153,8 +153,8 @@ def request_for_quotation():
 
 
 @frappe.whitelist()
-def update_cart(item_code, qty, additional_notes=None, with_items=False):
-	quotation = _get_cart_quotation()
+def update_cart(item_code, qty, additional_notes=None, with_items=False, force_create_new=False):
+	quotation = _get_cart_quotation(force_create_new=force_create_new)
 
 	empty_card = False
 	qty = flt(qty)
@@ -215,6 +215,16 @@ def update_cart(item_code, qty, additional_notes=None, with_items=False):
 	else:
 		return {"name": quotation.name}
 
+
+@frappe.whitelist()
+def buy_now(item_code, additional_notes=None):
+	update_cart(item_code, 1, additional_notes=additional_notes, force_create_new=True)
+	if frappe.get_cached_value("Webshop Settings", "enable_checkout"):
+		order = place_order()
+		return {"order": order}
+	else:
+		quotation = request_for_quotation()
+		return {"quotation": quotation}
 
 @frappe.whitelist()
 def get_shopping_cart_menu(context=None):
@@ -378,7 +388,7 @@ def decorate_quotation_doc(doc, return_items_only=False):
 	return doc
 
 
-def _get_cart_quotation(party=None):
+def _get_cart_quotation(party=None, force_create_new=False):
 	"""Return the open Quotation of type "Shopping Cart" or make a new one"""
 	if not party:
 		party = get_party()
@@ -396,7 +406,7 @@ def _get_cart_quotation(party=None):
 		limit_page_length=1,
 	)
 
-	if quotation:
+	if quotation and not force_create_new:
 		qdoc = frappe.get_doc("Quotation", quotation[0].name)
 	else:
 		company = frappe.db.get_single_value("Webshop Settings", "company")
