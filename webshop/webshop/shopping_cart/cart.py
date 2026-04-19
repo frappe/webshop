@@ -330,7 +330,9 @@ def guess_territory():
 	)
 
 
-def decorate_quotation_doc(doc):
+def decorate_quotation_doc(doc, return_items_only=False):
+	if return_items_only:
+		items = []
 	for d in doc.get("items", []):
 		item_code = d.item_code
 		fields = ["web_item_name", "thumbnail", "website_image", "description", "route"]
@@ -351,6 +353,11 @@ def decorate_quotation_doc(doc):
 				d.thumbnail = variant_data.image
 				fields = fields[2:]
 
+		# rate calculated separately before as_dict and then assigned later after as_sict as
+		# as_dict (or in case of API: __json__) removes all added fields
+		rate = d.get_formatted("rate")
+		if return_items_only:
+			d = d.as_dict()
 		d.update(
 			frappe.db.get_value(
 				"Website Item", {"item_code": item_code}, fields, as_dict=True
@@ -362,7 +369,12 @@ def decorate_quotation_doc(doc):
 		)
 
 		d.warehouse = website_warehouse
+		d.formatted_rate = rate
+		if return_items_only:
+			items.append(d)
 
+	if return_items_only:
+		return items
 	return doc
 
 

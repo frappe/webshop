@@ -20,19 +20,33 @@ from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 	get_shopping_cart_settings,
 	show_quantity_in_website,
 )
+
 from webshop.webshop.shopping_cart.cart import _set_price_list
 from erpnext.utilities.product import get_price
 from webshop.webshop.utils.product import (
 	get_non_stock_item_status,
 	get_web_item_qty_in_stock,
 )
-from webshop.webshop.shopping_cart.cart import get_party
+
+from webshop.webshop.shopping_cart.cart import (
+	get_party,
+	_get_cart_quotation,
+	set_cart_count,
+	get_address_docs,
+	get_shipping_addresses,
+	update_cart_address,
+	decorate_quotation_doc,
+	get_billing_addresses,
+	get_applicable_shipping_rules,
+)
+
 from webshop.webshop.utils.query_builder import (
 	build_criterion,
 	merge_dicts,
 	order_col_map,
 	website_item,
 )
+
 from pypika import Order
 
 
@@ -201,8 +215,8 @@ def get_item(item_code: str, combine_template: bool = False):
 		frappe.throw_permission_error()
 
 	cart_settings = get_shopping_cart_settings()
-	if not cart_settings.enabled:
-		return frappe._dict({"product_info": {}})
+	# if not cart_settings.enabled:
+	# 	return frappe._dict({"product_info": {}})
 
 	web_item_info = frappe.get_cached_doc("Website Item", item_code)
 	if combine_template:
@@ -443,7 +457,9 @@ def list_collections(
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(limit=1000, seconds=60 * 60)
-def search_all(query: str, exclude_variants: bool = False, limit: int | None = None, start: int = 0):
+def search_all(
+	query: str, exclude_variants: bool = False, limit: int | None = None, start: int = 0
+):
 	if not has_permission_for_webshop():
 		frappe.throw_permission_error()
 
@@ -453,7 +469,7 @@ def search_all(query: str, exclude_variants: bool = False, limit: int | None = N
 		"short_description": ["like", f"%{query}%"],
 		"web_long_description": ["like", f"%{query}%"],
 	}
-	
+
 	items = frappe.get_all(
 		"Website Item",
 		or_filters=item_filters,
@@ -477,7 +493,40 @@ def hide_variant_in_product_list():
 		frappe.throw_permission_error()
 	return get_shopping_cart_settings().hide_variants
 
+@frappe.whitelist(allow_guest=True)
+def is_cart_enabled():
+	if not has_permission_for_webshop("Webshop Settings"):
+		frappe.throw_permission_error()
+	return get_shopping_cart_settings().enabled
 
 @frappe.whitelist(allow_guest=True)
 def products_per_page():
 	return get_shopping_cart_settings().products_per_page
+
+@frappe.whitelist()
+def get_cart(doc=None, get_formatted=["net_total","grand_total"]):
+	party = get_party()
+
+	if not doc:
+		quotation = _get_cart_quotation(party)
+		doc = quotation
+		set_cart_count(quotation)
+
+	addresses = get_address_docs(party=party)
+
+	if not doc.customer_address and addresses:
+		update_cart_address("billing", addresses[0].name)
+
+	items = decorate_quotation_doc(doc, return_items_only=True)
+	quotation_dict = doc.as_dict()
+	quotation_dict["items"] = items
+	for item in get_formatted:
+		quotation_dict[f"formatted_{item}"] = doc.get_formatted(item)
+
+	return {
+		"cart_quotation": quotation_dict,
+		"shipping_addresses": get_shipping_addresses(party),
+		"billing_addresses": get_billing_addresses(party),
+		"shipping_rules": get_applicable_shipping_rules(party),
+		"cart_settings": frappe.get_cached_doc("Webshop Settings"),
+	}
