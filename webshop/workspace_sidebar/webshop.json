@@ -15,6 +15,7 @@
    "label": "Items",
    "link_to": "Website Item",
    "link_type": "DocType",
+   "open_in_new_tab": 1,
    "show_arrow": 0,
    "type": "Link"
   },
@@ -27,6 +28,7 @@
    "label": "Collections",
    "link_to": "Website Collection",
    "link_type": "DocType",
+   "open_in_new_tab": 1,
    "show_arrow": 0,
    "type": "Link"
   },
@@ -39,6 +41,21 @@
    "label": "Categories",
    "link_to": "Website Category",
    "link_type": "DocType",
+   "open_in_new_tab": 1,
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "filters": "[[\"Quotation\",\"order_type\",\"=\",\"Shopping Cart\"],[\"Quotation\",\"status\",\"=\",\"Draft\"]]",
+   "icon": "shopping-cart",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Pending Carts",
+   "link_to": "Quotation",
+   "link_type": "DocType",
+   "open_in_new_tab": 1,
    "show_arrow": 0,
    "type": "Link"
   },
@@ -52,6 +69,7 @@
    "label": "Orders",
    "link_to": "Sales Order",
    "link_type": "DocType",
+   "open_in_new_tab": 1,
    "show_arrow": 0,
    "type": "Link"
   },
@@ -64,6 +82,7 @@
    "label": "Reviews",
    "link_to": "Item Review",
    "link_type": "DocType",
+   "open_in_new_tab": 1,
    "show_arrow": 0,
    "type": "Link"
   },
@@ -76,11 +95,12 @@
    "label": "Settings",
    "link_to": "Webshop Settings",
    "link_type": "DocType",
+   "open_in_new_tab": 1,
    "show_arrow": 0,
    "type": "Link"
   }
  ],
- "modified": "2026-03-12 09:22:30.917223",
+ "modified": "2026-04-18 21:00:26.513318",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Webshop",
