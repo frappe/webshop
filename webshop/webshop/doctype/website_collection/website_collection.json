@@ -8,8 +8,8 @@
  "field_order": [
   "collection_name",
   "description",
-  "website_items",
-  "collection_image"
+  "collection_image",
+  "website_items"
  ],
  "fields": [
   {
@@ -21,12 +21,6 @@
    "unique": 1
   },
   {
-   "fieldname": "website_items",
-   "fieldtype": "Table",
-   "label": "Website Items",
-   "options": "Website Item Table"
-  },
-  {
    "fieldname": "collection_image",
    "fieldtype": "Attach Image",
    "hidden": 1,
@@ -36,13 +30,19 @@
    "fieldname": "description",
    "fieldtype": "Small Text",
    "label": "Description"
+  },
+  {
+   "fieldname": "website_items",
+   "fieldtype": "Table",
+   "label": "Website Items",
+   "options": "Website Item Table"
   }
  ],
  "grid_page_length": 50,
  "image_field": "collection_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-24 11:42:43.337673",
+ "modified": "2026-04-18 20:26:12.580458",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Website Collection",
