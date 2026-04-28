@@ -346,7 +346,7 @@
      "baseStyles": {},
      "blockClientScript": "",
      "blockDataScript": "",
-     "blockId": "2b0e532ig",
+     "blockId": "v83cxyqj6",
      "blockName": "Variants",
      "children": [
       {
@@ -355,7 +355,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "mzgufyheo",
+       "blockId": "8e4qz396n",
        "blockName": "Nav - Links - Center",
        "children": [
         {
@@ -364,7 +364,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "rekkt7y73",
+         "blockId": "73tvrpfdt",
          "blockName": "Logo",
          "children": [
           {
@@ -373,7 +373,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "h2c9u2wcv",
+           "blockId": "i5e2rvtgc",
            "blockName": "app logo",
            "children": [
             {
@@ -382,7 +382,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "mx1g64sfh",
+             "blockId": "8lwp0hg69",
              "children": [],
              "classes": [],
              "customAttributes": {},
@@ -414,7 +414,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "v2hpugxrp",
+           "blockId": "43qla0ar7",
            "blockName": "Shop",
            "children": [],
            "classes": [],
@@ -433,7 +433,14 @@
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
-         "dynamicValues": [],
+         "dynamicValues": [
+          {
+           "comesFrom": "props",
+           "key": "homepage_link",
+           "property": "href",
+           "type": "attribute"
+          }
+         ],
          "isChildOfComponent": "93080ef6abd56c4e",
          "mobileStyles": {},
          "originalElement": "",
@@ -448,7 +455,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "73p0q3p08",
+         "blockId": "euucoutsk",
          "blockName": "Links",
          "children": [
           {
@@ -457,7 +464,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "9ch9u2dox",
+           "blockId": "zdjqn71k5",
            "blockName": "Shop",
            "children": [],
            "classes": [],
@@ -505,7 +512,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "tvjs3wk7b",
+         "blockId": "898sdc4nu",
          "blockName": "Icons",
          "children": [
           {
@@ -514,7 +521,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "j34jkgy6a",
+           "blockId": "o1kzzd0nl",
            "blockName": "search",
            "children": [
             {
@@ -526,14 +533,14 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "rbwpe8o77",
+             "blockId": "vni0ycf8t",
              "blockName": "container",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
-             "extendedFromComponent": "826df5a3c09b1b06",
+             "extendedFromComponent": "35a70ff03a092cde",
              "isChildOfComponent": "93080ef6abd56c4e",
              "mobileStyles": {},
              "props": {
@@ -546,7 +553,7 @@
                "propOptions": {
                 "isRequired": false,
                 "options": {
-                 "defaultValue": "house"
+                 "defaultValue": "home"
                 },
                 "type": "string"
                },
@@ -554,7 +561,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "cwx0do0uv",
+             "referenceBlockId": "g2u2x9115",
              "tabletStyles": {}
             }
            ],
@@ -566,7 +573,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "e04yoj1nw",
+           "referenceBlockId": "6h2evi6by",
            "tabletStyles": {}
           },
           {
@@ -578,16 +585,19 @@
            },
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "wn5tgan82",
+           "blockId": "v6yo32s7q",
            "blockName": "container",
            "children": [],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
-           "extendedFromComponent": "826df5a3c09b1b06",
+           "extendedFromComponent": "35a70ff03a092cde",
            "isChildOfComponent": "93080ef6abd56c4e",
-           "mobileStyles": {},
+           "mobileStyles": {
+            "__last_display": "flex",
+            "display": "none"
+           },
            "props": {
             "icon_name": {
              "comesFrom": null,
@@ -598,7 +608,7 @@
              "propOptions": {
               "isRequired": false,
               "options": {
-               "defaultValue": "house"
+               "defaultValue": "home"
               },
               "type": "string"
              },
@@ -606,7 +616,7 @@
             }
            },
            "rawStyles": {},
-           "referenceBlockId": "53z522lsf",
+           "referenceBlockId": "6dc5vdabm",
            "tabletStyles": {}
           },
           {
@@ -618,16 +628,19 @@
            },
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "ne62bk649",
+           "blockId": "janfac37t",
            "blockName": "container",
            "children": [],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
-           "extendedFromComponent": "826df5a3c09b1b06",
+           "extendedFromComponent": "35a70ff03a092cde",
            "isChildOfComponent": "93080ef6abd56c4e",
-           "mobileStyles": {},
+           "mobileStyles": {
+            "__last_display": "flex",
+            "display": "none"
+           },
            "props": {
             "icon_name": {
              "comesFrom": null,
@@ -638,7 +651,7 @@
              "propOptions": {
               "isRequired": false,
               "options": {
-               "defaultValue": "house"
+               "defaultValue": "home"
               },
               "type": "string"
              },
@@ -646,7 +659,72 @@
             }
            },
            "rawStyles": {},
-           "referenceBlockId": "docqm8t65",
+           "referenceBlockId": "54dread8d",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "16lrlqfw6",
+           "blockName": "menu",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "__last_display": "flex",
+              "display": "none",
+              "height": "16px",
+              "width": "16px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "qqqntbix7",
+             "blockName": "container",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "extendedFromComponent": "35a70ff03a092cde",
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {
+              "display": "flex"
+             },
+             "props": {
+              "icon_name": {
+               "comesFrom": null,
+               "isDynamic": false,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Icon Name",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "home"
+                },
+                "type": "string"
+               },
+               "value": "menu"
+              }
+             },
+             "rawStyles": {},
+             "referenceBlockId": "7a33hbm84",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "ayjqd0ilc",
            "tabletStyles": {}
           }
          ],
@@ -659,7 +737,7 @@
          "originalElement": "",
          "props": {},
          "rawStyles": {},
-         "referenceBlockId": "2uqpx776b",
+         "referenceBlockId": "nvtemxi9b",
          "tabletStyles": {}
         }
        ],
@@ -685,7 +763,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "x1rih27lo",
+       "blockId": "9s6dvijcl",
        "blockName": "Nav - Links - Right",
        "children": [
         {
@@ -694,7 +772,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "36rv11x74",
+         "blockId": "syr32qd1b",
          "blockName": "Logo",
          "children": [
           {
@@ -703,7 +781,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "d0twri6jn",
+           "blockId": "3nv094u3z",
            "blockName": "app logo",
            "children": [
             {
@@ -712,7 +790,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "gfnw7on9y",
+             "blockId": "6ie773x2j",
              "children": [],
              "classes": [],
              "customAttributes": {},
@@ -744,7 +822,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "wlda7iprd",
+           "blockId": "7tm3tc1aw",
            "blockName": "Shop",
            "children": [],
            "classes": [],
@@ -763,7 +841,14 @@
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
-         "dynamicValues": [],
+         "dynamicValues": [
+          {
+           "comesFrom": "props",
+           "key": "homepage_link",
+           "property": "href",
+           "type": "attribute"
+          }
+         ],
          "isChildOfComponent": "93080ef6abd56c4e",
          "mobileStyles": {},
          "originalElement": "",
@@ -778,7 +863,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "xkxhmp2fy",
+         "blockId": "zjca24b1d",
          "blockName": "Links and Icons",
          "children": [
           {
@@ -787,7 +872,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "m95ldksw3",
+           "blockId": "eitthfa2r",
            "blockName": "Links",
            "children": [
             {
@@ -796,7 +881,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "3vcqv2x1v",
+             "blockId": "byemd3hez",
              "blockName": "Shop",
              "children": [],
              "classes": [],
@@ -844,7 +929,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "fpsx8rl11",
+           "blockId": "tv3pa4k56",
            "blockName": "divider",
            "children": [],
            "classes": [],
@@ -865,7 +950,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "pqr6l4ria",
+           "blockId": "0vm6heqqh",
            "blockName": "Icons",
            "children": [
             {
@@ -874,7 +959,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "fqum5vh3y",
+             "blockId": "mvm2ewd0p",
              "blockName": "search",
              "children": [
               {
@@ -886,14 +971,14 @@
                },
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "mu7b12v0n",
+               "blockId": "o9zhx1jt1",
                "blockName": "container",
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
-               "extendedFromComponent": "826df5a3c09b1b06",
+               "extendedFromComponent": "35a70ff03a092cde",
                "isChildOfComponent": "93080ef6abd56c4e",
                "mobileStyles": {},
                "props": {
@@ -906,7 +991,7 @@
                  "propOptions": {
                   "isRequired": false,
                   "options": {
-                   "defaultValue": "house"
+                   "defaultValue": "home"
                   },
                   "type": "string"
                  },
@@ -914,7 +999,7 @@
                 }
                },
                "rawStyles": {},
-               "referenceBlockId": "wmz3dsmz3",
+               "referenceBlockId": "ykxcpatq1",
                "tabletStyles": {}
               }
              ],
@@ -926,7 +1011,7 @@
              "mobileStyles": {},
              "props": {},
              "rawStyles": {},
-             "referenceBlockId": "qaaw7fk2w",
+             "referenceBlockId": "783zp11xd",
              "tabletStyles": {}
             },
             {
@@ -938,16 +1023,19 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "m5l4tcd69",
+             "blockId": "yadliq5b9",
              "blockName": "container",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
-             "extendedFromComponent": "826df5a3c09b1b06",
+             "extendedFromComponent": "35a70ff03a092cde",
              "isChildOfComponent": "93080ef6abd56c4e",
-             "mobileStyles": {},
+             "mobileStyles": {
+              "__last_display": "flex",
+              "display": "none"
+             },
              "props": {
               "icon_name": {
                "comesFrom": null,
@@ -958,7 +1046,7 @@
                "propOptions": {
                 "isRequired": false,
                 "options": {
-                 "defaultValue": "house"
+                 "defaultValue": "home"
                 },
                 "type": "string"
                },
@@ -966,7 +1054,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "r3nenoh9e",
+             "referenceBlockId": "c6qbdwy8g",
              "tabletStyles": {}
             },
             {
@@ -978,16 +1066,19 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "tmggp7kt9",
+             "blockId": "l3o96amwt",
              "blockName": "container",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
-             "extendedFromComponent": "826df5a3c09b1b06",
+             "extendedFromComponent": "35a70ff03a092cde",
              "isChildOfComponent": "93080ef6abd56c4e",
-             "mobileStyles": {},
+             "mobileStyles": {
+              "__last_display": "flex",
+              "display": "none"
+             },
              "props": {
               "icon_name": {
                "comesFrom": null,
@@ -998,7 +1089,7 @@
                "propOptions": {
                 "isRequired": false,
                 "options": {
-                 "defaultValue": "house"
+                 "defaultValue": "home"
                 },
                 "type": "string"
                },
@@ -1006,7 +1097,72 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "v1uzeldm7",
+             "referenceBlockId": "v6100kzk0",
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {},
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "3e85r5mtq",
+             "blockName": "menu",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "__last_display": "flex",
+                "display": "none",
+                "height": "16px",
+                "width": "16px"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "62lf2yjiz",
+               "blockName": "container",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "extendedFromComponent": "35a70ff03a092cde",
+               "isChildOfComponent": "93080ef6abd56c4e",
+               "mobileStyles": {
+                "display": "flex"
+               },
+               "props": {
+                "icon_name": {
+                 "comesFrom": null,
+                 "isDynamic": false,
+                 "isPassedDown": true,
+                 "isStandard": true,
+                 "label": "Icon Name",
+                 "propOptions": {
+                  "isRequired": false,
+                  "options": {
+                   "defaultValue": "home"
+                  },
+                  "type": "string"
+                 },
+                 "value": "menu"
+                }
+               },
+               "rawStyles": {},
+               "referenceBlockId": "ogiepa11s",
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {},
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": "a5sl55rr3",
              "tabletStyles": {}
             }
            ],
@@ -1019,7 +1175,7 @@
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "e6xr27l21",
+           "referenceBlockId": "ze77ww73h",
            "tabletStyles": {}
           }
          ],
@@ -1058,7 +1214,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "35tmahtq0",
+       "blockId": "pis3du49t",
        "blockName": "Nav - Links - Left",
        "children": [
         {
@@ -1067,7 +1223,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "untacb1j6",
+         "blockId": "hct8hrxdu",
          "blockName": "Logo and Links",
          "children": [
           {
@@ -1076,7 +1232,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "0e54px3u6",
+           "blockId": "1vtfu3oa6",
            "blockName": "Logo",
            "children": [
             {
@@ -1085,7 +1241,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "ngojsl0bz",
+             "blockId": "7scufnapr",
              "blockName": "app logo",
              "children": [
               {
@@ -1094,7 +1250,7 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "3myzqjvoc",
+               "blockId": "6ue5klew3",
                "children": [],
                "classes": [],
                "customAttributes": {},
@@ -1126,7 +1282,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "75qxi9sbw",
+             "blockId": "81hhlojjf",
              "blockName": "Shop",
              "children": [],
              "classes": [],
@@ -1145,7 +1301,14 @@
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
-           "dynamicValues": [],
+           "dynamicValues": [
+            {
+             "comesFrom": "props",
+             "key": "homepage_link",
+             "property": "href",
+             "type": "attribute"
+            }
+           ],
            "isChildOfComponent": "93080ef6abd56c4e",
            "mobileStyles": {},
            "originalElement": "",
@@ -1160,7 +1323,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "f28jvd5p2",
+           "blockId": "a0mpsp27d",
            "blockName": "divider",
            "children": [
             {
@@ -1169,7 +1332,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "tl97xs47w",
+             "blockId": "or7a9sz3e",
              "blockName": "value",
              "children": [],
              "classes": [],
@@ -1203,7 +1366,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "tlvsawqpw",
+           "blockId": "ohhfjbqjj",
            "blockName": "Links",
            "children": [
             {
@@ -1212,7 +1375,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "gmf9evb2g",
+             "blockId": "0wcs3lo3t",
              "blockName": "Shop",
              "children": [],
              "classes": [],
@@ -1273,7 +1436,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "jp1uf72a1",
+         "blockId": "8idya774y",
          "blockName": "Icons",
          "children": [
           {
@@ -1282,7 +1445,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "1vq7s5863",
+           "blockId": "v8ylio9ly",
            "blockName": "search",
            "children": [
             {
@@ -1294,14 +1457,14 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "8zkr12li4",
+             "blockId": "m9i8jcfib",
              "blockName": "container",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
-             "extendedFromComponent": "826df5a3c09b1b06",
+             "extendedFromComponent": "35a70ff03a092cde",
              "isChildOfComponent": "93080ef6abd56c4e",
              "mobileStyles": {},
              "props": {
@@ -1314,7 +1477,7 @@
                "propOptions": {
                 "isRequired": false,
                 "options": {
-                 "defaultValue": "house"
+                 "defaultValue": "home"
                 },
                 "type": "string"
                },
@@ -1322,7 +1485,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "fxzfw1esz",
+             "referenceBlockId": "4cv6my4pt",
              "tabletStyles": {}
             }
            ],
@@ -1346,16 +1509,19 @@
            },
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "6cpl47uiq",
+           "blockId": "and7o2hsl",
            "blockName": "container",
            "children": [],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
-           "extendedFromComponent": "826df5a3c09b1b06",
+           "extendedFromComponent": "35a70ff03a092cde",
            "isChildOfComponent": "93080ef6abd56c4e",
-           "mobileStyles": {},
+           "mobileStyles": {
+            "__last_display": "flex",
+            "display": "none"
+           },
            "props": {
             "icon_name": {
              "comesFrom": null,
@@ -1366,7 +1532,7 @@
              "propOptions": {
               "isRequired": false,
               "options": {
-               "defaultValue": "house"
+               "defaultValue": "home"
               },
               "type": "string"
              },
@@ -1374,7 +1540,7 @@
             }
            },
            "rawStyles": {},
-           "referenceBlockId": "na24hs84e",
+           "referenceBlockId": "fj4csh5g8",
            "tabletStyles": {}
           },
           {
@@ -1386,16 +1552,19 @@
            },
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "o5kvmuifv",
+           "blockId": "9yehuzpde",
            "blockName": "container",
            "children": [],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
-           "extendedFromComponent": "826df5a3c09b1b06",
+           "extendedFromComponent": "35a70ff03a092cde",
            "isChildOfComponent": "93080ef6abd56c4e",
-           "mobileStyles": {},
+           "mobileStyles": {
+            "__last_display": "flex",
+            "display": "none"
+           },
            "props": {
             "icon_name": {
              "comesFrom": null,
@@ -1406,7 +1575,7 @@
              "propOptions": {
               "isRequired": false,
               "options": {
-               "defaultValue": "house"
+               "defaultValue": "home"
               },
               "type": "string"
              },
@@ -1414,7 +1583,72 @@
             }
            },
            "rawStyles": {},
-           "referenceBlockId": "xy5nwr9qb",
+           "referenceBlockId": "on5ug7vxz",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "d11qjodtp",
+           "blockName": "menu",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "__last_display": "flex",
+              "display": "none",
+              "height": "16px",
+              "width": "16px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "rg9f393ci",
+             "blockName": "container",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "extendedFromComponent": "35a70ff03a092cde",
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {
+              "display": "flex"
+             },
+             "props": {
+              "icon_name": {
+               "comesFrom": null,
+               "isDynamic": false,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Icon Name",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "home"
+                },
+                "type": "string"
+               },
+               "value": "menu"
+              }
+             },
+             "rawStyles": {},
+             "referenceBlockId": "9q9z8ne21",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "duo996sbl",
            "tabletStyles": {}
           }
          ],
@@ -1453,7 +1687,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "t76xmda3h",
+       "blockId": "ubmv6iunx",
        "blockName": "Nav - Logo - Center",
        "children": [
         {
@@ -1462,7 +1696,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "wpuk8yvwv",
+         "blockId": "p7r026vts",
          "blockName": "Links",
          "children": [
           {
@@ -1471,7 +1705,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "fg14fs2gg",
+           "blockId": "9xq7s5geb",
            "blockName": "Shop",
            "children": [],
            "classes": [],
@@ -1519,7 +1753,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "gkt7ta31r",
+         "blockId": "ihshf26wm",
          "blockName": "Logo",
          "children": [
           {
@@ -1528,7 +1762,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "9tjnc3opw",
+           "blockId": "5a6ft4806",
            "blockName": "app logo",
            "children": [
             {
@@ -1537,7 +1771,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "cz8ej7er6",
+             "blockId": "t76qt6w5r",
              "children": [],
              "classes": [],
              "customAttributes": {},
@@ -1569,7 +1803,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "mu9f0pvy3",
+           "blockId": "qpksdh4sx",
            "blockName": "Shop",
            "children": [],
            "classes": [],
@@ -1588,7 +1822,14 @@
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
-         "dynamicValues": [],
+         "dynamicValues": [
+          {
+           "comesFrom": "props",
+           "key": "homepage_link",
+           "property": "href",
+           "type": "attribute"
+          }
+         ],
          "isChildOfComponent": "93080ef6abd56c4e",
          "mobileStyles": {},
          "originalElement": "",
@@ -1603,7 +1844,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "vhitupm5k",
+         "blockId": "f6ellj8o4",
          "blockName": "Icons",
          "children": [
           {
@@ -1612,7 +1853,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "lcgicicoa",
+           "blockId": "178l2qdxi",
            "blockName": "search",
            "children": [
             {
@@ -1624,14 +1865,14 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "rnk0u32kg",
+             "blockId": "50mty0x3f",
              "blockName": "container",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
-             "extendedFromComponent": "826df5a3c09b1b06",
+             "extendedFromComponent": "35a70ff03a092cde",
              "isChildOfComponent": "93080ef6abd56c4e",
              "mobileStyles": {},
              "props": {
@@ -1644,7 +1885,7 @@
                "propOptions": {
                 "isRequired": false,
                 "options": {
-                 "defaultValue": "house"
+                 "defaultValue": "home"
                 },
                 "type": "string"
                },
@@ -1652,7 +1893,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "inabtxufo",
+             "referenceBlockId": "503k1yrz8",
              "tabletStyles": {}
             }
            ],
@@ -1664,7 +1905,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "cq7kh3b4e",
+           "referenceBlockId": "y86ld0d4o",
            "tabletStyles": {}
           },
           {
@@ -1676,16 +1917,19 @@
            },
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "9ih36qr1r",
+           "blockId": "cfr4yt5t6",
            "blockName": "container",
            "children": [],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
-           "extendedFromComponent": "826df5a3c09b1b06",
+           "extendedFromComponent": "35a70ff03a092cde",
            "isChildOfComponent": "93080ef6abd56c4e",
-           "mobileStyles": {},
+           "mobileStyles": {
+            "__last_display": "flex",
+            "display": "none"
+           },
            "props": {
             "icon_name": {
              "comesFrom": null,
@@ -1696,7 +1940,7 @@
              "propOptions": {
               "isRequired": false,
               "options": {
-               "defaultValue": "house"
+               "defaultValue": "home"
               },
               "type": "string"
              },
@@ -1704,7 +1948,7 @@
             }
            },
            "rawStyles": {},
-           "referenceBlockId": "bi3k14nm2",
+           "referenceBlockId": "51cb9i5mv",
            "tabletStyles": {}
           },
           {
@@ -1716,16 +1960,19 @@
            },
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "ttyf2ncdc",
+           "blockId": "f2tw7ra5g",
            "blockName": "container",
            "children": [],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
-           "extendedFromComponent": "826df5a3c09b1b06",
+           "extendedFromComponent": "35a70ff03a092cde",
            "isChildOfComponent": "93080ef6abd56c4e",
-           "mobileStyles": {},
+           "mobileStyles": {
+            "__last_display": "flex",
+            "display": "none"
+           },
            "props": {
             "icon_name": {
              "comesFrom": null,
@@ -1736,7 +1983,7 @@
              "propOptions": {
               "isRequired": false,
               "options": {
-               "defaultValue": "house"
+               "defaultValue": "home"
               },
               "type": "string"
              },
@@ -1744,7 +1991,72 @@
             }
            },
            "rawStyles": {},
-           "referenceBlockId": "1l77k5dex",
+           "referenceBlockId": "kgk8prbh1",
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "yoq52plvm",
+           "blockName": "menu",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "__last_display": "flex",
+              "display": "none",
+              "height": "16px",
+              "width": "16px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "dixnisynh",
+             "blockName": "container",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "extendedFromComponent": "35a70ff03a092cde",
+             "isChildOfComponent": "93080ef6abd56c4e",
+             "mobileStyles": {
+              "display": "flex"
+             },
+             "props": {
+              "icon_name": {
+               "comesFrom": null,
+               "isDynamic": false,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Icon Name",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "home"
+                },
+                "type": "string"
+               },
+               "value": "menu"
+              }
+             },
+             "rawStyles": {},
+             "referenceBlockId": "ge0gxy0bl",
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "isChildOfComponent": "93080ef6abd56c4e",
+           "mobileStyles": {},
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "jazdsysrp",
            "tabletStyles": {}
           }
          ],
@@ -1757,7 +2069,7 @@
          "originalElement": "",
          "props": {},
          "rawStyles": {},
-         "referenceBlockId": "sr60lsfmi",
+         "referenceBlockId": "szk0f5xkk",
          "tabletStyles": {}
         }
        ],
@@ -1785,6 +2097,21 @@
      "extendedFromComponent": "93080ef6abd56c4e",
      "mobileStyles": {},
      "props": {
+      "homepage_link": {
+       "comesFrom": null,
+       "isDynamic": false,
+       "isPassedDown": true,
+       "isStandard": true,
+       "label": "Homepage Link",
+       "propOptions": {
+        "isRequired": false,
+        "options": {
+         "defaultValue": "/"
+        },
+        "type": "string"
+       },
+       "value": null
+      },
       "links": {
        "comesFrom": null,
        "isDynamic": false,
@@ -1797,7 +2124,7 @@
          "defaultValue": {
           "About": "/about",
           "Collections": "/collections",
-          "Shop": "/shop"
+          "Store": "/store"
          },
          "maxItems": null,
          "minItems": null
@@ -1841,7 +2168,10 @@
       "flexDirection": "column",
       "gap": "48px",
       "justifyContent": "center",
-      "padding": "60px 120px",
+      "paddingBottom": "60px",
+      "paddingLeft": "180px",
+      "paddingRight": "180px",
+      "paddingTop": "60px",
       "position": "static",
       "width": "100%"
      },
@@ -1885,12 +2215,13 @@
             "alignItems": "center",
             "display": "flex",
             "flexDirection": "column",
-            "flexShrink": "0",
+            "flexShrink": 0,
             "gap": "12px",
             "justifyContent": "center",
+            "maxWidth": "500px",
             "minHeight": "450px",
             "position": "static",
-            "width": "449px"
+            "width": "50%"
            },
            "blockClientScript": "",
            "blockDataScript": "",
@@ -1931,7 +2262,9 @@
              ],
              "element": "img",
              "innerHTML": "",
-             "mobileStyles": {},
+             "mobileStyles": {
+              "width": "100%"
+             },
              "originalElement": "",
              "props": {},
              "rawStyles": {
@@ -2058,7 +2391,10 @@
              "element": "section",
              "innerHTML": "",
              "isRepeaterBlock": true,
-             "mobileStyles": {},
+             "mobileStyles": {
+              "gridAutoColumns": "minmax(0, 1fr)",
+              "gridTemplateColumns": "repeat(4, minmax(0, 1fr))"
+             },
              "originalElement": "",
              "props": {},
              "rawStyles": {},
@@ -2084,7 +2420,7 @@
              "dataKey": null,
              "dynamicValues": [],
              "element": "p",
-             "innerHTML": "No Image Available",
+             "innerHTML": "<p>No Image Available</p>",
              "mobileStyles": {},
              "props": {
               "has_image": {
@@ -2112,7 +2448,10 @@
            "dynamicValues": [],
            "element": "section",
            "innerHTML": "",
-           "mobileStyles": {},
+           "mobileStyles": {
+            "display": "flex",
+            "width": "100%"
+           },
            "originalElement": "",
            "props": {},
            "rawStyles": {},
@@ -2127,10 +2466,11 @@
             "alignSelf": "stretch",
             "display": "flex",
             "flexDirection": "column",
+            "flexShrink": 0,
             "gap": "36px",
             "justifyContent": "flex-start",
             "position": "relative",
-            "width": "100%"
+            "width": "50%"
            },
            "blockClientScript": "",
            "blockDataScript": "",
@@ -2161,7 +2501,7 @@
                 "alignSelf": "stretch",
                 "color": "rgb(0, 0, 0)",
                 "fontSize": "40px",
-                "fontWeight": "622",
+                "fontWeight": "600",
                 "lineHeight": "140% "
                },
                "blockClientScript": "",
@@ -2207,7 +2547,6 @@
                  "baseStyles": {
                   "color": "rgb(23, 23, 23)",
                   "fontSize": "24px",
-                  "fontWeight": "600",
                   "letterSpacing": "0.12px",
                   "lineHeight": "115% "
                  },
@@ -2229,7 +2568,9 @@
                  ],
                  "element": "p",
                  "innerHTML": "<p>₹998.00</p>",
-                 "mobileStyles": {},
+                 "mobileStyles": {
+                  "fontSize": "18px"
+                 },
                  "originalElement": "",
                  "props": {},
                  "rawStyles": {},
@@ -2482,7 +2823,9 @@
                "dynamicValues": [],
                "element": "section",
                "innerHTML": "",
-               "mobileStyles": {},
+               "mobileStyles": {
+                "gap": "8px"
+               },
                "originalElement": "",
                "props": {
                 "formatted_price": {
@@ -2589,7 +2932,6 @@
                        "baseStyles": {
                         "color": "rgb(0, 0, 0)",
                         "fontSize": "14px",
-                        "fontWeight": "600",
                         "letterSpacing": "0.21px",
                         "lineHeight": "115% "
                        },
@@ -3291,7 +3633,6 @@
               "flexDirection": "column",
               "flexGrow": 0,
               "flexShrink": 1,
-              "gap": "20px",
               "height": "fit-content",
               "overflow": "hidden",
               "position": "relative",
@@ -3306,40 +3647,112 @@
                "activeState": null,
                "attributes": {},
                "baseStyles": {
+                "alignItems": "center",
+                "alignSelf": "stretch",
+                "borderColor": "#e2e2e2",
+                "borderStyle": "solid",
+                "borderWidth": "1px",
+                "boxSizing": "border-box",
                 "display": "flex",
                 "flexDirection": "column",
-                "flexShrink": 0,
-                "gap": "12px",
-                "overflow": "hidden",
-                "position": "static"
+                "justifyContent": "space-between",
+                "padding": "16px 16px 16px 0",
+                "position": "static",
+                "width": "100%"
                },
                "blockClientScript": "this.querySelectorAll(\"style\").forEach((node) => node.remove())\nconst style_tag = document.createElement(\"style\")\nstyle_tag.textContent = \n`\n[data-items] .spec-row:nth-child(even) {\n  background-color: #F4F4F4;\n}\n`\n\nthis.appendChild(style_tag)",
                "blockDataScript": "",
-               "blockId": "1muu7477x",
+               "blockId": "bjapn8ls2",
                "blockName": "Specifications",
                "children": [
                 {
                  "activeState": null,
                  "attributes": {},
                  "baseStyles": {
-                  "fontSize": "18px",
-                  "fontWeight": "600",
+                  "alignItems": "center",
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "flexShrink": 0,
                   "height": "fit-content",
-                  "lineHeight": "1.4",
-                  "minWidth": "10px",
-                  "position": "static",
-                  "width": "fit-content"
+                  "justifyContent": "space-between",
+                  "overflow": "hidden",
+                  "width": "100%"
                  },
-                 "blockClientScript": "",
+                 "blockClientScript": "let is_open = false;\n\nfunction new_custom_event() {\n  const custom_event = new CustomEvent(\"state_change\", { detail: !is_open });\n  return custom_event;\n}\n\nthis.addEventListener(\"click\", () => {\n  this.closest(\"[data-wrapper]\").dispatchEvent(new_custom_event());\n  is_open = !is_open;\n});",
                  "blockDataScript": "",
-                 "blockId": "nhc61t0n2",
-                 "children": [],
+                 "blockId": "aqoij88zv",
+                 "blockName": "Label",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "color": "rgb(0, 0, 0)",
+                    "fontSize": "16px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.24px",
+                    "lineHeight": "150% "
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "3jae4y3r0",
+                   "blockName": "Details",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "p",
+                   "innerHTML": "Specifications",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "const lucidePromise = import(\"https://esm.sh/lucide\");\n\nconst renderIcon = async () => {\n  // remove previous svgs\n  this.querySelectorAll(\"svg\").forEach(elem => elem.remove());\n  \n  const icon = document.createElement(\"i\");\n  icon.dataset.lucide = props.icon_name;\n  this.appendChild(icon);\n\n  const lucide = await lucidePromise;\n  const { createIcons } = lucide;\n\n  // convert kebab-case → PascalCase\n  const iconName = props.icon_name\n    .split(\"-\")\n    .map(w => w[0].toUpperCase() + w.slice(1))\n    .join(\"\");\n\n  const Icon = lucide[iconName];\n\n  createIcons({\n    icons: {\n      [iconName]: Icon\n    }\n  });\n};\n\n\nrenderIcon();\n\nconst wrapper = this.closest(\"[data-wrapper]\")\nif (wrapper) {\n  wrapper.addEventListener(\"state_change\", (ev) => {\n    if (ev.detail) {\n      this.style.transform = \"rotate(180deg)\";\n    } else {\n      this.style.transform = \"rotate(0deg)\";\n    }\n  });\n}",
+                   "blockDataScript": "",
+                   "blockId": "w4gmmk2f4",
+                   "blockName": "container",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "extendedFromComponent": "826df5a3c09b1b06",
+                   "mobileStyles": {},
+                   "props": {
+                    "icon_name": {
+                     "comesFrom": null,
+                     "isDynamic": false,
+                     "isPassedDown": true,
+                     "isStandard": true,
+                     "label": "Icon Name",
+                     "propOptions": {
+                      "isRequired": false,
+                      "options": {
+                       "defaultValue": "house"
+                      },
+                      "type": "string"
+                     },
+                     "value": "chevron-down"
+                    }
+                   },
+                   "rawStyles": {
+                    "transition": "all 0.1s ease-out"
+                   },
+                   "tabletStyles": {}
+                  }
+                 ],
                  "classes": [],
                  "customAttributes": {},
                  "dataKey": null,
                  "dynamicValues": [],
-                 "element": "p",
-                 "innerHTML": "<p>Specifications</p>",
+                 "element": "button",
                  "mobileStyles": {},
                  "props": {},
                  "rawStyles": {},
@@ -3356,9 +3769,9 @@
                   "position": "static",
                   "width": "100%"
                  },
-                 "blockClientScript": "",
+                 "blockClientScript": "const wrapper = this.closest(\"[data-wrapper]\");\n\nthis.style.maxHeight = \"0px\";\nif (wrapper) {\n  wrapper.addEventListener(\"state_change\", (ev) => {\n    if (ev.detail) {\n      this.style.maxHeight = \"240px\";\n    } else {\n      this.style.maxHeight = \"0px\";\n    }\n  });\n}\n",
                  "blockDataScript": "",
-                 "blockId": "umr39vga3",
+                 "blockId": "sqtt8rpv8",
                  "blockName": "Table",
                  "children": [
                   {
@@ -3374,7 +3787,7 @@
                    },
                    "blockClientScript": "",
                    "blockDataScript": "",
-                   "blockId": "9f9d562kl",
+                   "blockId": "m8gk78gi0",
                    "blockName": "Items",
                    "children": [
                     {
@@ -3394,7 +3807,7 @@
                      },
                      "blockClientScript": "",
                      "blockDataScript": "",
-                     "blockId": "de8iw7a24",
+                     "blockId": "1rcj3teiw",
                      "blockName": "Row",
                      "children": [
                       {
@@ -3413,7 +3826,7 @@
                        },
                        "blockClientScript": "",
                        "blockDataScript": "",
-                       "blockId": "qh9vjwv16",
+                       "blockId": "20sohf70i",
                        "blockName": "Label",
                        "children": [
                         {
@@ -3429,7 +3842,7 @@
                          },
                          "blockClientScript": "",
                          "blockDataScript": "",
-                         "blockId": "uhgsp1aug",
+                         "blockId": "dk3y7fc01",
                          "children": [],
                          "classes": [],
                          "customAttributes": {},
@@ -3476,7 +3889,7 @@
                        },
                        "blockClientScript": "",
                        "blockDataScript": "",
-                       "blockId": "13hmuotuf",
+                       "blockId": "q44mvq2qc",
                        "blockName": "Description",
                        "children": [
                         {
@@ -3492,7 +3905,7 @@
                          },
                          "blockClientScript": "",
                          "blockDataScript": "",
-                         "blockId": "07og2739w",
+                         "blockId": "9ozlntkw0",
                          "children": [],
                          "classes": [],
                          "customAttributes": {},
@@ -3567,23 +3980,29 @@
                  "element": "div",
                  "mobileStyles": {},
                  "props": {},
-                 "rawStyles": {},
+                 "rawStyles": {
+                  "transition": "all 0.3s ease-out"
+                 },
                  "tabletStyles": {}
                 }
                ],
                "classes": [],
-               "customAttributes": {},
+               "customAttributes": {
+                "data-wrapper": ""
+               },
                "dataKey": null,
                "dynamicValues": [],
-               "element": "div",
+               "element": "section",
+               "innerHTML": "",
                "mobileStyles": {},
+               "originalElement": "",
                "props": {},
-               "rawStyles": {},
-               "tabletStyles": {},
-               "visibilityCondition": {
-                "comesFrom": "blockDataScript",
-                "key": "has_specs"
-               }
+               "rawStyles": {
+                "border-left": "0px",
+                "border-right": "0px",
+                "border-top": "0px"
+               },
+               "tabletStyles": {}
               },
               {
                "activeState": null,
@@ -3646,7 +4065,7 @@
                      "baseStyles": {
                       "color": "rgb(0, 0, 0)",
                       "fontSize": "16px",
-                      "fontWeight": "600",
+                      "fontWeight": "500",
                       "letterSpacing": "0.24px",
                       "lineHeight": "150% "
                      },
@@ -3849,7 +4268,9 @@
            "dynamicValues": [],
            "element": "section",
            "innerHTML": "",
-           "mobileStyles": {},
+           "mobileStyles": {
+            "display": "flex"
+           },
            "originalElement": "",
            "props": {},
            "rawStyles": {},
@@ -3862,11 +4283,15 @@
          "dynamicValues": [],
          "element": "section",
          "innerHTML": "",
-         "mobileStyles": {},
+         "mobileStyles": {
+          "flexWrap": "nowrap"
+         },
          "originalElement": "",
          "props": {},
          "rawStyles": {},
-         "tabletStyles": {}
+         "tabletStyles": {
+          "flexDirection": "column"
+         }
         }
        ],
        "classes": [],
@@ -3875,7 +4300,10 @@
        "dynamicValues": [],
        "element": "section",
        "innerHTML": "",
-       "mobileStyles": {},
+       "mobileStyles": {
+        "flexWrap": "wrap",
+        "width": "100%"
+       },
        "originalElement": "",
        "props": {},
        "rawStyles": {},
@@ -3934,7 +4362,10 @@
        "dataKey": null,
        "dynamicValues": [],
        "element": "div",
-       "mobileStyles": {},
+       "mobileStyles": {
+        "__last_display": "flex",
+        "display": "none"
+       },
        "props": {},
        "rawStyles": {},
        "tabletStyles": {}
@@ -4485,11 +4916,17 @@
            "element": "section",
            "innerHTML": "",
            "isRepeaterBlock": true,
-           "mobileStyles": {},
+           "mobileStyles": {
+            "gridAutoColumns": "minmax(0, 1fr)",
+            "gridTemplateColumns": "repeat(1, minmax(0, 1fr))"
+           },
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "tabletStyles": {}
+           "tabletStyles": {
+            "gridAutoColumns": "minmax(0, 1fr)",
+            "gridTemplateColumns": "repeat(2, minmax(0, 1fr))"
+           }
           }
          ],
          "classes": [],
@@ -4524,11 +4961,24 @@
      "dynamicValues": [],
      "element": "section",
      "innerHTML": "",
-     "mobileStyles": {},
+     "mobileStyles": {
+      "alignItems": "flex-start",
+      "justifyContent": "center",
+      "paddingBottom": "20px",
+      "paddingLeft": "20px",
+      "paddingRight": "20px",
+      "paddingTop": "20px",
+      "width": "100%"
+     },
      "originalElement": "",
      "props": {},
      "rawStyles": {},
-     "tabletStyles": {}
+     "tabletStyles": {
+      "paddingBottom": "30px",
+      "paddingLeft": "90px",
+      "paddingRight": "90px",
+      "paddingTop": "30px"
+     }
     },
     {
      "activeState": null,
@@ -5175,13 +5625,13 @@
  "idx": 0,
  "is_standard": 1,
  "is_template": 0,
- "modified": "2026-04-19 10:52:10.346960",
+ "modified": "2026-04-23 11:20:34.245874",
  "modified_by": "Administrator",
  "name": "products-details",
  "owner": "Administrator",
  "page_name": "products-details",
  "page_title": "Item",
- "preview": "/files/page-358ab97f-preview.webp?v=8451d",
+ "preview": "/files/products-details-preview.webp?v=4a9d1",
  "project_folder": "webshop",
  "published": 1,
  "route": "item/:item_code"
