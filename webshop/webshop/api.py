@@ -5,6 +5,7 @@
 import json
 
 import frappe
+from frappe import DoesNotExistError
 from frappe.query_builder.functions import Count
 from frappe.model.document import Document
 from frappe.rate_limiter import rate_limit
@@ -303,7 +304,7 @@ def get_item_by_name(name: str, combine_template: bool = False):
 		frappe.throw_permission_error()
 
 	item = frappe.db.get_all("Website Item", filters={"web_item_name": name}, limit=1)
-	if item:
+	if item and len(item) > 0:
 		return get_item(item[0].name, combine_template)
 	return None
 
@@ -330,7 +331,6 @@ def get_item_price(item_code: str):
 	selling_price_list = _set_price_list(cart_settings, None)
 	item_info = frappe.get_cached_doc("Website Item", item_code)
 	if item_info.has_variants:
-		print("here")
 		return None
 
 	price = get_price(
@@ -345,7 +345,10 @@ def get_item_price(item_code: str):
 
 @frappe.whitelist(allow_guest=True)
 def get_collection(name: str, raise_redirect=False):
-	doc = frappe.get_doc("Website Collection", name)
+	try:
+		doc = frappe.get_doc("Website Collection", name)
+	except DoesNotExistError:
+		return None
 	if has_permission_for_webshop("Website Collection", doc):
 		return doc.as_dict()
 	else:
@@ -360,7 +363,10 @@ def get_collection(name: str, raise_redirect=False):
 def get_category(
 	name: str, include_subcategory_items: bool = False, raise_redirect: bool = False
 ):
-	doc = frappe.get_doc("Website Category", name)
+	try:
+		doc = frappe.get_doc("Website Category", name)
+	except DoesNotExistError:
+		return None
 	if has_permission_for_webshop("Website Category", doc):
 		category_doc = doc.as_dict()
 		if include_subcategory_items:
