@@ -509,8 +509,21 @@ def is_cart_enabled():
 
 @frappe.whitelist(allow_guest=True)
 def products_per_page():
+	if not has_permission_for_webshop("Webshop Settings"):
+		frappe.throw_permission_error()
 	return get_shopping_cart_settings().products_per_page
 
+@frappe.whitelist(allow_guest=True)
+def is_checkout_enabled():
+	if not has_permission_for_webshop("Webshop Settings"):
+		frappe.throw_permission_error()
+	return get_shopping_cart_settings().enable_checkout
+
+@frappe.whitelist(allow_guest=True)
+def show_price():
+	if not has_permission_for_webshop("Webshop Settings"):
+		frappe.throw_permission_error()
+	return get_shopping_cart_settings().show_price
 
 @frappe.whitelist()
 def get_cart(doc=None, get_formatted=["total", "net_total", "grand_total", "discount_amount"]):
