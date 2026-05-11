@@ -64,6 +64,7 @@ def get_shipping_addresses(party=None):
 			"name": address.name,
 			"title": address.address_title,
 			"display": address.display,
+			"doc": address
 		}
 		for address in addresses
 		if address.address_type == "Shipping"
@@ -80,6 +81,7 @@ def get_billing_addresses(party=None):
 			"name": address.name,
 			"title": address.address_title,
 			"display": address.display,
+			"doc": address
 		}
 		for address in addresses
 		if address.address_type == "Billing"

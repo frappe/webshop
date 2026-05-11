@@ -2341,7 +2341,7 @@
       "width": "1000px"
      },
      "blockClientScript": "",
-     "blockDataScript": "block.cart_data = frappe.call(\"webshop.webshop.api.get_cart\")\n\nblock.is_cart_empty = not bool(len(block.cart_data.get(\"cart_quotation\").get(\"items\")))",
+     "blockDataScript": "block.cart_data = frappe.call(\"webshop.webshop.api.get_cart\")\n\nblock.is_cart_empty = not bool(len(block.cart_data.get(\"cart_quotation\").get(\"items\")))\n\n\n\n\n",
      "blockId": "d3n6o1lw1",
      "blockName": "Cart Wrapper",
      "children": [
@@ -2381,7 +2381,7 @@
           "width": "423.9999694824219px"
          },
          "blockClientScript": "",
-         "blockDataScript": "",
+         "blockDataScript": "\n",
          "blockId": "4ns1wsgtl",
          "blockName": "Addresses and Express Checkout",
          "children": [
@@ -2389,207 +2389,99 @@
            "activeState": null,
            "attributes": {},
            "baseStyles": {
-            "borderColor": "#ededed",
-            "borderRadius": "12px",
-            "borderStyle": "solid",
-            "borderWidth": "1px",
+            "alignItems": "flex-start",
+            "alignSelf": "stretch",
             "display": "flex",
             "flexDirection": "column",
-            "flexShrink": 0,
-            "gap": "32px",
-            "overflow": "hidden",
-            "overflowX": "hidden",
-            "overflowY": "hidden",
-            "padding": "24px",
-            "position": "static",
+            "gap": "12px",
             "width": "100%"
            },
            "blockClientScript": "",
-           "blockDataScript": "block.same_address = block.get(\"cart_data\").get(\"cart_quotation\").get(\"customer_address\") == block.get(\"cart_data\").get(\"cart_quotation\").get(\"shipping_address_name\")",
-           "blockId": "57b89k7cq",
-           "blockName": "Address Selector",
+           "blockDataScript": "",
+           "blockId": "3odgg5xjx",
+           "blockName": "Contact",
            "children": [
             {
              "activeState": null,
              "attributes": {},
              "baseStyles": {
+              "alignSelf": "stretch",
+              "color": "rgb(23, 23, 23)",
+              "fontSize": "14px",
+              "fontWeight": "600",
+              "letterSpacing": "0.21px",
+              "lineHeight": "115% "
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "41wpt3gr7",
+             "blockName": "Contact",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "p",
+             "innerHTML": "<p>Contact</p>",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "center",
+              "alignSelf": "stretch",
+              "backgroundColor": "rgb(243, 243, 243)",
+              "borderRadius": " 8px",
               "display": "flex",
-              "flexDirection": "column",
-              "flexShrink": 0,
-              "gap": "8px",
-              "height": "fit-content",
-              "overflow": "hidden",
-              "position": "relative",
+              "gap": "13px",
+              "height": "32px",
+              "padding": "8px 10px",
               "width": "100%"
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "v3nhvvhhf",
-             "blockName": "Shipping",
+             "blockId": "6cqvf7obs",
+             "blockName": "input-text",
              "children": [
               {
                "activeState": null,
                "attributes": {},
                "baseStyles": {
+                "alignItems": "center",
                 "display": "flex",
-                "flexDirection": "row",
-                "flexShrink": 0,
-                "height": "fit-content",
-                "justifyContent": "space-between",
-                "overflow": "hidden",
-                "position": "relative"
-               },
-               "blockClientScript": "",
-               "blockDataScript": "",
-               "blockId": "jpnk30v35",
-               "blockName": "container",
-               "children": [
-                {
-                 "activeState": null,
-                 "attributes": {},
-                 "baseStyles": {
-                  "fontSize": "16px",
-                  "fontWeight": "600",
-                  "height": "fit-content",
-                  "lineHeight": "1.4",
-                  "minWidth": "10px",
-                  "position": "static",
-                  "width": "fit-content"
-                 },
-                 "blockClientScript": "",
-                 "blockDataScript": "",
-                 "blockId": "sfc1zjvgg",
-                 "children": [],
-                 "classes": [],
-                 "customAttributes": {},
-                 "dataKey": null,
-                 "dynamicValues": [],
-                 "element": "p",
-                 "innerHTML": "<p>Shipping Address</p>",
-                 "mobileStyles": {},
-                 "props": {},
-                 "rawStyles": {},
-                 "tabletStyles": {}
-                },
-                {
-                 "activeState": null,
-                 "attributes": {},
-                 "baseStyles": {
-                  "alignItems": "center",
-                  "borderRadius": "4px",
-                  "display": "flex",
-                  "flexDirection": "column",
-                  "flexShrink": 0,
-                  "height": "24px",
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "overflowX": "hidden",
-                  "overflowY": "hidden",
-                  "position": "static",
-                  "transitionDuration": "300ms",
-                  "transitionProperty": "all",
-                  "transitionTimingFunction": "ease"
-                 },
-                 "blockClientScript": "this.addEventListener(\"click\", () => {\n  dispatch(\"open-address-modal\", { addressType: \"shipping\" });\n});",
-                 "blockDataScript": "",
-                 "blockId": "5l7v7an09",
-                 "children": [
-                  {
-                   "activeState": null,
-                   "attributes": {},
-                   "baseStyles": {
-                    "fontSize": "12px",
-                    "height": "fit-content",
-                    "lineHeight": "1.4",
-                    "minWidth": "10px",
-                    "position": "static",
-                    "width": "fit-content"
-                   },
-                   "blockClientScript": "",
-                   "blockDataScript": "",
-                   "blockId": "oa6gf03mc",
-                   "children": [],
-                   "classes": [],
-                   "customAttributes": {},
-                   "dataKey": null,
-                   "dynamicValues": [],
-                   "element": "p",
-                   "innerHTML": "<p>Change</p>",
-                   "mobileStyles": {},
-                   "props": {},
-                   "rawStyles": {
-                    "text-decoration": "underline"
-                   },
-                   "tabletStyles": {}
-                  }
-                 ],
-                 "classes": [],
-                 "customAttributes": {},
-                 "dataKey": null,
-                 "dynamicValues": [],
-                 "element": "button",
-                 "mobileStyles": {},
-                 "props": {},
-                 "rawStyles": {},
-                 "tabletStyles": {}
-                }
-               ],
-               "classes": [],
-               "customAttributes": {},
-               "dataKey": null,
-               "dynamicValues": [],
-               "element": "div",
-               "mobileStyles": {},
-               "props": {},
-               "rawStyles": {},
-               "tabletStyles": {}
-              },
-              {
-               "activeState": null,
-               "attributes": {},
-               "baseStyles": {
-                "display": "flex",
-                "flexDirection": "column",
-                "flexShrink": 0,
                 "gap": "8px",
-                "overflow": "hidden",
-                "position": "static",
-                "width": "100%"
+                "width": "422px"
                },
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "a29xsl2ru",
-               "blockName": "container",
+               "blockId": "1uzj445m2",
+               "blockName": "input-text",
                "children": [
                 {
                  "activeState": null,
                  "attributes": {},
                  "baseStyles": {
-                  "fontSize": "14px",
-                  "height": "fit-content",
-                  "lineHeight": "1.4",
-                  "minWidth": "10px",
-                  "position": "static",
-                  "width": "fit-content"
+                  "height": "16px",
+                  "width": "16px"
                  },
                  "blockClientScript": "",
                  "blockDataScript": "",
-                 "blockId": "0zvf6f6ne",
+                 "blockId": "sdxorwjyb",
+                 "blockName": "icon/line/email",
                  "children": [],
                  "classes": [],
                  "customAttributes": {},
                  "dataKey": null,
-                 "dynamicValues": [
-                  {
-                   "comesFrom": "blockDataScript",
-                   "key": "cart_data.cart_quotation.shipping_address_name",
-                   "property": "innerHTML",
-                   "type": "key"
-                  }
-                 ],
-                 "element": "p",
-                 "innerHTML": "<p>Address Title</p>",
+                 "dynamicValues": [],
+                 "element": "svg",
+                 "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M12.5 1.75C13.8807 1.75 15 2.86929 15 4.25V11.75L14.9873 12.0059C14.8677 13.1823 13.9323 14.1177 12.7559 14.2373L12.5 14.25H3.5L3.24414 14.2373C2.06772 14.1177 1.13227 13.1823 1.0127 12.0059L1 11.75V4.25C1 4.16796 1.004 4.08685 1.01172 4.00684C1.01575 3.96507 1.02323 3.92396 1.0293 3.88281C1.03528 3.84223 1.03995 3.80164 1.04785 3.76172C1.05425 3.7294 1.06366 3.69788 1.07129 3.66602C1.08276 3.61812 1.09324 3.57021 1.10742 3.52344C1.11665 3.49302 1.12833 3.46351 1.13867 3.43359C1.15342 3.39093 1.16761 3.34823 1.18457 3.30664C1.20084 3.26674 1.22004 3.22829 1.23828 3.18945C1.2546 3.15471 1.27024 3.11978 1.28809 3.08594C1.30293 3.05778 1.31908 3.03044 1.33496 3.00293C1.35728 2.96427 1.38001 2.92599 1.4043 2.88867C1.42309 2.8598 1.44295 2.83174 1.46289 2.80371C1.48949 2.7663 1.51635 2.7292 1.54492 2.69336C1.56367 2.66984 1.58297 2.64684 1.60254 2.62402C1.63407 2.58725 1.66661 2.55147 1.7002 2.5166C1.71953 2.49653 1.7388 2.47645 1.75879 2.45703C1.79749 2.41943 1.83785 2.38368 1.87891 2.34863C1.89736 2.33288 1.91566 2.31697 1.93457 2.30176C1.97261 2.27115 2.01194 2.24225 2.05176 2.21387C2.07786 2.19527 2.10402 2.17679 2.13086 2.15918C2.17126 2.13266 2.2129 2.10818 2.25488 2.08398C2.27964 2.06972 2.30382 2.05444 2.3291 2.04102C2.37468 2.0168 2.42155 1.99505 2.46875 1.97363C2.4938 1.96227 2.51847 1.95001 2.54395 1.93945C2.58999 1.92038 2.63719 1.90405 2.68457 1.8877C2.71351 1.87771 2.74207 1.86637 2.77148 1.85742C2.82049 1.84252 2.87067 1.83126 2.9209 1.81934C2.94825 1.81284 2.97524 1.80441 3.00293 1.79883C3.08202 1.78287 3.16254 1.77099 3.24414 1.7627L3.5 1.75H12.5ZM13.8945 6.55273L8.89453 9.05273L8.67871 9.14551C8.16705 9.33011 7.59802 9.29901 7.10547 9.05273L2.10547 6.55273C2.06947 6.53473 2.03456 6.51507 2 6.49512V11.75C2 12.5784 2.67157 13.25 3.5 13.25H12.5C13.3284 13.25 14 12.5784 14 11.75V6.49512C13.9654 6.51507 13.9305 6.53473 13.8945 6.55273ZM3.5 2.75C2.67157 2.75 2 3.42157 2 4.25V4.76367C2 5.1424 2.21401 5.48879 2.55273 5.6582L7.55273 8.1582C7.83426 8.29897 8.16574 8.29897 8.44727 8.1582L13.4473 5.6582C13.786 5.48879 14 5.14241 14 4.76367V4.25C14 3.42157 13.3284 2.75 12.5 2.75H3.5Z\" fill=\"#999999\"/>\n</svg>\n",
                  "mobileStyles": {},
+                 "originalElement": "__raw_html__",
                  "props": {},
                  "rawStyles": {},
                  "tabletStyles": {}
@@ -2598,16 +2490,16 @@
                  "activeState": null,
                  "attributes": {},
                  "baseStyles": {
-                  "fontSize": "12px",
-                  "height": "fit-content",
-                  "lineHeight": "1.4",
-                  "minWidth": "10px",
-                  "position": "static",
-                  "width": "fit-content"
+                  "color": "rgb(153, 153, 153)",
+                  "fontSize": "14px",
+                  "fontWeight": "420",
+                  "letterSpacing": "0.28px",
+                  "lineHeight": "115% "
                  },
                  "blockClientScript": "",
-                 "blockDataScript": "",
-                 "blockId": "s8zx0gwgr",
+                 "blockDataScript": "block.email = frappe.db.get_value(\"User\", frappe.session.user, [\"email\"], as_dict=True)[\"email\"]",
+                 "blockId": "0pqlvnile",
+                 "blockName": "title",
                  "children": [],
                  "classes": [],
                  "customAttributes": {},
@@ -2615,16 +2507,19 @@
                  "dynamicValues": [
                   {
                    "comesFrom": "blockDataScript",
-                   "key": "cart_data.cart_quotation.shipping_address",
+                   "key": "email",
                    "property": "innerHTML",
                    "type": "key"
                   }
                  ],
                  "element": "p",
-                 "innerHTML": "<p>Address Details</p>",
+                 "innerHTML": "<p>Email address</p>",
                  "mobileStyles": {},
+                 "originalElement": "",
                  "props": {},
-                 "rawStyles": {},
+                 "rawStyles": {
+                  "flex": "1 0 0"
+                 },
                  "tabletStyles": {}
                 }
                ],
@@ -2632,10 +2527,14 @@
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
-               "element": "div",
+               "element": "section",
+               "innerHTML": "",
                "mobileStyles": {},
+               "originalElement": "",
                "props": {},
-               "rawStyles": {},
+               "rawStyles": {
+                "flex": "1 0 0"
+               },
                "tabletStyles": {}
               }
              ],
@@ -2644,6 +2543,779 @@
              "dataKey": null,
              "dynamicValues": [],
              "element": "div",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "section",
+           "innerHTML": "",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "display": "flex",
+            "flexDirection": "column",
+            "flexShrink": 0,
+            "gap": "32px",
+            "overflow": "hidden",
+            "overflowX": "hidden",
+            "overflowY": "hidden",
+            "position": "static",
+            "width": "100%"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "block.same_address = block.get(\"cart_data\").get(\"cart_quotation\").get(\"customer_address\") == block.get(\"cart_data\").get(\"cart_quotation\").get(\"shipping_address_name\")\n\nblock.block_data = { \"same_address\" : block.same_address }\n",
+           "blockId": "57b89k7cq",
+           "blockName": "Address Selector Wrapper",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "position": "relative"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "95ycsx40j",
+             "blockName": "Shipping",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "position": "relative"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "b7b48r2rm",
+               "blockName": "container",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "5v6vy198l",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [
+                  {
+                   "comesFrom": "blockDataScript",
+                   "key": "text",
+                   "property": "innerHTML",
+                   "type": "key"
+                  }
+                 ],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "sfc1zjvgg",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "position": "relative"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "rlg9epo9h",
+                 "blockName": "Change Address",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "5vo1coeyf",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "oa6gf03mc",
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "5l7v7an09",
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "10f49f7d6f91ad6a",
+               "mobileStyles": {},
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "jpnk30v35",
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "pnvqr8c48",
+               "blockName": "Addresses",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "rg15jilm7",
+                 "blockName": "address-item",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "8iw6qgm11",
+                   "blockName": "wrapper",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "position": "relative"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "vb1jdi3ef",
+                     "blockName": "radio",
+                     "children": [
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "position": "relative"
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "xok6ohwim",
+                       "blockName": "radio-button",
+                       "children": [
+                        {
+                         "activeState": null,
+                         "attributes": {},
+                         "baseStyles": {},
+                         "blockClientScript": "",
+                         "blockDataScript": "",
+                         "blockId": "xst7fjoiz",
+                         "blockName": "empty",
+                         "children": [],
+                         "classes": [],
+                         "customAttributes": {},
+                         "dataKey": null,
+                         "dynamicValues": [],
+                         "isChildOfComponent": "10f49f7d6f91ad6a",
+                         "mobileStyles": {},
+                         "originalElement": "__raw_html__",
+                         "props": {},
+                         "rawStyles": {},
+                         "referenceBlockId": "l4dbyppjb",
+                         "tabletStyles": {}
+                        }
+                       ],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [],
+                       "isChildOfComponent": "10f49f7d6f91ad6a",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "referenceBlockId": "llkd7rguq",
+                       "tabletStyles": {}
+                      }
+                     ],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "isChildOfComponent": "10f49f7d6f91ad6a",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "referenceBlockId": "hwpo0gkiu",
+                     "tabletStyles": {}
+                    },
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {},
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "0q9u6mqa0",
+                     "blockName": "details",
+                     "children": [
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {},
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "8n4leepxw",
+                       "blockName": "Address Name",
+                       "children": [],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [
+                        {
+                         "comesFrom": "blockDataScript",
+                         "key": "title",
+                         "property": "innerHTML",
+                         "type": "key"
+                        }
+                       ],
+                       "isChildOfComponent": "10f49f7d6f91ad6a",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "referenceBlockId": "ix4pn15fc",
+                       "tabletStyles": {}
+                      },
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {},
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "lxsoz1387",
+                       "blockName": "Address Details",
+                       "children": [],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [
+                        {
+                         "comesFrom": "blockDataScript",
+                         "key": "formatted_address",
+                         "property": "innerHTML",
+                         "type": "key"
+                        }
+                       ],
+                       "isChildOfComponent": "10f49f7d6f91ad6a",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "referenceBlockId": "ycr8w5prr",
+                       "tabletStyles": {}
+                      }
+                     ],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "isChildOfComponent": "10f49f7d6f91ad6a",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "referenceBlockId": "1zcej8kix",
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "qt53kedan",
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "5l4do758z",
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "10f49f7d6f91ad6a",
+               "isRepeaterBlock": true,
+               "mobileStyles": {},
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "e0rbx78t4",
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "ctqxmgfl4",
+               "blockName": "New Address Button",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "t3ztycjuv",
+                 "blockName": "plus-icon",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "ttk9d2h9h",
+                   "blockName": "icon/line/add-md",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "originalElement": "__raw_html__",
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "6x6yziejf",
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "stt8mml2d",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "a48rcd5dl",
+                 "blockName": "Add new address",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [
+                  {
+                   "comesFrom": "blockDataScript",
+                   "key": "text",
+                   "property": "innerHTML",
+                   "type": "key"
+                  }
+                 ],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "t7m52d8pn",
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "10f49f7d6f91ad6a",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "is7waty8v",
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "xefijievt",
+               "blockName": "New Address Form",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "2e1lvndh9",
+                 "blockName": "Title / PIN",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "zwpk98frr",
+                   "blockName": "Title",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "97e3mxsnv",
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "84vcbt2ny",
+                   "blockName": "Postal Code",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "a0clf5855",
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "fxz9rlk73",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "1f8cn5ozl",
+                 "blockName": "Address Line 1",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "vqve0b3sk",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "zew871gtp",
+                 "blockName": "Address Line 2",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "2u305j74x",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "j040vnqou",
+                 "blockName": "City / State / Country",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "lf2wi0rs3",
+                   "blockName": "City",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "j0i25beyt",
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "l5xiqhkb5",
+                   "blockName": "State",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "c5o8ov5eg",
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "zg0z8b0vy",
+                   "blockName": "Country",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "q7a5x30kf",
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "e6b4muqu2",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "x1x3a05rq",
+                 "blockName": "Phone",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "5ywgbu0a2",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "0uf75jdfh",
+                 "blockName": "Save",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "ld4upnasu",
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "10f49f7d6f91ad6a",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "ac76zyz3s",
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "position": "relative"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "3zvn5wujf",
+               "blockName": "Same Address",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "eojfjnecg",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "myoyuy2f9",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "7anhwq1pv",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "zcx1og1sg",
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "10f49f7d6f91ad6a",
+               "mobileStyles": {},
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "t84lqobb7",
+               "tabletStyles": {},
+               "visibilityCondition": {
+                "comesFrom": "blockDataScript",
+                "key": "visible"
+               }
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "extendedFromComponent": "10f49f7d6f91ad6a",
              "mobileStyles": {},
              "props": {},
              "rawStyles": {},
@@ -2653,7 +3325,768 @@
              "activeState": null,
              "attributes": {},
              "baseStyles": {
-              "display": "flex",
+              "position": "relative"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "gft5cj4l9",
+             "blockName": "Address Selector",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "position": "relative"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "rjpqjly0a",
+               "blockName": "container",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "ig596uewj",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [
+                  {
+                   "comesFrom": "blockDataScript",
+                   "key": "text",
+                   "property": "innerHTML",
+                   "type": "key"
+                  }
+                 ],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "sfc1zjvgg",
+                 "tabletStyles": {},
+                 "visibilityCondition": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "position": "relative"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "zzpz5yqw9",
+                 "blockName": "Change Address",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "ofupqs6dt",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "oa6gf03mc",
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "5l7v7an09",
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "10f49f7d6f91ad6a",
+               "mobileStyles": {},
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "jpnk30v35",
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "6ut89xd5e",
+               "blockName": "Addresses",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "hhgtq3tr9",
+                 "blockName": "address-item",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "kgkjf8o06",
+                   "blockName": "wrapper",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "position": "relative"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "54ab4iexa",
+                     "blockName": "radio",
+                     "children": [
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "position": "relative"
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "c7tacf872",
+                       "blockName": "radio-button",
+                       "children": [
+                        {
+                         "activeState": null,
+                         "attributes": {},
+                         "baseStyles": {},
+                         "blockClientScript": "",
+                         "blockDataScript": "",
+                         "blockId": "kizriylq6",
+                         "blockName": "empty",
+                         "children": [],
+                         "classes": [],
+                         "customAttributes": {},
+                         "dataKey": null,
+                         "dynamicValues": [],
+                         "isChildOfComponent": "10f49f7d6f91ad6a",
+                         "mobileStyles": {},
+                         "originalElement": "__raw_html__",
+                         "props": {},
+                         "rawStyles": {},
+                         "referenceBlockId": "l4dbyppjb",
+                         "tabletStyles": {}
+                        }
+                       ],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [],
+                       "isChildOfComponent": "10f49f7d6f91ad6a",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "referenceBlockId": "llkd7rguq",
+                       "tabletStyles": {}
+                      }
+                     ],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "isChildOfComponent": "10f49f7d6f91ad6a",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "referenceBlockId": "hwpo0gkiu",
+                     "tabletStyles": {}
+                    },
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {},
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "ho6r10a51",
+                     "blockName": "details",
+                     "children": [
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {},
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "67z926af7",
+                       "blockName": "Address Name",
+                       "children": [],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [
+                        {
+                         "comesFrom": "blockDataScript",
+                         "key": "title",
+                         "property": "innerHTML",
+                         "type": "key"
+                        }
+                       ],
+                       "isChildOfComponent": "10f49f7d6f91ad6a",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "referenceBlockId": "ix4pn15fc",
+                       "tabletStyles": {}
+                      },
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {},
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "r0n3rw7m2",
+                       "blockName": "Address Details",
+                       "children": [],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [
+                        {
+                         "comesFrom": "blockDataScript",
+                         "key": "formatted_address",
+                         "property": "innerHTML",
+                         "type": "key"
+                        }
+                       ],
+                       "isChildOfComponent": "10f49f7d6f91ad6a",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "referenceBlockId": "ycr8w5prr",
+                       "tabletStyles": {}
+                      }
+                     ],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "isChildOfComponent": "10f49f7d6f91ad6a",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "referenceBlockId": "1zcej8kix",
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "qt53kedan",
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "5l4do758z",
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "10f49f7d6f91ad6a",
+               "isRepeaterBlock": true,
+               "mobileStyles": {},
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "e0rbx78t4",
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "achzvom2y",
+               "blockName": "New Address Button",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "y6t6x3ke3",
+                 "blockName": "plus-icon",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "ofhyhj5z6",
+                   "blockName": "icon/line/add-md",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "originalElement": "__raw_html__",
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "6x6yziejf",
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "stt8mml2d",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "ph7acr2g0",
+                 "blockName": "Add new address",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [
+                  {
+                   "comesFrom": "blockDataScript",
+                   "key": "text",
+                   "property": "innerHTML",
+                   "type": "key"
+                  }
+                 ],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "t7m52d8pn",
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "10f49f7d6f91ad6a",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "is7waty8v",
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {},
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "y09wz20ac",
+               "blockName": "New Address Form",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "chgz5urul",
+                 "blockName": "Title / PIN",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "378we1i9v",
+                   "blockName": "Title",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "97e3mxsnv",
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "0hcm6ujq3",
+                   "blockName": "Postal Code",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "a0clf5855",
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "fxz9rlk73",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "1bbzfes94",
+                 "blockName": "Address Line 1",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "vqve0b3sk",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "721okkudc",
+                 "blockName": "Address Line 2",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "2u305j74x",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "69ejn0hg3",
+                 "blockName": "City / State / Country",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "xa7er369e",
+                   "blockName": "City",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "j0i25beyt",
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "3jfh8tn1r",
+                   "blockName": "State",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "c5o8ov5eg",
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {},
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "8ztjmd6lu",
+                   "blockName": "Country",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "isChildOfComponent": "10f49f7d6f91ad6a",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "referenceBlockId": "q7a5x30kf",
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "e6b4muqu2",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "7cp0kdbu6",
+                 "blockName": "Phone",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "5ywgbu0a2",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "l76kn50tb",
+                 "blockName": "Save",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "ld4upnasu",
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "10f49f7d6f91ad6a",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "ac76zyz3s",
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "position": "relative"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "4oumsi250",
+               "blockName": "Same Address",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "6dkit1rpo",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "myoyuy2f9",
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {},
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "xq057nifb",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "isChildOfComponent": "10f49f7d6f91ad6a",
+                 "mobileStyles": {},
+                 "props": {},
+                 "rawStyles": {},
+                 "referenceBlockId": "zcx1og1sg",
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "isChildOfComponent": "10f49f7d6f91ad6a",
+               "mobileStyles": {},
+               "props": {},
+               "rawStyles": {},
+               "referenceBlockId": "t84lqobb7",
+               "tabletStyles": {},
+               "visibilityCondition": {
+                "comesFrom": "blockDataScript",
+                "key": "visible"
+               }
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "extendedFromComponent": "10f49f7d6f91ad6a",
+             "mobileStyles": {},
+             "props": {
+              "type": {
+               "comesFrom": null,
+               "isDynamic": false,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Type",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "Shipping",
+                 "options": [
+                  "Shipping",
+                  "Billing"
+                 ]
+                },
+                "type": "select"
+               },
+               "value": "Billing"
+              }
+             },
+             "rawStyles": {},
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "__last_display": "flex",
+              "display": "none",
               "flexDirection": "column",
               "flexShrink": 0,
               "gap": "8px",
@@ -2679,7 +4112,7 @@
                 "overflow": "hidden",
                 "position": "relative"
                },
-               "blockClientScript": "",
+               "blockClientScript": "if (!block_data.sample_address) {\n  this.style.display = \"none\";\n}",
                "blockDataScript": "",
                "blockId": "1y0qlmfwf",
                "blockName": "container",
@@ -2688,7 +4121,7 @@
                  "activeState": null,
                  "attributes": {},
                  "baseStyles": {
-                  "fontSize": "16px",
+                  "fontSize": "14px",
                   "fontWeight": "600",
                   "height": "fit-content",
                   "lineHeight": "1.4",
@@ -2715,9 +4148,10 @@
                  "activeState": null,
                  "attributes": {},
                  "baseStyles": {
+                  "__last_display": "flex",
                   "alignItems": "center",
                   "borderRadius": "4px",
-                  "display": "flex",
+                  "display": "none",
                   "flexDirection": "column",
                   "flexShrink": 0,
                   "height": "24px",
@@ -2793,43 +4227,359 @@
                 "flexShrink": 0,
                 "gap": "8px",
                 "overflow": "hidden",
-                "position": "static",
                 "width": "100%"
                },
-               "blockClientScript": "",
-               "blockDataScript": "block.visible = not block.same_address",
-               "blockId": "qtbeij92f",
-               "blockName": "container",
+               "blockClientScript": "if (!block_data.sample_address) {\n  this.style.display = \"none\";\n}",
+               "blockDataScript": "",
+               "blockId": "2blwcsgnj",
+               "blockName": "Addresses",
                "children": [
                 {
                  "activeState": null,
                  "attributes": {},
                  "baseStyles": {
-                  "fontSize": "14px",
-                  "height": "fit-content",
-                  "lineHeight": "1.4",
-                  "minWidth": "10px",
-                  "position": "static",
-                  "width": "fit-content"
+                  "alignItems": "flex-start",
+                  "alignSelf": "stretch",
+                  "border": "1px solid  #EDEDED",
+                  "borderColor": "rgb(237, 237, 237)",
+                  "borderRadius": "12px",
+                  "borderStyle": "solid",
+                  "borderWidth": "1px",
+                  "boxSizing": "border-box",
+                  "cursor": "pointer",
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "gap": "8px",
+                  "justifyContent": "center",
+                  "padding": "12px",
+                  "width": "100%"
                  },
                  "blockClientScript": "",
                  "blockDataScript": "",
-                 "blockId": "kp414ytuj",
-                 "children": [],
+                 "blockId": "5lej3kui8",
+                 "blockName": "address-item",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "alignItems": "flex-start",
+                    "alignSelf": "stretch",
+                    "display": "flex",
+                    "gap": "12px"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "qix2kaoev",
+                   "blockName": "wrapper",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "alignItems": "flex-start",
+                      "display": "flex",
+                      "gap": "8px",
+                      "padding": "1px 0",
+                      "width": "16px"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "6lr99cc20",
+                     "blockName": "radio",
+                     "children": [
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "alignItems": "center",
+                        "backgroundColor": "rgba(255, 255, 255, 0.10000000149011612)",
+                        "border": "1px solid  #999",
+                        "borderColor": "rgb(153, 153, 153)",
+                        "borderRadius": " 12px",
+                        "borderStyle": "solid",
+                        "borderWidth": "1px",
+                        "boxSizing": "border-box",
+                        "display": "flex",
+                        "height": "14px",
+                        "justifyContent": "center",
+                        "maxHeight": "14px",
+                        "maxWidth": "14px",
+                        "padding": "3px",
+                        "position": "relative",
+                        "width": "100%"
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "buznbj3d0",
+                       "blockName": "radio-button",
+                       "children": [
+                        {
+                         "activeState": null,
+                         "attributes": {},
+                         "baseStyles": {
+                          "height": "8px",
+                          "left": "3px",
+                          "overflowX": "hidden",
+                          "overflowY": "hidden",
+                          "position": "absolute",
+                          "top": "3px",
+                          "width": "8px"
+                         },
+                         "blockClientScript": "",
+                         "blockDataScript": "",
+                         "blockId": "uh2u1oa76",
+                         "blockName": "empty",
+                         "children": [],
+                         "classes": [],
+                         "customAttributes": {},
+                         "dataKey": null,
+                         "dynamicValues": [],
+                         "element": "svg",
+                         "innerHTML": "",
+                         "mobileStyles": {},
+                         "originalElement": "__raw_html__",
+                         "props": {},
+                         "rawStyles": {},
+                         "tabletStyles": {}
+                        }
+                       ],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [],
+                       "element": "div",
+                       "innerHTML": "",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "tabletStyles": {}
+                      }
+                     ],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "section",
+                     "innerHTML": "",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    },
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "alignItems": "flex-start",
+                      "display": "flex",
+                      "flexDirection": "column",
+                      "gap": "2px",
+                      "width": "100%"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "def format_address(d):\n    return \", \".join([\n        x for x in [\n            d.get(\"address_line1\", \"\"),\n            d.get(\"address_line2\", \"\"),\n            d.get(\"city\", \"\"),\n            d.get(\"state\", \"\"),\n            d.get(\"pincode\", \"\"),\n            d.get(\"country\", \"\"),\n            f\"Phone: {d.get('phone')}\" if d.get(\"phone\") else \"\",\n            f\"Fax: {d.get('fax')}\" if d.get(\"fax\") else \"\",\n            f\"Email: {d.get('email_id')}\" if d.get(\"email_id\") else \"\",\n        ]\n        if x\n    ])\n\nblock.formatted_address = format_address(block[\"doc\"])",
+                     "blockId": "vcw67n0wx",
+                     "blockName": "details",
+                     "children": [
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "color": "rgb(56, 56, 56)",
+                        "display": "-webkit-box",
+                        "fontSize": "14px",
+                        "fontWeight": "500",
+                        "letterSpacing": "0.21px",
+                        "lineHeight": "115% "
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "qh4sogwxe",
+                       "blockName": "Address Name",
+                       "children": [],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [
+                        {
+                         "comesFrom": "blockDataScript",
+                         "key": "title",
+                         "property": "innerHTML",
+                         "type": "key"
+                        }
+                       ],
+                       "element": "p",
+                       "innerHTML": "<p>Address Name</p>",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {
+                        "WebkitBoxOrient": "vertical",
+                        "WebkitLineClamp": "1",
+                        "overflow": "hidden",
+                        "textOverflow": "ellipsis"
+                       },
+                       "tabletStyles": {}
+                      },
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "alignSelf": "stretch",
+                        "color": "rgb(82, 82, 82)",
+                        "fontSize": "14px",
+                        "fontWeight": "420",
+                        "letterSpacing": "0.28px",
+                        "lineHeight": "150% ",
+                        "width": "100%"
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "0filcuye5",
+                       "blockName": "Address Details",
+                       "children": [],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [
+                        {
+                         "comesFrom": "blockDataScript",
+                         "key": "formatted_address",
+                         "property": "innerHTML",
+                         "type": "key"
+                        }
+                       ],
+                       "element": "p",
+                       "innerHTML": "<p>Address Details</p>",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "tabletStyles": {}
+                      }
+                     ],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "section",
+                     "innerHTML": "",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {
+                      "flex": "1 0 0"
+                     },
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "div",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
                  "classes": [],
                  "customAttributes": {},
                  "dataKey": null,
-                 "dynamicValues": [
+                 "dynamicValues": [],
+                 "element": "div",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": {
+                "comesFrom": "blockDataScript",
+                "key": "cart_data.billing_addresses",
+                "property": "innerHTML",
+                "type": "key"
+               },
+               "dynamicValues": [],
+               "element": "div",
+               "isRepeaterBlock": true,
+               "mobileStyles": {},
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "borderRadius": " 8px",
+                "display": "flex",
+                "gap": "8px",
+                "justifyContent": "flex-start",
+                "padding": "6px 8px"
+               },
+               "blockClientScript": "if (!block_data.sample_address) {\n  this.style.display = \"none\";\n}",
+               "blockDataScript": "",
+               "blockId": "4yb5e3jow",
+               "blockName": "New Billing Address Button",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "display": "flex",
+                  "gap": "8px"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "uvehq1qyf",
+                 "blockName": "prefix",
+                 "children": [
                   {
-                   "comesFrom": "blockDataScript",
-                   "key": "cart_data.cart_quotation.customer_address",
-                   "property": "innerHTML",
-                   "type": "key"
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "height": "16px",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "ax5g7o954",
+                   "blockName": "icon/line/add-md",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "svg",
+                   "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M7.99805 2.75C8.27402 2.7502 8.49805 2.97398 8.49805 3.25V7.49805H12.7451C13.0213 7.49805 13.2451 7.7219 13.2451 7.99805C13.2449 8.27402 13.0211 8.49805 12.7451 8.49805H8.49805V12.7451C8.49805 13.0211 8.27402 13.2449 7.99805 13.2451C7.7219 13.2451 7.49805 13.0213 7.49805 12.7451V8.49805H3.25C2.97398 8.49805 2.7502 8.27402 2.75 7.99805C2.75 7.7219 2.97386 7.49805 3.25 7.49805H7.49805V3.25C7.49805 2.97386 7.7219 2.75 7.99805 2.75Z\" fill=\"#383838\"/>\n</svg>\n",
+                   "mobileStyles": {},
+                   "originalElement": "__raw_html__",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
                   }
                  ],
-                 "element": "p",
-                 "innerHTML": "<p>Address Title</p>",
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
                  "mobileStyles": {},
+                 "originalElement": "",
                  "props": {},
                  "rawStyles": {},
                  "tabletStyles": {}
@@ -2838,31 +4588,25 @@
                  "activeState": null,
                  "attributes": {},
                  "baseStyles": {
-                  "fontSize": "12px",
-                  "height": "fit-content",
-                  "lineHeight": "1.4",
-                  "minWidth": "10px",
-                  "position": "static",
-                  "width": "fit-content"
+                  "color": "rgb(56, 56, 56)",
+                  "fontSize": "14px",
+                  "fontWeight": "420",
+                  "letterSpacing": "0.28px",
+                  "lineHeight": "115% "
                  },
                  "blockClientScript": "",
                  "blockDataScript": "",
-                 "blockId": "1i6pceje8",
+                 "blockId": "4mewl77jo",
+                 "blockName": "Discover",
                  "children": [],
                  "classes": [],
                  "customAttributes": {},
                  "dataKey": null,
-                 "dynamicValues": [
-                  {
-                   "comesFrom": "blockDataScript",
-                   "key": "cart_data.cart_quotation.address_display",
-                   "property": "innerHTML",
-                   "type": "key"
-                  }
-                 ],
+                 "dynamicValues": [],
                  "element": "p",
-                 "innerHTML": "<p>Address Details</p>",
+                 "innerHTML": "<p>Add a new billing address</p>",
                  "mobileStyles": {},
+                 "originalElement": "",
                  "props": {},
                  "rawStyles": {},
                  "tabletStyles": {}
@@ -2873,14 +4617,398 @@
                "dataKey": null,
                "dynamicValues": [],
                "element": "div",
+               "innerHTML": "",
                "mobileStyles": {},
+               "originalElement": "",
                "props": {},
                "rawStyles": {},
-               "tabletStyles": {},
-               "visibilityCondition": {
-                "comesFrom": "blockDataScript",
-                "key": "visible"
-               }
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "flex-start",
+                "alignSelf": "stretch",
+                "display": "flex",
+                "flexDirection": "column",
+                "gap": "16px",
+                "width": "100%"
+               },
+               "blockClientScript": "this.style.display = \"none\";\n\nlisten(\"open-new-billing-address-form\", () => {\n  this.style.display = \"flex\"\n})\n\n",
+               "blockDataScript": "",
+               "blockId": "vhlzlsj7d",
+               "blockName": "New Shipping Address Form",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "alignSelf": "stretch",
+                  "display": "flex",
+                  "gap": "8px",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "b8lab2z7e",
+                 "blockName": "Title / PIN",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {
+                    "placeholder": "Title"
+                   },
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "backgroundColor": "rgb(243, 243, 243)",
+                    "borderRadius": " 8px",
+                    "display": "flex",
+                    "fontSize": "14px",
+                    "gap": "13px",
+                    "height": "32px",
+                    "padding": "8px 10px",
+                    "width": "217px"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "2wnq7cxhd",
+                   "blockName": "Title",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {
+                    "name": "address_title"
+                   },
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "input",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {
+                    "border": "none",
+                    "flex": "1 0 0"
+                   },
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {
+                    "placeholder": "Postal Code"
+                   },
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "backgroundColor": "rgb(243, 243, 243)",
+                    "borderRadius": " 8px",
+                    "display": "flex",
+                    "fontSize": "14px",
+                    "gap": "13px",
+                    "height": "32px",
+                    "padding": "8px 10px",
+                    "width": "217px"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "48le4cpbq",
+                   "blockName": "Postal Code",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {
+                    "name": "pincode"
+                   },
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "input",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {
+                    "border": "none",
+                    "flex": "1 0 0"
+                   },
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {
+                  "placeholder": "Address Line 1"
+                 },
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "alignSelf": "stretch",
+                  "backgroundColor": "rgb(243, 243, 243)",
+                  "borderRadius": " 8px",
+                  "display": "flex",
+                  "fontSize": "14px",
+                  "gap": "13px",
+                  "height": "32px",
+                  "padding": "8px 10px",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "8qqopzlxs",
+                 "blockName": "Address Line 1",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {
+                  "name": "address_line1"
+                 },
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "input",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {
+                  "border": "none"
+                 },
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {
+                  "placeholder": "Address Line 2"
+                 },
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "alignSelf": "stretch",
+                  "backgroundColor": "rgb(243, 243, 243)",
+                  "borderRadius": " 8px",
+                  "display": "flex",
+                  "fontSize": "14px",
+                  "gap": "13px",
+                  "height": "32px",
+                  "padding": "8px 10px",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "5vu7nahj4",
+                 "blockName": "Address Line 2",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {
+                  "name": "address_line2"
+                 },
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "input",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {
+                  "border": "none"
+                 },
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "alignSelf": "stretch",
+                  "display": "flex",
+                  "gap": "8px",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "wdmqtybem",
+                 "blockName": "City / State / Country",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {
+                    "placeholder": "City"
+                   },
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "backgroundColor": "rgb(243, 243, 243)",
+                    "borderRadius": " 8px",
+                    "display": "flex",
+                    "fontSize": "14px",
+                    "gap": "13px",
+                    "height": "32px",
+                    "padding": "8px 10px",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "huqpv6v6h",
+                   "blockName": "City",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {
+                    "name": "city"
+                   },
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "input",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {
+                    "border": "none"
+                   },
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {
+                    "placeholder": "State"
+                   },
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "backgroundColor": "rgb(243, 243, 243)",
+                    "borderRadius": " 8px",
+                    "display": "flex",
+                    "fontSize": "14px",
+                    "gap": "13px",
+                    "height": "32px",
+                    "padding": "8px 10px",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "nuie3je21",
+                   "blockName": "State",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {
+                    "name": "state"
+                   },
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "input",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {
+                    "border": "none"
+                   },
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {
+                    "placeholder": "Country"
+                   },
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "backgroundColor": "rgb(243, 243, 243)",
+                    "borderRadius": " 8px",
+                    "display": "flex",
+                    "fontSize": "14px",
+                    "gap": "13px",
+                    "height": "32px",
+                    "padding": "8px 10px",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "vl8k9kbvn",
+                   "blockName": "Country",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {
+                    "name": "country"
+                   },
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "input",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {
+                    "border": "none"
+                   },
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {
+                  "placeholder": "Phone"
+                 },
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "alignSelf": "stretch",
+                  "backgroundColor": "rgb(243, 243, 243)",
+                  "borderRadius": " 8px",
+                  "display": "flex",
+                  "fontSize": "14px",
+                  "gap": "13px",
+                  "height": "32px",
+                  "padding": "8px 10px",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "33lchsq5t",
+                 "blockName": "Phone",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {
+                  "name": "phone"
+                 },
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "input",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {
+                  "border": "none"
+                 },
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "section",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
               },
               {
                "activeState": null,
@@ -2892,10 +5020,6 @@
                 "flexShrink": 0,
                 "gap": "6px",
                 "justifyContent": "flex-start",
-                "marginBottom": "0px",
-                "marginLeft": "0px",
-                "marginRight": "0px",
-                "marginTop": "12px",
                 "overflow": "hidden",
                 "position": "static",
                 "width": "100%"
@@ -2903,7 +5027,7 @@
                "blockClientScript": "",
                "blockDataScript": "block.block_data = {}\nblock.block_data[\"same_address\"] = block.same_address",
                "blockId": "y1p3c9o4a",
-               "blockName": "container",
+               "blockName": "Same Address",
                "children": [
                 {
                  "activeState": null,
@@ -2956,7 +5080,7 @@
                  "dataKey": null,
                  "dynamicValues": [],
                  "element": "p",
-                 "innerHTML": "<p>Use the same as Shipping Address</p>",
+                 "innerHTML": "<p>Billing address is same as Shipping Address</p>",
                  "mobileStyles": {},
                  "props": {},
                  "rawStyles": {},
@@ -2990,9 +5114,210 @@
            "dataKey": null,
            "dynamicValues": [],
            "element": "div",
-           "mobileStyles": {
-            "padding": "24px"
+           "mobileStyles": {},
+           "props": {},
+           "rawStyles": {},
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "flex-start",
+            "alignSelf": "stretch",
+            "display": "flex",
+            "flexDirection": "column",
+            "gap": "16px",
+            "width": "100%"
            },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "qprpnh1lw",
+           "blockName": "Payment",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignSelf": "stretch",
+              "color": "rgb(0, 0, 0)",
+              "fontSize": "14px",
+              "fontWeight": "600",
+              "letterSpacing": "0.21px",
+              "lineHeight": "115% "
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "1kb0qull0",
+             "blockName": "Payment",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "p",
+             "innerHTML": "<p>Payment</p>",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "flex-start",
+              "alignSelf": "stretch",
+              "backgroundColor": "rgb(248, 248, 248)",
+              "border": "1px solid  #EDEDED",
+              "borderColor": "rgb(237, 237, 237)",
+              "borderRadius": "12px",
+              "borderStyle": "solid",
+              "borderWidth": "1px",
+              "boxSizing": "border-box",
+              "display": "flex",
+              "gap": "10px",
+              "padding": "14px 12px",
+              "width": "100%"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "mrpbnmzhg",
+             "blockName": "alerts",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "display": "flex",
+                "gap": "8px",
+                "padding": "2.5px 0"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "0r6putrp9",
+               "blockName": "prefix",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "height": "16px",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "z0krpm376",
+                 "blockName": "icon/line/payment-card",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "svg",
+                 "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M13 2C14.1046 2 15 2.89543 15 4V12L14.9893 12.2041C14.8938 13.1457 14.1457 13.8938 13.2041 13.9893L13 14H3L2.7959 13.9893C1.85435 13.8938 1.1062 13.1457 1.01074 12.2041L1 12V4C1 2.89543 1.89543 2 3 2H13ZM2 6.38867V12C2 12.5523 2.44772 13 3 13H13C13.5523 13 14 12.5523 14 12V6.38867H2ZM3 3C2.44772 3 2 3.44772 2 4V5.38867H14V4C14 3.44772 13.5523 3 13 3H3Z\" fill=\"#525252\"/>\n</svg>\n",
+                 "mobileStyles": {},
+                 "originalElement": "__raw_html__",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "section",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "flex-start",
+                "display": "flex",
+                "flexDirection": "column",
+                "gap": "2px",
+                "justifyContent": "center",
+                "width": "392px"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "429ye89lb",
+               "blockName": "content",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignSelf": "stretch",
+                  "color": "rgb(124, 124, 124)",
+                  "fontSize": "13px",
+                  "fontWeight": "420",
+                  "letterSpacing": "0.195px",
+                  "lineHeight": "150% "
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "fkjyfjq01",
+                 "blockName": "title",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "p",
+                 "innerHTML": "<p>You'll be redirected to a secure payment gateway to complete your purchase. All major payment methods are accepted.</p>",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "section",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {
+                "flex": "1 0 0"
+               },
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "div",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "section",
+           "innerHTML": "",
+           "mobileStyles": {},
+           "originalElement": "",
            "props": {},
            "rawStyles": {},
            "tabletStyles": {}
@@ -6188,6 +8513,78 @@
            "referenceBlockId": null,
            "tabletStyles": {},
            "visibilityCondition": null
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "center",
+            "alignSelf": "stretch",
+            "backgroundColor": "rgb(23, 23, 23)",
+            "borderRadius": "10px",
+            "display": "flex",
+            "gap": "8px",
+            "height": "40px",
+            "justifyContent": "center",
+            "padding": "10px 12px",
+            "width": "100%"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "bcmx6q3dg",
+           "blockName": "button",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "color": "rgb(255, 255, 255)",
+              "fontSize": "16px",
+              "fontWeight": "500",
+              "letterSpacing": "0.24px",
+              "lineHeight": "115% "
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "9eg2e93ht",
+             "blockName": "Discover",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "p",
+             "extendedFromComponent": null,
+             "innerHTML": "<p>Place Order</p>",
+             "isChildOfComponent": null,
+             "isRepeaterBlock": false,
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "referenceBlockId": null,
+             "tabletStyles": {},
+             "visibilityCondition": null
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "div",
+           "extendedFromComponent": null,
+           "innerHTML": "",
+           "isChildOfComponent": null,
+           "isRepeaterBlock": false,
+           "mobileStyles": {
+            "display": "flex"
+           },
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": null,
+           "tabletStyles": {},
+           "visibilityCondition": null
           }
          ],
          "classes": [],
@@ -6213,6 +8610,7 @@
          },
          "referenceBlockId": null,
          "tabletStyles": {
+          "order": "1",
           "width": "100%"
          },
          "visibilityCondition": null
@@ -6221,9 +8619,10 @@
          "activeState": null,
          "attributes": {},
          "baseStyles": {
+          "__last_display": "flex",
           "alignItems": "center",
           "alignSelf": "stretch",
-          "display": "flex",
+          "display": "none",
           "gap": "10px",
           "height": "1001px",
           "padding": "0px"
@@ -7096,181 +9495,48 @@
               "width": "375.9999694824219px"
              },
              "blockClientScript": "",
-             "blockDataScript": "block.coupon_code_applied = block.cart_data.get(\"cart_quotation\").get(\"coupon_code\")\nblock.coupon_code_not_applied = not bool(block.cart_data.get(\"cart_quotation\").get(\"coupon_code\"))",
-             "blockId": "9dn59p5at",
-             "blockName": "Coupon Code",
+             "blockDataScript": "",
+             "blockId": "gbcokbjdf",
+             "blockName": "divider",
              "children": [
               {
                "activeState": null,
                "attributes": {},
                "baseStyles": {
-                "display": "flex",
-                "flexDirection": "row",
-                "flexShrink": 0,
-                "gap": "8px",
-                "height": "fit-content",
-                "marginBottom": "0px",
-                "marginLeft": "0px",
-                "marginRight": "0px",
-                "marginTop": "12px",
-                "overflow": "hidden",
-                "width": "fit-content"
+                "alignSelf": "stretch",
+                "height": "1px",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "width": "100%"
                },
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "mny4tp7em",
-               "blockName": "Apply Code",
-               "children": [
-                {
-                 "activeState": null,
-                 "attributes": {
-                  "placeholder": "Discount code or Gift Card"
-                 },
-                 "baseStyles": {
-                  "alignItems": "center",
-                  "backgroundColor": "rgb(255, 255, 255)",
-                  "border": "1px solid  #E2E2E2",
-                  "borderColor": "rgb(226, 226, 226)",
-                  "borderRadius": " 8px",
-                  "borderStyle": "solid",
-                  "borderWidth": "1px",
-                  "boxSizing": "border-box",
-                  "display": "flex",
-                  "fontSize": "14px",
-                  "gap": "14px",
-                  "height": "32px",
-                  "padding": "8px 10px",
-                  "width": "286px"
-                 },
-                 "blockClientScript": "",
-                 "blockDataScript": "",
-                 "blockId": "80m6fr9xd",
-                 "blockName": "input-text",
-                 "children": [],
-                 "classes": [
-                  "coupon-code-input"
-                 ],
-                 "customAttributes": {},
-                 "dataKey": null,
-                 "dynamicValues": [],
-                 "element": "input",
-                 "extendedFromComponent": null,
-                 "innerHTML": "",
-                 "isChildOfComponent": null,
-                 "isRepeaterBlock": false,
-                 "mobileStyles": {},
-                 "originalElement": "",
-                 "props": {},
-                 "rawStyles": {},
-                 "referenceBlockId": null,
-                 "tabletStyles": {
-                  "flexGrow": 1,
-                  "flexShrink": 0
-                 },
-                 "visibilityCondition": null
-                },
-                {
-                 "activeState": null,
-                 "attributes": {},
-                 "baseStyles": {
-                  "alignItems": "center",
-                  "backgroundColor": "rgb(243, 243, 243)",
-                  "borderRadius": " 8px",
-                  "display": "flex",
-                  "gap": "8px",
-                  "height": "32px",
-                  "justifyContent": "center",
-                  "padding": "7px 10px",
-                  "width": "81.99996948242188px"
-                 },
-                 "blockClientScript": "this.addEventListener(\"click\", async () => {\n  const input = document.querySelector(\".coupon-code-input\");\n  const code = input.value;\n  if (!code) {\n    alert(\"No code applied!\");\n    return;\n  }\n  frappe_call(\"POST\", \"webshop.webshop.shopping_cart.cart.apply_coupon_code\", {\n    applied_code: code,\n  })\n    .then((res) => {\n      window.location.reload();\n    })\n    .catch((e) => {\n      console.error(e);\n      dispatch(\"show-toast\", {\n        message: \"Could not apply coupon code!\",\n        type: \"error\",\n        timeout: 3000,\n      });\n    });\n});\n",
-                 "blockDataScript": "",
-                 "blockId": "u1ly4bict",
-                 "blockName": "button",
-                 "children": [
-                  {
-                   "activeState": null,
-                   "attributes": {},
-                   "baseStyles": {
-                    "color": "rgb(56, 56, 56)",
-                    "fontSize": "14px",
-                    "fontWeight": "500",
-                    "letterSpacing": "0.21px",
-                    "lineHeight": "115% "
-                   },
-                   "blockClientScript": "",
-                   "blockDataScript": "",
-                   "blockId": "vpqjf79ca",
-                   "blockName": "Discover",
-                   "children": [],
-                   "classes": [],
-                   "customAttributes": {},
-                   "dataKey": null,
-                   "dynamicValues": [],
-                   "element": "p",
-                   "extendedFromComponent": null,
-                   "innerHTML": "Apply",
-                   "isChildOfComponent": null,
-                   "isRepeaterBlock": false,
-                   "mobileStyles": {},
-                   "originalElement": "",
-                   "props": {},
-                   "rawStyles": {},
-                   "referenceBlockId": null,
-                   "tabletStyles": {},
-                   "visibilityCondition": null
-                  }
-                 ],
-                 "classes": [],
-                 "customAttributes": {},
-                 "dataKey": null,
-                 "dynamicValues": [],
-                 "element": "button",
-                 "extendedFromComponent": null,
-                 "innerHTML": "",
-                 "isChildOfComponent": null,
-                 "isRepeaterBlock": false,
-                 "mobileStyles": {},
-                 "originalElement": "",
-                 "props": {},
-                 "rawStyles": {
-                  "flex": "1 0 0"
-                 },
-                 "referenceBlockId": null,
-                 "tabletStyles": {},
-                 "visibilityCondition": null
-                }
-               ],
+               "blockId": "vxfwrz4tc",
+               "blockName": "value",
+               "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
-               "element": "div",
+               "element": "svg",
                "extendedFromComponent": null,
-               "innerHTML": null,
+               "innerHTML": "<svg width=\"376\" height=\"1\" viewBox=\"0 0 376 1\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect width=\"376\" height=\"1\" fill=\"#EDEDED\"/>\n</svg>\n",
                "isChildOfComponent": null,
                "isRepeaterBlock": false,
-               "mobileStyles": {
-                "width": "100%"
-               },
-               "originalElement": null,
+               "mobileStyles": {},
+               "originalElement": "__raw_html__",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": null,
-               "tabletStyles": {
-                "width": "100%"
-               },
-               "visibilityCondition": {
-                "comesFrom": "blockDataScript",
-                "key": "coupon_code_not_applied"
-               }
+               "tabletStyles": {},
+               "visibilityCondition": null
               }
              ],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
-             "element": "section",
+             "element": "div",
              "extendedFromComponent": null,
              "innerHTML": "",
              "isChildOfComponent": null,
@@ -7285,6 +9551,422 @@
              "tabletStyles": {
               "width": "100%"
              },
+             "visibilityCondition": null
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "flex-start",
+              "alignSelf": "stretch",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "8px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "j4t0zn506",
+             "blockName": "Coupon Code",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "borderRadius": " 8px",
+                "display": "flex",
+                "gap": "8px",
+                "justifyContent": "center",
+                "padding": "6px 8px 6px 0"
+               },
+               "blockClientScript": "let isCouponCodeFormOpen = false;\n\nthis.addEventListener(\"click\", () => {\n  let action;\n  if (isCouponCodeFormOpen) {\n    action = \"close\";\n  } else {\n    action = \"open\";\n  }\n  dispatch(`${action}-coupon-code-form`);\n  isCouponCodeFormOpen = !isCouponCodeFormOpen;\n});\n",
+               "blockDataScript": "block.visible = not bool(block.cart_data.get(\"cart_quotation\").get(\"coupon_code\", \"\"))",
+               "blockId": "rknxa4it0",
+               "blockName": "button",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "color": "rgb(56, 56, 56)",
+                  "fontSize": "14px",
+                  "fontWeight": "420",
+                  "letterSpacing": "0.28px",
+                  "lineHeight": "115% "
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "5vyxtyzlw",
+                 "blockName": "Hint",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "p",
+                 "innerHTML": "<p>Have a coupon code?</p>",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "flex-start",
+                  "display": "flex",
+                  "gap": "8px"
+                 },
+                 "blockClientScript": "listen(\"open-coupon-code-form\", () => {\n  this.style.transform = \"rotate(180deg)\";\n});\n\nlisten(\"close-coupon-code-form\", () => {\n  this.style.transform = \"rotate(0deg)\";\n});\n",
+                 "blockDataScript": "",
+                 "blockId": "jke3bk8y0",
+                 "blockName": "suffix",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "height": "16px",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "amgdq7qzs",
+                   "blockName": "icon/line/small-down",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "svg",
+                   "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M11.3848 5.65821C11.5735 5.45686 11.8903 5.44622 12.0918 5.63477C12.2931 5.82353 12.3038 6.14033 12.1152 6.3418L8.36524 10.3418C8.27072 10.4426 8.13821 10.5 8.00001 10.5C7.8618 10.5 7.72929 10.4426 7.63477 10.3418L3.88477 6.3418C3.69622 6.14033 3.70686 5.82353 3.90821 5.63477C4.10968 5.44622 4.42648 5.45686 4.61524 5.65821L8.00001 9.26856L11.3848 5.65821Z\" fill=\"#383838\"/>\n</svg>\n",
+                   "mobileStyles": {},
+                   "originalElement": "__raw_html__",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "button",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {},
+               "visibilityCondition": {
+                "comesFrom": "blockDataScript",
+                "key": "visible"
+               }
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "flex-start",
+                "alignSelf": "stretch",
+                "display": "flex",
+                "gap": "8px",
+                "width": "100%"
+               },
+               "blockClientScript": "this.style.display = \"none\";\n\nlisten(\"open-coupon-code-form\", () => {\n  this.style.display = \"flex\";\n});\n\nlisten(\"close-coupon-code-form\", () => {\n  this.style.display = \"none\";\n});\n",
+               "blockDataScript": "block.visible = not bool(block.cart_data.get(\"cart_quotation\").get(\"coupon_code\", \"\"))",
+               "blockId": "ittxgb9x0",
+               "blockName": "Coupon Code - Input",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {
+                  "placeholder": "Enter coupon code here"
+                 },
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "backgroundColor": "rgb(243, 243, 243)",
+                  "borderRadius": " 8px",
+                  "display": "flex",
+                  "fontSize": "14px",
+                  "gap": "13px",
+                  "height": "32px",
+                  "padding": "8px 10px",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "tx16uk0c0",
+                 "blockName": "Code Input Box",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {
+                  "id": "coupon-code-input"
+                 },
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "input",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {
+                  "border": "none"
+                 },
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "backgroundColor": "rgb(23, 23, 23)",
+                  "borderRadius": " 8px",
+                  "display": "flex",
+                  "gap": "8px",
+                  "height": "32px",
+                  "justifyContent": "center",
+                  "padding": "7px 10px"
+                 },
+                 "blockClientScript": "const couponCodeInput = document.querySelector(\"#coupon-code-input\");\n\nthis.addEventListener(\"click\", async () => {\n  if (couponCodeInput) {\n    const couponCode = couponCodeInput.value;\n    if (couponCode) {\n      try {\n        await frappe_call(\n          \"POST\",\n          \"webshop.webshop.shopping_cart.cart.apply_coupon_code\",\n          { applied_code: couponCode }\n        );\n        window.location.reload();\n      } catch (error) {\n        dispatch(\"show-toast\", {\n          type: \"error\",\n          message:\n            \"Could not apply coupon code! Please check if correct code is provided.\",\n        });\n      }\n    } else {\n      dispatch(\"show-toast\", {\n          type: \"warning\",\n          message:\n            \"No coupon code provided!\",\n        });\n    }\n  }\n});\n",
+                 "blockDataScript": "",
+                 "blockId": "k272z2kno",
+                 "blockName": "Apply Button",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "color": "rgb(255, 255, 255)",
+                    "fontSize": "14px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.21px",
+                    "lineHeight": "115% "
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "6uocq9bic",
+                   "blockName": "Apply",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "p",
+                   "innerHTML": "<p>Apply</p>",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "button",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "section",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {},
+               "visibilityCondition": {
+                "comesFrom": "blockDataScript",
+                "key": "visible"
+               }
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "alignSelf": "stretch",
+                "backgroundColor": "rgb(56, 56, 56)",
+                "borderRadius": "10px",
+                "display": "flex",
+                "gap": "16px",
+                "padding": "9.5px 16px",
+                "width": "100%"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "block.visible = bool(block.cart_data.get(\"cart_quotation\").get(\"coupon_code\", \"\"))",
+               "blockId": "kjrspi3vh",
+               "blockName": "Applied Code Infp",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "display": "flex",
+                  "gap": "8px",
+                  "width": "330px"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "gkonn4zyv",
+                 "blockName": "Code",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "color": "rgb(255, 255, 255)",
+                    "fontSize": "14px",
+                    "fontWeight": "420",
+                    "letterSpacing": "0.28px",
+                    "lineHeight": "150%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "aauqm536e",
+                   "blockName": "text",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [
+                    {
+                     "comesFrom": "blockDataScript",
+                     "key": "cart_data.cart_quotation.coupon_code",
+                     "property": "innerHTML",
+                     "type": "key"
+                    }
+                   ],
+                   "element": "p",
+                   "innerHTML": "<p>Applied Code</p>",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {
+                  "flex": "1 0 0"
+                 },
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "display": "flex",
+                  "gap": "8px",
+                  "overflowX": "hidden",
+                  "overflowY": "hidden"
+                 },
+                 "blockClientScript": "this.addEventListener(\"click\", async () => {\n  await frappe_call(\n    \"POST\",\n    \"webshop.webshop.shopping_cart.cart.remove_coupon_code\",\n    {}\n  );\n  window.location.reload();\n});\n",
+                 "blockDataScript": "",
+                 "blockId": "6jhfey9dk",
+                 "blockName": "suffix",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "height": "16px",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "pv7zgi0ag",
+                   "blockName": "icon/line/close",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "svg",
+                   "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M12.1493 3.14638C12.3445 2.95116 12.6611 2.95125 12.8563 3.14638C13.0516 3.34165 13.0516 3.65815 12.8563 3.85342L8.70889 8.00088L12.8573 12.1493C13.0525 12.3445 13.0525 12.6611 12.8573 12.8563C12.6621 13.0515 12.3455 13.0516 12.1503 12.8563L8.00185 8.70791L3.85342 12.8563C3.65815 13.0516 3.34165 13.0516 3.14638 12.8563C2.95125 12.6611 2.95116 12.3445 3.14638 12.1493L7.29482 8.00088L3.14736 3.85342C2.95218 3.65817 2.95218 3.34163 3.14736 3.14638C3.34261 2.95127 3.65917 2.95123 3.85439 3.14638L8.00185 7.29385L12.1493 3.14638Z\" fill=\"white\"/>\n</svg>\n",
+                   "mobileStyles": {},
+                   "originalElement": "__raw_html__",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "button",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "div",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {},
+               "visibilityCondition": {
+                "comesFrom": "blockDataScript",
+                "key": "visible"
+               }
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "section",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {},
              "visibilityCondition": {
               "comesFrom": "blockDataScript",
               "key": "cart_data.cart_settings.show_apply_coupon_code_in_website"
@@ -7303,7 +9985,7 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "gbcokbjdf",
+             "blockId": "38g7s3nyi",
              "blockName": "divider",
              "children": [
               {
@@ -7318,7 +10000,7 @@
                },
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "vxfwrz4tc",
+               "blockId": "pcrtfy9w3",
                "blockName": "value",
                "children": [],
                "classes": [],
@@ -7705,7 +10387,8 @@
                      "activeState": null,
                      "attributes": {},
                      "baseStyles": {
-                      "display": "flex",
+                      "__last_display": "flex",
+                      "display": "none",
                       "flexDirection": "column",
                       "flexShrink": 0,
                       "height": "fit-content",
@@ -8021,78 +10704,6 @@
            "referenceBlockId": null,
            "tabletStyles": {},
            "visibilityCondition": null
-          },
-          {
-           "activeState": null,
-           "attributes": {},
-           "baseStyles": {
-            "alignItems": "center",
-            "alignSelf": "stretch",
-            "backgroundColor": "rgb(23, 23, 23)",
-            "borderRadius": "10px",
-            "display": "flex",
-            "gap": "8px",
-            "height": "40px",
-            "justifyContent": "center",
-            "padding": "10px 12px",
-            "width": "100%"
-           },
-           "blockClientScript": "",
-           "blockDataScript": "",
-           "blockId": "j89cnzeik",
-           "blockName": "button",
-           "children": [
-            {
-             "activeState": null,
-             "attributes": {},
-             "baseStyles": {
-              "color": "rgb(255, 255, 255)",
-              "fontSize": "16px",
-              "fontWeight": "500",
-              "letterSpacing": "0.24px",
-              "lineHeight": "115% "
-             },
-             "blockClientScript": "",
-             "blockDataScript": "",
-             "blockId": "reefm48ya",
-             "blockName": "Discover",
-             "children": [],
-             "classes": [],
-             "customAttributes": {},
-             "dataKey": null,
-             "dynamicValues": [],
-             "element": "p",
-             "extendedFromComponent": null,
-             "innerHTML": "<p>Place Order</p>",
-             "isChildOfComponent": null,
-             "isRepeaterBlock": false,
-             "mobileStyles": {},
-             "originalElement": "",
-             "props": {},
-             "rawStyles": {},
-             "referenceBlockId": null,
-             "tabletStyles": {},
-             "visibilityCondition": null
-            }
-           ],
-           "classes": [],
-           "customAttributes": {},
-           "dataKey": null,
-           "dynamicValues": [],
-           "element": "div",
-           "extendedFromComponent": null,
-           "innerHTML": "",
-           "isChildOfComponent": null,
-           "isRepeaterBlock": false,
-           "mobileStyles": {
-            "display": "flex"
-           },
-           "originalElement": "",
-           "props": {},
-           "rawStyles": {},
-           "referenceBlockId": null,
-           "tabletStyles": {},
-           "visibilityCondition": null
           }
          ],
          "classes": [],
@@ -8115,6 +10726,7 @@
          },
          "referenceBlockId": null,
          "tabletStyles": {
+          "order": "0",
           "width": "100%"
          },
          "visibilityCondition": null
@@ -9269,7 +11881,11 @@
    "visibilityCondition": null
   }
  ],
- "client_scripts": [],
+ "client_scripts": [
+  {
+   "builder_script": "CSS-1f9e6"
+  }
+ ],
  "creation": "2026-03-25 13:38:14.626002",
  "disable_indexing": 0,
  "docstatus": 0,
@@ -9279,13 +11895,13 @@
  "idx": 1,
  "is_standard": 1,
  "is_template": 0,
- "modified": "2026-05-04 23:42:40.919950",
+ "modified": "2026-05-11 20:59:35.718867",
  "modified_by": "Administrator",
  "name": "cart",
  "owner": "Administrator",
  "page_name": "cart",
  "page_title": "Cart",
- "preview": "/files/cart-preview.webp?v=cee47",
+ "preview": "/files/cart-preview.webp?v=6788e",
  "project_folder": "webshop",
  "published": 1,
  "route": "cart-new"
