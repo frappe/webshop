@@ -1,14 +1,14 @@
 {
  "block": "{\n \"activeState\": null,\n \"attributes\": {},\n \"baseStyles\": {\n  \"alignItems\": \"center\",\n  \"display\": \"flex\",\n  \"flexDirection\": \"column\",\n  \"flexShrink\": 0,\n  \"height\": \"32px\",\n  \"justifyContent\": \"center\",\n  \"overflow\": \"hidden\",\n  \"width\": \"32px\"\n },\n \"blockClientScript\": \"const featherPromise = import(\\\"https://esm.sh/feather-icons\\\");\\n\\nconst renderIcon = async function () {\\n  this.querySelectorAll(\\\"svg\\\").forEach(el => el.remove());\\n\\n  const mod = await featherPromise;\\n  const feather = mod.default || mod; // \\ud83d\\udc48 IMPORTANT FIX\\n\\n  const name = (props.icon_name || \\\"\\\").trim().toLowerCase();\\n\\n  const icon = feather.icons[name];\\n\\n  if (!icon) {\\n    console.warn(\\\"Feather icon not found:\\\", name);\\n    return;\\n  }\\n\\n  const svg = icon.toSvg({\\n    width: getComputedStyle(this).width,\\n    height: getComputedStyle(this).height,\\n  });\\n\\n  this.insertAdjacentHTML(\\\"beforeend\\\", svg);\\n};\\n\\nrenderIcon.call(this);\",\n \"blockDataScript\": \"\",\n \"blockId\": \"r46qssmy8\",\n \"blockName\": \"container\",\n \"children\": [],\n \"classes\": [],\n \"customAttributes\": {},\n \"dataKey\": null,\n \"dynamicValues\": [],\n \"element\": \"div\",\n \"mobileStyles\": {},\n \"props\": {\n  \"icon_name\": {\n   \"comesFrom\": null,\n   \"isDynamic\": false,\n   \"isPassedDown\": true,\n   \"isStandard\": true,\n   \"label\": \"Icon Name\",\n   \"propOptions\": {\n    \"isRequired\": false,\n    \"options\": {\n     \"defaultValue\": \"home\"\n    },\n    \"type\": \"string\"\n   },\n   \"value\": null\n  }\n },\n \"rawStyles\": {},\n \"tabletStyles\": {}\n}",
- "component_id": "35a70ff03a092cde",
+ "component_id": "nw30smnw30smnw30",
  "component_name": "Icon - Feather",
- "creation": "2026-04-17 20:57:05.734905",
+ "creation": "2026-05-14 02:35:49.884340",
  "docstatus": 0,
  "doctype": "Builder Component",
  "for_web_page": null,
  "idx": 0,
- "modified": "2026-04-17 21:11:27.970397",
+ "modified": "2026-05-14 02:35:49.884340",
  "modified_by": "Administrator",
- "name": "35a70ff03a092cde",
+ "name": "nw30smnw30smnw30",
  "owner": "Administrator"
 }
