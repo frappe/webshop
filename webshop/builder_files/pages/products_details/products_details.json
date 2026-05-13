@@ -24,6 +24,44 @@
      "baseStyles": {},
      "blockClientScript": "",
      "blockDataScript": "",
+     "blockId": "u67ywjcbc",
+     "blockName": "Script Utils",
+     "children": [],
+     "classes": [],
+     "customAttributes": {},
+     "dataKey": null,
+     "dynamicValues": [],
+     "extendedFromComponent": "b750a31e32588656",
+     "mobileStyles": {},
+     "props": {},
+     "rawStyles": {},
+     "tabletStyles": {}
+    },
+    {
+     "activeState": null,
+     "attributes": {},
+     "baseStyles": {},
+     "blockClientScript": "",
+     "blockDataScript": "",
+     "blockId": "q10qlftaw",
+     "blockName": "container",
+     "children": [],
+     "classes": [],
+     "customAttributes": {},
+     "dataKey": null,
+     "dynamicValues": [],
+     "extendedFromComponent": "18b46ee85b2c2ce3",
+     "mobileStyles": {},
+     "props": {},
+     "rawStyles": {},
+     "tabletStyles": {}
+    },
+    {
+     "activeState": null,
+     "attributes": {},
+     "baseStyles": {},
+     "blockClientScript": "",
+     "blockDataScript": "",
      "blockId": "ckysttjpg",
      "blockName": "search-wrapper",
      "children": [
@@ -129,7 +167,10 @@
          "blockName": "search-box",
          "children": [],
          "classes": [],
-         "customAttributes": {},
+         "customAttributes": {
+          "border": "none",
+          "placeholder": "Search"
+         },
          "dataKey": null,
          "dynamicValues": [],
          "isChildOfComponent": "3981ec61ebe6946c",
@@ -2293,10 +2334,40 @@
       "width": "100%"
      },
      "blockClientScript": "",
-     "blockDataScript": "web_item_code = frappe.form_dict.item_code\nif web_item_code:\n  details = frappe.call(\"webshop.webshop.api.get_item\", item_code=web_item_code)\n  \n  block.item_details = details.product_info\n  block.cart_settings = details.cart_settings\n\n  has_variants = block.item_details.get(\"details\").get(\"has_variants\", False)\n  variant_of = block.item_details.get(\"details\").get(\"variant_of\", None)\n\n  block.show_variant_selector = bool(has_variants or variant_of)\n  if has_variants or variant_of:\n    block.show_variant_selector = bool(has_variants or variant_of)\n    block.variant_template_item_code = block.item_details.get(\"details\").get(\"item_code\") if has_variants else variant_of\n\n  block.has_specs = bool(len(details.product_info.get(\"details\").get(\"website_specifications\")))\n\n  images = []\n  if details.product_info.get(\"details\").get(\"website_image\"):\n    images.append({\"url\": details.product_info.get(\"details\").get(\"website_image\")})\n  if len(block.item_details.get(\"slideshow\", {}).get(\"slideshow_items\", {})):\n    for item in block.item_details.get(\"slideshow\", {}).get(\"slideshow_items\", {}):\n      images.append({\"url\": item.get(\"image\")})\n  # images.extend(images)\n  block.images = images\n  block.initially_selected_image = images[0] if len(images) else None\n  block.has_image = bool(len(images))\n\n  if block.item_details.get(\"attributes\"):\n    selected_attributes = {}\n    for item in block.item_details.get(\"attributes\"):\n      \n      selected_attributes[item.get(\"attribute\")] = item.get(\"attribute_value\")\n    block.selected_attribute = frappe.call(\"webshop.webshop.utils.misc.as_json\", val= block.item_details.get(\"attributes\"))\n    \n      ",
+     "blockDataScript": "web_item_code = frappe.form_dict.item_code\nif web_item_code:\n    details = frappe.call(\"webshop.webshop.api.get_item\", item_code=web_item_code)\n\n    block.item_details = details.product_info\n    block.cart_settings = details.cart_settings\n\n    has_variants = block.item_details.get(\"details\").get(\"has_variants\", False)\n    variant_of = block.item_details.get(\"details\").get(\"variant_of\", None)\n\n    block.show_variant_selector = bool(has_variants or variant_of)\n    if has_variants or variant_of:\n        block.show_variant_selector = bool(has_variants or variant_of)\n        block.variant_template_item_code = (\n            block.item_details.get(\"details\").get(\"item_code\")\n            if has_variants\n            else variant_of\n        )\n\n    block.has_specs = bool(\n        len(details.product_info.get(\"details\").get(\"website_specifications\"))\n    )\n\n    images = []\n    if details.product_info.get(\"details\").get(\"website_image\"):\n        images.append({\"url\": details.product_info.get(\"details\").get(\"website_image\")})\n    if len(block.item_details.get(\"slideshow\", {}).get(\"slideshow_items\", {})):\n        for item in block.item_details.get(\"slideshow\", {}).get(\"slideshow_items\", {}):\n            images.append({\"url\": item.get(\"image\")})\n    # images.extend(images)\n    block.images = images\n    block.initially_selected_image = images[0] if len(images) else None\n    block.has_image = bool(len(images))\n\n    if block.item_details.get(\"attributes\"):\n        selected_attributes = {}\n        for item in block.item_details.get(\"attributes\"):\n            selected_attributes[item.get(\"attribute\")] = item.get(\"attribute_value\")\n        block.selected_attribute = frappe.call(\n            \"webshop.webshop.utils.misc.as_json\",\n            val=block.item_details.get(\"attributes\"),\n        )\n\n\nreview_page = frappe.form_dict.review_page or 1\n\nblock.review_data = frappe.call(\n    \"webshop.webshop.doctype.item_review.item_review.get_item_reviews\",\n    web_item=block.item_details.get(\"details\").get(\"name\"),\n    start=0,\n    end=10 * review_page,\n    no_cache=True,\n)\n\nblock.combined_reviews_per_rating = [\n    {\n        \"percent\": block.review_data.get(\"reviews_per_rating\")[i],\n        \"count\": block.review_data.get(\"reviews_per_rating_count\")[i],\n        \"index\": i + 1,\n    }\n    for i in range(5)\n]\n\nblock.combined_reviews_per_rating.reverse()\n",
      "blockId": "gpd4a30qk",
      "blockName": "Product Details",
      "children": [
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {
+        "backgroundColor": "#ededed",
+        "display": "flex",
+        "flexDirection": "column",
+        "flexShrink": 0,
+        "height": "200px",
+        "overflow": "hidden",
+        "position": "static",
+        "width": "100%"
+       },
+       "blockClientScript": "window.renderStarRating = (rating) => {\n\t// Round to nearest 0.5\n\tconst rounded = Math.round(Math.max(0, Math.min(5, rating)) * 2) / 2;\n\n\tconst fullStars = Math.floor(rounded);\n\tconst halfStar = rounded % 1 !== 0;\n\tconst emptyStars = 5 - fullStars - (halfStar ? 1 : 0);\n\n\tconst fullStarSvg = `\n\t<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n\t\t<path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n\t\t\td=\"M7.35718 2.27146C7.64867 1.78711 8.35083 1.78713 8.64234 2.27146L10.4226 5.22947L13.7859 6.00779C14.3366 6.13538 14.5529 6.80356 14.1824 7.23045L11.9197 9.83787L12.2185 13.2773C12.267 13.8403 11.6989 14.2527 11.1785 14.0322L7.99976 12.6855L4.82105 14.0322C4.30067 14.2527 3.73249 13.8403 3.78101 13.2773L4.07984 9.83787L1.81714 7.23045C1.4466 6.80359 1.66302 6.13544 2.21363 6.00779L5.57691 5.22947L7.35718 2.27146Z\"\n\t\t\tfill=\"#171717\"/>\n\t</svg>`;\n\n\tconst emptyStarSvg = `\n\t<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n\t\t<path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n\t\t\td=\"M7.35718 2.27146C7.64867 1.78711 8.35083 1.78713 8.64234 2.27146L10.4226 5.22947L13.7859 6.00779C14.3366 6.13538 14.5529 6.80356 14.1824 7.23045L11.9197 9.83787L12.2185 13.2773C12.267 13.8403 11.6989 14.2527 11.1785 14.0322L7.99976 12.6855L4.82105 14.0322C4.30067 14.2527 3.73249 13.8403 3.78101 13.2773L4.07984 9.83787L1.81714 7.23045C1.4466 6.80359 1.66302 6.13544 2.21363 6.00779L5.57691 5.22947L7.35718 2.27146Z\"\n\t\t\tfill=\"#E5E5E5\"/>\n\t</svg>`;\n\n\tconst halfStarSvg = `\n\t<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n\t\t<defs>\n\t\t\t<linearGradient id=\"half-fill\">\n\t\t\t\t<stop offset=\"50%\" stop-color=\"#171717\"/>\n\t\t\t\t<stop offset=\"50%\" stop-color=\"#E5E5E5\"/>\n\t\t\t</linearGradient>\n\t\t</defs>\n\t\t<path fill-rule=\"evenodd\" clip-rule=\"evenodd\"\n\t\t\td=\"M7.35718 2.27146C7.64867 1.78711 8.35083 1.78713 8.64234 2.27146L10.4226 5.22947L13.7859 6.00779C14.3366 6.13538 14.5529 6.80356 14.1824 7.23045L11.9197 9.83787L12.2185 13.2773C12.267 13.8403 11.6989 14.2527 11.1785 14.0322L7.99976 12.6855L4.82105 14.0322C4.30067 14.2527 3.73249 13.8403 3.78101 13.2773L4.07984 9.83787L1.81714 7.23045C1.4466 6.80359 1.66302 6.13544 2.21363 6.00779L5.57691 5.22947L7.35718 2.27146Z\"\n\t\t\tfill=\"url(#half-fill)\"/>\n\t</svg>`;\n\n\treturn `\n\t\t<div style=\"display:flex;gap:4px;align-items:center;\">\n\t\t\t${fullStarSvg.repeat(fullStars)}\n\t\t\t${halfStar ? halfStarSvg : \"\"}\n\t\t\t${emptyStarSvg.repeat(emptyStars)}\n\t\t</div>\n\t`;\n}",
+       "blockDataScript": "",
+       "blockId": "mo7cddb34",
+       "blockName": "renderStarRatingScript",
+       "children": [],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "element": "div",
+       "mobileStyles": {},
+       "props": {},
+       "rawStyles": {
+        "display": "none"
+       },
+       "tabletStyles": {}
+      },
       {
        "activeState": null,
        "attributes": {},
@@ -2332,7 +2403,7 @@
             "alignItems": "center",
             "display": "flex",
             "flexDirection": "column",
-            "flexShrink": 0,
+            "flexShrink": 1,
             "gap": "12px",
             "justifyContent": "center",
             "maxWidth": "500px",
@@ -2526,7 +2597,7 @@
              "isRepeaterBlock": true,
              "mobileStyles": {
               "gridAutoColumns": "minmax(0, 1fr)",
-              "gridTemplateColumns": "repeat(4, minmax(0, 1fr))"
+              "gridTemplateColumns": "repeat(3, minmax(0, 1fr))"
              },
              "originalElement": "",
              "props": {},
@@ -2613,7 +2684,7 @@
             "alignSelf": "stretch",
             "display": "flex",
             "flexDirection": "column",
-            "flexShrink": 0,
+            "flexShrink": 1,
             "gap": "36px",
             "justifyContent": "flex-start",
             "position": "relative",
@@ -3478,10 +3549,10 @@
                     "gap": "20px",
                     "width": "100%"
                    },
-                   "blockClientScript": "console.log(props)",
-                   "blockDataScript": "",
+                   "blockClientScript": "let qty = 1;\n\n// TODO: add qty checks\n\nlisten(\"increase-cart-qty\", () => {\n  qty++;\n  dispatch(\"updated-qty\", { qty });\n});\n\nlisten(\"decrease-cart-qty\", () => {\n  qty = Math.max(qty - 1, 1);\n  dispatch(\"updated-qty\", { qty });\n});\n\nlisten(\"add-to-cart\", async () => {\n  try {\n    if (!qty) {\n      dispatch(\"show-error\", {\n        type: \"warning\",\n        message: \"Can not add 0 items!\",\n      });\n      return;\n    }\n    const { item_code } = block_data;\n    await frappe_call(\n      \"POST\",\n      \"webshop.webshop.shopping_cart.cart.update_cart\",\n      { item_code, qty }\n    );\n    window.location.reload();\n  } catch (e) {\n    console.error(e);\n    dispatch(\"show-toast\", {\n      message: \"Could not add item to cart!\",\n      type: \"error\",\n    });\n  }\n});\n",
+                   "blockDataScript": "block.block_data = {\"item_code\":block.item_details.get(\"details\").get(\"item_code\")}",
                    "blockId": "jyly4web0",
-                   "blockName": "Frame 206",
+                   "blockName": "Cart",
                    "children": [
                     {
                      "activeState": null,
@@ -3499,7 +3570,7 @@
                      "blockClientScript": "",
                      "blockDataScript": "",
                      "blockId": "uqpcu1xjq",
-                     "blockName": "button",
+                     "blockName": "Qty Editor",
                      "children": [
                       {
                        "activeState": null,
@@ -3509,10 +3580,10 @@
                         "display": "flex",
                         "gap": "8px"
                        },
-                       "blockClientScript": "",
+                       "blockClientScript": "this.addEventListener(\"click\", () => {\n  dispatch(\"decrease-cart-qty\");\n});\n",
                        "blockDataScript": "",
                        "blockId": "o6vk9cryk",
-                       "blockName": "prefix",
+                       "blockName": "Remove",
                        "children": [
                         {
                          "activeState": null,
@@ -3548,7 +3619,7 @@
                        "customAttributes": {},
                        "dataKey": null,
                        "dynamicValues": [],
-                       "element": "section",
+                       "element": "button",
                        "extendedFromComponent": null,
                        "innerHTML": "",
                        "isChildOfComponent": null,
@@ -3571,10 +3642,10 @@
                         "letterSpacing": "0.24px",
                         "lineHeight": "115% "
                        },
-                       "blockClientScript": "",
+                       "blockClientScript": "listen(\"updated-qty\", (e) => {\n  this.innerHTML = e.detail.qty\n})",
                        "blockDataScript": "",
                        "blockId": "izymysemx",
-                       "blockName": "Discover",
+                       "blockName": "Qty",
                        "children": [],
                        "classes": [],
                        "customAttributes": {},
@@ -3601,10 +3672,10 @@
                         "display": "flex",
                         "gap": "8px"
                        },
-                       "blockClientScript": "",
+                       "blockClientScript": "this.addEventListener(\"click\", () => {\n  dispatch(\"increase-cart-qty\");\n});\n",
                        "blockDataScript": "",
                        "blockId": "zdfuvmwb3",
-                       "blockName": "suffix",
+                       "blockName": "Add",
                        "children": [
                         {
                          "activeState": null,
@@ -3640,7 +3711,7 @@
                        "customAttributes": {},
                        "dataKey": null,
                        "dynamicValues": [],
-                       "element": "section",
+                       "element": "button",
                        "extendedFromComponent": null,
                        "innerHTML": "",
                        "isChildOfComponent": null,
@@ -3689,7 +3760,7 @@
                       "padding": "10px 12px",
                       "width": "434px"
                      },
-                     "blockClientScript": "",
+                     "blockClientScript": "this.addEventListener(\"click\", () => {\n  dispatch(\"add-to-cart\");\n});\n",
                      "blockDataScript": "",
                      "blockId": "q1pae5z63",
                      "blockName": "button",
@@ -3731,7 +3802,7 @@
                      "customAttributes": {},
                      "dataKey": null,
                      "dynamicValues": [],
-                     "element": "div",
+                     "element": "button",
                      "extendedFromComponent": null,
                      "innerHTML": "",
                      "isChildOfComponent": null,
@@ -3899,7 +3970,7 @@
                "baseStyles": {
                 "alignSelf": "stretch",
                 "color": "rgb(0, 0, 0)",
-                "fontSize": "18px",
+                "fontSize": "20px",
                 "fontWeight": "400",
                 "letterSpacing": "0.2px",
                 "lineHeight": "148% "
@@ -4860,7 +4931,7 @@
         "width": "100%"
        },
        "blockClientScript": "",
-       "blockDataScript": "",
+       "blockDataScript": "block.visible = bool(len(block.item_details.get(\"details\", {}).get(\"recommended_items\", [])))",
        "blockId": "uctt7l7v6",
        "blockName": "Similar Products",
        "children": [
@@ -5466,7 +5537,2290 @@
        "rawStyles": {},
        "referenceBlockId": null,
        "tabletStyles": {},
-       "visibilityCondition": null
+       "visibilityCondition": {
+        "comesFrom": "blockDataScript",
+        "key": "visible"
+       }
+      },
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {
+        "display": "flex",
+        "flexDirection": "column",
+        "flexShrink": 0,
+        "gap": "24px",
+        "height": "fit-content",
+        "overflow": "hidden",
+        "width": "100%"
+       },
+       "blockClientScript": "",
+       "blockDataScript": "",
+       "blockId": "fnqneh18e",
+       "blockName": "Ratings and Reviews Wrapper",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {
+          "color": "rgb(0, 0, 0)",
+          "fontSize": "32px",
+          "fontWeight": "600",
+          "letterSpacing": "0.48px",
+          "lineHeight": "160% "
+         },
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "v3csjcy9d",
+         "blockName": "Header",
+         "children": [],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "element": "p",
+         "extendedFromComponent": null,
+         "innerHTML": "<p>Ratings and Reviews</p>",
+         "isChildOfComponent": null,
+         "isRepeaterBlock": false,
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": null,
+         "tabletStyles": {},
+         "visibilityCondition": null
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {
+          "alignItems": "flex-start",
+          "display": "flex",
+          "flexDirection": "column",
+          "gap": "40px",
+          "width": "100%"
+         },
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "64v3xfn92",
+         "blockName": "Ratings and Reviews",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "flex-start",
+            "alignSelf": "stretch",
+            "display": "flex",
+            "justifyContent": "space-between",
+            "width": "100%"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "yl7li7h28",
+           "blockName": "Overview",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "center",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "8px",
+              "justifyContent": "center"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "00hga1qu7",
+             "blockName": "Total Reviews",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "column",
+                "gap": "2px"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "mabf952hv",
+               "blockName": "Average Rating",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "color": "rgb(23, 23, 23)",
+                  "fontSize": "64px",
+                  "fontWeight": "600",
+                  "lineHeight": "115% "
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "6i1klga8s",
+                 "blockName": "4.8",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [
+                  {
+                   "comesFrom": "blockDataScript",
+                   "key": "review_data.average_rating",
+                   "property": "innerHTML",
+                   "type": "key"
+                  }
+                 ],
+                 "element": "p",
+                 "innerHTML": "<p>4.8</p>",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "flex-start",
+                  "display": "flex",
+                  "flexWrap": "wrap",
+                  "gap": "0 4px"
+                 },
+                 "blockClientScript": "this.innerHTML = window.renderStarRating(block_data.average_rating)",
+                 "blockDataScript": "block.block_data = { \"average_rating\" : block.get(\"review_data\").get(\"average_rating\")}",
+                 "blockId": "eput9e7m1",
+                 "blockName": "Average Stars",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "height": "16px",
+                    "width": "16px"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "y0coigp5y",
+                   "blockName": "icon/solid/star",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "svg",
+                   "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M7.35718 2.27146C7.64867 1.78711 8.35083 1.78713 8.64234 2.27146L10.4226 5.22947L13.7859 6.00779C14.3366 6.13538 14.5529 6.80356 14.1824 7.23045L11.9197 9.83787L12.2185 13.2773C12.267 13.8403 11.6989 14.2527 11.1785 14.0322L7.99976 12.6855L4.82105 14.0322C4.30067 14.2527 3.73249 13.8403 3.78101 13.2773L4.07984 9.83787L1.81714 7.23045C1.4466 6.80359 1.66302 6.13544 2.21363 6.00779L5.57691 5.22947L7.35718 2.27146Z\" fill=\"#171717\"/>\n</svg>\n",
+                   "mobileStyles": {},
+                   "originalElement": "__raw_html__",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "height": "16px",
+                    "width": "16px"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "t7zqo343d",
+                   "blockName": "icon/solid/star",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "svg",
+                   "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M7.35718 2.27146C7.64867 1.78711 8.35083 1.78713 8.64234 2.27146L10.4226 5.22947L13.7859 6.00779C14.3366 6.13538 14.5529 6.80356 14.1824 7.23045L11.9197 9.83787L12.2185 13.2773C12.267 13.8403 11.6989 14.2527 11.1785 14.0322L7.99976 12.6855L4.82105 14.0322C4.30067 14.2527 3.73249 13.8403 3.78101 13.2773L4.07984 9.83787L1.81714 7.23045C1.4466 6.80359 1.66302 6.13544 2.21363 6.00779L5.57691 5.22947L7.35718 2.27146Z\" fill=\"#171717\"/>\n</svg>\n",
+                   "mobileStyles": {},
+                   "originalElement": "__raw_html__",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "height": "16px",
+                    "width": "16px"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "c3xj3dvn5",
+                   "blockName": "icon/solid/star",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "svg",
+                   "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M7.35718 2.27146C7.64867 1.78711 8.35083 1.78713 8.64234 2.27146L10.4226 5.22947L13.7859 6.00779C14.3366 6.13538 14.5529 6.80356 14.1824 7.23045L11.9197 9.83787L12.2185 13.2773C12.267 13.8403 11.6989 14.2527 11.1785 14.0322L7.99976 12.6855L4.82105 14.0322C4.30067 14.2527 3.73249 13.8403 3.78101 13.2773L4.07984 9.83787L1.81714 7.23045C1.4466 6.80359 1.66302 6.13544 2.21363 6.00779L5.57691 5.22947L7.35718 2.27146Z\" fill=\"#171717\"/>\n</svg>\n",
+                   "mobileStyles": {},
+                   "originalElement": "__raw_html__",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "height": "16px",
+                    "width": "16px"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "g3srhqzqb",
+                   "blockName": "icon/solid/star",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "svg",
+                   "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M7.35718 2.27146C7.64867 1.78711 8.35083 1.78713 8.64234 2.27146L10.4226 5.22947L13.7859 6.00779C14.3366 6.13538 14.5529 6.80356 14.1824 7.23045L11.9197 9.83787L12.2185 13.2773C12.267 13.8403 11.6989 14.2527 11.1785 14.0322L7.99976 12.6855L4.82105 14.0322C4.30067 14.2527 3.73249 13.8403 3.78101 13.2773L4.07984 9.83787L1.81714 7.23045C1.4466 6.80359 1.66302 6.13544 2.21363 6.00779L5.57691 5.22947L7.35718 2.27146Z\" fill=\"#171717\"/>\n</svg>\n",
+                   "mobileStyles": {},
+                   "originalElement": "__raw_html__",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "height": "16px",
+                    "width": "16px"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "c0xtz144d",
+                   "blockName": "icon/line/star",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "svg",
+                   "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M7.12612 1.98428C7.51474 1.33852 8.45126 1.33863 8.83998 1.98428L10.4044 4.58389C10.544 4.81575 10.7717 4.98168 11.0353 5.04288L13.9914 5.72745C14.7257 5.89751 15.0157 6.78812 14.5216 7.35733L12.5324 9.64834L12.4699 9.72745C12.3346 9.91938 12.2707 10.1544 12.2912 10.3905L12.5529 13.413C12.614 14.1169 11.9528 14.6446 11.298 14.4657L11.1671 14.4208L8.37319 13.2372C8.12393 13.1317 7.84215 13.1316 7.59291 13.2372L4.79897 14.4208L4.66811 14.4657C4.01344 14.6444 3.35118 14.1168 3.41225 13.413L3.67494 10.3905C3.69544 10.1544 3.63161 9.91942 3.49623 9.72745L3.43373 9.64834L1.44448 7.35733C0.981568 6.82382 1.20732 6.00772 1.84194 5.76749L1.97475 5.72745L4.9308 5.04288C5.16139 4.98941 5.36435 4.85557 5.50502 4.66788L5.56166 4.58389L7.12612 1.98428ZM6.41811 5.09952C6.1389 5.56332 5.68376 5.89427 5.15639 6.01651L2.20033 6.70108L4.18959 8.99307C4.54431 9.40193 4.71777 9.9372 4.67104 10.4765L4.40932 13.4999L7.20326 12.3163C7.7017 12.1052 8.26438 12.1053 8.76283 12.3163L11.5568 13.4999L11.2951 10.4765C11.2483 9.93727 11.4219 9.4019 11.7765 8.99307L13.7658 6.70108L10.8097 6.01651C10.2824 5.89421 9.82714 5.5633 9.54799 5.09952L7.98256 2.49991L6.41811 5.09952Z\" fill=\"#171717\"/>\n</svg>\n",
+                   "mobileStyles": {},
+                   "originalElement": "__raw_html__",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {
+                  "alignContent": "flex-start"
+                 },
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "section",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "color": "rgb(23, 23, 23)",
+                "fontSize": "14px",
+                "fontWeight": "420",
+                "letterSpacing": "0.28px",
+                "lineHeight": "115% "
+               },
+               "blockClientScript": "",
+               "blockDataScript": "block.total_reviews = f\"{block.review_data.get(\"total_reviews\", 0)} review(s)\"",
+               "blockId": "hn2g04g9o",
+               "blockName": "142 reviews",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [
+                {
+                 "comesFrom": "blockDataScript",
+                 "key": "total_reviews",
+                 "property": "innerHTML",
+                 "type": "key"
+                }
+               ],
+               "element": "p",
+               "innerHTML": "<p>142 reviews</p>",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "section",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "flex-start",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "16px",
+              "width": "612px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "bnaw8kbyq",
+             "blockName": "Review Per Rating",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "display": "flex",
+                "flexDirection": "column",
+                "flexShrink": 0,
+                "gap": "16px",
+                "overflow": "hidden",
+                "width": "100%"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "vdu5cejsq",
+               "blockName": "repeater",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "alignSelf": "stretch",
+                  "display": "flex",
+                  "gap": "16px",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "yh4cf3sxd",
+                 "blockName": "Wrapper",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "display": "flex",
+                    "gap": "2px"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "ihh88v1ya",
+                   "blockName": "Star Number",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "color": "rgb(23, 23, 23)",
+                      "fontSize": "14px",
+                      "fontWeight": "420",
+                      "letterSpacing": "0.28px",
+                      "lineHeight": "115% ",
+                      "textAlign": "center",
+                      "width": "12px"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "0tnf1omu1",
+                     "blockName": "5",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [
+                      {
+                       "comesFrom": "blockDataScript",
+                       "key": "index",
+                       "property": "innerHTML",
+                       "type": "key"
+                      }
+                     ],
+                     "element": "p",
+                     "innerHTML": "<p>5</p>",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    },
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "height": "16px",
+                      "width": "16px"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "1w8lg3vq4",
+                     "blockName": "icon/solid/star",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "svg",
+                     "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M7.35718 2.27146C7.64867 1.78711 8.35083 1.78713 8.64234 2.27146L10.4226 5.22947L13.7859 6.00779C14.3366 6.13538 14.5529 6.80356 14.1824 7.23045L11.9197 9.83787L12.2185 13.2773C12.267 13.8403 11.6989 14.2527 11.1785 14.0322L7.99976 12.6855L4.82105 14.0322C4.30067 14.2527 3.73249 13.8403 3.78101 13.2773L4.07984 9.83787L1.81714 7.23045C1.4466 6.80359 1.66302 6.13544 2.21363 6.00779L5.57691 5.22947L7.35718 2.27146Z\" fill=\"#171717\"/>\n</svg>\n",
+                     "mobileStyles": {},
+                     "originalElement": "__raw_html__",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "section",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "alignItems": "flex-start",
+                    "backgroundColor": "rgb(243, 243, 243)",
+                    "borderRadius": "100px",
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "gap": "10px",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "wxvczps0s",
+                   "blockName": "Percentage",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "alignItems": "flex-start",
+                      "backgroundColor": "rgb(23, 23, 23)",
+                      "borderRadius": "16px",
+                      "display": "flex",
+                      "gap": "50px",
+                      "height": "4px",
+                      "overflowX": "hidden",
+                      "overflowY": "hidden",
+                      "width": "50%"
+                     },
+                     "blockClientScript": "this.style.width = block_data.percent ? `${block_data.percent}%` : \"0px\"",
+                     "blockDataScript": "block.block_data = {\"percent\": block.percent}",
+                     "blockId": "c0u4sar7p",
+                     "blockName": "value",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "section",
+                     "innerHTML": "",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "div",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {
+                    "flex": "1 0 0"
+                   },
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "color": "rgb(23, 23, 23)",
+                    "flexShrink": 0,
+                    "fontSize": "14px",
+                    "fontWeight": "420",
+                    "letterSpacing": "0.28px",
+                    "lineHeight": "115% ",
+                    "textAlign": "right"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "jmen46anp",
+                   "blockName": "No of reviews",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [
+                    {
+                     "comesFrom": "blockDataScript",
+                     "key": "count",
+                     "property": "innerHTML",
+                     "type": "key"
+                    }
+                   ],
+                   "element": "p",
+                   "innerHTML": "<p>0</p>",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": {
+                "comesFrom": "blockDataScript",
+                "key": "combined_reviews_per_rating",
+                "property": "innerHTML",
+                "type": "key"
+               },
+               "dynamicValues": [],
+               "element": "div",
+               "isRepeaterBlock": true,
+               "mobileStyles": {},
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "section",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "center",
+              "backgroundColor": "rgb(23, 23, 23)",
+              "borderRadius": " 8px",
+              "display": "flex",
+              "gap": "8px",
+              "justifyContent": "center",
+              "padding": "6px 8px"
+             },
+             "blockClientScript": "// TODO: hide if already given review\nthis.addEventListener(\"click\", () => {\n  dispatch(\"open-review-modal\");\n});\n",
+             "blockDataScript": "",
+             "blockId": "1lcr2g5fn",
+             "blockName": "button",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "color": "rgb(255, 255, 255)",
+                "fontSize": "14px",
+                "fontWeight": "420",
+                "letterSpacing": "0.28px",
+                "lineHeight": "115% "
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "cnzwe6wq1",
+               "blockName": "Discover",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "p",
+               "innerHTML": "<p>Write a review</p>",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "button",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "section",
+           "innerHTML": "",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "tabletStyles": {
+            "alignItems": "center",
+            "flexDirection": "column",
+            "gap": "12px"
+           }
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "flex-start",
+            "alignSelf": "stretch",
+            "display": "flex",
+            "flexDirection": "column",
+            "gap": "8px",
+            "width": "100%"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "lwd7c4j9r",
+           "blockName": "divider",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignSelf": "stretch",
+              "height": "1px",
+              "overflowX": "hidden",
+              "overflowY": "hidden",
+              "width": "100%"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "n5x28qkfz",
+             "blockName": "value",
+             "children": [],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "svg",
+             "innerHTML": "<svg width=\"1000\" height=\"1\" viewBox=\"0 0 1000 1\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect width=\"1000\" height=\"1\" fill=\"#EDEDED\"/>\n</svg>\n",
+             "mobileStyles": {},
+             "originalElement": "__raw_html__",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "div",
+           "innerHTML": "",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "tabletStyles": {}
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "flex-start",
+            "display": "flex",
+            "flexDirection": "column",
+            "gap": "32px",
+            "position": "static",
+            "width": "100%"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "block.visible = bool(len(block.review_data.get(\"reviews\")))",
+           "blockId": "2adx0sgdx",
+           "blockName": "Reviews",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "center",
+              "alignSelf": "stretch",
+              "display": "flex",
+              "justifyContent": "space-between",
+              "width": "100%"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "w4smegupb",
+             "blockName": "Header",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "color": "rgb(23, 23, 23)",
+                "fontSize": "16px",
+                "fontWeight": "600",
+                "letterSpacing": "0.24px",
+                "lineHeight": "115% ",
+                "textAlign": "center"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "r1e875lkf",
+               "blockName": "Reviews (142)",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "p",
+               "innerHTML": "<p>Reviews</p>",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "__last_display": "flex",
+                "alignItems": "center",
+                "backgroundColor": "rgb(243, 243, 243)",
+                "borderRadius": " 8px",
+                "display": "none",
+                "gap": "8px",
+                "justifyContent": "center",
+                "padding": "6px 8px"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "yk0fdxqnv",
+               "blockName": "button",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "display": "flex",
+                  "gap": "8px"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "qmya7z8bp",
+                 "blockName": "prefix",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "height": "16px",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "1xx92axmx",
+                   "blockName": "icon/line/sort",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "svg",
+                   "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M4.99985 3C5.27599 3 5.49985 3.22386 5.49985 3.5V11.293L7.12192 9.67188C7.31719 9.47672 7.63372 9.47665 7.82895 9.67188C8.02383 9.86713 8.02398 10.1838 7.82895 10.3789L5.35824 12.8477C5.33325 12.8734 5.30622 12.8971 5.27621 12.917C5.27197 12.9198 5.26684 12.9212 5.26254 12.9238C5.21246 12.9549 5.15731 12.9784 5.0975 12.9902C5.03305 13.003 4.96662 13.0031 4.90219 12.9902C4.80338 12.9706 4.71483 12.9221 4.64633 12.8535L2.17172 10.3789C1.97654 10.1837 1.97669 9.86716 2.17172 9.67188C2.36699 9.47672 2.68353 9.47665 2.87875 9.67188L4.49985 11.293V3.5C4.49985 3.22402 4.72393 3.00026 4.99985 3ZM11.0008 3C11.1409 3.00013 11.2674 3.05847 11.3582 3.15137L13.8289 5.62109C14.0239 5.81625 14.0238 6.13289 13.8289 6.32812C13.6337 6.52333 13.3172 6.52323 13.1219 6.32812L11.5008 4.70703V12.5C11.5008 12.776 11.2767 12.9997 11.0008 13C10.7249 12.9997 10.5008 12.776 10.5008 12.5V4.70605L8.87875 6.32812C8.68354 6.52333 8.367 6.52323 8.17172 6.32812C7.97676 6.13284 7.97656 5.81626 8.17172 5.62109L10.6463 3.14648C10.6557 3.13713 10.6667 3.12955 10.6766 3.12109C10.7639 3.04618 10.8768 3.00012 11.0008 3Z\" fill=\"#383838\"/>\n</svg>\n",
+                   "mobileStyles": {},
+                   "originalElement": "__raw_html__",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "color": "rgb(56, 56, 56)",
+                  "fontSize": "14px",
+                  "fontWeight": "420",
+                  "letterSpacing": "0.28px",
+                  "lineHeight": "115% "
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "7si01kpi6",
+                 "blockName": "Discover",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "p",
+                 "innerHTML": "Most recent",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "div",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "section",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "display": "flex",
+              "flexDirection": "column",
+              "flexShrink": 0,
+              "gap": "24px",
+              "overflow": "hidden",
+              "width": "100%"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "xqmexyfqh",
+             "blockName": "repeater",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "flex-start",
+                "alignSelf": "stretch",
+                "display": "flex",
+                "flexDirection": "column",
+                "gap": "24px",
+                "width": "100%"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "5rlnj3zpy",
+               "blockName": "Review Item",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "flex-start",
+                  "alignSelf": "stretch",
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "gap": "8px",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "cqj7act9o",
+                 "blockName": "Wrapper",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "alignItems": "flex-start",
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "gap": "8px",
+                    "justifyContent": "center",
+                    "opacity": "0.9",
+                    "padding": "5.5px 0",
+                    "width": "232px"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "icz6b27nn",
+                   "blockName": "advanced-cell",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "alignItems": "center",
+                      "alignSelf": "stretch",
+                      "display": "flex",
+                      "gap": "10px",
+                      "width": "100%"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "block.user_image = frappe.db.get_value('User', block.user, 'user_image')",
+                     "blockId": "rk9zwufg4",
+                     "blockName": "User Info",
+                     "children": [
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "alignItems": "flex-start",
+                        "display": "flex",
+                        "gap": "8px"
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "kx8kdc2va",
+                       "blockName": "Avatar",
+                       "children": [
+                        {
+                         "activeState": null,
+                         "attributes": {},
+                         "baseStyles": {
+                          "alignItems": "center",
+                          "borderRadius": " 100px",
+                          "display": "flex",
+                          "flexDirection": "column",
+                          "gap": "8px",
+                          "justifyContent": "center"
+                         },
+                         "blockClientScript": "",
+                         "blockDataScript": "",
+                         "blockId": "8ol9lvugn",
+                         "blockName": "avatar",
+                         "children": [
+                          {
+                           "activeState": null,
+                           "attributes": {
+                            "src": "/assets/webshop/builder_assets/imagebe8413.webp"
+                           },
+                           "baseStyles": {
+                            "backgroundColor": "rgb(250, 203, 60)",
+                            "borderRadius": "100px",
+                            "height": "32px",
+                            "objectFit": "cover",
+                            "width": "32px"
+                           },
+                           "blockClientScript": "",
+                           "blockDataScript": "block.user_image = block.user_image or f\"https://api.dicebear.com/9.x/initials/svg?seed={block.user}\"",
+                           "blockId": "nrs7q1fdp",
+                           "blockName": "avatar-image",
+                           "children": [],
+                           "classes": [],
+                           "customAttributes": {},
+                           "dataKey": null,
+                           "dynamicValues": [
+                            {
+                             "comesFrom": "blockDataScript",
+                             "key": "user_image",
+                             "property": "src",
+                             "type": "attribute"
+                            }
+                           ],
+                           "element": "img",
+                           "innerHTML": "",
+                           "mobileStyles": {},
+                           "originalElement": "",
+                           "props": {},
+                           "rawStyles": {},
+                           "tabletStyles": {}
+                          }
+                         ],
+                         "classes": [],
+                         "customAttributes": {},
+                         "dataKey": null,
+                         "dynamicValues": [],
+                         "element": "div",
+                         "innerHTML": "",
+                         "mobileStyles": {},
+                         "originalElement": "",
+                         "props": {},
+                         "rawStyles": {},
+                         "tabletStyles": {}
+                        }
+                       ],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [],
+                       "element": "section",
+                       "innerHTML": "",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {},
+                       "tabletStyles": {}
+                      },
+                      {
+                       "activeState": null,
+                       "attributes": {},
+                       "baseStyles": {
+                        "alignItems": "flex-start",
+                        "display": "flex",
+                        "flexDirection": "column",
+                        "gap": "6px",
+                        "width": "190px"
+                       },
+                       "blockClientScript": "",
+                       "blockDataScript": "",
+                       "blockId": "0e7sedrh4",
+                       "blockName": "content",
+                       "children": [
+                        {
+                         "activeState": null,
+                         "attributes": {},
+                         "baseStyles": {
+                          "alignItems": "baseline",
+                          "alignSelf": "stretch",
+                          "display": "flex",
+                          "gap": "4px",
+                          "width": "100%"
+                         },
+                         "blockClientScript": "",
+                         "blockDataScript": "",
+                         "blockId": "6fjwp1k6d",
+                         "blockName": "Name",
+                         "children": [
+                          {
+                           "activeState": null,
+                           "attributes": {},
+                           "baseStyles": {
+                            "color": "rgb(56, 56, 56)",
+                            "display": "-webkit-box",
+                            "fontSize": "14px",
+                            "fontWeight": "500",
+                            "letterSpacing": "0.21px",
+                            "lineHeight": "115% "
+                           },
+                           "blockClientScript": "",
+                           "blockDataScript": "",
+                           "blockId": "cxlzs7b5a",
+                           "blockName": "text",
+                           "children": [],
+                           "classes": [],
+                           "customAttributes": {},
+                           "dataKey": null,
+                           "dynamicValues": [
+                            {
+                             "comesFrom": "blockDataScript",
+                             "key": "user",
+                             "property": "innerHTML",
+                             "type": "key"
+                            }
+                           ],
+                           "element": "p",
+                           "innerHTML": "<p>Rahul K</p>",
+                           "mobileStyles": {},
+                           "originalElement": "",
+                           "props": {},
+                           "rawStyles": {
+                            "WebkitBoxOrient": "vertical",
+                            "WebkitLineClamp": "1",
+                            "overflow": "hidden",
+                            "textOverflow": "ellipsis"
+                           },
+                           "tabletStyles": {}
+                          },
+                          {
+                           "activeState": null,
+                           "attributes": {},
+                           "baseStyles": {
+                            "color": "rgb(124, 124, 124)",
+                            "display": "none",
+                            "fontSize": "13px",
+                            "fontWeight": "420",
+                            "letterSpacing": "0.26px",
+                            "lineHeight": "115% "
+                           },
+                           "blockClientScript": "",
+                           "blockDataScript": "",
+                           "blockId": "cf4k014rg",
+                           "blockName": "hint",
+                           "children": [],
+                           "classes": [],
+                           "customAttributes": {},
+                           "dataKey": null,
+                           "dynamicValues": [],
+                           "element": "p",
+                           "innerHTML": "· Variant 1",
+                           "mobileStyles": {},
+                           "originalElement": "",
+                           "props": {},
+                           "rawStyles": {},
+                           "tabletStyles": {}
+                          }
+                         ],
+                         "classes": [],
+                         "customAttributes": {},
+                         "dataKey": null,
+                         "dynamicValues": [],
+                         "element": "section",
+                         "innerHTML": "",
+                         "mobileStyles": {},
+                         "originalElement": "",
+                         "props": {},
+                         "rawStyles": {},
+                         "tabletStyles": {}
+                        },
+                        {
+                         "activeState": null,
+                         "attributes": {},
+                         "baseStyles": {
+                          "alignItems": "flex-start",
+                          "display": "flex",
+                          "flexWrap": "wrap",
+                          "gap": "0 4px"
+                         },
+                         "blockClientScript": "this.innerHTML = renderStarRating(block_data.rating)",
+                         "blockDataScript": "block.block_data = {\"rating\":block.rating * 5}",
+                         "blockId": "dt33vynj6",
+                         "blockName": "Stars",
+                         "children": [
+                          {
+                           "activeState": null,
+                           "attributes": {},
+                           "baseStyles": {
+                            "height": "16px",
+                            "width": "16px"
+                           },
+                           "blockClientScript": "",
+                           "blockDataScript": "",
+                           "blockId": "4whpkamto",
+                           "blockName": "icon/solid/star",
+                           "children": [],
+                           "classes": [],
+                           "customAttributes": {},
+                           "dataKey": null,
+                           "dynamicValues": [],
+                           "element": "svg",
+                           "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M7.35718 2.27146C7.64867 1.78711 8.35083 1.78713 8.64234 2.27146L10.4226 5.22947L13.7859 6.00779C14.3366 6.13538 14.5529 6.80356 14.1824 7.23045L11.9197 9.83787L12.2185 13.2773C12.267 13.8403 11.6989 14.2527 11.1785 14.0322L7.99976 12.6855L4.82105 14.0322C4.30067 14.2527 3.73249 13.8403 3.78101 13.2773L4.07984 9.83787L1.81714 7.23045C1.4466 6.80359 1.66302 6.13544 2.21363 6.00779L5.57691 5.22947L7.35718 2.27146Z\" fill=\"#171717\"/>\n</svg>\n",
+                           "mobileStyles": {},
+                           "originalElement": "__raw_html__",
+                           "props": {},
+                           "rawStyles": {},
+                           "tabletStyles": {}
+                          },
+                          {
+                           "activeState": null,
+                           "attributes": {},
+                           "baseStyles": {
+                            "height": "16px",
+                            "width": "16px"
+                           },
+                           "blockClientScript": "",
+                           "blockDataScript": "",
+                           "blockId": "14jvioogl",
+                           "blockName": "icon/solid/star",
+                           "children": [],
+                           "classes": [],
+                           "customAttributes": {},
+                           "dataKey": null,
+                           "dynamicValues": [],
+                           "element": "svg",
+                           "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M7.35718 2.27146C7.64867 1.78711 8.35083 1.78713 8.64234 2.27146L10.4226 5.22947L13.7859 6.00779C14.3366 6.13538 14.5529 6.80356 14.1824 7.23045L11.9197 9.83787L12.2185 13.2773C12.267 13.8403 11.6989 14.2527 11.1785 14.0322L7.99976 12.6855L4.82105 14.0322C4.30067 14.2527 3.73249 13.8403 3.78101 13.2773L4.07984 9.83787L1.81714 7.23045C1.4466 6.80359 1.66302 6.13544 2.21363 6.00779L5.57691 5.22947L7.35718 2.27146Z\" fill=\"#171717\"/>\n</svg>\n",
+                           "mobileStyles": {},
+                           "originalElement": "__raw_html__",
+                           "props": {},
+                           "rawStyles": {},
+                           "tabletStyles": {}
+                          },
+                          {
+                           "activeState": null,
+                           "attributes": {},
+                           "baseStyles": {
+                            "height": "16px",
+                            "width": "16px"
+                           },
+                           "blockClientScript": "",
+                           "blockDataScript": "",
+                           "blockId": "jyjbrervw",
+                           "blockName": "icon/solid/star",
+                           "children": [],
+                           "classes": [],
+                           "customAttributes": {},
+                           "dataKey": null,
+                           "dynamicValues": [],
+                           "element": "svg",
+                           "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M7.35718 2.27146C7.64867 1.78711 8.35083 1.78713 8.64234 2.27146L10.4226 5.22947L13.7859 6.00779C14.3366 6.13538 14.5529 6.80356 14.1824 7.23045L11.9197 9.83787L12.2185 13.2773C12.267 13.8403 11.6989 14.2527 11.1785 14.0322L7.99976 12.6855L4.82105 14.0322C4.30067 14.2527 3.73249 13.8403 3.78101 13.2773L4.07984 9.83787L1.81714 7.23045C1.4466 6.80359 1.66302 6.13544 2.21363 6.00779L5.57691 5.22947L7.35718 2.27146Z\" fill=\"#171717\"/>\n</svg>\n",
+                           "mobileStyles": {},
+                           "originalElement": "__raw_html__",
+                           "props": {},
+                           "rawStyles": {},
+                           "tabletStyles": {}
+                          },
+                          {
+                           "activeState": null,
+                           "attributes": {},
+                           "baseStyles": {
+                            "height": "16px",
+                            "width": "16px"
+                           },
+                           "blockClientScript": "",
+                           "blockDataScript": "",
+                           "blockId": "wfbt6w0nk",
+                           "blockName": "icon/solid/star",
+                           "children": [],
+                           "classes": [],
+                           "customAttributes": {},
+                           "dataKey": null,
+                           "dynamicValues": [],
+                           "element": "svg",
+                           "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M7.35718 2.27146C7.64867 1.78711 8.35083 1.78713 8.64234 2.27146L10.4226 5.22947L13.7859 6.00779C14.3366 6.13538 14.5529 6.80356 14.1824 7.23045L11.9197 9.83787L12.2185 13.2773C12.267 13.8403 11.6989 14.2527 11.1785 14.0322L7.99976 12.6855L4.82105 14.0322C4.30067 14.2527 3.73249 13.8403 3.78101 13.2773L4.07984 9.83787L1.81714 7.23045C1.4466 6.80359 1.66302 6.13544 2.21363 6.00779L5.57691 5.22947L7.35718 2.27146Z\" fill=\"#171717\"/>\n</svg>\n",
+                           "mobileStyles": {},
+                           "originalElement": "__raw_html__",
+                           "props": {},
+                           "rawStyles": {},
+                           "tabletStyles": {}
+                          },
+                          {
+                           "activeState": null,
+                           "attributes": {},
+                           "baseStyles": {
+                            "height": "16px",
+                            "width": "16px"
+                           },
+                           "blockClientScript": "",
+                           "blockDataScript": "",
+                           "blockId": "ns6i7sn3e",
+                           "blockName": "icon/line/star",
+                           "children": [],
+                           "classes": [],
+                           "customAttributes": {},
+                           "dataKey": null,
+                           "dynamicValues": [],
+                           "element": "svg",
+                           "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M7.12612 1.98428C7.51474 1.33852 8.45126 1.33863 8.83998 1.98428L10.4044 4.58389C10.544 4.81575 10.7717 4.98168 11.0353 5.04288L13.9914 5.72745C14.7257 5.89751 15.0157 6.78812 14.5216 7.35733L12.5324 9.64834L12.4699 9.72745C12.3346 9.91938 12.2707 10.1544 12.2912 10.3905L12.5529 13.413C12.614 14.1169 11.9528 14.6446 11.298 14.4657L11.1671 14.4208L8.37319 13.2372C8.12393 13.1317 7.84215 13.1316 7.59291 13.2372L4.79897 14.4208L4.66811 14.4657C4.01344 14.6444 3.35118 14.1168 3.41225 13.413L3.67494 10.3905C3.69544 10.1544 3.63161 9.91942 3.49623 9.72745L3.43373 9.64834L1.44448 7.35733C0.981568 6.82382 1.20732 6.00772 1.84194 5.76749L1.97475 5.72745L4.9308 5.04288C5.16139 4.98941 5.36435 4.85557 5.50502 4.66788L5.56166 4.58389L7.12612 1.98428ZM6.41811 5.09952C6.1389 5.56332 5.68376 5.89427 5.15639 6.01651L2.20033 6.70108L4.18959 8.99307C4.54431 9.40193 4.71777 9.9372 4.67104 10.4765L4.40932 13.4999L7.20326 12.3163C7.7017 12.1052 8.26438 12.1053 8.76283 12.3163L11.5568 13.4999L11.2951 10.4765C11.2483 9.93727 11.4219 9.4019 11.7765 8.99307L13.7658 6.70108L10.8097 6.01651C10.2824 5.89421 9.82714 5.5633 9.54799 5.09952L7.98256 2.49991L6.41811 5.09952Z\" fill=\"#171717\"/>\n</svg>\n",
+                           "mobileStyles": {},
+                           "originalElement": "__raw_html__",
+                           "props": {},
+                           "rawStyles": {},
+                           "tabletStyles": {}
+                          }
+                         ],
+                         "classes": [],
+                         "customAttributes": {},
+                         "dataKey": null,
+                         "dynamicValues": [],
+                         "element": "section",
+                         "innerHTML": "",
+                         "mobileStyles": {},
+                         "originalElement": "",
+                         "props": {},
+                         "rawStyles": {
+                          "alignContent": "flex-start"
+                         },
+                         "tabletStyles": {}
+                        }
+                       ],
+                       "classes": [],
+                       "customAttributes": {},
+                       "dataKey": null,
+                       "dynamicValues": [],
+                       "element": "section",
+                       "innerHTML": "",
+                       "mobileStyles": {},
+                       "originalElement": "",
+                       "props": {},
+                       "rawStyles": {
+                        "flex": "1 0 0"
+                       },
+                       "tabletStyles": {}
+                      }
+                     ],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [],
+                     "element": "section",
+                     "innerHTML": "",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "section",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "alignItems": "flex-start",
+                    "alignSelf": "stretch",
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "gap": "4px",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "0n7cyt8md",
+                   "blockName": "Content",
+                   "children": [
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "alignSelf": "stretch",
+                      "color": "rgb(23, 23, 23)",
+                      "fontSize": "14px",
+                      "fontWeight": "600",
+                      "letterSpacing": "0.21px",
+                      "lineHeight": "150% "
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "",
+                     "blockId": "fddovla50",
+                     "blockName": "Title",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [
+                      {
+                       "comesFrom": "blockDataScript",
+                       "key": "review_title",
+                       "property": "innerHTML",
+                       "type": "key"
+                      }
+                     ],
+                     "element": "p",
+                     "innerHTML": "<p>Exactly what a developer tee should be</p>",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    },
+                    {
+                     "activeState": null,
+                     "attributes": {},
+                     "baseStyles": {
+                      "color": "rgb(82, 82, 82)",
+                      "fontSize": "14px",
+                      "fontWeight": "420",
+                      "letterSpacing": "0.28px",
+                      "lineHeight": "150% ",
+                      "width": "800px"
+                     },
+                     "blockClientScript": "",
+                     "blockDataScript": "block.comment = block.comment or \"<i>No Comments provided</i>\"",
+                     "blockId": "k73i10qfu",
+                     "blockName": "Comment",
+                     "children": [],
+                     "classes": [],
+                     "customAttributes": {},
+                     "dataKey": null,
+                     "dynamicValues": [
+                      {
+                       "comesFrom": "blockDataScript",
+                       "key": "comment",
+                       "property": "innerHTML",
+                       "type": "key"
+                      }
+                     ],
+                     "element": "p",
+                     "innerHTML": "<p>Ordered a medium and it fits perfectly, not oversized, not slim. The fabric is dense enough that you don't have to worry about it going translucent after two washes. The Frappe logo is subtle, which I appreciate. Would order again.</p>",
+                     "mobileStyles": {},
+                     "originalElement": "",
+                     "props": {},
+                     "rawStyles": {},
+                     "tabletStyles": {}
+                    }
+                   ],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "section",
+                   "innerHTML": "",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "section",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "flex-start",
+                  "alignSelf": "stretch",
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "gap": "8px",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "mdrnw9p2m",
+                 "blockName": "divider",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "alignSelf": "stretch",
+                    "height": "1px",
+                    "overflowX": "hidden",
+                    "overflowY": "hidden",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "4vhbqupoh",
+                   "blockName": "value",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "svg",
+                   "innerHTML": "<svg width=\"1002\" height=\"1\" viewBox=\"0 0 1002 1\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect width=\"1002\" height=\"1\" fill=\"#EDEDED\"/>\n</svg>\n",
+                   "mobileStyles": {},
+                   "originalElement": "__raw_html__",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "div",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "section",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": {
+              "comesFrom": "blockDataScript",
+              "key": "review_data.reviews",
+              "property": "innerHTML",
+              "type": "key"
+             },
+             "dynamicValues": [],
+             "element": "div",
+             "isRepeaterBlock": true,
+             "mobileStyles": {},
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "center",
+              "backgroundColor": "rgb(243, 243, 243)",
+              "borderRadius": " 8px",
+              "display": "flex",
+              "gap": "8px",
+              "justifyContent": "center",
+              "padding": "6px 8px"
+             },
+             "blockClientScript": "function goToNextReviewPage() {\n  const url = new URL(window.location.href);\n\n  let currentPage = parseInt(url.searchParams.get(\"review_page\")) || 1;\n\n  url.searchParams.set(\"review_page\", currentPage + 1);\n\n  window.location.href = url.toString();\n}\n\nthis.addEventListener(\"click\", () => {\n  goToNextReviewPage();\n});\n",
+             "blockDataScript": "block.visible = block.review_data.get(\"total_reviews\", 0) > int(frappe.form_dict.review_page or \"1\") * 10",
+             "blockId": "i0vhl30qs",
+             "blockName": "button",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "color": "rgb(56, 56, 56)",
+                "fontSize": "14px",
+                "fontWeight": "420",
+                "letterSpacing": "0.28px",
+                "lineHeight": "115% "
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "rlfayhoe4",
+               "blockName": "Discover",
+               "children": [],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "p",
+               "innerHTML": "Show more",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "button",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {},
+             "visibilityCondition": {
+              "comesFrom": "blockDataScript",
+              "key": "visible"
+             }
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "section",
+           "innerHTML": "",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "tabletStyles": {},
+           "visibilityCondition": {
+            "comesFrom": "blockDataScript",
+            "key": "visible"
+           }
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "element": "section",
+         "innerHTML": "",
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "tabletStyles": {}
+        },
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {
+          "alignItems": "center",
+          "backgroundColor": "#ffffffc7",
+          "display": "flex",
+          "flexDirection": "column",
+          "flexShrink": 0,
+          "height": "100dvh",
+          "justifyContent": "center",
+          "left": "-100%",
+          "overflow": "hidden",
+          "position": "fixed",
+          "top": "-100%",
+          "width": "100%",
+          "zIndex": "999"
+         },
+         "blockClientScript": "listen(\"open-review-modal\", () => {\n  this.style.top = \"0px\";\n  this.style.left = \"0px\";\n});\n\nlisten(\"close-review-modal\", () => {\n  this.style.top = \"-100%\";\n  this.style.left = \"-100%\";\n});\n",
+         "blockDataScript": "block.block_data = { \"web_item\" : block.item_details.get(\"details\").get(\"name\") }",
+         "blockId": "3pt6wvzte",
+         "blockName": "Modal Background",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "alignItems": "flex-start",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "borderRadius": " 16px",
+            "boxShadow": "0 0 1.5px 0 rgba(0, 0, 0, 0.25), 0 0 10px 2px rgba(0, 0, 0, 0.03), 0 44px 52px -10px rgba(0, 0, 0, 0.10)",
+            "display": "flex",
+            "flexDirection": "column",
+            "gap": "20px",
+            "padding": "20px 24px 24px 24px",
+            "width": "400px"
+           },
+           "blockClientScript": "const state = {\n  web_item: block_data.web_item,\n  rating: 3.5 / 5,\n  title: \"\",\n  comment: \"\",\n};\n\nlisten(\"update-rating\", (e) => {\n  state.rating = e.detail.rating;\n});\n\nlisten(\"update-title\", (e) => {\n  state.title = e.detail.title;\n});\n\nlisten(\"update-comment\", (e) => {\n  state.comment = e.detail.comment;\n});\n\nlisten(\"submit-review\", async (e) => {\n  console.log(state)\n  try {\n    if (!state.title) {\n      dispatch(\"show-toast\", {\n        type: \"warning\",\n        message: \"Title is required!\",\n      });\n      return;\n    }\n    await frappe_call(\n      \"POST\",\n      \"webshop.webshop.doctype.item_review.item_review.add_item_review\",\n      { ...state }\n    );\n    window.location.reload();\n  } catch (error) {\n    dispatch(\"show-toast\", {\n      type: \"error\",\n      message: \"Could not add review!\",\n    });\n  }\n});\n",
+           "blockDataScript": "",
+           "blockId": "lzfl4nfc5",
+           "blockName": "Review Modal",
+           "children": [
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "center",
+              "alignSelf": "stretch",
+              "display": "flex",
+              "gap": "8px",
+              "width": "352px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "151sl5x75",
+             "blockName": "Header",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "flex-start",
+                "display": "flex",
+                "flexDirection": "column",
+                "gap": "2px",
+                "justifyContent": "center",
+                "width": "316px"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "q2539cu1k",
+               "blockName": "Text",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignSelf": "stretch",
+                  "color": "rgb(23, 23, 23)",
+                  "fontSize": "20px",
+                  "fontWeight": "600",
+                  "letterSpacing": "0.2px",
+                  "lineHeight": "115% "
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "2sehtxroy",
+                 "blockName": "text",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "p",
+                 "innerHTML": "<p>Write a review</p>",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "div",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {
+                "flex": "1 0 0"
+               },
+               "tabletStyles": {}
+              },
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "borderRadius": " 8px",
+                "display": "flex",
+                "gap": "6px",
+                "justifyContent": "center",
+                "padding": "6px"
+               },
+               "blockClientScript": "this.addEventListener(\"click\", () => {\n  dispatch(\"close-review-modal\");\n});\n",
+               "blockDataScript": "",
+               "blockId": "ftm8q6f0k",
+               "blockName": "Close Button",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "height": "16px",
+                  "width": "16px"
+                 },
+                 "blockClientScript": "",
+                 "blockDataScript": "",
+                 "blockId": "gc1oke403",
+                 "blockName": "icon/line/close",
+                 "children": [],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "svg",
+                 "innerHTML": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M12.1494 3.14648C12.3446 2.95126 12.6612 2.95135 12.8564 3.14648C13.0517 3.34175 13.0517 3.65825 12.8564 3.85352L8.70898 8.00098L12.8574 12.1494C13.0526 12.3446 13.0526 12.6612 12.8574 12.8564C12.6622 13.0516 12.3456 13.0517 12.1504 12.8564L8.00195 8.70801L3.85352 12.8564C3.65825 13.0517 3.34175 13.0517 3.14648 12.8564C2.95135 12.6612 2.95126 12.3446 3.14648 12.1494L7.29492 8.00098L3.14746 3.85352C2.95228 3.65827 2.95228 3.34173 3.14746 3.14648C3.34271 2.95137 3.65927 2.95132 3.85449 3.14648L8.00195 7.29395L12.1494 3.14648Z\" fill=\"#383838\"/>\n</svg>\n",
+                 "mobileStyles": {},
+                 "originalElement": "__raw_html__",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "button",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "div",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "flex-start",
+              "alignSelf": "stretch",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "16px",
+              "width": "352px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "qh3lfg3zz",
+             "blockName": "Main",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "flex-start",
+                "alignSelf": "stretch",
+                "display": "flex",
+                "flexDirection": "column",
+                "gap": "9px",
+                "position": "relative",
+                "width": "100%"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "c3s1ec0sn",
+               "blockName": "modal-content",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "flexShrink": 0,
+                  "gap": "12px",
+                  "overflow": "hidden",
+                  "position": "static",
+                  "width": "100%"
+                 },
+                 "blockClientScript": "const textArea = this.querySelector(\"#comment-input\");\n\ntextArea.addEventListener(\"input\", () => {\n  dispatch(\"update-comment\", { comment: textArea.value });\n});\n",
+                 "blockDataScript": "",
+                 "blockId": "mqwih47d0",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexShrink": 0,
+                    "height": "fit-content",
+                    "minHeight": "20px",
+                    "overflow": "hidden",
+                    "position": "static",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "function createStarRatingInput({\n  container,\n  count = 5,\n  defaultValue = 0,\n  filledColor = \"var(--color-text-primary)\",\n  emptyColor = \"var(--color-border-secondary)\",\n  onChange = null,\n} = {}) {\n  // ── Styles ────────────────────────────────────────────────────────────────\n  const STYLE_ID = \"star-rating-styles\";\n  if (!document.getElementById(STYLE_ID)) {\n    const style = document.createElement(\"style\");\n    style.id = STYLE_ID;\n    style.textContent = `\n      .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}\n      .star-rating-heading{font-size:13px;color:var(--color-text-secondary);margin:0 0 12px;letter-spacing:.02em;text-transform:uppercase;font-weight:500}\n      .star-rating-stars{display:inline-flex;gap:4px;cursor:pointer;padding:4px 0;position:relative}\n      .star-rating-slot{width:40px;height:40px;position:relative;flex-shrink:0}\n      .star-rating-slot .half-hit{position:absolute;top:0;left:0;width:50%;height:100%;z-index:2}\n      .star-rating-slot .full-hit{position:absolute;top:0;left:50%;width:50%;height:100%;z-index:2}\n      .star-rating-label{font-size:15px;color:var(--color-text-secondary);min-height:22px;margin-top:8px;transition:color .15s}\n      .star-rating-label.active{color:var(--color-text-primary);font-weight:500}\n      .star-rating-pill{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:8px 16px;border-radius:var(--border-radius-lg,12px);border:.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);font-size:14px;color:var(--color-text-secondary)}\n      .star-rating-pill-val{font-size:18px;font-weight:500;color:var(--color-text-primary)}\n      .star-rating-clear{background:none;border:.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md,8px);padding:6px 14px;font-size:13px;color:var(--color-text-secondary);cursor:pointer;margin-top:16px;display:none}\n      .star-rating-clear:hover{background:var(--color-background-secondary)}\n    `;\n    document.head.appendChild(style);\n  }\n\n  // ── Labels ────────────────────────────────────────────────────────────────\n  const LABELS = {\n    0.5: \"Terrible\",\n    1: \"Poor\",\n    1.5: \"Mediocre\",\n    2: \"Below average\",\n    2.5: \"Average\",\n    3: \"Decent\",\n    3.5: \"Good\",\n    4: \"Great\",\n    4.5: \"Excellent\",\n    5: \"Outstanding\",\n  };\n\n  const PATH =\n    \"M7.35718 2.27146C7.64867 1.78711 8.35083 1.78713 8.64234 2.27146L10.4226 5.22947L13.7859 6.00779C14.3366 6.13538 14.5529 6.80356 14.1824 7.23045L11.9197 9.83787L12.2185 13.2773C12.267 13.8403 11.6989 14.2527 11.1785 14.0322L7.99976 12.6855L4.82105 14.0322C4.30067 14.2527 3.73249 13.8403 3.78101 13.2773L4.07984 9.83787L1.81714 7.23045C1.4466 6.80359 1.66302 6.13544 2.21363 6.00779L5.57691 5.22947L7.35718 2.27146Z\";\n\n  let hovered = 0;\n  let selected = defaultValue;\n\n  // ── SVG builders ─────────────────────────────────────────────────────────\n  function starSVG(fill) {\n    const id = \"sr\" + Math.random().toString(36).slice(2);\n    const base = `viewBox=\"0 0 16 16\" width=\"40\" height=\"40\" xmlns=\"http://www.w3.org/2000/svg\"`;\n    const p = (color, clip = \"\") =>\n      `<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"${PATH}\" ${clip} fill=\"${color}\"/>`;\n\n    if (fill === \"full\") return `<svg ${base}>${p(filledColor)}</svg>`;\n    if (fill === \"empty\") return `<svg ${base}>${p(emptyColor)}</svg>`;\n    return `<svg ${base}>\n      <defs>\n        <clipPath id=\"${id}l\"><rect x=\"0\" y=\"0\" width=\"8\" height=\"16\"/></clipPath>\n        <clipPath id=\"${id}r\"><rect x=\"8\" y=\"0\" width=\"8\" height=\"16\"/></clipPath>\n      </defs>\n      ${p(filledColor, `clip-path=\"url(#${id}l)\"`)}\n      ${p(emptyColor, `clip-path=\"url(#${id}r)\"`)}\n    </svg>`;\n  }\n\n  // ── DOM ───────────────────────────────────────────────────────────────────\n  const root = document.createElement(\"div\");\n  root.className = \"star-rating-wrap\";\n\n  // const srLabel = document.createElement('h2');\n  // srLabel.className = 'sr-only';\n  // srLabel.textContent = 'Star rating input — select between 0 and ' + count + ' stars, half-star increments supported';\n\n  // const heading = document.createElement('p');\n  // heading.className = 'star-rating-heading';\n  // heading.textContent = 'Your rating';\n\n  const starsEl = document.createElement(\"div\");\n  starsEl.className = \"star-rating-stars\";\n  starsEl.setAttribute(\"role\", \"radiogroup\");\n  starsEl.setAttribute(\"aria-label\", \"Star rating\");\n\n  // const labelEl = document.createElement('div');\n  // labelEl.className = 'star-rating-label';\n  // labelEl.textContent = selected ? LABELS[selected] : 'Select a rating';\n  // if (selected) labelEl.classList.add('active');\n\n  // const resultWrap = document.createElement('div');\n  // resultWrap.style.display = selected ? 'block' : 'none';\n\n  // const pill = document.createElement('div');\n  // pill.className = 'star-rating-pill';\n\n  // const pillVal = document.createElement('span');\n  // pillVal.className = 'star-rating-pill-val';\n  // pillVal.textContent = selected ? (selected % 1 === 0 ? selected + '.0' : selected) : '—';\n\n  // const pillText = document.createElement('span');\n  // pillText.textContent = '/ ' + count + ' stars';\n\n  // pill.appendChild(pillVal);\n  // pill.appendChild(pillText);\n\n  // const clearBtn = document.createElement('button');\n  // clearBtn.className = 'star-rating-clear';\n  // clearBtn.textContent = 'Clear rating';\n  // clearBtn.style.display = selected ? 'inline-block' : 'none';\n\n  // resultWrap.appendChild(document.createElement('br'));\n  // resultWrap.appendChild(pill);\n  // resultWrap.appendChild(document.createElement('br'));\n  // resultWrap.appendChild(clearBtn);\n\n  // root.appendChild(srLabel);\n  // root.appendChild(heading);\n  root.appendChild(starsEl);\n  // root.appendChild(labelEl);\n  // root.appendChild(resultWrap);\n\n  // ── Render helpers ────────────────────────────────────────────────────────\n  function render(val) {\n    Array.from(starsEl.children).forEach((slot, i) => {\n      const n = i + 1;\n      slot.querySelector(\".star-svg\").innerHTML = starSVG(\n        val >= n ? \"full\" : val >= n - 0.5 ? \"half\" : \"empty\"\n      );\n    });\n  }\n\n  // function updateLabel(val) {\n  //   labelEl.textContent = val === 0 ? \"Select a rating\" : LABELS[val] || \"\";\n  //   labelEl.classList.toggle(\"active\", val !== 0);\n  // }\n\n  function selectVal(val) {\n    selected = val;\n    render(selected);\n    // updateLabel(selected);\n    // pillVal.textContent = selected % 1 === 0 ? selected + \".0\" : selected;\n    // resultWrap.style.display = \"block\";\n    // clearBtn.style.display = \"inline-block\";\n    if (typeof onChange === \"function\") onChange(selected);\n  }\n\n  function clearRating() {\n    selected = hovered = 0;\n    render(0);\n    // updateLabel(0);\n    // resultWrap.style.display = \"none\";\n    // clearBtn.style.display = \"none\";\n    if (typeof onChange === \"function\") onChange(null);\n  }\n\n  // clearBtn.addEventListener('click', clearRating);\n\n  // ── Build star slots ──────────────────────────────────────────────────────\n  for (let i = 1; i <= count; i++) {\n    const slot = document.createElement(\"div\");\n    slot.className = \"star-rating-slot\";\n\n    const svgEl = document.createElement(\"div\");\n    svgEl.className = \"star-svg\";\n    svgEl.style.cssText =\n      \"position:absolute;top:0;left:0;width:40px;height:40px\";\n    svgEl.innerHTML = starSVG(\n      selected >= i ? \"full\" : selected >= i - 0.5 ? \"half\" : \"empty\"\n    );\n\n    const halfHit = document.createElement(\"div\");\n    halfHit.className = \"half-hit\";\n    halfHit.setAttribute(\"role\", \"radio\");\n    halfHit.setAttribute(\"aria-label\", i - 0.5 + \" stars\");\n    halfHit.setAttribute(\"tabindex\", \"0\");\n\n    const fullHit = document.createElement(\"div\");\n    fullHit.className = \"full-hit\";\n    fullHit.setAttribute(\"role\", \"radio\");\n    fullHit.setAttribute(\"aria-label\", i + \" stars\");\n    fullHit.setAttribute(\"tabindex\", \"0\");\n\n    const n = i;\n    halfHit.addEventListener(\"mouseenter\", () => {\n      hovered = n - 0.5;\n      render(hovered);\n      // updateLabel(hovered);\n    });\n    fullHit.addEventListener(\"mouseenter\", () => {\n      hovered = n;\n      render(hovered);\n      // updateLabel(hovered);\n    });\n    halfHit.addEventListener(\"click\", () => selectVal(n - 0.5));\n    fullHit.addEventListener(\"click\", () => selectVal(n));\n    [halfHit, fullHit].forEach((el) =>\n      el.addEventListener(\"keydown\", (e) => {\n        if (e.key === \"Enter\" || e.key === \" \") {\n          e.preventDefault();\n          el.click();\n        }\n      })\n    );\n\n    slot.appendChild(svgEl);\n    slot.appendChild(halfHit);\n    slot.appendChild(fullHit);\n    starsEl.appendChild(slot);\n  }\n\n  starsEl.addEventListener(\"mouseleave\", () => {\n    hovered = 0;\n    render(selected);\n    // updateLabel(selected);\n  });\n\n  // ── Mount ─────────────────────────────────────────────────────────────────\n  const target =\n    container instanceof Element\n      ? container\n      : document.querySelector(container);\n  if (target) target.appendChild(root);\n\n  // ── Public API ────────────────────────────────────────────────────────────\n  return {\n    getValue: () => selected,\n    setValue: (val) => selectVal(val),\n    clear: clearRating,\n    element: root,\n  };\n}\n\nconst rating = createStarRatingInput({\n  container: this, // CSS selector or Element (required)\n  count: 5, // number of stars (default: 5)\n  defaultValue: 3.5, // pre-selected value (default: 0)\n  filledColor: \"#171717\", // filled star color (default: var(--color-text-primary))\n  emptyColor: \"#ccc\", // empty star color  (default: var(--color-border-secondary))\n  onChange: (val) => {\n    // fires on every selection (null when cleared)\n    dispatch(\"update-rating\", {rating: val / 5});\n  },\n});\n",
+                   "blockDataScript": "",
+                   "blockId": "wu95kvvhb",
+                   "blockName": "Star Input",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "div",
+                   "mobileStyles": {},
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {
+                    "placeholder": "Title of the review"
+                   },
+                   "baseStyles": {
+                    "backgroundColor": "rgb(243, 243, 243)",
+                    "borderRadius": "8px",
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexShrink": 0,
+                    "fontSize": "14px",
+                    "height": "32px",
+                    "overflow": "hidden",
+                    "overflowX": "hidden",
+                    "overflowY": "hidden",
+                    "position": "static",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "this.addEventListener(\"input\", () => {\n  dispatch(\"update-title\", { title: this.value });\n});\n",
+                   "blockDataScript": "",
+                   "blockId": "vzxw2ov6v",
+                   "blockName": "Title",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "input",
+                   "mobileStyles": {},
+                   "props": {},
+                   "rawStyles": {
+                    "border": "none"
+                   },
+                   "tabletStyles": {}
+                  },
+                  {
+                   "activeState": null,
+                   "attributes": {
+                    "placeholder": "Comments"
+                   },
+                   "baseStyles": {
+                    "backgroundColor": "rgb(243, 243, 243)",
+                    "borderRadius": "8px",
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexShrink": 0,
+                    "fontSize": "14px",
+                    "height": "84px",
+                    "overflow": "hidden",
+                    "overflowX": "hidden",
+                    "overflowY": "hidden",
+                    "position": "static",
+                    "width": "100%"
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "pvuasvwia",
+                   "blockName": "Comment",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {
+                    "id": "comment-input"
+                   },
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "textarea",
+                   "mobileStyles": {},
+                   "props": {},
+                   "rawStyles": {
+                    "border": "none"
+                   },
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "div",
+                 "mobileStyles": {},
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "div",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "section",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            },
+            {
+             "activeState": null,
+             "attributes": {},
+             "baseStyles": {
+              "alignItems": "center",
+              "alignSelf": "stretch",
+              "display": "flex",
+              "gap": "16px",
+              "justifyContent": "flex-end",
+              "width": "352px"
+             },
+             "blockClientScript": "",
+             "blockDataScript": "",
+             "blockId": "hfvho41tx",
+             "blockName": "Footer",
+             "children": [
+              {
+               "activeState": null,
+               "attributes": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "display": "flex",
+                "gap": "6px"
+               },
+               "blockClientScript": "",
+               "blockDataScript": "",
+               "blockId": "4dgipzahf",
+               "blockName": "button-group",
+               "children": [
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "border": "1px solid  #E2E2E2",
+                  "borderColor": "rgb(226, 226, 226)",
+                  "borderRadius": " 8px",
+                  "borderStyle": "solid",
+                  "borderWidth": "1px",
+                  "boxSizing": "border-box",
+                  "display": "flex",
+                  "gap": "8px",
+                  "justifyContent": "center",
+                  "padding": "6px 8px"
+                 },
+                 "blockClientScript": "this.addEventListener(\"click\", () => {\n  dispatch(\"close-review-modal\");\n});\n",
+                 "blockDataScript": "",
+                 "blockId": "tjjjxc6lo",
+                 "blockName": "Cancel",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "color": "rgb(56, 56, 56)",
+                    "fontSize": "14px",
+                    "fontWeight": "420",
+                    "letterSpacing": "0.28px",
+                    "lineHeight": "115% "
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "3u7v20kt2",
+                   "blockName": "Discover",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "p",
+                   "innerHTML": "<p>Cancel</p>",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "button",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                },
+                {
+                 "activeState": null,
+                 "attributes": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "backgroundColor": "rgb(23, 23, 23)",
+                  "borderRadius": " 8px",
+                  "display": "flex",
+                  "gap": "8px",
+                  "justifyContent": "center",
+                  "padding": "6px 8px"
+                 },
+                 "blockClientScript": "this.addEventListener(\"click\", () => {\n  dispatch(\"submit-review\");\n});\n",
+                 "blockDataScript": "",
+                 "blockId": "qyelrfomr",
+                 "blockName": "Submit",
+                 "children": [
+                  {
+                   "activeState": null,
+                   "attributes": {},
+                   "baseStyles": {
+                    "color": "rgb(255, 255, 255)",
+                    "fontSize": "14px",
+                    "fontWeight": "420",
+                    "letterSpacing": "0.28px",
+                    "lineHeight": "115% "
+                   },
+                   "blockClientScript": "",
+                   "blockDataScript": "",
+                   "blockId": "vov5pyyva",
+                   "blockName": "Discover",
+                   "children": [],
+                   "classes": [],
+                   "customAttributes": {},
+                   "dataKey": null,
+                   "dynamicValues": [],
+                   "element": "p",
+                   "innerHTML": "<p>Submit</p>",
+                   "mobileStyles": {},
+                   "originalElement": "",
+                   "props": {},
+                   "rawStyles": {},
+                   "tabletStyles": {}
+                  }
+                 ],
+                 "classes": [],
+                 "customAttributes": {},
+                 "dataKey": null,
+                 "dynamicValues": [],
+                 "element": "button",
+                 "innerHTML": "",
+                 "mobileStyles": {},
+                 "originalElement": "",
+                 "props": {},
+                 "rawStyles": {},
+                 "tabletStyles": {}
+                }
+               ],
+               "classes": [],
+               "customAttributes": {},
+               "dataKey": null,
+               "dynamicValues": [],
+               "element": "div",
+               "innerHTML": "",
+               "mobileStyles": {},
+               "originalElement": "",
+               "props": {},
+               "rawStyles": {},
+               "tabletStyles": {}
+              }
+             ],
+             "classes": [],
+             "customAttributes": {},
+             "dataKey": null,
+             "dynamicValues": [],
+             "element": "div",
+             "innerHTML": "",
+             "mobileStyles": {},
+             "originalElement": "",
+             "props": {},
+             "rawStyles": {},
+             "tabletStyles": {}
+            }
+           ],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [],
+           "element": "div",
+           "innerHTML": "",
+           "mobileStyles": {},
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [],
+         "element": "div",
+         "mobileStyles": {},
+         "props": {},
+         "rawStyles": {
+          "backdrop-filter": "blur(3px)"
+         },
+         "tabletStyles": {}
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "element": "div",
+       "mobileStyles": {},
+       "props": {},
+       "rawStyles": {},
+       "tabletStyles": {},
+       "visibilityCondition": {
+        "comesFrom": "blockDataScript",
+        "key": "cart_settings.enable_reviews"
+       }
       }
      ],
      "classes": [],
@@ -6296,13 +8650,13 @@
  "idx": 0,
  "is_standard": 1,
  "is_template": 0,
- "modified": "2026-05-04 13:11:17.592112",
+ "modified": "2026-05-13 08:08:56.737494",
  "modified_by": "Administrator",
  "name": "products-details",
  "owner": "Administrator",
  "page_name": "products-details",
  "page_title": "Item",
- "preview": "/files/products-details-preview.webp?v=1149b",
+ "preview": "/files/products-details-preview.webp?v=d7408",
  "project_folder": "webshop",
  "published": 1,
  "route": "item/:item_code"
