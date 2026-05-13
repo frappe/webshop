@@ -33,9 +33,12 @@ class ItemReview(Document):
 		set_reviews_in_cache(self.website_item, reviews_dict)
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def get_item_reviews(web_item, start=0, end=10, data=None, no_cache=False):
 	"Get Website Item Review Data."
+	from webshop.webshop.api import has_permission_for_webshop
+	if not has_permission_for_webshop("Item Review"):
+		frappe.throw_permission_error()
 	start, end = cint(start), cint(end)
 	settings = get_shopping_cart_settings()
 
