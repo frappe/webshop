@@ -11,7 +11,9 @@
   "item_code",
   "short_description",
   "thumbnail",
-  "website_image"
+  "website_image",
+  "web_item_name",
+  "has_variants"
  ],
  "fields": [
   {
@@ -57,13 +59,28 @@
    "fieldtype": "Attach Image",
    "label": "Website Image",
    "read_only": 1
+  },
+  {
+   "fetch_from": "website_item.web_item_name",
+   "fieldname": "web_item_name",
+   "fieldtype": "Data",
+   "label": "Web Item Name",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fetch_from": "website_item.has_variants",
+   "fieldname": "has_variants",
+   "fieldtype": "Check",
+   "label": "Has Variants",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-04-18 20:26:26.015036",
+ "modified": "2026-05-14 09:38:30.481292",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Website Item Table",
