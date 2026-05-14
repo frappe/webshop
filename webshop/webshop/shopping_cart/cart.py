@@ -6,7 +6,7 @@ import frappe.defaults
 from frappe import _, throw
 from frappe.contacts.doctype.address.address import get_address_display
 from frappe.contacts.doctype.contact.contact import get_contact_name
-from frappe.utils import cint, cstr, flt, get_fullname
+from frappe.utils import cint, cstr, flt, fmt_money, get_fullname
 from frappe.utils.nestedset import get_root_of
 
 from erpnext.accounts.utils import get_account_name
@@ -42,8 +42,8 @@ def get_cart_quotation(doc=None):
 
 	addresses = get_address_docs(party=party)
 
-	if not doc.customer_address and addresses:
-		update_cart_address("billing", addresses[0].name)
+	# if not doc.customer_address and addresses:
+	# 	update_cart_address("billing", addresses[0].name)
 
 	return {
 		"doc": decorate_quotation_doc(doc),
@@ -64,6 +64,7 @@ def get_shipping_addresses(party=None):
 			"name": address.name,
 			"title": address.address_title,
 			"display": address.display,
+			"doc": address
 		}
 		for address in addresses
 		if address.address_type == "Shipping"
@@ -80,6 +81,7 @@ def get_billing_addresses(party=None):
 			"name": address.name,
 			"title": address.address_title,
 			"display": address.display,
+			"doc": address
 		}
 		for address in addresses
 		if address.address_type == "Billing"
@@ -153,8 +155,8 @@ def request_for_quotation():
 
 
 @frappe.whitelist()
-def update_cart(item_code, qty, additional_notes=None, with_items=False):
-	quotation = _get_cart_quotation()
+def update_cart(item_code, qty, additional_notes=None, with_items=False, force_create_new=False):
+	quotation = _get_cart_quotation(force_create_new=force_create_new)
 
 	empty_card = False
 	qty = flt(qty)
@@ -215,6 +217,16 @@ def update_cart(item_code, qty, additional_notes=None, with_items=False):
 	else:
 		return {"name": quotation.name}
 
+
+@frappe.whitelist()
+def buy_now(item_code, additional_notes=None):
+	update_cart(item_code, 1, additional_notes=additional_notes, force_create_new=True)
+	if frappe.get_cached_value("Webshop Settings", "enable_checkout"):
+		order = place_order()
+		return {"order": order}
+	else:
+		quotation = request_for_quotation()
+		return {"quotation": quotation}
 
 @frappe.whitelist()
 def get_shopping_cart_menu(context=None):
@@ -330,7 +342,9 @@ def guess_territory():
 	)
 
 
-def decorate_quotation_doc(doc):
+def decorate_quotation_doc(doc, return_items_only=False):
+	if return_items_only:
+		items = []
 	for d in doc.get("items", []):
 		item_code = d.item_code
 		fields = ["web_item_name", "thumbnail", "website_image", "description", "route"]
@@ -351,6 +365,11 @@ def decorate_quotation_doc(doc):
 				d.thumbnail = variant_data.image
 				fields = fields[2:]
 
+		# rate calculated separately before as_dict and then assigned later after as_sict as
+		# as_dict (or in case of API: __json__) removes all added fields
+		rate = d.get_formatted("rate")
+		if return_items_only:
+			d = d.as_dict()
 		d.update(
 			frappe.db.get_value(
 				"Website Item", {"item_code": item_code}, fields, as_dict=True
@@ -362,11 +381,16 @@ def decorate_quotation_doc(doc):
 		)
 
 		d.warehouse = website_warehouse
+		d.formatted_rate = rate
+		if return_items_only:
+			items.append(d)
 
+	if return_items_only:
+		return items
 	return doc
 
 
-def _get_cart_quotation(party=None):
+def _get_cart_quotation(party=None, force_create_new=False):
 	"""Return the open Quotation of type "Shopping Cart" or make a new one"""
 	if not party:
 		party = get_party()
@@ -384,7 +408,7 @@ def _get_cart_quotation(party=None):
 		limit_page_length=1,
 	)
 
-	if quotation:
+	if quotation and not force_create_new:
 		qdoc = frappe.get_doc("Quotation", quotation[0].name)
 	else:
 		company = frappe.db.get_single_value("Webshop Settings", "company")
@@ -768,7 +792,7 @@ def show_terms(doc):
 
 
 @frappe.whitelist(allow_guest=True)
-def apply_coupon_code(applied_code, applied_referral_sales_partner):
+def apply_coupon_code(applied_code, applied_referral_sales_partner=False):
 	quotation = True
 
 	if not applied_code:

@@ -1,0 +1,22 @@
+{
+ "app": "webshop",
+ "bg_color": "gray",
+ "creation": "2026-03-03 00:20:45.386078",
+ "docstatus": 0,
+ "doctype": "Desktop Icon",
+ "hidden": 0,
+ "icon_image": "",
+ "icon_type": "Link",
+ "idx": 11,
+ "label": "Webshop",
+ "link_to": "Webshop",
+ "link_type": "Workspace Sidebar",
+ "logo_url": "/assets/webshop/images/webshop_logo.png",
+ "modified": "2026-03-03 12:47:16.979206",
+ "modified_by": "Administrator",
+ "name": "Webshop",
+ "owner": "Administrator",
+ "restrict_removal": 0,
+ "roles": [],
+ "standard": 1
+}

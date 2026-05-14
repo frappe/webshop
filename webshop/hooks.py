@@ -7,8 +7,7 @@ app_description = "Open Source eCommerce Platform"
 app_email = "contact@frappe.io"
 app_license = "GNU General Public License (v3)"
 app_version = _version
-
-required_apps = ["payments", "erpnext"]
+required_apps = ["payments", "erpnext", "builder"]
 
 web_include_css = "webshop-web.bundle.css"
 
@@ -74,5 +73,21 @@ doc_events = {
 
 has_website_permission = {
     "Website Item": "webshop.webshop.doctype.website_item.website_item.has_website_permission_for_website_item",
-    "Item Group": "webshop.webshop.doctype.website_item.website_item.has_website_permission_for_item_group"
+    "Item Group": "webshop.webshop.doctype.website_item.website_item.has_website_permission_for_item_group",
 }
+
+
+add_to_apps_screen = [
+    {
+        "name": "webshop",
+        "logo": "/assets/webshop/images/webshop_logo.png",
+        "title": "Webshop",
+    }
+]
+
+fixtures = [
+    {
+        "dt": "Website Category",
+        "filters": [["name", "like", "All Website Categories"]],
+    }
+]

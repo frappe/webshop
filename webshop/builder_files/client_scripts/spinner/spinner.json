@@ -1,0 +1,13 @@
+{
+ "creation": "2026-05-11 21:09:05.579089",
+ "docstatus": 0,
+ "doctype": "Builder Client Script",
+ "idx": 6,
+ "modified": "2026-05-11 21:09:15.064680",
+ "modified_by": "Administrator",
+ "name": "spinner",
+ "owner": "Administrator",
+ "public_url": "/files/page_styles/CSS-b6cd8-54b799cfce.css?v=5775996f5d",
+ "script": "/* Write your CSS here */\n.spinner {\n    animation: spin 1s linear infinite;\n}\n\n@keyframes spin {\n    from {\n        transform: rotate(0deg);\n    }\n    to {\n        transform: rotate(360deg);\n    }\n}",
+ "script_type": "CSS"
+}

@@ -16,6 +16,7 @@ from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 
 from frappe.query_builder import DocType, functions
 
+
 class UnverifiedReviewer(frappe.ValidationError):
 	pass
 
@@ -32,15 +33,18 @@ class ItemReview(Document):
 		set_reviews_in_cache(self.website_item, reviews_dict)
 
 
-@frappe.whitelist()
-def get_item_reviews(web_item, start=0, end=10, data=None):
+@frappe.whitelist(allow_guest=True)
+def get_item_reviews(web_item, start=0, end=10, data=None, no_cache=False):
 	"Get Website Item Review Data."
+	from webshop.webshop.api import has_permission_for_webshop
+	if not has_permission_for_webshop("Item Review"):
+		frappe.throw_permission_error()
 	start, end = cint(start), cint(end)
 	settings = get_shopping_cart_settings()
 
 	# Get cached reviews for first page (start=0)
 	# avoid cache when page is different
-	from_cache = not bool(start)
+	from_cache = not bool(start) if not no_cache else False
 
 	if not data:
 		data = frappe._dict()
@@ -84,7 +88,7 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 			fields=[
 				functions.Avg(review.rating * 5).as_("average"),
 				{"COUNT": "*", "as": "total"},
-			]
+			],
 		)[0]
 	except (TypeError, AttributeError):
 		rating_data = frappe.db.get_all(
@@ -93,25 +97,49 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 			fields=["avg(rating*5) as average, count(*) as total"],
 		)[0]
 
-	data.average_rating = flt(rating_data.average, 5)
+	data.average_rating = flt(rating_data.average, 2)
 	data.average_whole_rating = flt(data.average_rating, 0)
 
 	# get % of reviews per rating
-	reviews_per_rating = []
+	reviews_per_rating = [] # percent
+	reviews_per_rating_count = []
 	for i in range(1, 6):
+		lower = (i - 1) / 5
+		upper = i / 5
+		filters = {"website_item": web_item, "rating": ["between", [lower, upper]]}
+
 		try:
 			count = frappe.db.get_all(
-			"Item Review", filters={"website_item": web_item, "rating": i/5}, fields=[{"COUNT": "*", "as": "count"}]
-		)[0].count
+				"Item Review", filters=filters, fields=[{"COUNT": "*", "as": "count"}]
+			)[0].count
 		except (TypeError, AttributeError):
-			count =  frappe.db.get_all(
-			"Item Review", filters={"website_item": web_item, "rating": i/5}, fields=["count(*) as count"]
-		)[0].count
+			count = frappe.db.get_all(
+				"Item Review", filters=filters, fields=["count(*) as count"]
+			)[0].count
 
-		percent = flt((count / rating_data.total or 1) * 100, 0) if count else 0
+		# avoid overlap between ranges
+		if i > 1:
+			try:
+				boundary_count = frappe.db.get_all(
+					"Item Review",
+					filters={"website_item": web_item, "rating": lower},
+					fields=[{"COUNT": "*", "as": "count"}],
+				)[0].count
+			except (TypeError, AttributeError):
+				boundary_count = frappe.db.get_all(
+					"Item Review",
+					filters={"website_item": web_item, "rating": lower},
+					fields=["count(*) as count"],
+				)[0].count
+
+			count -= boundary_count
+
+		percent = flt((count / (rating_data.total or 1)) * 100, 0) if count else 0
 		reviews_per_rating.append(percent)
+		reviews_per_rating_count.append(count if count else 0)
 
 	data.reviews_per_rating = reviews_per_rating
+	data.reviews_per_rating_count = reviews_per_rating_count
 	data.total_reviews = rating_data.total
 
 	return data
@@ -126,9 +154,13 @@ def add_item_review(web_item, title, rating, comment=None):
 	"""Add an Item Review by a user if non-existent."""
 	if frappe.session.user == "Guest":
 		# guest user should not reach here ideally in the case they do via an API, throw error
-		frappe.throw(_("You are not verified to write a review yet."), exc=UnverifiedReviewer)
+		frappe.throw(
+			_("You are not verified to write a review yet."), exc=UnverifiedReviewer
+		)
 
-	if not frappe.db.exists("Item Review", {"user": frappe.session.user, "website_item": web_item}):
+	if not frappe.db.exists(
+		"Item Review", {"user": frappe.session.user, "website_item": web_item}
+	):
 		doc = frappe.new_doc("Item Review")
 		doc.update(
 			{
@@ -167,5 +199,6 @@ def get_customer(silent=False):
 	else:
 		# should not reach here unless via an API
 		frappe.throw(
-			_("You are not a verified customer yet. Please contact us to proceed."), exc=UnverifiedReviewer
+			_("You are not a verified customer yet. Please contact us to proceed."),
+			exc=UnverifiedReviewer,
 		)
