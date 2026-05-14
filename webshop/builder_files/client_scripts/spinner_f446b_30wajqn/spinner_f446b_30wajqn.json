@@ -1,0 +1,13 @@
+{
+ "creation": "2026-05-14 09:47:40.931981",
+ "docstatus": 0,
+ "doctype": "Builder Client Script",
+ "idx": 0,
+ "modified": "2026-05-14 09:47:40.931981",
+ "modified_by": "Administrator",
+ "name": "spinner-f446b_30wajqn",
+ "owner": "Administrator",
+ "public_url": "/files/page_styles/spinner-f446b_30wajqn-8cc88c2591.css?v=ded66dd5a2",
+ "script": "/* Write your CSS here */\n.spinner {\n    animation: spin 1s linear infinite;\n}\n\n@keyframes spin {\n    from {\n        transform: rotate(0deg);\n    }\n    to {\n        transform: rotate(360deg);\n    }\n}",
+ "script_type": "CSS"
+}
