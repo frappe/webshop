@@ -3963,7 +3963,7 @@
                     "gap": "20px",
                     "width": "100%"
                    },
-                   "blockClientScript": "let qty = 1;\n\n// TODO: add qty checks\n\nlisten(\"increase-cart-qty\", () => {\n  qty++;\n  dispatch(\"updated-qty\", { qty });\n});\n\nlisten(\"decrease-cart-qty\", () => {\n  qty = Math.max(qty - 1, 1);\n  dispatch(\"updated-qty\", { qty });\n});\n\nlisten(\"add-to-cart\", async () => {\n  try {\n    if (!qty) {\n      dispatch(\"show-error\", {\n        type: \"warning\",\n        message: \"Can not add 0 items!\",\n      });\n      return;\n    }\n    const { item_code } = block_data;\n    await frappe_call(\n      \"POST\",\n      \"webshop.webshop.shopping_cart.cart.update_cart\",\n      { item_code, qty }\n    );\n    dispatch(\"show-toast\", {\n      message: \"Item added to cart!\",\n      type: \"success\",\n    });\n  } catch (e) {\n    console.error(e);\n    dispatch(\"show-toast\", {\n      message: \"Could not add item to cart!\",\n      type: \"error\",\n    });\n    const errors = (JSON.parse(e.message)).errors\n    if (errors[0].type == \"PermissionError\") {\n      window.location.href = \"/login\";\n      return;\n    }\n  }\n});\n",
+                   "blockClientScript": "let qty = 1;\n\n// TODO: add qty checks\n\nlisten(\"increase-cart-qty\", () => {\n  qty++;\n  dispatch(\"updated-qty\", { qty });\n});\n\nlisten(\"decrease-cart-qty\", () => {\n  qty = Math.max(qty - 1, 1);\n  dispatch(\"updated-qty\", { qty });\n});\n\nlisten(\"add-to-cart\", async () => {\n  try {\n    if (!qty) {\n      dispatch(\"show-error\", {\n        type: \"warning\",\n        message: \"Can not add 0 items!\",\n      });\n      return;\n    }\n    const { item_code } = block_data;\n    await frappe_call(\n      \"POST\",\n      \"webshop.webshop.shopping_cart.cart.update_cart\",\n      { item_code, qty }\n    );\n    dispatch(\"show-toast\", {\n      message: \"Item added to cart!\",\n      type: \"success\",\n    });\n  } catch (e) {\n    console.error(e);\n    dispatch(\"show-toast\", {\n      message: \"Could not add item to cart!\",\n      type: \"error\",\n    });\n    const errors = (JSON.parse(e.message)).errors\n    if (errors[0].type == \"PermissionError\") {\n      window.location.href = `/login?redirect_to=${encodeURIComponent(window.location.pathname)}`;\n      return;\n    }\n  }\n});\n",
                    "blockDataScript": "block.block_data = {\"item_code\":block.item_details.get(\"details\").get(\"item_code\")}",
                    "blockId": "jyly4web0",
                    "blockName": "Cart",
@@ -4257,6 +4257,7 @@
                     "alignSelf": "stretch",
                     "backgroundColor": "rgb(23, 23, 23)",
                     "borderRadius": "10px",
+                    "cursor": "pointer",
                     "display": "flex",
                     "gap": "8px",
                     "height": "40px",
@@ -4264,7 +4265,7 @@
                     "padding": "10px 12px",
                     "width": "100%"
                    },
-                   "blockClientScript": "const toRoute = (obj) => {\n  const [key, value] = Object.entries(obj)[0];\n  return `/${key}s/${value}`;\n};\n\nthis.addEventListener(\"click\", async () => {\n  try {\n    this.style.cursor = \"progress\";\n    const req_body = { item_code: block_data.item_code };\n    const res = await frappe_call(\n      \"POST\",\n      \"webshop.webshop.shopping_cart.cart.buy_now\",\n      req_body\n    );\n    const route = toRoute(res.data);\n    window.location.href = route;\n  } catch (e) {\n    console.error(e);\n    dispatch(\"show-toast\", {\n      message: `${block_data.item_code} could not be added to cart!`,\n      type: \"error\",\n      duration: 3000,\n    });\n    const errors = (JSON.parse(e.message)).errors\n    if (errors[0].type == \"PermissionError\") {\n      window.location.href = \"/login\";\n      return;\n    }\n  } finally {\n    this.style.cursor = \"pointer\";\n  }\n});\n",
+                   "blockClientScript": "const toRoute = (obj) => {\n  const [key, value] = Object.entries(obj)[0];\n  return `/${key}s/${value}`;\n};\n\nthis.addEventListener(\"click\", async () => {\n  try {\n    this.style.cursor = \"progress\";\n    const req_body = { item_code: block_data.item_code };\n    const res = await frappe_call(\n      \"POST\",\n      \"webshop.webshop.shopping_cart.cart.buy_now\",\n      req_body\n    );\n    const route = toRoute(res.data);\n    window.location.href = route;\n  } catch (e) {\n    console.error(e);\n    dispatch(\"show-toast\", {\n      message: `${block_data.item_code} could not be added to cart!`,\n      type: \"error\",\n      duration: 3000,\n    });\n    const errors = (JSON.parse(e.message)).errors\n    if (errors[0].type == \"PermissionError\") {\n      window.location.href = `/login?redirect_to=${encodeURIComponent(window.location.pathname)}`;\n      return;\n    }\n  } finally {\n    this.style.cursor = \"pointer\";\n  }\n});\n",
                    "blockDataScript": "block.block_data = { \"item_code\" : block.item_details.get(\"details\", {}).get(\"item_code\", \"\") }",
                    "blockId": "tpqwbzhjj",
                    "blockName": "button",
@@ -4530,22 +4531,17 @@
                    "activeState": null,
                    "attributes": {},
                    "baseStyles": {},
-                   "blockClientScript": "const lucidePromise = import(\"https://esm.sh/lucide\");\n\nconst renderIcon = async () => {\n  // remove previous svgs\n  this.querySelectorAll(\"svg\").forEach(elem => elem.remove());\n  \n  const icon = document.createElement(\"i\");\n  icon.dataset.lucide = props.icon_name;\n  this.appendChild(icon);\n\n  const lucide = await lucidePromise;\n  const { createIcons } = lucide;\n\n  // convert kebab-case → PascalCase\n  const iconName = props.icon_name\n    .split(\"-\")\n    .map(w => w[0].toUpperCase() + w.slice(1))\n    .join(\"\");\n\n  const Icon = lucide[iconName];\n\n  createIcons({\n    icons: {\n      [iconName]: Icon\n    }\n  });\n};\n\n\nrenderIcon();\n\nconst wrapper = this.closest(\"[data-wrapper]\")\nif (wrapper) {\n  wrapper.addEventListener(\"state_change\", (ev) => {\n    if (ev.detail) {\n      this.style.transform = \"rotate(180deg)\";\n    } else {\n      this.style.transform = \"rotate(0deg)\";\n    }\n  });\n}",
+                   "blockClientScript": "",
                    "blockDataScript": "",
-                   "blockId": "w4gmmk2f4",
+                   "blockId": "sg9sp2kj9",
                    "blockName": "container",
                    "children": [],
                    "classes": [],
                    "customAttributes": {},
                    "dataKey": null,
                    "dynamicValues": [],
-                   "element": null,
-                   "extendedFromComponent": "3nago073nago073n",
-                   "innerHTML": null,
-                   "isChildOfComponent": null,
-                   "isRepeaterBlock": false,
+                   "extendedFromComponent": "826df5a3c09b1b06",
                    "mobileStyles": {},
-                   "originalElement": null,
                    "props": {
                     "icon_name": {
                      "comesFrom": null,
@@ -4563,12 +4559,8 @@
                      "value": "chevron-down"
                     }
                    },
-                   "rawStyles": {
-                    "transition": "all 0.1s ease-out"
-                   },
-                   "referenceBlockId": null,
-                   "tabletStyles": {},
-                   "visibilityCondition": null
+                   "rawStyles": {},
+                   "tabletStyles": {}
                   }
                  ],
                  "classes": [],
@@ -4988,22 +4980,17 @@
                      "activeState": null,
                      "attributes": {},
                      "baseStyles": {},
-                     "blockClientScript": "const lucidePromise = import(\"https://esm.sh/lucide\");\n\nconst renderIcon = async () => {\n  // remove previous svgs\n  this.querySelectorAll(\"svg\").forEach(elem => elem.remove());\n  \n  const icon = document.createElement(\"i\");\n  icon.dataset.lucide = props.icon_name;\n  this.appendChild(icon);\n\n  const lucide = await lucidePromise;\n  const { createIcons } = lucide;\n\n  // convert kebab-case → PascalCase\n  const iconName = props.icon_name\n    .split(\"-\")\n    .map(w => w[0].toUpperCase() + w.slice(1))\n    .join(\"\");\n\n  const Icon = lucide[iconName];\n\n  createIcons({\n    icons: {\n      [iconName]: Icon\n    }\n  });\n};\n\n\nrenderIcon();\n\nconst wrapper = this.closest(\"[data-wrapper]\")\nif (wrapper) {\n  wrapper.addEventListener(\"state_change\", (ev) => {\n    if (ev.detail) {\n      this.style.transform = \"rotate(180deg)\";\n    } else {\n      this.style.transform = \"rotate(0deg)\";\n    }\n  });\n}",
+                     "blockClientScript": "",
                      "blockDataScript": "",
-                     "blockId": "4s9sq1i3k",
+                     "blockId": "c9ux0afgj",
                      "blockName": "container",
                      "children": [],
                      "classes": [],
                      "customAttributes": {},
                      "dataKey": null,
                      "dynamicValues": [],
-                     "element": null,
-                     "extendedFromComponent": "3nago073nago073n",
-                     "innerHTML": null,
-                     "isChildOfComponent": null,
-                     "isRepeaterBlock": false,
+                     "extendedFromComponent": "826df5a3c09b1b06",
                      "mobileStyles": {},
-                     "originalElement": null,
                      "props": {
                       "icon_name": {
                        "comesFrom": null,
@@ -5021,12 +5008,8 @@
                        "value": "chevron-down"
                       }
                      },
-                     "rawStyles": {
-                      "transition": "all 0.1s ease-out"
-                     },
-                     "referenceBlockId": null,
-                     "tabletStyles": {},
-                     "visibilityCondition": null
+                     "rawStyles": {},
+                     "tabletStyles": {}
                     }
                    ],
                    "classes": [],
@@ -9529,15 +9512,15 @@
  "idx": 0,
  "is_standard": 1,
  "is_template": 0,
- "modified": "2026-06-02 14:05:22.968714",
+ "modified": "2026-06-02 16:38:37.129668",
  "modified_by": "Administrator",
  "name": "products-details",
  "owner": "Administrator",
  "page_name": "products-details",
  "page_title": "Item",
- "preview": "/files/products-details-preview.webp?v=e623e",
+ "preview": "/files/products-details-preview.webp?v=bb30f",
  "project_folder": "webshop",
  "published": 1,
- "published_at": "2026-06-02 14:05:00.668812",
+ "published_at": "2026-06-02 14:54:07.831420",
  "route": "item/:item_code"
 }
