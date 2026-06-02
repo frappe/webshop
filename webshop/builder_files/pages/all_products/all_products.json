@@ -3126,9 +3126,9 @@
         "width": "100%"
        },
        "blockClientScript": "",
-       "blockDataScript": "page = 1\nif frappe.form_dict.page:\n  try:\n    page = int(frappe.form_dict.page)\n  except:\n    pass\n\ndef fill_missing_keys(data, keys, default=\"N/A\"):\n    def is_null(value):\n        return value is None or value == \"\" or value == [] or value == {}\n\n    for key in keys:\n        if key not in data or is_null(data[key]):\n            data[key] = default\n\n    return data\n\n\nhide_variants = bool(frappe.call(\"webshop.webshop.api.hide_variant_in_product_list\"))\nproducts_per_page = frappe.call(\"webshop.webshop.api.products_per_page\")\n\nfilters = frappe.call(\"webshop.webshop.utils.misc.parse_json\", val=props[\"filters\"])\nfilters[\"published\"] = 1\n\ntotal_items = frappe.call(\n    \"webshop.webshop.api.total_items\", filters=filters, exclude_variants=hide_variants\n)\nblock.total_items = total_items\n\noffset = products_per_page * (page - 1)\noverflowed = offset >= total_items\n\nitems = frappe.call(\n    \"webshop.webshop.api.list_items\",\n    filters=filters,\n    limit=products_per_page,\n    offset=offset if not overflowed else 0,\n    exclude_variants=hide_variants,\n)\n\npage = page if not overflowed else 1\nif (page - 1) * products_per_page + len(items) < total_items:\n    block.more_pages = True\nelse:\n    block.more_pages = False\nblock.page = page\n\n\nfor item in items:\n    item[\"route\"] = f\"/item/{item.name}\"\n\nblock.items = [fill_missing_keys(item, [\"website_image\"], \"\") for item in items]\n",
+       "blockDataScript": "page = 1\nif frappe.form_dict.page:\n    try:\n        page = int(frappe.form_dict.page)\n    except:\n        pass\n\n\ndef fill_missing_keys(data, keys, default=\"N/A\"):\n    def is_null(value):\n        return value is None or value == \"\" or value == [] or value == {}\n\n    for key in keys:\n        if key not in data or is_null(data[key]):\n            data[key] = default\n\n    return data\n\n\nwebshop_settings = frappe.call(\"webshop.webshop.api.get_webshop_settings\")\n\nhide_variants = webshop_settings[\"hide_variants\"]\nhide_templates = webshop_settings[\"hide_templates\"]\nproducts_per_page = webshop_settings[\"products_per_page\"]\n\nfilters = frappe.call(\"webshop.webshop.utils.misc.parse_json\", val=props[\"filters\"])\nfilters[\"published\"] = 1\n\ntotal_items = frappe.call(\n    \"webshop.webshop.api.total_items\",\n    filters=filters,\n    exclude_variants=hide_variants,\n    exclude_templates=hide_templates,\n)\nblock.total_items = total_items\n\noffset = products_per_page * (page - 1)\noverflowed = offset >= total_items\n\nitems = frappe.call(\n    \"webshop.webshop.api.list_items\",\n    filters=filters,\n    limit=products_per_page,\n    offset=offset if not overflowed else 0,\n    exclude_variants=hide_variants,\n    exclude_templates=hide_templates,\n)\n\npage = page if not overflowed else 1\nif (page - 1) * products_per_page + len(items) < total_items:\n    block.more_pages = True\nelse:\n    block.more_pages = False\nblock.page = page\n\n\nfor item in items:\n    if item.default_variant:\n      item[\"route\"] = f\"/item/{item.default_variant}\"\n    item[\"route\"] = f\"/item/{item.name}\"\n\nblock.items = [fill_missing_keys(item, [\"website_image\"], \"\") for item in items]\n",
        "blockId": "wcaz6r00u",
-       "blockName": "Frame 62",
+       "blockName": "Get Items",
        "children": [
         {
          "activeState": null,
@@ -3981,7 +3981,9 @@
                  "children": [
                   {
                    "activeState": null,
-                   "attributes": {},
+                   "attributes": {
+                    "src": "https://webshop-next.m.frappe.cloud/assets/webshop/builder_assets/image.webp"
+                   },
                    "baseStyles": {},
                    "blockClientScript": "",
                    "blockDataScript": "",
@@ -5455,7 +5457,6 @@
  ],
  "client_scripts": [],
  "creation": "2026-03-23 13:15:57.522065",
- "custom_last_sync_client": "B-eVXaEz1i4k-srDAAAD",
  "disable_indexing": 0,
  "docstatus": 0,
  "doctype": "Builder Page",
@@ -5464,14 +5465,15 @@
  "idx": 0,
  "is_standard": 1,
  "is_template": 0,
- "modified": "2026-05-14 09:42:49.972455",
+ "modified": "2026-06-02 14:05:55.435858",
  "modified_by": "Administrator",
  "name": "all-products",
  "owner": "Administrator",
  "page_name": "all-products",
  "page_title": "All Products - Store",
- "preview": "/files/all-products-preview.webp?v=f2854",
+ "preview": "/files/all-products-preview.webp?v=0a3ab",
  "project_folder": "webshop",
  "published": 1,
+ "published_at": "2026-06-02 14:05:51.824699",
  "route": "store"
 }

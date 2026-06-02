@@ -12,6 +12,7 @@
   "column_break_kgwv",
   "web_item_name",
   "published",
+  "default_variant",
   "section_break_17",
   "short_description",
   "web_long_description",
@@ -384,6 +385,14 @@
    "fieldname": "html",
    "fieldtype": "Text Editor",
    "label": "HTML"
+  },
+  {
+   "depends_on": "eval:doc.has_variants == 1",
+   "fieldname": "default_variant",
+   "fieldtype": "Link",
+   "label": "Default Variant",
+   "link_filters": "[[\"Website Item\",\"variant_of\",\"=\", \"eval:doc.item_code\"]]",
+   "options": "Website Item"
   }
  ],
  "has_web_view": 1,
@@ -392,7 +401,7 @@
  "index_web_pages_for_search": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2026-03-19 09:54:29.728663",
+ "modified": "2026-06-02 12:27:04.959381",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Website Item",
