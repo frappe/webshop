@@ -17,7 +17,7 @@ from webshop.webshop.utils.product import get_web_item_qty_in_stock
 
 try:
 	from erpnext.selling.doctype.quotation.quotation import _make_sales_order
-except ImportError: # for older ERPNext versions (versioning issue)
+except ImportError:
 	from erpnext.selling.doctype.quotation.mapper import _make_sales_order
 
 
