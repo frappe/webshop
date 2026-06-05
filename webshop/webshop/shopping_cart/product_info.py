@@ -76,7 +76,8 @@ def get_product_info_for_website(item_code, skip_quotation_creation=False):
 			product_info["in_stock"] = (
 				stock_status.in_stock
 				if stock_status.is_stock_item
-				else get_non_stock_item_status(item_code, "website_warehouse")
+				else 
+    (item_code, "website_warehouse")
 			)
 			product_info["show_stock_qty"] = show_quantity_in_website()
 

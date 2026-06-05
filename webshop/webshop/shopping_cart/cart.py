@@ -751,6 +751,7 @@ def get_shipping_rules(quotation=None, cart_settings=None):
 	return shipping_rules
 
 
+
 def get_address_territory(address_name):
 	"""Tries to match city, state and country of address to existing territory"""
 	territory = None

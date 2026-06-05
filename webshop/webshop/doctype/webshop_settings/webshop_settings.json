@@ -15,10 +15,12 @@
   "hide_variants",
   "enable_variants",
   "show_price",
+  "sort_by",
   "column_break_9",
   "login_required_to_view_products",
   "show_stock_availability",
   "show_quantity_in_website",
+  "hide_unavailable_items",
   "allow_items_not_in_stock",
   "column_break_13",
   "show_apply_coupon_code_in_website",
@@ -382,12 +384,26 @@
    "fieldtype": "Check",
    "in_list_view": 1,
    "label": "Allow Non Website Items in Cart Quotation"
+  },
+  {
+   "default": "0",
+   "depends_on": "show_stock_availability",
+   "fieldname": "hide_unavailable_items",
+   "fieldtype": "Check",
+   "label": " Hide Unavailable Items"
+  },
+  {
+   "fieldname": "sort_by",
+   "fieldtype": "Select",
+   "label": "Sort By",
+   "options": "\nLast Updated On Asc\nLast Updated On Desc\nWebsite Item Name Asc\nWebsite Item Name Desc\nID Asc\nID Desc\nCreated On Asc\nCreated On Desc\nMost Used\nRoute\nItem Code Asc\nItem Code Desc\nItem Group Asc\nItem Group Desc"
   }
  ],
+ "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-03-22 13:01:51.906319",
+ "modified": "2025-05-19 13:38:51.119954",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Webshop Settings",
@@ -408,6 +424,7 @@
    "role": "All"
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

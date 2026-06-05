@@ -194,7 +194,9 @@ def get_next_attribute_and_values(item_code, selected_attributes):
 	if warehouse and frappe.get_cached_value("Warehouse", warehouse, "is_group") == 1:
 		warehouses = get_child_warehouses(warehouse)
 	else:
-		warehouses = [warehouse] if warehouse else []
+		all_warehouses = frappe.db.get_all("Warehouse", filters={"is_group": 0}, pluck="name")
+		
+		warehouses = [warehouse] if warehouse else all_warehouses
 
 	for warehouse in warehouses:
 		available_qty += flt(
