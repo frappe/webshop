@@ -36,10 +36,12 @@ webshop.ProductGrid = class {
 
 	get_image_html(item, title) {
 		let image = item.website_image;
+		let badges_html = this.get_badges_html(item);
 
 		if (image) {
 			return `
 				<div class="card-img-container">
+					${badges_html}
 					<a href="/${ item.route || '#' }" style="text-decoration: none;">
 						<img itemprop="image" class="card-img" src="${ image }" alt="${ title }">
 					</a>
@@ -48,6 +50,7 @@ webshop.ProductGrid = class {
 		} else {
 			return `
 				<div class="card-img-container">
+					${badges_html}
 					<a href="/${ item.route || '#' }" style="text-decoration: none;">
 						<div class="card-img-top no-image">
 							${ frappe.get_abbr(title) }
@@ -56,6 +59,22 @@ webshop.ProductGrid = class {
 				</div>
 			`;
 		}
+	}
+
+	get_badges_html(item) {
+		let badges = '';
+
+		// Add discount badge if product has a discount
+		if (item.discount && item.formatted_mrp) {
+			badges += `<div class="discount-badge">${item.discount}</div>`;
+		}
+
+		// Add out of stock badge
+		if (!item.in_stock && !item.on_backorder) {
+			badges += `<div class="out-of-stock-badge">${__("Out of Stock")}</div>`;
+		}
+
+		return badges;
 	}
 
 	get_card_body_html(item, title, settings) {
