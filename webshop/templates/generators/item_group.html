@@ -17,7 +17,7 @@
 
 {% block page_content %}
 <div class="item-group-content" itemscope itemtype="http://schema.org/Product"
-	data-item-group="{{ name }}">
+	data-item-group="{{ _(name) }}">
 	<div class="item-group-slideshow">
 		{% if slideshow %} <!-- slideshow -->
 			{{ web_block(
@@ -45,10 +45,10 @@
 					<a class="mb-4 clear-filters" href="/{{ doc.route }}">{{ _('Clear All') }}</a>
 				</div>
 				<!-- field filters -->
-				{{ field_filter_section(field_filters) }}
+				{{ _(field_filter_section(field_filters)) }}
 
 				<!-- attribute filters -->
-				{{ attribute_filter_section(attribute_filters) }}
+				{{ _(attribute_filter_section(attribute_filters)) }}
 
 			</div>
 
