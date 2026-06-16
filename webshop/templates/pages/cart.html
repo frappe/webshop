@@ -19,15 +19,15 @@
 			<div class="frappe-card p-5 mb-4">
 				<div id="cart-error" class="alert alert-danger" style="display: none;"></div>
 				<div class="cart-items-header">
-					{{ _('Items') }}
+					{{ _("Items") }}
 				</div>
 				<table class="table mt-3 cart-table">
 					<thead>
 						<tr>
-							<th class="item-column">{{ _('Item') }}</th>
-							<th width="20%">{{ _('Quantity') }}</th>
+							<th class="item-column">{{ _("Item") }}</th>
+							<th width="20%">{{ _("Quantity") }}</th>
 							{% if cart_settings.enable_checkout or cart_settings.show_price_in_quotation %}
-								<th width="20" class="text-right column-sm-view">{{ _('Subtotal') }}</th>
+								<th width="20" class="text-right column-sm-view">{{ _("Subtotal") }}</th>
 							{% endif %}
 							<th width="10%" class="column-sm-view"></th>
 						</tr>
@@ -47,11 +47,11 @@
 					<div class="col-3">
 						{% if cart_settings.enable_checkout %}
 							<a class="btn btn-primary-light font-md" href="/orders">
-								{{ _('Past Orders') }}
+								{{ _("Past Orders") }}
 							</a>
 						{% else %}
 							<a class="btn btn-primary-light font-md" href="/quotations">
-								{{ _('Past Quotes') }}
+								{{ _("Past Quotes") }}
 							</a>
 						{% endif %}
 					</div>
@@ -59,7 +59,7 @@
 						{% if doc.items %}
 						<div class="place-order-container">
 							<a class="btn btn-primary-light mr-2 font-md" href="/all-products">
-								{{ _('Continue Shopping') }}
+								{{ _("Continue Shopping") }}
 							</a>
 						</div>
 						{% endif %}
@@ -92,9 +92,9 @@
 					{% else %}
 					<div class="mb-3">
 						<div class="d-flex w-100">
-							<input type="text" class="txtcoupon form-control mr-3 flex-grow-1 font-md" placeholder="{{ _("Enter coupon code") }}" name="txtcouponcode"  ></input>
-							<button class="btn btn-secondary btn-sm bt-coupon font-md flex-shrink-0">{{ _("Apply") }}</button>
-							<input type="hidden" class="txtreferral_sales_partner font-md" placeholder="Enter Sales Partner" name="txtreferral_sales_partner" type="text"></input>
+							<input type="text" class="txtcoupon form-control mr-3 w-50 font-md" placeholder={{ _("Enter Coupon Code") }} name="txtcouponcode"  ></input>
+							<button class="btn btn-primary btn-sm bt-coupon font-md">{{ _("Apply Coupon Code") }}</button>
+							<input type="hidden" class="txtreferral_sales_partner font-md" placeholder={{ _("Enter Sales Partner") }} name="txtreferral_sales_partner" type="text"></input>
 							</div>
 					</div>
 					{% endif %}
@@ -121,14 +121,14 @@
 	<div class="cart-empty-state">
 		<img src="/assets/webshop/images/cart-empty-state.png" alt="Empty State">
 	</div>
-	<div class="cart-empty-message mt-4">{{ _('Your cart is Empty') }}</p>
+	<div class="cart-empty-message mt-4">{{ _("Your cart is Empty") }}</p>
 	{% if cart_settings.enable_checkout %}
 		<a class="btn btn-outline-primary" href="/orders" style="font-size: 16px;">
-			{{ _('See past orders') }}
+			{{ _("See past orders") }}
 		</a>
 		{% else %}
 		<a class="btn btn-outline-primary" href="/quotations" style="font-size: 16px;">
-			{{ _('See past quotations') }}
+			{{ _("See past quotations") }}
 		</a>
 	{% endif %}
 </div>
