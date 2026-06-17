@@ -15,6 +15,7 @@
   "hide_variants",
   "hide_templates",
   "enable_variants",
+  "include_all_variants_in_reviews",
   "show_price",
   "open_default_variant",
   "column_break_9",
@@ -401,12 +402,19 @@
    "fieldname": "open_default_variant",
    "fieldtype": "Check",
    "label": "Open Default Variant"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.enable_reviews == 1",
+   "fieldname": "include_all_variants_in_reviews",
+   "fieldtype": "Check",
+   "label": "Include All Variants in Reviews"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-06-02 13:18:26.444049",
+ "modified": "2026-06-05 09:11:20.371346",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Webshop Settings",

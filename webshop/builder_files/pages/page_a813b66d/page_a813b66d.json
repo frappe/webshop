@@ -1,6 +1,6 @@
 {
  "app": "webshop",
- "authenticated_access": 1,
+ "authenticated_access": 0,
  "blocks": [
   {
    "activeState": null,
@@ -24,37 +24,51 @@
      "baseStyles": {},
      "blockClientScript": "",
      "blockDataScript": "",
-     "blockId": "1wp2djyf8",
+     "blockId": "ep6kzb7ib",
      "blockName": "Script Utils",
      "children": [],
      "classes": [],
      "customAttributes": {},
      "dataKey": null,
      "dynamicValues": [],
+     "element": null,
      "extendedFromComponent": "vwuq0ivwuq0ivwuq",
+     "innerHTML": null,
+     "isChildOfComponent": null,
+     "isRepeaterBlock": false,
      "mobileStyles": {},
+     "originalElement": null,
      "props": {},
      "rawStyles": {},
-     "tabletStyles": {}
+     "referenceBlockId": null,
+     "tabletStyles": {},
+     "visibilityCondition": null
     },
     {
      "activeState": null,
      "attributes": {},
      "baseStyles": {},
-     "blockClientScript": "",
+     "blockClientScript": "let container = document.getElementById(\"toast-container\");\n\nif (!container) {\n  container = document.createElement(\"div\");\n  container.id = \"toast-container\";\n  Object.assign(container.style, {\n    position: \"fixed\",\n    top: \"20px\",\n    right: \"20px\",\n    display: \"flex\",\n    flexDirection: \"column\",\n    gap: \"8px\",\n    zIndex: 9999,\n  });\n  document.body.appendChild(container);\n}\n\nconst STYLES = {\n  base: {\n    background: \"#fff\",\n    color: \"#111\",\n    border: \"1px solid #eee\",\n  },\n  success: {\n    // background: \"#f0fdf4\",\n    // border: \"1px solid #bbf7d0\",\n    icon: \"✓\",\n    iconColor: \"#16a34a\",\n  },\n  warning: {\n    background: \"#fffbeb\",\n    border: \"1px solid #fde68a\",\n    icon: \"⚠\",\n    iconColor: \"#d97706\",\n  },\n  error: {\n    icon: \"✕\",\n    iconColor: \"#dc2626\",\n  },\n  info: {\n    icon: \"i\",\n    iconColor: \"#2563eb\",\n  },\n};\n\nfunction createToast({ message, type = \"info\", duration = 3000 }) {\n  const toast = document.createElement(\"div\");\n\n  const style = {\n    ...STYLES.base,\n    ...(STYLES[type] || {}),\n  };\n\n  Object.assign(toast.style, {\n    minWidth: \"220px\",\n    maxWidth: \"320px\",\n    padding: \"10px 14px\",\n    borderRadius: \"10px\",\n    boxShadow: \"0 8px 20px rgba(0,0,0,0.08)\",\n    fontFamily: \"system-ui, sans-serif\",\n    fontSize: \"14px\",\n    display: \"flex\",\n    alignItems: \"center\",\n    gap: \"10px\",\n    transform: \"translateX(120%)\",\n    opacity: \"0\",\n    transition: \"all 0.25s ease\",\n    cursor: \"pointer\",\n    ...style,\n  });\n\n  // Icon\n  const icon = document.createElement(\"span\");\n  icon.textContent = style.icon || \"\";\n  Object.assign(icon.style, {\n    fontSize: \"14px\",\n    fontWeight: \"600\",\n    color: style.iconColor || \"#666\",\n  });\n\n  // Message\n  const text = document.createElement(\"span\");\n  text.textContent = message;\n  Object.assign(text.style, {\n    flex: \"1\",\n  });\n\n  toast.appendChild(icon);\n  toast.appendChild(text);\n\n  container.appendChild(toast);\n\n  // Animate in\n  requestAnimationFrame(() => {\n    toast.style.transform = \"translateX(0)\";\n    toast.style.opacity = \"1\";\n  });\n\n  const remove = () => {\n    toast.style.transform = \"translateX(120%)\";\n    toast.style.opacity = \"0\";\n    setTimeout(() => toast.remove(), 250);\n  };\n\n  const timeout = setTimeout(remove, duration);\n\n  toast.addEventListener(\"click\", () => {\n    clearTimeout(timeout);\n    remove();\n  });\n}\n\ndocument.addEventListener(\"show-toast\", (e) => {\n  const { message, type, duration } = e.detail || {};\n  if (!message) return;\n  if (!this.dataset.blockId)\n    createToast({ message, type, duration });\n});\n",
      "blockDataScript": "",
-     "blockId": "krtxefqba",
+     "blockId": "yf5gee9ld",
      "blockName": "container",
      "children": [],
      "classes": [],
      "customAttributes": {},
      "dataKey": null,
      "dynamicValues": [],
+     "element": null,
      "extendedFromComponent": "6gi9jfz6gi9jfz6g",
+     "innerHTML": null,
+     "isChildOfComponent": null,
+     "isRepeaterBlock": false,
      "mobileStyles": {},
+     "originalElement": null,
      "props": {},
      "rawStyles": {},
-     "tabletStyles": {}
+     "referenceBlockId": null,
+     "tabletStyles": {},
+     "visibilityCondition": null
     },
     {
      "activeState": null,
@@ -62,7 +76,7 @@
      "baseStyles": {},
      "blockClientScript": "",
      "blockDataScript": "",
-     "blockId": "srisqktbl",
+     "blockId": "4pxllynlh",
      "blockName": "search-wrapper",
      "children": [
       {
@@ -71,25 +85,34 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "z1ijo99kv",
+       "blockId": "2ifa6lfnv",
        "blockName": "close-button",
        "children": [
         {
          "activeState": null,
          "attributes": {},
-         "baseStyles": {},
+         "baseStyles": {
+          "height": "16px",
+          "width": "16px"
+         },
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "ruewdhd4q",
+         "blockId": "j6rl8chad",
          "blockName": "container",
          "children": [],
-         "classes": [],
+         "classes": [
+          "icon"
+         ],
          "customAttributes": {},
          "dataKey": null,
          "dynamicValues": [],
+         "element": null,
          "extendedFromComponent": "nw30smnw30smnw30",
+         "innerHTML": null,
          "isChildOfComponent": "76776y376776y376",
+         "isRepeaterBlock": false,
          "mobileStyles": {},
+         "originalElement": null,
          "props": {
           "icon_name": {
            "comesFrom": null,
@@ -108,20 +131,27 @@
           }
          },
          "rawStyles": {},
-         "referenceBlockId": "2z3snrsm5",
-         "tabletStyles": {}
+         "referenceBlockId": "r1tbcrg4l",
+         "tabletStyles": {},
+         "visibilityCondition": null
         }
        ],
        "classes": [],
        "customAttributes": {},
        "dataKey": null,
        "dynamicValues": [],
+       "element": null,
+       "extendedFromComponent": null,
+       "innerHTML": null,
        "isChildOfComponent": "76776y376776y376",
+       "isRepeaterBlock": false,
        "mobileStyles": {},
+       "originalElement": null,
        "props": {},
        "rawStyles": {},
        "referenceBlockId": "8a055mqeq",
-       "tabletStyles": {}
+       "tabletStyles": {},
+       "visibilityCondition": null
       },
       {
        "activeState": null,
@@ -129,19 +159,25 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "0qv7j0b9t",
+       "blockId": "2jl25emw9",
        "blockName": "clamp-js",
        "children": [],
        "classes": [],
        "customAttributes": {},
        "dataKey": null,
        "dynamicValues": [],
+       "element": null,
+       "extendedFromComponent": null,
+       "innerHTML": null,
        "isChildOfComponent": "76776y376776y376",
+       "isRepeaterBlock": false,
        "mobileStyles": {},
+       "originalElement": null,
        "props": {},
        "rawStyles": {},
        "referenceBlockId": "avmde3vuk",
-       "tabletStyles": {}
+       "tabletStyles": {},
+       "visibilityCondition": null
       },
       {
        "activeState": null,
@@ -149,7 +185,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "rouimfmkc",
+       "blockId": "yutxiaizk",
        "blockName": "upper-part",
        "children": [
         {
@@ -158,31 +194,43 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "d0zdt2kry",
+         "blockId": "rjumuspsa",
          "blockName": "search-box",
          "children": [],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
          "dynamicValues": [],
+         "element": null,
+         "extendedFromComponent": null,
+         "innerHTML": null,
          "isChildOfComponent": "76776y376776y376",
+         "isRepeaterBlock": false,
          "mobileStyles": {},
+         "originalElement": null,
          "props": {},
          "rawStyles": {},
          "referenceBlockId": "3g4m47kd4",
-         "tabletStyles": {}
+         "tabletStyles": {},
+         "visibilityCondition": null
         }
        ],
        "classes": [],
        "customAttributes": {},
        "dataKey": null,
        "dynamicValues": [],
+       "element": null,
+       "extendedFromComponent": null,
+       "innerHTML": null,
        "isChildOfComponent": "76776y376776y376",
+       "isRepeaterBlock": false,
        "mobileStyles": {},
+       "originalElement": null,
        "props": {},
        "rawStyles": {},
        "referenceBlockId": "u49mb70n8",
-       "tabletStyles": {}
+       "tabletStyles": {},
+       "visibilityCondition": null
       },
       {
        "activeState": null,
@@ -190,7 +238,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "pq6g7t6li",
+       "blockId": "id61ectgb",
        "blockName": "lower-part",
        "children": [
         {
@@ -199,7 +247,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "bdwcd5gks",
+         "blockId": "l8ga1uv71",
          "blockName": "Search Results Group",
          "children": [
           {
@@ -208,7 +256,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "ce0zx88kj",
+           "blockId": "698fmi0lp",
            "blockName": "Header",
            "children": [
             {
@@ -217,30 +265,43 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "uofy13tli",
+             "blockId": "k0numbj1u",
+             "blockName": null,
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "76776y376776y376",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
+             "originalElement": null,
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "376i0mfs9",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             }
            ],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "76776y376776y376",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
+           "originalElement": null,
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "3tbmq4dxk",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           },
           {
            "activeState": null,
@@ -248,7 +309,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "2ocqbwtt5",
+           "blockId": "x4o4a2ik0",
            "blockName": "Item",
            "children": [
             {
@@ -257,18 +318,25 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "j69ca934w",
+             "blockId": "50z037cvg",
+             "blockName": null,
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "76776y376776y376",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
+             "originalElement": null,
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "03tobmra8",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             },
             {
              "activeState": null,
@@ -276,7 +344,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "509od8ma9",
+             "blockId": "73bsmnglu",
              "blockName": "container",
              "children": [
               {
@@ -285,18 +353,25 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "sqob84ubc",
+               "blockId": "z2kmon0rb",
+               "blockName": null,
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
                "isChildOfComponent": "76776y376776y376",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
+               "originalElement": null,
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "91etpyss5",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               },
               {
                "activeState": null,
@@ -304,77 +379,115 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "mv4mdyqtq",
+               "blockId": "madxijpsx",
+               "blockName": null,
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
                "isChildOfComponent": "76776y376776y376",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
+               "originalElement": null,
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "gny72ozl2",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               }
              ],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "76776y376776y376",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
+             "originalElement": null,
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "3gbollfft",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             }
            ],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "76776y376776y376",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
+           "originalElement": null,
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "ayvriyjun",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           }
          ],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
          "dynamicValues": [],
+         "element": null,
+         "extendedFromComponent": null,
+         "innerHTML": null,
          "isChildOfComponent": "76776y376776y376",
+         "isRepeaterBlock": false,
          "mobileStyles": {},
+         "originalElement": null,
          "props": {},
          "rawStyles": {},
          "referenceBlockId": "05ogua49c",
-         "tabletStyles": {}
+         "tabletStyles": {},
+         "visibilityCondition": null
         }
        ],
        "classes": [],
        "customAttributes": {},
        "dataKey": null,
        "dynamicValues": [],
+       "element": null,
+       "extendedFromComponent": null,
+       "innerHTML": null,
        "isChildOfComponent": "76776y376776y376",
+       "isRepeaterBlock": false,
        "mobileStyles": {},
+       "originalElement": null,
        "props": {},
        "rawStyles": {},
        "referenceBlockId": "pw5debj56",
-       "tabletStyles": {}
+       "tabletStyles": {},
+       "visibilityCondition": null
       }
      ],
      "classes": [],
      "customAttributes": {},
      "dataKey": null,
      "dynamicValues": [],
+     "element": null,
      "extendedFromComponent": "76776y376776y376",
+     "innerHTML": null,
+     "isChildOfComponent": null,
+     "isRepeaterBlock": false,
      "mobileStyles": {},
+     "originalElement": null,
      "props": {},
      "rawStyles": {},
-     "tabletStyles": {}
+     "referenceBlockId": null,
+     "tabletStyles": {},
+     "visibilityCondition": null
     },
     {
      "activeState": null,
@@ -382,7 +495,7 @@
      "baseStyles": {},
      "blockClientScript": "",
      "blockDataScript": "",
-     "blockId": "bf359vjpy",
+     "blockId": "u13ippyzy",
      "blockName": "Variants",
      "children": [
       {
@@ -391,7 +504,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "1mnziv85m",
+       "blockId": "ugniv5uuc",
        "blockName": "Nav - Links - Center",
        "children": [
         {
@@ -400,7 +513,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "hggihfzzr",
+         "blockId": "wctrvqwq2",
          "blockName": "Logo",
          "children": [
           {
@@ -409,16 +522,18 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "e7190c9kp",
+           "blockId": "38yz5whp7",
            "blockName": "app logo",
            "children": [
             {
              "activeState": null,
-             "attributes": {},
+             "attributes": {
+              "src": "https://webshop-next.m.frappe.cloud/assets/erpnext/images/erpnext-favicon.svg"
+             },
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "m0vgmpugv",
+             "blockId": "eltt0ycmt",
              "children": [],
              "classes": [],
              "customAttributes": {},
@@ -428,7 +543,7 @@
              "mobileStyles": {},
              "props": {},
              "rawStyles": {},
-             "referenceBlockId": "2euvbg4v8",
+             "referenceBlockId": "gll1iz5rd",
              "tabletStyles": {}
             }
            ],
@@ -441,7 +556,7 @@
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "jtiej3i99",
+           "referenceBlockId": "v01j7tpza",
            "tabletStyles": {}
           },
           {
@@ -450,7 +565,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "nouc406og",
+           "blockId": "scde76lqy",
            "blockName": "Shop",
            "children": [],
            "classes": [],
@@ -462,20 +577,27 @@
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "35am4bvpw",
+           "referenceBlockId": "0nexyo02j",
            "tabletStyles": {}
           }
          ],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
-         "dynamicValues": [],
+         "dynamicValues": [
+          {
+           "comesFrom": "props",
+           "key": "homepage_link",
+           "property": "href",
+           "type": "attribute"
+          }
+         ],
          "isChildOfComponent": "5yb01f65yb01f65y",
          "mobileStyles": {},
          "originalElement": "",
          "props": {},
          "rawStyles": {},
-         "referenceBlockId": "n2jlpreea",
+         "referenceBlockId": "iiov2zold",
          "tabletStyles": {}
         },
         {
@@ -484,7 +606,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "y53el1k8e",
+         "blockId": "qe6nu7eh1",
          "blockName": "Links",
          "children": [
           {
@@ -493,19 +615,32 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "98orahxkr",
+           "blockId": "iruv06qjq",
            "blockName": "Shop",
            "children": [],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
-           "dynamicValues": [],
+           "dynamicValues": [
+            {
+             "comesFrom": "props",
+             "key": "key",
+             "property": "innerHTML",
+             "type": "key"
+            },
+            {
+             "comesFrom": "props",
+             "key": "value",
+             "property": "href",
+             "type": "attribute"
+            }
+           ],
            "isChildOfComponent": "5yb01f65yb01f65y",
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "bfqhhxak7",
+           "referenceBlockId": "7ztsldfo7",
            "tabletStyles": {}
           }
          ],
@@ -519,7 +654,7 @@
          "originalElement": "",
          "props": {},
          "rawStyles": {},
-         "referenceBlockId": "nrg05mkym",
+         "referenceBlockId": "bwbujss5c",
          "tabletStyles": {}
         },
         {
@@ -528,7 +663,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "et9n5uwqq",
+         "blockId": "2pqge2wzt",
          "blockName": "Icons",
          "children": [
           {
@@ -537,7 +672,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "nan9rs1ww",
+           "blockId": "1xposvrpq",
            "blockName": "search",
            "children": [
             {
@@ -549,7 +684,7 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "dbdgwbose",
+             "blockId": "2xwkmhrtj",
              "blockName": "container",
              "children": [],
              "classes": [],
@@ -577,7 +712,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "h9kog839f",
+             "referenceBlockId": "ocbtk4vne",
              "tabletStyles": {}
             }
            ],
@@ -589,7 +724,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "ve48xpd67",
+           "referenceBlockId": "p2ewanzu4",
            "tabletStyles": {}
           },
           {
@@ -598,7 +733,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "7gsbsodpd",
+           "blockId": "qvga7innk",
            "blockName": "account",
            "children": [
             {
@@ -610,7 +745,7 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "5qw8sii46",
+             "blockId": "qq3wbpiqa",
              "blockName": "container",
              "children": [],
              "classes": [],
@@ -641,7 +776,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "kw809ri7n",
+             "referenceBlockId": "4zl287zup",
              "tabletStyles": {}
             }
            ],
@@ -653,7 +788,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "7jpx2bjqn",
+           "referenceBlockId": "ggnl76bez",
            "tabletStyles": {}
           },
           {
@@ -662,7 +797,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "3m5rowbo9",
+           "blockId": "bnio21ho1",
            "blockName": "cart",
            "children": [
             {
@@ -674,7 +809,7 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "lcjl4q5ta",
+             "blockId": "37qr1rlfz",
              "blockName": "container",
              "children": [],
              "classes": [],
@@ -704,7 +839,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "p8zqynexf",
+             "referenceBlockId": "ivrlns2j2",
              "tabletStyles": {}
             }
            ],
@@ -716,7 +851,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "ukbm9vabb",
+           "referenceBlockId": "b110de5vo",
            "tabletStyles": {}
           },
           {
@@ -725,7 +860,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "sg4b4xznm",
+           "blockId": "yjrok5ge3",
            "blockName": "menu",
            "children": [
             {
@@ -739,7 +874,7 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "vyj44e8le",
+             "blockId": "wevv1s87v",
              "blockName": "container",
              "children": [],
              "classes": [],
@@ -769,7 +904,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "7tzx5mmvl",
+             "referenceBlockId": "9y89n9ma3",
              "tabletStyles": {
               "display": "flex"
              }
@@ -783,7 +918,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "p14e9iky2",
+           "referenceBlockId": "e4zccit29",
            "tabletStyles": {}
           }
          ],
@@ -796,7 +931,7 @@
          "originalElement": "",
          "props": {},
          "rawStyles": {},
-         "referenceBlockId": "r9rbg0l22",
+         "referenceBlockId": "syhtv817p",
          "tabletStyles": {}
         }
        ],
@@ -809,7 +944,7 @@
        "originalElement": "",
        "props": {},
        "rawStyles": {},
-       "referenceBlockId": "0lk7kbe8i",
+       "referenceBlockId": "s8vujuf86",
        "tabletStyles": {},
        "visibilityCondition": {
         "comesFrom": "blockDataScript",
@@ -822,7 +957,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "qtzawy0b5",
+       "blockId": "0xa99u4f9",
        "blockName": "Nav - Links - Right",
        "children": [
         {
@@ -831,7 +966,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "1o8sx8kon",
+         "blockId": "8c5jwq555",
          "blockName": "Logo",
          "children": [
           {
@@ -840,16 +975,18 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "4avt7r6px",
+           "blockId": "jywrywoit",
            "blockName": "app logo",
            "children": [
             {
              "activeState": null,
-             "attributes": {},
+             "attributes": {
+              "src": "https://webshop-next.m.frappe.cloud/assets/erpnext/images/erpnext-favicon.svg"
+             },
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "jfa2euvqz",
+             "blockId": "g75r1rfpa",
              "children": [],
              "classes": [],
              "customAttributes": {},
@@ -859,7 +996,7 @@
              "mobileStyles": {},
              "props": {},
              "rawStyles": {},
-             "referenceBlockId": "6q2hj7b4d",
+             "referenceBlockId": "mr60auid8",
              "tabletStyles": {}
             }
            ],
@@ -872,7 +1009,7 @@
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "5cafop4cx",
+           "referenceBlockId": "dltuvwa67",
            "tabletStyles": {}
           },
           {
@@ -881,7 +1018,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "7bzsx3cpx",
+           "blockId": "q4xsm3046",
            "blockName": "Shop",
            "children": [],
            "classes": [],
@@ -893,20 +1030,27 @@
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "7kw2s6tj3",
+           "referenceBlockId": "ftlh5oul8",
            "tabletStyles": {}
           }
          ],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
-         "dynamicValues": [],
+         "dynamicValues": [
+          {
+           "comesFrom": "props",
+           "key": "homepage_link",
+           "property": "href",
+           "type": "attribute"
+          }
+         ],
          "isChildOfComponent": "5yb01f65yb01f65y",
          "mobileStyles": {},
          "originalElement": "",
          "props": {},
          "rawStyles": {},
-         "referenceBlockId": "ff1fr6qrg",
+         "referenceBlockId": "hkpurnzsm",
          "tabletStyles": {}
         },
         {
@@ -915,7 +1059,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "ase1y83r3",
+         "blockId": "y5lvabdkj",
          "blockName": "Links and Icons",
          "children": [
           {
@@ -924,7 +1068,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "adc7pgzjx",
+           "blockId": "n2sl46xg3",
            "blockName": "Links",
            "children": [
             {
@@ -933,19 +1077,32 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "hig11eue9",
+             "blockId": "t7f7tjirx",
              "blockName": "Shop",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
-             "dynamicValues": [],
+             "dynamicValues": [
+              {
+               "comesFrom": "props",
+               "key": "key",
+               "property": "innerHTML",
+               "type": "key"
+              },
+              {
+               "comesFrom": "props",
+               "key": "value",
+               "property": "href",
+               "type": "attribute"
+              }
+             ],
              "isChildOfComponent": "5yb01f65yb01f65y",
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
-             "referenceBlockId": "6uv0x1rk0",
+             "referenceBlockId": "1qloi2m3p",
              "tabletStyles": {}
             }
            ],
@@ -959,7 +1116,7 @@
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "r5gs1ed50",
+           "referenceBlockId": "899w6k7ai",
            "tabletStyles": {}
           },
           {
@@ -968,7 +1125,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "5isal4t7f",
+           "blockId": "2dzyp9ia8",
            "blockName": "divider",
            "children": [],
            "classes": [],
@@ -980,7 +1137,7 @@
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "aj75gs45t",
+           "referenceBlockId": "7zn554wir",
            "tabletStyles": {}
           },
           {
@@ -989,7 +1146,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "mv6g9apbd",
+           "blockId": "pm6ng5cuj",
            "blockName": "Icons",
            "children": [
             {
@@ -998,7 +1155,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "zoqi0ywpp",
+             "blockId": "hv1b65qyf",
              "blockName": "search",
              "children": [
               {
@@ -1010,7 +1167,7 @@
                },
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "c9ojme083",
+               "blockId": "4gxak4fqc",
                "blockName": "container",
                "children": [],
                "classes": [],
@@ -1038,7 +1195,7 @@
                 }
                },
                "rawStyles": {},
-               "referenceBlockId": "uw438xg9v",
+               "referenceBlockId": "30n9fz8kc",
                "tabletStyles": {}
               }
              ],
@@ -1050,7 +1207,7 @@
              "mobileStyles": {},
              "props": {},
              "rawStyles": {},
-             "referenceBlockId": "4jti375bv",
+             "referenceBlockId": "beuq3bl85",
              "tabletStyles": {}
             },
             {
@@ -1059,7 +1216,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "ik5shwq0o",
+             "blockId": "hgr78yjm1",
              "blockName": "account",
              "children": [
               {
@@ -1071,7 +1228,7 @@
                },
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "tx05k17y5",
+               "blockId": "8s70mc3xb",
                "blockName": "container",
                "children": [],
                "classes": [],
@@ -1102,7 +1259,7 @@
                 }
                },
                "rawStyles": {},
-               "referenceBlockId": "0763hlvoz",
+               "referenceBlockId": "cnv4y1oyz",
                "tabletStyles": {}
               }
              ],
@@ -1114,7 +1271,7 @@
              "mobileStyles": {},
              "props": {},
              "rawStyles": {},
-             "referenceBlockId": "uhbliqtwq",
+             "referenceBlockId": "eazmatxwa",
              "tabletStyles": {}
             },
             {
@@ -1123,7 +1280,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "fv4o27mae",
+             "blockId": "2lln993jq",
              "blockName": "cart",
              "children": [
               {
@@ -1135,7 +1292,7 @@
                },
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "1c9gfs087",
+               "blockId": "84ftcgbtx",
                "blockName": "container",
                "children": [],
                "classes": [],
@@ -1165,7 +1322,7 @@
                 }
                },
                "rawStyles": {},
-               "referenceBlockId": "u5rmjuqv1",
+               "referenceBlockId": "wfhb55toj",
                "tabletStyles": {}
               }
              ],
@@ -1177,7 +1334,7 @@
              "mobileStyles": {},
              "props": {},
              "rawStyles": {},
-             "referenceBlockId": "31fakd4oj",
+             "referenceBlockId": "9aw1tmvfo",
              "tabletStyles": {}
             },
             {
@@ -1186,7 +1343,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "9jhg7idxk",
+             "blockId": "90zif7g19",
              "blockName": "menu",
              "children": [
               {
@@ -1200,7 +1357,7 @@
                },
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "isuiaudp3",
+               "blockId": "ks8j7j7hg",
                "blockName": "container",
                "children": [],
                "classes": [],
@@ -1230,7 +1387,7 @@
                 }
                },
                "rawStyles": {},
-               "referenceBlockId": "1j3ktodqe",
+               "referenceBlockId": "01i9ms1bk",
                "tabletStyles": {
                 "display": "flex"
                }
@@ -1244,7 +1401,7 @@
              "mobileStyles": {},
              "props": {},
              "rawStyles": {},
-             "referenceBlockId": "fb91o4q0u",
+             "referenceBlockId": "qctzilhl5",
              "tabletStyles": {}
             }
            ],
@@ -1257,7 +1414,7 @@
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "khqd3ukeh",
+           "referenceBlockId": "u0mujab6r",
            "tabletStyles": {}
           }
          ],
@@ -1270,7 +1427,7 @@
          "originalElement": "",
          "props": {},
          "rawStyles": {},
-         "referenceBlockId": "peeszbuep",
+         "referenceBlockId": "wj3i9io0c",
          "tabletStyles": {}
         }
        ],
@@ -1283,7 +1440,7 @@
        "originalElement": "",
        "props": {},
        "rawStyles": {},
-       "referenceBlockId": "tz9m8fehm",
+       "referenceBlockId": "2s0366k6t",
        "tabletStyles": {},
        "visibilityCondition": {
         "comesFrom": "blockDataScript",
@@ -1296,7 +1453,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "z3k6fbvl0",
+       "blockId": "ax6o4qoti",
        "blockName": "Nav - Links - Left",
        "children": [
         {
@@ -1305,7 +1462,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "tkd8jfymi",
+         "blockId": "xo2m3mo77",
          "blockName": "Logo and Links",
          "children": [
           {
@@ -1314,7 +1471,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "xt3p48tmd",
+           "blockId": "agcmyidl1",
            "blockName": "Logo",
            "children": [
             {
@@ -1323,16 +1480,18 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "8vwh0buz4",
+             "blockId": "nvbwdd1ra",
              "blockName": "app logo",
              "children": [
               {
                "activeState": null,
-               "attributes": {},
+               "attributes": {
+                "src": "https://webshop-next.m.frappe.cloud/assets/erpnext/images/erpnext-favicon.svg"
+               },
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "6yv248yn9",
+               "blockId": "wh2wkl05g",
                "children": [],
                "classes": [],
                "customAttributes": {},
@@ -1342,7 +1501,7 @@
                "mobileStyles": {},
                "props": {},
                "rawStyles": {},
-               "referenceBlockId": "zwf3n5dpu",
+               "referenceBlockId": "tnhej669s",
                "tabletStyles": {}
               }
              ],
@@ -1355,7 +1514,7 @@
              "originalElement": "",
              "props": {},
              "rawStyles": {},
-             "referenceBlockId": "c48sk6nkn",
+             "referenceBlockId": "ew0ghclsf",
              "tabletStyles": {}
             },
             {
@@ -1364,7 +1523,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "t5h5aqycb",
+             "blockId": "vltwuvz68",
              "blockName": "Shop",
              "children": [],
              "classes": [],
@@ -1376,20 +1535,27 @@
              "originalElement": "",
              "props": {},
              "rawStyles": {},
-             "referenceBlockId": "f52psta1h",
+             "referenceBlockId": "fimh1mgpk",
              "tabletStyles": {}
             }
            ],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
-           "dynamicValues": [],
+           "dynamicValues": [
+            {
+             "comesFrom": "props",
+             "key": "homepage_link",
+             "property": "href",
+             "type": "attribute"
+            }
+           ],
            "isChildOfComponent": "5yb01f65yb01f65y",
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "s7xifzd8i",
+           "referenceBlockId": "m4iww0axy",
            "tabletStyles": {}
           },
           {
@@ -1398,7 +1564,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "kg0th2gnj",
+           "blockId": "0xryph994",
            "blockName": "divider",
            "children": [
             {
@@ -1407,7 +1573,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "9d2teyq20",
+             "blockId": "f9tu5losj",
              "blockName": "value",
              "children": [],
              "classes": [],
@@ -1419,7 +1585,7 @@
              "originalElement": "__raw_html__",
              "props": {},
              "rawStyles": {},
-             "referenceBlockId": "16ui29mto",
+             "referenceBlockId": "qrzr28l4p",
              "tabletStyles": {}
             }
            ],
@@ -1432,7 +1598,7 @@
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "dcy9ns4wm",
+           "referenceBlockId": "yrxb01q9y",
            "tabletStyles": {}
           },
           {
@@ -1441,7 +1607,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "mdxe2bd7y",
+           "blockId": "wn2t58wej",
            "blockName": "Links",
            "children": [
             {
@@ -1450,19 +1616,32 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "xesymxab3",
+             "blockId": "0x556ag90",
              "blockName": "Shop",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
-             "dynamicValues": [],
+             "dynamicValues": [
+              {
+               "comesFrom": "props",
+               "key": "key",
+               "property": "innerHTML",
+               "type": "key"
+              },
+              {
+               "comesFrom": "props",
+               "key": "value",
+               "property": "href",
+               "type": "attribute"
+              }
+             ],
              "isChildOfComponent": "5yb01f65yb01f65y",
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
-             "referenceBlockId": "4y5i050gm",
+             "referenceBlockId": "12q8tbpjl",
              "tabletStyles": {}
             }
            ],
@@ -1476,7 +1655,7 @@
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "yerdgq4c2",
+           "referenceBlockId": "thxg1gn2l",
            "tabletStyles": {}
           }
          ],
@@ -1489,7 +1668,7 @@
          "originalElement": "",
          "props": {},
          "rawStyles": {},
-         "referenceBlockId": "xid4ot43s",
+         "referenceBlockId": "339ftqogr",
          "tabletStyles": {}
         },
         {
@@ -1498,7 +1677,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "kzcyhetyk",
+         "blockId": "ru308s2aq",
          "blockName": "Icons",
          "children": [
           {
@@ -1507,7 +1686,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "aidotaa1i",
+           "blockId": "z1wwxm3y9",
            "blockName": "search",
            "children": [
             {
@@ -1519,7 +1698,7 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "pta1jr6m7",
+             "blockId": "tzsui3nz7",
              "blockName": "container",
              "children": [],
              "classes": [],
@@ -1547,7 +1726,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "xoixqdqoa",
+             "referenceBlockId": "4cv6my4pt",
              "tabletStyles": {}
             }
            ],
@@ -1559,7 +1738,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "h5x36a4ux",
+           "referenceBlockId": "zso7wfeqb",
            "tabletStyles": {}
           },
           {
@@ -1568,7 +1747,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "d56ma0e0a",
+           "blockId": "d1ghbj6uw",
            "blockName": "account",
            "children": [
             {
@@ -1580,7 +1759,7 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "kmjsf5g3q",
+             "blockId": "zgh17i701",
              "blockName": "container",
              "children": [],
              "classes": [],
@@ -1611,7 +1790,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "oziq7vxpv",
+             "referenceBlockId": "fj4csh5g8",
              "tabletStyles": {}
             }
            ],
@@ -1623,7 +1802,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "g2901oxlf",
+           "referenceBlockId": "xjqalme0n",
            "tabletStyles": {}
           },
           {
@@ -1632,7 +1811,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "zcrxph5dq",
+           "blockId": "9j1rwreuz",
            "blockName": "cart",
            "children": [
             {
@@ -1644,7 +1823,7 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "9qsme1frl",
+             "blockId": "tv9dq03uf",
              "blockName": "container",
              "children": [],
              "classes": [],
@@ -1674,7 +1853,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "2wmbae8ma",
+             "referenceBlockId": "on5ug7vxz",
              "tabletStyles": {}
             }
            ],
@@ -1686,7 +1865,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "c883yirvw",
+           "referenceBlockId": "89e9tmnsq",
            "tabletStyles": {}
           },
           {
@@ -1695,7 +1874,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "b6ox18pm8",
+           "blockId": "ldckdunc1",
            "blockName": "menu",
            "children": [
             {
@@ -1709,7 +1888,7 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "nnstcpjp7",
+             "blockId": "c6lp8o6uh",
              "blockName": "container",
              "children": [],
              "classes": [],
@@ -1739,7 +1918,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "1dj98xrnn",
+             "referenceBlockId": "9q9z8ne21",
              "tabletStyles": {
               "display": "flex"
              }
@@ -1753,7 +1932,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "sof32wbos",
+           "referenceBlockId": "duo996sbl",
            "tabletStyles": {}
           }
          ],
@@ -1766,7 +1945,7 @@
          "originalElement": "",
          "props": {},
          "rawStyles": {},
-         "referenceBlockId": "s1pzl4g04",
+         "referenceBlockId": "hg6y39j6c",
          "tabletStyles": {}
         }
        ],
@@ -1779,7 +1958,7 @@
        "originalElement": "",
        "props": {},
        "rawStyles": {},
-       "referenceBlockId": "55gu4ae5t",
+       "referenceBlockId": "c9ua4ifix",
        "tabletStyles": {},
        "visibilityCondition": {
         "comesFrom": "blockDataScript",
@@ -1792,7 +1971,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "8lq58cpm1",
+       "blockId": "mg8i729us",
        "blockName": "Nav - Logo - Center",
        "children": [
         {
@@ -1801,7 +1980,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "83f825vck",
+         "blockId": "4ybznfm2q",
          "blockName": "Links",
          "children": [
           {
@@ -1810,19 +1989,32 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "t97blvmrt",
+           "blockId": "0kmouspqm",
            "blockName": "Shop",
            "children": [],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
-           "dynamicValues": [],
+           "dynamicValues": [
+            {
+             "comesFrom": "props",
+             "key": "key",
+             "property": "innerHTML",
+             "type": "key"
+            },
+            {
+             "comesFrom": "props",
+             "key": "value",
+             "property": "href",
+             "type": "attribute"
+            }
+           ],
            "isChildOfComponent": "5yb01f65yb01f65y",
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "mbw1j1hld",
+           "referenceBlockId": "hqqstqulg",
            "tabletStyles": {}
           }
          ],
@@ -1836,7 +2028,7 @@
          "originalElement": "",
          "props": {},
          "rawStyles": {},
-         "referenceBlockId": "f5oiyfit7",
+         "referenceBlockId": "6hycd5mzw",
          "tabletStyles": {}
         },
         {
@@ -1845,7 +2037,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "10zajikw4",
+         "blockId": "piqckrmw1",
          "blockName": "Logo",
          "children": [
           {
@@ -1854,16 +2046,18 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "ud621gup0",
+           "blockId": "84qu7ihaj",
            "blockName": "app logo",
            "children": [
             {
              "activeState": null,
-             "attributes": {},
+             "attributes": {
+              "src": "https://webshop-next.m.frappe.cloud/assets/erpnext/images/erpnext-favicon.svg"
+             },
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "s7oj8skbn",
+             "blockId": "n1sskflnv",
              "children": [],
              "classes": [],
              "customAttributes": {},
@@ -1873,7 +2067,7 @@
              "mobileStyles": {},
              "props": {},
              "rawStyles": {},
-             "referenceBlockId": "r9b06cdd0",
+             "referenceBlockId": "i39bn0erz",
              "tabletStyles": {}
             }
            ],
@@ -1886,7 +2080,7 @@
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "omj05uml0",
+           "referenceBlockId": "xg7vupgsp",
            "tabletStyles": {}
           },
           {
@@ -1895,7 +2089,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "7r89rhtxt",
+           "blockId": "bj8d1dnyu",
            "blockName": "Shop",
            "children": [],
            "classes": [],
@@ -1907,20 +2101,27 @@
            "originalElement": "",
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "ab4qa9281",
+           "referenceBlockId": "mqyrajmok",
            "tabletStyles": {}
           }
          ],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
-         "dynamicValues": [],
+         "dynamicValues": [
+          {
+           "comesFrom": "props",
+           "key": "homepage_link",
+           "property": "href",
+           "type": "attribute"
+          }
+         ],
          "isChildOfComponent": "5yb01f65yb01f65y",
          "mobileStyles": {},
          "originalElement": "",
          "props": {},
          "rawStyles": {},
-         "referenceBlockId": "ssod9b589",
+         "referenceBlockId": "bhmwh7vmb",
          "tabletStyles": {}
         },
         {
@@ -1929,7 +2130,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "nc9nads8n",
+         "blockId": "5w5om454b",
          "blockName": "Icons",
          "children": [
           {
@@ -1938,7 +2139,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "uo7fla37l",
+           "blockId": "c2dsnctmp",
            "blockName": "search",
            "children": [
             {
@@ -1950,7 +2151,7 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "2hxc4crgp",
+             "blockId": "w5wflrf7k",
              "blockName": "container",
              "children": [],
              "classes": [],
@@ -1978,7 +2179,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "rvq5w542q",
+             "referenceBlockId": "93yiq9u9v",
              "tabletStyles": {}
             }
            ],
@@ -1990,7 +2191,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "ck6khllvb",
+           "referenceBlockId": "mrvybc76g",
            "tabletStyles": {}
           },
           {
@@ -1999,7 +2200,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "ln8v4fgih",
+           "blockId": "gqtzsoyqt",
            "blockName": "account",
            "children": [
             {
@@ -2011,7 +2212,7 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "rlnbl8nwo",
+             "blockId": "qhidd9h3m",
              "blockName": "container",
              "children": [],
              "classes": [],
@@ -2042,7 +2243,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "honfqm1t1",
+             "referenceBlockId": "899ohxoz4",
              "tabletStyles": {}
             }
            ],
@@ -2054,7 +2255,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "ypfzwm761",
+           "referenceBlockId": "lbbaesgzs",
            "tabletStyles": {}
           },
           {
@@ -2063,7 +2264,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "u4zzpjax6",
+           "blockId": "tpuaxc0um",
            "blockName": "cart",
            "children": [
             {
@@ -2075,7 +2276,7 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "ygp5kguqt",
+             "blockId": "nypnwwakv",
              "blockName": "container",
              "children": [],
              "classes": [],
@@ -2105,7 +2306,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "rzqsnt353",
+             "referenceBlockId": "inc815xq1",
              "tabletStyles": {}
             }
            ],
@@ -2117,7 +2318,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "pm817aeqs",
+           "referenceBlockId": "o8x45ilca",
            "tabletStyles": {}
           },
           {
@@ -2126,7 +2327,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "9ony7ihxw",
+           "blockId": "cnhqwkbo4",
            "blockName": "menu",
            "children": [
             {
@@ -2140,7 +2341,7 @@
              },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "ktzk154nm",
+             "blockId": "sp823zrf6",
              "blockName": "container",
              "children": [],
              "classes": [],
@@ -2170,7 +2371,7 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "ineelngln",
+             "referenceBlockId": "apymw755n",
              "tabletStyles": {
               "display": "flex"
              }
@@ -2184,7 +2385,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "a3ltg9lk9",
+           "referenceBlockId": "51bmlcfl6",
            "tabletStyles": {}
           }
          ],
@@ -2197,7 +2398,7 @@
          "originalElement": "",
          "props": {},
          "rawStyles": {},
-         "referenceBlockId": "8hsd4s0ld",
+         "referenceBlockId": "nssxjc5v8",
          "tabletStyles": {}
         }
        ],
@@ -2210,7 +2411,7 @@
        "originalElement": "",
        "props": {},
        "rawStyles": {},
-       "referenceBlockId": "t1wbpeyyz",
+       "referenceBlockId": "it77ce733",
        "tabletStyles": {},
        "visibilityCondition": {
         "comesFrom": "blockDataScript",
@@ -2223,7 +2424,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "wckr0ibau",
+       "blockId": "ed9uq93wq",
        "blockName": "Menu",
        "children": [
         {
@@ -2232,7 +2433,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "b7k8pbgxz",
+         "blockId": "tjdzycz5m",
          "children": [
           {
            "activeState": null,
@@ -2240,7 +2441,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "aldnhvvo7",
+           "blockId": "gxrgipcrj",
            "blockName": "container",
            "children": [],
            "classes": [],
@@ -2268,7 +2469,7 @@
             }
            },
            "rawStyles": {},
-           "referenceBlockId": "138m1ks09",
+           "referenceBlockId": "od1wlpm8z",
            "tabletStyles": {
             "height": "24px",
             "width": "24px"
@@ -2283,7 +2484,7 @@
          "mobileStyles": {},
          "props": {},
          "rawStyles": {},
-         "referenceBlockId": "48sh4papx",
+         "referenceBlockId": "i3ljkylaz",
          "tabletStyles": {}
         },
         {
@@ -2292,7 +2493,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "ihv4ztnr0",
+         "blockId": "6vppr97gi",
          "blockName": "container",
          "children": [
           {
@@ -2301,7 +2502,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "e3gz5fxte",
+           "blockId": "cqzvhy2qy",
            "blockName": "repeater",
            "children": [
             {
@@ -2310,18 +2511,31 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "2l3g47idt",
+             "blockId": "f5ktfpb24",
              "blockName": "Links",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
-             "dynamicValues": [],
+             "dynamicValues": [
+              {
+               "comesFrom": "props",
+               "key": "key",
+               "property": "innerHTML",
+               "type": "key"
+              },
+              {
+               "comesFrom": "props",
+               "key": "value",
+               "property": "href",
+               "type": "attribute"
+              }
+             ],
              "isChildOfComponent": "5yb01f65yb01f65y",
              "mobileStyles": {},
              "props": {},
              "rawStyles": {},
-             "referenceBlockId": "ux9s1m3ph",
+             "referenceBlockId": "eho9buscb",
              "tabletStyles": {}
             }
            ],
@@ -2334,7 +2548,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "o2o5lbe37",
+           "referenceBlockId": "os4eg5sb9",
            "tabletStyles": {}
           },
           {
@@ -2343,7 +2557,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "bcrz1p8kr",
+           "blockId": "z0yckdvg3",
            "blockName": "p | Profile",
            "children": [],
            "classes": [],
@@ -2354,7 +2568,7 @@
            "mobileStyles": {},
            "props": {},
            "rawStyles": {},
-           "referenceBlockId": "jtcj3ckuq",
+           "referenceBlockId": "kaadwxz69",
            "tabletStyles": {}
           }
          ],
@@ -2366,7 +2580,7 @@
          "mobileStyles": {},
          "props": {},
          "rawStyles": {},
-         "referenceBlockId": "eqcg4c84z",
+         "referenceBlockId": "8lpkncr8x",
          "tabletStyles": {}
         }
        ],
@@ -2378,7 +2592,7 @@
        "mobileStyles": {},
        "props": {},
        "rawStyles": {},
-       "referenceBlockId": "ejq9b3pr2",
+       "referenceBlockId": "gt17s0mjq",
        "tabletStyles": {}
       }
      ],
@@ -2388,7 +2602,65 @@
      "dynamicValues": [],
      "extendedFromComponent": "5yb01f65yb01f65y",
      "mobileStyles": {},
-     "props": {},
+     "props": {
+      "homepage_link": {
+       "comesFrom": null,
+       "isDynamic": false,
+       "isPassedDown": true,
+       "isStandard": true,
+       "label": "Homepage Link",
+       "propOptions": {
+        "isRequired": false,
+        "options": {
+         "defaultValue": "/"
+        },
+        "type": "string"
+       },
+       "value": null
+      },
+      "links": {
+       "comesFrom": null,
+       "isDynamic": false,
+       "isPassedDown": true,
+       "isStandard": true,
+       "label": "Links",
+       "propOptions": {
+        "isRequired": false,
+        "options": {
+         "defaultValue": {
+          "About": "/about",
+          "Collections": "/collections",
+          "Store": "/store"
+         },
+         "maxItems": null,
+         "minItems": null
+        },
+        "type": "object"
+       },
+       "value": null
+      },
+      "variant": {
+       "comesFrom": null,
+       "isDynamic": false,
+       "isPassedDown": true,
+       "isStandard": true,
+       "label": "Variant",
+       "propOptions": {
+        "isRequired": false,
+        "options": {
+         "defaultValue": "Links - Left",
+         "options": [
+          "Links - Right",
+          "Links - Center",
+          "Links - Left",
+          "Logo - Center"
+         ]
+        },
+        "type": "select"
+       },
+       "value": "Logo - Center"
+      }
+     },
      "rawStyles": {},
      "tabletStyles": {}
     },
@@ -2398,7 +2670,7 @@
      "baseStyles": {},
      "blockClientScript": "",
      "blockDataScript": "",
-     "blockId": "do1wcry90",
+     "blockId": "5bcratlsh",
      "blockName": "Hero - White BG - Webshop",
      "children": [
       {
@@ -2407,7 +2679,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "nqqb70o0d",
+       "blockId": "svfpcsy28",
        "blockName": "Container",
        "children": [
         {
@@ -2416,7 +2688,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "9dovepbfc",
+         "blockId": "p96hk4e7d",
          "blockName": "Content",
          "children": [
           {
@@ -2425,29 +2697,36 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "c2vkfap3h",
+           "blockId": "0u7r2nr70",
            "blockName": "Texts",
            "children": [
             {
              "activeState": null,
              "attributes": {},
-             "baseStyles": {},
+             "baseStyles": {
+              "fontFamily": "Newsreader"
+             },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "yqqqf9i8k",
+             "blockId": "am7lw7bku",
              "blockName": "Medium length hero headline goes here",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": "<p>Engineerd for Comfort.</p><p>Designed for Builders.</p>",
              "isChildOfComponent": "1t7ojnv1t7ojnv1t",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "lgv3zhouf",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             },
             {
              "activeState": null,
@@ -2455,33 +2734,43 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "e9qgrx2dx",
+             "blockId": "xzcenf7m7",
              "blockName": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "1t7ojnv1t7ojnv1t",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "3mwaysrqp",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             }
            ],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "1t7ojnv1t7ojnv1t",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "j4qbdu5fo",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           },
           {
            "activeState": null,
@@ -2489,7 +2778,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "0cssfjh1r",
+           "blockId": "xgtt6au0d",
            "blockName": "CTAs",
            "children": [
             {
@@ -2498,7 +2787,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "h4n4dwqm9",
+             "blockId": "7klsi6hw0",
              "blockName": "button",
              "children": [
               {
@@ -2507,33 +2796,50 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "1chly57a2",
+               "blockId": "bpakm8fny",
                "blockName": "Discover",
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": "<p>Shop Latest</p>",
                "isChildOfComponent": "1t7ojnv1t7ojnv1t",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "n4gpz7feb",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               }
              ],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
-             "dynamicValues": [],
+             "dynamicValues": [
+              {
+               "comesFrom": "props",
+               "key": "primary_link",
+               "property": "href",
+               "type": "attribute"
+              }
+             ],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "1t7ojnv1t7ojnv1t",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "yg4vlskyv",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             },
             {
              "activeState": null,
@@ -2541,7 +2847,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "7j49181gl",
+             "blockId": "rdl6xhnr3",
              "blockName": "button",
              "children": [
               {
@@ -2550,20 +2856,25 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "acem11xfe",
+               "blockId": "sxvkd4nf9",
                "blockName": "Discover",
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": "<p>Browse Collections</p>",
                "isChildOfComponent": "1t7ojnv1t7ojnv1t",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "vl2bcrbn8",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               },
               {
                "activeState": null,
@@ -2571,7 +2882,7 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "yhtd80z3t",
+               "blockId": "xea7s6gvd",
                "blockName": "suffix",
                "children": [
                 {
@@ -2583,16 +2894,20 @@
                  },
                  "blockClientScript": "",
                  "blockDataScript": "",
-                 "blockId": "cm73g1ljx",
+                 "blockId": "ywy94m8e8",
                  "blockName": "container",
                  "children": [],
                  "classes": [],
                  "customAttributes": {},
                  "dataKey": null,
                  "dynamicValues": [],
-                 "extendedFromComponent": "826df5a3c09b1b06",
+                 "element": null,
+                 "extendedFromComponent": "3nago073nago073n",
+                 "innerHTML": null,
                  "isChildOfComponent": "1t7ojnv1t7ojnv1t",
+                 "isRepeaterBlock": false,
                  "mobileStyles": {},
+                 "originalElement": null,
                  "props": {
                   "icon_name": {
                    "comesFrom": null,
@@ -2612,59 +2927,87 @@
                  },
                  "rawStyles": {},
                  "referenceBlockId": "6q357dwz3",
-                 "tabletStyles": {}
+                 "tabletStyles": {},
+                 "visibilityCondition": null
                 }
                ],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
                "isChildOfComponent": "1t7ojnv1t7ojnv1t",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "6x1qy8yp4",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               }
              ],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
-             "dynamicValues": [],
+             "dynamicValues": [
+              {
+               "comesFrom": "props",
+               "key": "secondary_link",
+               "property": "href",
+               "type": "attribute"
+              }
+             ],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "1t7ojnv1t7ojnv1t",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "55sq933m1",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             }
            ],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "1t7ojnv1t7ojnv1t",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "ik1ehb3sv",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           }
          ],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
          "dynamicValues": [],
+         "element": null,
+         "extendedFromComponent": null,
+         "innerHTML": null,
          "isChildOfComponent": "1t7ojnv1t7ojnv1t",
+         "isRepeaterBlock": false,
          "mobileStyles": {},
          "originalElement": "",
          "props": {},
          "rawStyles": {},
          "referenceBlockId": "s3tqyuj2s",
-         "tabletStyles": {}
+         "tabletStyles": {},
+         "visibilityCondition": null
         },
         {
          "activeState": null,
@@ -2672,75 +3015,100 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "886cqvvu7",
+         "blockId": "9vp1vu1jk",
          "blockName": "Image",
          "children": [
           {
            "activeState": null,
-           "attributes": {},
+           "attributes": {
+            "src": "https://webshop-next.m.frappe.cloud/files/image 1.webp"
+           },
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "rjdc4zkjx",
+           "blockId": "rqwfuaxdo",
            "blockName": "image 1",
            "children": [],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "1t7ojnv1t7ojnv1t",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "cv0yxhlyx",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           }
          ],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
          "dynamicValues": [],
+         "element": null,
+         "extendedFromComponent": null,
+         "innerHTML": null,
          "isChildOfComponent": "1t7ojnv1t7ojnv1t",
+         "isRepeaterBlock": false,
          "mobileStyles": {},
          "originalElement": "",
          "props": {},
          "rawStyles": {},
          "referenceBlockId": "s1wfy5zse",
-         "tabletStyles": {}
+         "tabletStyles": {},
+         "visibilityCondition": null
         }
        ],
        "classes": [],
        "customAttributes": {},
        "dataKey": null,
        "dynamicValues": [],
+       "element": null,
+       "extendedFromComponent": null,
+       "innerHTML": null,
        "isChildOfComponent": "1t7ojnv1t7ojnv1t",
+       "isRepeaterBlock": false,
        "mobileStyles": {},
        "originalElement": "",
        "props": {},
        "rawStyles": {},
        "referenceBlockId": "gcgdpe5rj",
-       "tabletStyles": {}
+       "tabletStyles": {},
+       "visibilityCondition": null
       }
      ],
      "classes": [],
      "customAttributes": {},
      "dataKey": null,
      "dynamicValues": [],
+     "element": null,
      "extendedFromComponent": "1t7ojnv1t7ojnv1t",
+     "innerHTML": null,
+     "isChildOfComponent": null,
+     "isRepeaterBlock": false,
      "mobileStyles": {},
      "originalElement": "",
      "props": {},
      "rawStyles": {},
-     "tabletStyles": {}
+     "referenceBlockId": null,
+     "tabletStyles": {},
+     "visibilityCondition": null
     },
     {
      "activeState": null,
      "attributes": {},
-     "baseStyles": {},
+     "baseStyles": {
+      "backgroundColor": "rgb(250, 250, 250)"
+     },
      "blockClientScript": "",
      "blockDataScript": "",
-     "blockId": "5gi3pu6p4",
+     "blockId": "sb19hp8j2",
      "blockName": "Bento ",
      "children": [
       {
@@ -2749,7 +3117,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "8gho7o5d3",
+       "blockId": "3zhp3cbrb",
        "blockName": "Top Bar",
        "children": [
         {
@@ -2758,20 +3126,32 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "xnm02ikbp",
+         "blockId": "g2hmpy847",
          "blockName": "Collection Title",
          "children": [],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
-         "dynamicValues": [],
+         "dynamicValues": [
+          {
+           "comesFrom": "blockDataScript",
+           "key": "title",
+           "property": "innerHTML",
+           "type": "key"
+          }
+         ],
+         "element": null,
+         "extendedFromComponent": null,
+         "innerHTML": null,
          "isChildOfComponent": "10ui19m10ui19m10",
+         "isRepeaterBlock": false,
          "mobileStyles": {},
          "originalElement": "",
          "props": {},
          "rawStyles": {},
          "referenceBlockId": "44pl51npw",
-         "tabletStyles": {}
+         "tabletStyles": {},
+         "visibilityCondition": null
         },
         {
          "activeState": null,
@@ -2779,7 +3159,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "qks65cdv6",
+         "blockId": "j53o8sj1o",
          "blockName": "button",
          "children": [
           {
@@ -2788,20 +3168,25 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "hwevx6rt4",
+           "blockId": "qp9xgef84",
            "blockName": "Discover",
            "children": [],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "10ui19m10ui19m10",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "7rsyq6nry",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           },
           {
            "activeState": null,
@@ -2809,25 +3194,32 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "s7h5joly1",
+           "blockId": "cmx8fdtzw",
            "blockName": "suffix",
            "children": [
             {
              "activeState": null,
              "attributes": {},
-             "baseStyles": {},
+             "baseStyles": {
+              "height": "16px",
+              "width": "16px"
+             },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "8l3rpmw8z",
+             "blockId": "5wbj3116o",
              "blockName": "container",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
              "extendedFromComponent": "nw30smnw30smnw30",
+             "innerHTML": null,
              "isChildOfComponent": "10ui19m10ui19m10",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
+             "originalElement": null,
              "props": {
               "icon_name": {
                "comesFrom": null,
@@ -2846,121 +3238,27 @@
               }
              },
              "rawStyles": {},
-             "referenceBlockId": "xytwcn8lw",
-             "tabletStyles": {}
+             "referenceBlockId": "9vai472c9",
+             "tabletStyles": {},
+             "visibilityCondition": null
             }
            ],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "10ui19m10ui19m10",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "fx6grzp0x",
-           "tabletStyles": {}
-          }
-         ],
-         "classes": [],
-         "customAttributes": {},
-         "dataKey": null,
-         "dynamicValues": [],
-         "isChildOfComponent": "10ui19m10ui19m10",
-         "mobileStyles": {},
-         "originalElement": "",
-         "props": {},
-         "rawStyles": {},
-         "referenceBlockId": "zx2wp0tgh",
-         "tabletStyles": {}
-        }
-       ],
-       "classes": [],
-       "customAttributes": {},
-       "dataKey": null,
-       "dynamicValues": [],
-       "isChildOfComponent": "10ui19m10ui19m10",
-       "mobileStyles": {},
-       "originalElement": "",
-       "props": {},
-       "rawStyles": {},
-       "referenceBlockId": "21zgs1i3b",
-       "tabletStyles": {}
-      },
-      {
-       "activeState": null,
-       "attributes": {},
-       "baseStyles": {},
-       "blockClientScript": "",
-       "blockDataScript": "",
-       "blockId": "lrjssfwmx",
-       "blockName": "Bento Grid",
-       "children": [
-        {
-         "activeState": null,
-         "attributes": {},
-         "baseStyles": {},
-         "blockClientScript": "",
-         "blockDataScript": "",
-         "blockId": "wx3z4z429",
-         "blockName": "Item",
-         "children": [
-          {
-           "activeState": null,
-           "attributes": {},
-           "baseStyles": {},
-           "blockClientScript": "",
-           "blockDataScript": "",
-           "blockId": "hwyyrdh7u",
-           "blockName": "T-shirts",
-           "children": [],
-           "classes": [],
-           "customAttributes": {},
-           "dataKey": null,
-           "dynamicValues": [
-            {
-             "comesFrom": "props",
-             "key": "name",
-             "property": "innerHTML",
-             "type": "key"
-            }
-           ],
-           "isChildOfComponent": "8f048c6ca119fd7b",
-           "mobileStyles": {
-            "fontSize": "16px"
-           },
-           "originalElement": "",
-           "props": {},
-           "rawStyles": {},
-           "referenceBlockId": "sc2x6glnc",
-           "tabletStyles": {}
-          },
-          {
-           "activeState": null,
-           "attributes": {},
-           "baseStyles": {},
-           "blockClientScript": "",
-           "blockDataScript": "",
-           "blockId": "tmehji8lo",
-           "children": [],
-           "classes": [],
-           "customAttributes": {},
-           "dataKey": null,
-           "dynamicValues": [
-            {
-             "comesFrom": "blockDataScript",
-             "key": "details.image",
-             "property": "src",
-             "type": "attribute"
-            }
-           ],
-           "isChildOfComponent": "8f048c6ca119fd7b",
-           "mobileStyles": {},
-           "props": {},
-           "rawStyles": {},
-           "referenceBlockId": "apiag40yr",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           }
          ],
          "classes": [],
@@ -2974,8 +3272,144 @@
            "type": "attribute"
           }
          ],
-         "extendedFromComponent": "8f048c6ca119fd7b",
+         "element": null,
+         "extendedFromComponent": null,
+         "innerHTML": null,
          "isChildOfComponent": "10ui19m10ui19m10",
+         "isRepeaterBlock": false,
+         "mobileStyles": {},
+         "originalElement": "",
+         "props": {},
+         "rawStyles": {},
+         "referenceBlockId": "zx2wp0tgh",
+         "tabletStyles": {},
+         "visibilityCondition": null
+        }
+       ],
+       "classes": [],
+       "customAttributes": {},
+       "dataKey": null,
+       "dynamicValues": [],
+       "element": null,
+       "extendedFromComponent": null,
+       "innerHTML": null,
+       "isChildOfComponent": "10ui19m10ui19m10",
+       "isRepeaterBlock": false,
+       "mobileStyles": {},
+       "originalElement": "",
+       "props": {},
+       "rawStyles": {},
+       "referenceBlockId": "21zgs1i3b",
+       "tabletStyles": {},
+       "visibilityCondition": null
+      },
+      {
+       "activeState": null,
+       "attributes": {},
+       "baseStyles": {},
+       "blockClientScript": "",
+       "blockDataScript": "",
+       "blockId": "rrfh8cxkq",
+       "blockName": "Bento Grid",
+       "children": [
+        {
+         "activeState": null,
+         "attributes": {},
+         "baseStyles": {},
+         "blockClientScript": "",
+         "blockDataScript": "",
+         "blockId": "x4s9rkgq5",
+         "blockName": "Item",
+         "children": [
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {
+            "bottom": "18px",
+            "fontWeight": "500",
+            "left": "18px"
+           },
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "9jzsugpkw",
+           "blockName": "T-shirts",
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [
+            {
+             "comesFrom": "props",
+             "key": "name",
+             "property": "innerHTML",
+             "type": "key"
+            }
+           ],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
+           "isChildOfComponent": "5duqkgk5duqkgk5d",
+           "isRepeaterBlock": false,
+           "mobileStyles": {
+            "fontSize": "16px"
+           },
+           "originalElement": "",
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "sc2x6glnc",
+           "tabletStyles": {},
+           "visibilityCondition": null
+          },
+          {
+           "activeState": null,
+           "attributes": {},
+           "baseStyles": {},
+           "blockClientScript": "",
+           "blockDataScript": "",
+           "blockId": "im4ib9mzc",
+           "blockName": null,
+           "children": [],
+           "classes": [],
+           "customAttributes": {},
+           "dataKey": null,
+           "dynamicValues": [
+            {
+             "comesFrom": "blockDataScript",
+             "key": "details.image",
+             "property": "src",
+             "type": "attribute"
+            }
+           ],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
+           "isChildOfComponent": "5duqkgk5duqkgk5d",
+           "isRepeaterBlock": false,
+           "mobileStyles": {},
+           "originalElement": null,
+           "props": {},
+           "rawStyles": {},
+           "referenceBlockId": "apiag40yr",
+           "tabletStyles": {},
+           "visibilityCondition": null
+          }
+         ],
+         "classes": [],
+         "customAttributes": {},
+         "dataKey": null,
+         "dynamicValues": [
+          {
+           "comesFrom": "blockDataScript",
+           "key": "route",
+           "property": "href",
+           "type": "attribute"
+          }
+         ],
+         "element": null,
+         "extendedFromComponent": "5duqkgk5duqkgk5d",
+         "innerHTML": null,
+         "isChildOfComponent": "10ui19m10ui19m10",
+         "isRepeaterBlock": false,
          "mobileStyles": {
           "minHeight": "240px"
          },
@@ -3023,7 +3457,8 @@
           "flexShrink": 0,
           "minHeight": "360px",
           "width": "100%"
-         }
+         },
+         "visibilityCondition": null
         },
         {
          "activeState": null,
@@ -3031,7 +3466,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "5hbafly1v",
+         "blockId": "jju2yr849",
          "blockName": "Right Portion",
          "children": [
           {
@@ -3040,7 +3475,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "v3eq5w3yy",
+           "blockId": "jcfprpy8k",
            "blockName": "Top Portion",
            "children": [
             {
@@ -3049,16 +3484,20 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "0clurpp2y",
+             "blockId": "hqsv71bv1",
              "blockName": "Item",
              "children": [
               {
                "activeState": null,
                "attributes": {},
-               "baseStyles": {},
+               "baseStyles": {
+                "bottom": "18px",
+                "fontWeight": "500",
+                "left": "18px"
+               },
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "5mbzk6wri",
+               "blockId": "49yr7x3o0",
                "blockName": "T-shirts",
                "children": [],
                "classes": [],
@@ -3072,7 +3511,11 @@
                  "type": "key"
                 }
                ],
-               "isChildOfComponent": "8f048c6ca119fd7b",
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
+               "isChildOfComponent": "5duqkgk5duqkgk5d",
+               "isRepeaterBlock": false,
                "mobileStyles": {
                 "fontSize": "16px"
                },
@@ -3080,7 +3523,8 @@
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "sc2x6glnc",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               },
               {
                "activeState": null,
@@ -3088,7 +3532,8 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "muw8jvbba",
+               "blockId": "ldm4dfz1s",
+               "blockName": null,
                "children": [],
                "classes": [],
                "customAttributes": {},
@@ -3101,12 +3546,18 @@
                  "type": "attribute"
                 }
                ],
-               "isChildOfComponent": "8f048c6ca119fd7b",
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
+               "isChildOfComponent": "5duqkgk5duqkgk5d",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
+               "originalElement": null,
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "apiag40yr",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               }
              ],
              "classes": [],
@@ -3120,8 +3571,11 @@
                "type": "attribute"
               }
              ],
-             "extendedFromComponent": "8f048c6ca119fd7b",
+             "element": null,
+             "extendedFromComponent": "5duqkgk5duqkgk5d",
+             "innerHTML": null,
              "isChildOfComponent": "10ui19m10ui19m10",
+             "isRepeaterBlock": false,
              "mobileStyles": {
               "minHeight": "240px"
              },
@@ -3164,7 +3618,8 @@
              },
              "rawStyles": {},
              "referenceBlockId": "r7nwt85u1",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             },
             {
              "activeState": null,
@@ -3172,16 +3627,20 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "ie4wuuvh0",
+             "blockId": "46zsmu3pz",
              "blockName": "Item",
              "children": [
               {
                "activeState": null,
                "attributes": {},
-               "baseStyles": {},
+               "baseStyles": {
+                "bottom": "18px",
+                "fontWeight": "500",
+                "left": "18px"
+               },
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "70v6rdtxk",
+               "blockId": "btpwg38h9",
                "blockName": "T-shirts",
                "children": [],
                "classes": [],
@@ -3195,7 +3654,11 @@
                  "type": "key"
                 }
                ],
-               "isChildOfComponent": "8f048c6ca119fd7b",
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
+               "isChildOfComponent": "5duqkgk5duqkgk5d",
+               "isRepeaterBlock": false,
                "mobileStyles": {
                 "fontSize": "16px"
                },
@@ -3203,15 +3666,19 @@
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "sc2x6glnc",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               },
               {
                "activeState": null,
                "attributes": {},
-               "baseStyles": {},
+               "baseStyles": {
+                "backgroundColor": "#F3F3F3"
+               },
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "qegux81bi",
+               "blockId": "pcbw9fpqu",
+               "blockName": null,
                "children": [],
                "classes": [],
                "customAttributes": {},
@@ -3224,12 +3691,20 @@
                  "type": "attribute"
                 }
                ],
-               "isChildOfComponent": "8f048c6ca119fd7b",
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
+               "isChildOfComponent": "5duqkgk5duqkgk5d",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
+               "originalElement": null,
                "props": {},
-               "rawStyles": {},
+               "rawStyles": {
+                "object-fit": "cover"
+               },
                "referenceBlockId": "apiag40yr",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               }
              ],
              "classes": [],
@@ -3243,8 +3718,11 @@
                "type": "attribute"
               }
              ],
-             "extendedFromComponent": "8f048c6ca119fd7b",
+             "element": null,
+             "extendedFromComponent": "5duqkgk5duqkgk5d",
+             "innerHTML": null,
              "isChildOfComponent": "10ui19m10ui19m10",
+             "isRepeaterBlock": false,
              "mobileStyles": {
               "minHeight": "240px"
              },
@@ -3287,20 +3765,26 @@
              },
              "rawStyles": {},
              "referenceBlockId": "i9k3q65wt",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             }
            ],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "10ui19m10ui19m10",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "6x2sduix0",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           },
           {
            "activeState": null,
@@ -3310,16 +3794,20 @@
            },
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "40tglo9ju",
+           "blockId": "bdhljsny5",
            "blockName": "Item",
            "children": [
             {
              "activeState": null,
              "attributes": {},
-             "baseStyles": {},
+             "baseStyles": {
+              "bottom": "18px",
+              "fontWeight": "500",
+              "left": "18px"
+             },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "6kx86is9r",
+             "blockId": "w2qxzx9by",
              "blockName": "T-shirts",
              "children": [],
              "classes": [],
@@ -3333,7 +3821,11 @@
                "type": "key"
               }
              ],
-             "isChildOfComponent": "8f048c6ca119fd7b",
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
+             "isChildOfComponent": "5duqkgk5duqkgk5d",
+             "isRepeaterBlock": false,
              "mobileStyles": {
               "fontSize": "16px"
              },
@@ -3341,15 +3833,19 @@
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "sc2x6glnc",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             },
             {
              "activeState": null,
              "attributes": {},
-             "baseStyles": {},
+             "baseStyles": {
+              "backgroundColor": "#F3F3F3"
+             },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "2cfm76cia",
+             "blockId": "m82raqvat",
+             "blockName": null,
              "children": [],
              "classes": [],
              "customAttributes": {},
@@ -3362,12 +3858,20 @@
                "type": "attribute"
               }
              ],
-             "isChildOfComponent": "8f048c6ca119fd7b",
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
+             "isChildOfComponent": "5duqkgk5duqkgk5d",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
+             "originalElement": null,
              "props": {},
-             "rawStyles": {},
+             "rawStyles": {
+              "object-fit": "contain"
+             },
              "referenceBlockId": "apiag40yr",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             }
            ],
            "classes": [],
@@ -3381,8 +3885,11 @@
              "type": "attribute"
             }
            ],
-           "extendedFromComponent": "8f048c6ca119fd7b",
+           "element": null,
+           "extendedFromComponent": "5duqkgk5duqkgk5d",
+           "innerHTML": null,
            "isChildOfComponent": "10ui19m10ui19m10",
+           "isRepeaterBlock": false,
            "mobileStyles": {
             "minHeight": "240px"
            },
@@ -3427,45 +3934,142 @@
            "referenceBlockId": "413x743or",
            "tabletStyles": {
             "minHeight": "360px"
-           }
+           },
+           "visibilityCondition": null
           }
          ],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
          "dynamicValues": [],
+         "element": null,
+         "extendedFromComponent": null,
+         "innerHTML": null,
          "isChildOfComponent": "10ui19m10ui19m10",
+         "isRepeaterBlock": false,
          "mobileStyles": {},
          "originalElement": "",
          "props": {},
          "rawStyles": {},
          "referenceBlockId": "ijc9217nw",
-         "tabletStyles": {}
+         "tabletStyles": {},
+         "visibilityCondition": null
         }
        ],
        "classes": [],
        "customAttributes": {},
        "dataKey": null,
        "dynamicValues": [],
+       "element": null,
+       "extendedFromComponent": null,
+       "innerHTML": null,
        "isChildOfComponent": "10ui19m10ui19m10",
+       "isRepeaterBlock": false,
        "mobileStyles": {},
        "originalElement": "",
        "props": {},
        "rawStyles": {},
        "referenceBlockId": "1keqbyl1j",
-       "tabletStyles": {}
+       "tabletStyles": {},
+       "visibilityCondition": null
       }
      ],
      "classes": [],
      "customAttributes": {},
      "dataKey": null,
      "dynamicValues": [],
+     "element": null,
      "extendedFromComponent": "10ui19m10ui19m10",
+     "innerHTML": null,
+     "isChildOfComponent": null,
+     "isRepeaterBlock": false,
      "mobileStyles": {},
      "originalElement": "",
-     "props": {},
+     "props": {
+      "bento_type": {
+       "comesFrom": null,
+       "isDynamic": false,
+       "isPassedDown": true,
+       "isStandard": true,
+       "label": "Type",
+       "propOptions": {
+        "isRequired": false,
+        "options": {
+         "defaultValue": "Category",
+         "options": [
+          "Collection",
+          "Category"
+         ]
+        },
+        "type": "select"
+       },
+       "value": null
+      },
+      "first_item": {
+       "comesFrom": null,
+       "isDynamic": false,
+       "isPassedDown": true,
+       "isStandard": true,
+       "label": "First Item",
+       "propOptions": {
+        "isRequired": false,
+        "options": {
+         "defaultValue": "T-Shirts"
+        },
+        "type": "string"
+       },
+       "value": "Shirts"
+      },
+      "fourth_item": {
+       "comesFrom": null,
+       "isDynamic": false,
+       "isPassedDown": true,
+       "isStandard": true,
+       "label": "Fourth Item",
+       "propOptions": {
+        "isRequired": false,
+        "options": {
+         "defaultValue": "Mugs"
+        },
+        "type": "string"
+       },
+       "value": "Laptop Bags"
+      },
+      "second_item": {
+       "comesFrom": null,
+       "isDynamic": false,
+       "isPassedDown": true,
+       "isStandard": true,
+       "label": "Second Item",
+       "propOptions": {
+        "isRequired": false,
+        "options": {
+         "defaultValue": "Laptop Bags"
+        },
+        "type": "string"
+       },
+       "value": "Hats"
+      },
+      "third_item": {
+       "comesFrom": null,
+       "isDynamic": false,
+       "isPassedDown": true,
+       "isStandard": true,
+       "label": "Third Item",
+       "propOptions": {
+        "isRequired": false,
+        "options": {
+         "defaultValue": "Hats"
+        },
+        "type": "string"
+       },
+       "value": "Mugs"
+      }
+     },
      "rawStyles": {},
-     "tabletStyles": {}
+     "referenceBlockId": null,
+     "tabletStyles": {},
+     "visibilityCondition": null
     },
     {
      "activeState": null,
@@ -3473,7 +4077,7 @@
      "baseStyles": {},
      "blockClientScript": "",
      "blockDataScript": "",
-     "blockId": "hzlrwolel",
+     "blockId": "t5a7338co",
      "blockName": "Product Grid",
      "children": [
       {
@@ -3482,7 +4086,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "0okq3z6d5",
+       "blockId": "72nzvptps",
        "blockName": "Wrapper",
        "children": [
         {
@@ -3491,7 +4095,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "9qwqs8j3v",
+         "blockId": "kyc46sx7t",
          "blockName": "Top Bar",
          "children": [
           {
@@ -3500,7 +4104,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "fiosqjh4x",
+           "blockId": "ru5gzo07t",
            "blockName": "Collection Name",
            "children": [
             {
@@ -3509,33 +4113,50 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "l9vz3u8l8",
+             "blockId": "nqt6ded5p",
              "blockName": "Products",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
-             "dynamicValues": [],
+             "dynamicValues": [
+              {
+               "comesFrom": "blockDataScript",
+               "key": "collection.collection_name",
+               "property": "innerHTML",
+               "type": "key"
+              }
+             ],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "4l0zp754l0zp754l",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "j99mj90oq",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             }
            ],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "4l0zp754l0zp754l",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "i63yh5b6p",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           },
           {
            "activeState": null,
@@ -3543,7 +4164,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "lc2juhf1v",
+           "blockId": "snydlg0w4",
            "blockName": "View All Link",
            "children": [
             {
@@ -3552,20 +4173,25 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "vw5cb2svi",
+             "blockId": "xck44ncuu",
              "blockName": "Discover",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "4l0zp754l0zp754l",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "h0apmgooz",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             },
             {
              "activeState": null,
@@ -3573,25 +4199,33 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "257xisonb",
+             "blockId": "70ey7n56x",
              "blockName": "suffix",
              "children": [
               {
                "activeState": null,
                "attributes": {},
-               "baseStyles": {},
+               "baseStyles": {
+                "height": "16px",
+                "opacity": "0.75",
+                "width": "16px"
+               },
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "tlgtqsjzr",
+               "blockId": "3puz7e0dw",
                "blockName": "container",
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
                "extendedFromComponent": "nw30smnw30smnw30",
+               "innerHTML": null,
                "isChildOfComponent": "4l0zp754l0zp754l",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
+               "originalElement": null,
                "props": {
                 "icon_name": {
                  "comesFrom": null,
@@ -3610,47 +4244,70 @@
                 }
                },
                "rawStyles": {},
-               "referenceBlockId": "h78rd0vap",
-               "tabletStyles": {}
+               "referenceBlockId": "kkfyyfaup",
+               "tabletStyles": {},
+               "visibilityCondition": null
               }
              ],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "4l0zp754l0zp754l",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "ti4sm5qgx",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             }
            ],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
-           "dynamicValues": [],
+           "dynamicValues": [
+            {
+             "comesFrom": "blockDataScript",
+             "key": "route",
+             "property": "href",
+             "type": "attribute"
+            }
+           ],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "4l0zp754l0zp754l",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "78iftqxzm",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           }
          ],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
          "dynamicValues": [],
+         "element": null,
+         "extendedFromComponent": null,
+         "innerHTML": null,
          "isChildOfComponent": "4l0zp754l0zp754l",
+         "isRepeaterBlock": false,
          "mobileStyles": {},
          "originalElement": "",
          "props": {},
          "rawStyles": {},
          "referenceBlockId": "43i05np0r",
-         "tabletStyles": {}
+         "tabletStyles": {},
+         "visibilityCondition": null
         },
         {
          "activeState": null,
@@ -3658,7 +4315,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "aznryb1kd",
+         "blockId": "adhpolik2",
          "blockName": "Products",
          "children": [
           {
@@ -3666,46 +4323,82 @@
            "attributes": {},
            "baseStyles": {},
            "blockClientScript": "",
-           "blockDataScript": "",
-           "blockId": "abe0142dt",
+           "blockDataScript": "price = frappe.call(\"webshop.webshop.api.get_item_price\",  item_code = block.website_item) or {}\nblock.item_price = price.get(\"formatted_price\", \"\")\n\nblock.is_template = bool(int(block.custom_has_variants))\n\nblock.route = f\"/item/{block.website_item}\"",
+           "blockId": "92jorg316",
            "blockName": "Item Info Getter",
            "children": [
             {
              "activeState": null,
              "attributes": {},
-             "baseStyles": {},
+             "baseStyles": {
+              "position": "relative"
+             },
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "w1lofkgbf",
+             "blockId": "kcogspnk3",
              "blockName": "Frame 22",
              "children": [
               {
                "activeState": null,
                "attributes": {},
-               "baseStyles": {},
+               "baseStyles": {
+                "alignItems": "center",
+                "alignSelf": "stretch",
+                "border": "1px solid  #E2E2E2",
+                "borderColor": "rgb(226, 226, 226)",
+                "borderRadius": "8px",
+                "borderStyle": "solid",
+                "borderWidth": "1px",
+                "display": "flex",
+                "gap": "10px",
+                "justifyContent": "center",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "position": "relative",
+                "width": "100%"
+               },
                "blockClientScript": "",
-               "blockDataScript": "",
-               "blockId": "2qttd5n50",
+               "blockDataScript": "block.is_image_available = bool(props[\"image\"])",
+               "blockId": "aaqid43dh",
                "blockName": "Frame 19",
                "children": [
                 {
                  "activeState": null,
-                 "attributes": {},
-                 "baseStyles": {},
+                 "attributes": {
+                  "src": "https://webshop-next.m.frappe.cloud/assets/webshop/builder_assets/image.webp"
+                 },
+                 "baseStyles": {
+                  "alignSelf": "stretch",
+                  "objectFit": "cover"
+                 },
                  "blockClientScript": "",
                  "blockDataScript": "",
-                 "blockId": "49g2313c5",
+                 "blockId": "cfbrrykgm",
                  "blockName": "image 2",
                  "children": [],
                  "classes": [],
                  "customAttributes": {},
                  "dataKey": null,
-                 "dynamicValues": [],
+                 "dynamicValues": [
+                  {
+                   "comesFrom": "blockDataScript",
+                   "key": "website_image",
+                   "property": "src",
+                   "type": "attribute"
+                  }
+                 ],
+                 "element": "img",
+                 "extendedFromComponent": null,
+                 "innerHTML": "",
                  "isChildOfComponent": "enur6fenur6fenur",
+                 "isRepeaterBlock": false,
                  "mobileStyles": {},
                  "originalElement": "",
                  "props": {},
-                 "rawStyles": {},
+                 "rawStyles": {
+                  "flex": "1 0 0",
+                  "object-fit": "contain"
+                 },
                  "referenceBlockId": "9dbthm1ik",
                  "tabletStyles": {},
                  "visibilityCondition": {
@@ -3716,17 +4409,30 @@
                 {
                  "activeState": null,
                  "attributes": {},
-                 "baseStyles": {},
+                 "baseStyles": {
+                  "fontSize": "16px",
+                  "height": "fit-content",
+                  "lineHeight": "1.4",
+                  "minWidth": "10px",
+                  "position": "static",
+                  "width": "fit-content"
+                 },
                  "blockClientScript": "",
-                 "blockDataScript": "",
-                 "blockId": "azzus8uqx",
+                 "blockDataScript": "block.is_image_not_available = not bool(props[\"image\"])",
+                 "blockId": "jpblskztl",
+                 "blockName": null,
                  "children": [],
                  "classes": [],
                  "customAttributes": {},
                  "dataKey": null,
                  "dynamicValues": [],
+                 "element": "p",
+                 "extendedFromComponent": null,
+                 "innerHTML": "<p>No Image Available</p>",
                  "isChildOfComponent": "enur6fenur6fenur",
+                 "isRepeaterBlock": false,
                  "mobileStyles": {},
+                 "originalElement": null,
                  "props": {},
                  "rawStyles": {},
                  "referenceBlockId": "slzk79vfr",
@@ -3741,114 +4447,195 @@
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": "section",
+               "extendedFromComponent": null,
+               "innerHTML": "",
                "isChildOfComponent": "enur6fenur6fenur",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
-               "rawStyles": {},
+               "rawStyles": {
+                "aspectRatio": "1/1"
+               },
                "referenceBlockId": "9u3y3fs71",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               },
               {
                "activeState": null,
                "attributes": {},
-               "baseStyles": {},
+               "baseStyles": {
+                "alignItems": "flex-start",
+                "alignSelf": "stretch",
+                "display": "flex",
+                "flexDirection": "column",
+                "gap": "20px",
+                "paddingTop": "10px",
+                "position": "relative",
+                "width": "100%"
+               },
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "da9bpx0yw",
+               "blockId": "u4257x99x",
                "blockName": "Frame 20",
                "children": [
                 {
                  "activeState": null,
                  "attributes": {},
-                 "baseStyles": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "alignSelf": "stretch",
+                  "display": "flex",
+                  "justifyContent": "space-between",
+                  "width": "100%"
+                 },
                  "blockClientScript": "",
                  "blockDataScript": "",
-                 "blockId": "scpyro0up",
+                 "blockId": "7sr12w39d",
                  "blockName": "Frame 188",
                  "children": [
                   {
                    "activeState": null,
                    "attributes": {},
-                   "baseStyles": {},
+                   "baseStyles": {
+                    "color": "rgb(0, 0, 0)",
+                    "fontSize": "16px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.24px",
+                    "lineHeight": "115% "
+                   },
                    "blockClientScript": "",
                    "blockDataScript": "",
-                   "blockId": "j62n2o21a",
+                   "blockId": "l3nev5y4k",
                    "blockName": "Product name",
                    "children": [],
                    "classes": [],
                    "customAttributes": {},
                    "dataKey": null,
-                   "dynamicValues": [],
+                   "dynamicValues": [
+                    {
+                     "comesFrom": "blockDataScript",
+                     "key": "custom_web_item_name",
+                     "property": "innerHTML",
+                     "type": "key"
+                    }
+                   ],
+                   "element": "p",
+                   "extendedFromComponent": null,
+                   "innerHTML": "<p>Product name</p>",
                    "isChildOfComponent": "enur6fenur6fenur",
+                   "isRepeaterBlock": false,
                    "mobileStyles": {},
                    "originalElement": "",
                    "props": {},
                    "rawStyles": {},
                    "referenceBlockId": "8tbsxvegb",
-                   "tabletStyles": {}
+                   "tabletStyles": {},
+                   "visibilityCondition": null
                   },
                   {
                    "activeState": null,
                    "attributes": {},
-                   "baseStyles": {},
+                   "baseStyles": {
+                    "color": "rgb(0, 0, 0)",
+                    "fontSize": "16px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.24px",
+                    "lineHeight": "115% "
+                   },
                    "blockClientScript": "",
                    "blockDataScript": "",
-                   "blockId": "3eiunj7ka",
+                   "blockId": "20h1tcr7a",
                    "blockName": "₹998",
                    "children": [],
                    "classes": [],
                    "customAttributes": {},
                    "dataKey": null,
-                   "dynamicValues": [],
+                   "dynamicValues": [
+                    {
+                     "comesFrom": "props",
+                     "key": "item_price",
+                     "property": "innerHTML",
+                     "type": "key"
+                    }
+                   ],
+                   "element": "p",
+                   "extendedFromComponent": null,
+                   "innerHTML": "<p>₹998</p>",
                    "isChildOfComponent": "enur6fenur6fenur",
+                   "isRepeaterBlock": false,
                    "mobileStyles": {},
                    "originalElement": "",
                    "props": {},
                    "rawStyles": {},
                    "referenceBlockId": "gu19bbp9v",
                    "tabletStyles": {},
-                   "visibilityCondition": {
-                    "comesFrom": "blockDataScript",
-                    "key": "show_price"
-                   }
+                   "visibilityCondition": null
                   }
                  ],
                  "classes": [],
                  "customAttributes": {},
                  "dataKey": null,
                  "dynamicValues": [],
+                 "element": "section",
+                 "extendedFromComponent": null,
+                 "innerHTML": "",
                  "isChildOfComponent": "enur6fenur6fenur",
+                 "isRepeaterBlock": false,
                  "mobileStyles": {},
                  "originalElement": "",
                  "props": {},
                  "rawStyles": {},
                  "referenceBlockId": "htls5ezy4",
-                 "tabletStyles": {}
+                 "tabletStyles": {},
+                 "visibilityCondition": null
                 },
                 {
                  "activeState": null,
                  "attributes": {},
-                 "baseStyles": {},
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "alignSelf": "stretch",
+                  "backgroundColor": "rgb(243, 243, 243)",
+                  "borderRadius": " 8px",
+                  "display": "flex",
+                  "gap": "8px",
+                  "height": "32px",
+                  "justifyContent": "center",
+                  "padding": "7px 10px",
+                  "position": "static",
+                  "width": "100%"
+                 },
                  "blockClientScript": "",
                  "blockDataScript": "",
-                 "blockId": "wg28pjkwi",
+                 "blockId": "5m4qkea1x",
                  "blockName": "button",
                  "children": [
                   {
                    "activeState": null,
                    "attributes": {},
-                   "baseStyles": {},
+                   "baseStyles": {
+                    "color": "rgb(56, 56, 56)",
+                    "fontSize": "14px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.21px",
+                    "lineHeight": "115% "
+                   },
                    "blockClientScript": "",
-                   "blockDataScript": "",
-                   "blockId": "49ehdbs47",
+                   "blockDataScript": "block.is_not_template = not bool(props[\"is_template\"])",
+                   "blockId": "pigw5e3w1",
                    "blockName": "Discover",
                    "children": [],
                    "classes": [],
                    "customAttributes": {},
                    "dataKey": null,
                    "dynamicValues": [],
+                   "element": "p",
+                   "extendedFromComponent": null,
+                   "innerHTML": "<p>Add to cart</p>",
                    "isChildOfComponent": "enur6fenur6fenur",
+                   "isRepeaterBlock": false,
                    "mobileStyles": {},
                    "originalElement": "",
                    "props": {},
@@ -3863,17 +4650,27 @@
                   {
                    "activeState": null,
                    "attributes": {},
-                   "baseStyles": {},
+                   "baseStyles": {
+                    "color": "rgb(56, 56, 56)",
+                    "fontSize": "14px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.21px",
+                    "lineHeight": "115% "
+                   },
                    "blockClientScript": "",
-                   "blockDataScript": "",
-                   "blockId": "evmijwi4g",
+                   "blockDataScript": "block.is_not_template = not bool(props[\"is_template\"])",
+                   "blockId": "3ww3n8per",
                    "blockName": "Discover",
                    "children": [],
                    "classes": [],
                    "customAttributes": {},
                    "dataKey": null,
                    "dynamicValues": [],
+                   "element": "p",
+                   "extendedFromComponent": null,
+                   "innerHTML": "<p>Explore</p>",
                    "isChildOfComponent": "enur6fenur6fenur",
+                   "isRepeaterBlock": false,
                    "mobileStyles": {},
                    "originalElement": "",
                    "props": {},
@@ -3890,43 +4687,150 @@
                  "customAttributes": {},
                  "dataKey": null,
                  "dynamicValues": [],
+                 "element": "div",
+                 "extendedFromComponent": null,
+                 "innerHTML": "",
                  "isChildOfComponent": "enur6fenur6fenur",
+                 "isRepeaterBlock": false,
                  "mobileStyles": {},
                  "originalElement": "",
                  "props": {},
                  "rawStyles": {},
                  "referenceBlockId": "3ip1daom3",
                  "tabletStyles": {},
-                 "visibilityCondition": {
-                  "comesFrom": "blockDataScript",
-                  "key": "is_cart_enabled"
-                 }
+                 "visibilityCondition": null
                 }
                ],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": "section",
+               "extendedFromComponent": null,
+               "innerHTML": "",
                "isChildOfComponent": "enur6fenur6fenur",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "s39quqlmp",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               }
              ],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
-             "dynamicValues": [],
+             "dynamicValues": [
+              {
+               "comesFrom": "props",
+               "key": "route",
+               "property": "href",
+               "type": "attribute"
+              }
+             ],
+             "element": null,
              "extendedFromComponent": "enur6fenur6fenur",
+             "innerHTML": null,
              "isChildOfComponent": "4l0zp754l0zp754l",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
-             "props": {},
+             "props": {
+              "image": {
+               "comesFrom": "blockDataScript",
+               "isDynamic": true,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Image",
+               "propOptions": {
+                "isRequired": false,
+                "options": {},
+                "type": "image"
+               },
+               "value": "website_image"
+              },
+              "is_template": {
+               "comesFrom": "blockDataScript",
+               "isDynamic": true,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Is Template",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "false",
+                 "falseLabel": "No",
+                 "trueLabel": "Yes"
+                },
+                "type": "boolean"
+               },
+               "value": "is_template"
+              },
+              "item_code": {
+               "comesFrom": "blockDataScript",
+               "isDynamic": true,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Item Code",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "item_code"
+                },
+                "type": "string"
+               },
+               "value": "item_code"
+              },
+              "item_name": {
+               "comesFrom": "blockDataScript",
+               "isDynamic": true,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Item Name",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "Item Name"
+                },
+                "type": "string"
+               },
+               "value": "item_name"
+              },
+              "item_price": {
+               "comesFrom": "blockDataScript",
+               "isDynamic": true,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Item Price",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "998"
+                },
+                "type": "string"
+               },
+               "value": "item_price"
+              },
+              "route": {
+               "comesFrom": "blockDataScript",
+               "isDynamic": true,
+               "isPassedDown": true,
+               "isStandard": true,
+               "label": "Route",
+               "propOptions": {
+                "isRequired": false,
+                "options": {
+                 "defaultValue": "/"
+                },
+                "type": "string"
+               },
+               "value": "route"
+              }
+             },
              "rawStyles": {},
-             "referenceBlockId": "6fe9glk81",
+             "referenceBlockId": "v9kgyygvf",
              "tabletStyles": {},
              "visibilityCondition": {}
             }
@@ -3935,18 +4839,27 @@
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "4l0zp754l0zp754l",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
+           "originalElement": null,
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "iw6gyzw78",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           }
          ],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
          "dynamicValues": [],
+         "element": null,
+         "extendedFromComponent": null,
+         "innerHTML": null,
          "isChildOfComponent": "4l0zp754l0zp754l",
          "isRepeaterBlock": true,
          "mobileStyles": {},
@@ -3954,32 +4867,44 @@
          "props": {},
          "rawStyles": {},
          "referenceBlockId": "shnhiya2c",
-         "tabletStyles": {}
+         "tabletStyles": {},
+         "visibilityCondition": null
         }
        ],
        "classes": [],
        "customAttributes": {},
        "dataKey": null,
        "dynamicValues": [],
+       "element": null,
+       "extendedFromComponent": null,
+       "innerHTML": null,
        "isChildOfComponent": "4l0zp754l0zp754l",
+       "isRepeaterBlock": false,
        "mobileStyles": {},
        "originalElement": "",
        "props": {},
        "rawStyles": {},
        "referenceBlockId": "v6l12akss",
-       "tabletStyles": {}
+       "tabletStyles": {},
+       "visibilityCondition": null
       }
      ],
      "classes": [],
      "customAttributes": {},
      "dataKey": null,
      "dynamicValues": [],
+     "element": null,
      "extendedFromComponent": "4l0zp754l0zp754l",
+     "innerHTML": null,
+     "isChildOfComponent": null,
+     "isRepeaterBlock": false,
      "mobileStyles": {},
      "originalElement": "",
      "props": {},
      "rawStyles": {},
-     "tabletStyles": {}
+     "referenceBlockId": null,
+     "tabletStyles": {},
+     "visibilityCondition": null
     },
     {
      "activeState": null,
@@ -3987,7 +4912,7 @@
      "baseStyles": {},
      "blockClientScript": "",
      "blockDataScript": "",
-     "blockId": "2iha7zk3l",
+     "blockId": "797twuinu",
      "blockName": "Featured Product",
      "children": [
       {
@@ -3996,7 +4921,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "dydcs30lb",
+       "blockId": "8si4v2xvh",
        "blockName": "Top Header",
        "children": [
         {
@@ -4005,33 +4930,43 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "xp0imh3uh",
+         "blockId": "twskx6r54",
          "blockName": "Featured Product",
          "children": [],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
          "dynamicValues": [],
+         "element": null,
+         "extendedFromComponent": null,
+         "innerHTML": null,
          "isChildOfComponent": "7so4gti7so4gti7s",
+         "isRepeaterBlock": false,
          "mobileStyles": {},
          "originalElement": "",
          "props": {},
          "rawStyles": {},
          "referenceBlockId": "aulecimco",
-         "tabletStyles": {}
+         "tabletStyles": {},
+         "visibilityCondition": null
         }
        ],
        "classes": [],
        "customAttributes": {},
        "dataKey": null,
        "dynamicValues": [],
+       "element": null,
+       "extendedFromComponent": null,
+       "innerHTML": null,
        "isChildOfComponent": "7so4gti7so4gti7s",
+       "isRepeaterBlock": false,
        "mobileStyles": {},
        "originalElement": "",
        "props": {},
        "rawStyles": {},
        "referenceBlockId": "6po7ntkhp",
-       "tabletStyles": {}
+       "tabletStyles": {},
+       "visibilityCondition": null
       },
       {
        "activeState": null,
@@ -4039,7 +4974,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "v1dxdn10q",
+       "blockId": "v47qi6w63",
        "blockName": "Main Details",
        "children": [
         {
@@ -4048,42 +4983,63 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "lrdbyis4j",
+         "blockId": "4qaud6gin",
          "blockName": "Image",
          "children": [
           {
            "activeState": null,
-           "attributes": {},
+           "attributes": {
+            "src": "https://webshop-next.m.frappe.cloud/assets/webshop/builder_assets/image83c748.webp"
+           },
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "9uw92g4gf",
+           "blockId": "obfh0cace",
            "blockName": "ChatGPT Image Jan 20, 2026, 01_51_00 PM 1",
            "children": [],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
-           "dynamicValues": [],
+           "dynamicValues": [
+            {
+             "comesFrom": "blockDataScript",
+             "key": "item_details.product_info.details.website_image",
+             "property": "src",
+             "type": "attribute"
+            }
+           ],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "7so4gti7so4gti7s",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
-           "rawStyles": {},
+           "rawStyles": {
+            "object-fit": "contain"
+           },
            "referenceBlockId": "ty0dj8o48",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           }
          ],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
          "dynamicValues": [],
+         "element": null,
+         "extendedFromComponent": null,
+         "innerHTML": null,
          "isChildOfComponent": "7so4gti7so4gti7s",
+         "isRepeaterBlock": false,
          "mobileStyles": {},
          "originalElement": "",
          "props": {},
          "rawStyles": {},
          "referenceBlockId": "emdutg5b7",
-         "tabletStyles": {}
+         "tabletStyles": {},
+         "visibilityCondition": null
         },
         {
          "activeState": null,
@@ -4091,7 +5047,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "vcrm0hsc3",
+         "blockId": "7dd8ehck9",
          "blockName": "Info",
          "children": [
           {
@@ -4100,7 +5056,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "xck10jp2a",
+           "blockId": "q0zx6ajlh",
            "blockName": "Name and Price",
            "children": [
             {
@@ -4109,20 +5065,32 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "4bbecednh",
+             "blockId": "sxpqrekuu",
              "blockName": "Frappeverse Tee Limited Edition",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
-             "dynamicValues": [],
+             "dynamicValues": [
+              {
+               "comesFrom": "blockDataScript",
+               "key": "item_details.product_info.details.web_item_name",
+               "property": "innerHTML",
+               "type": "key"
+              }
+             ],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "7so4gti7so4gti7s",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "w4qo90wse",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             },
             {
              "activeState": null,
@@ -4130,14 +5098,25 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "5fi9dzwdr",
+             "blockId": "uyinladck",
              "blockName": "₹998.00",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
-             "dynamicValues": [],
+             "dynamicValues": [
+              {
+               "comesFrom": "blockDataScript",
+               "key": "item_details.product_info.price.formatted_price",
+               "property": "innerHTML",
+               "type": "key"
+              }
+             ],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "7so4gti7so4gti7s",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
@@ -4154,12 +5133,20 @@
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "7so4gti7so4gti7s",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
+           "originalElement": null,
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "sateu2z7d",
-           "tabletStyles": {}
+           "tabletStyles": {
+            "gap": "8px"
+           },
+           "visibilityCondition": null
           },
           {
            "activeState": null,
@@ -4167,7 +5154,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "qza9jqp1x",
+           "blockId": "7ux4ipxaa",
            "blockName": "Desc and Cart",
            "children": [
             {
@@ -4176,20 +5163,32 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "mb9an1ou6",
+             "blockId": "vtl7nbe3j",
              "blockName": "Engineered for deep work and comfort. This heavyweight fleece hoodie features the iconic Frappe logo. Minimalist design for the modern developer. Pre-shrunk to maintain fit.",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
-             "dynamicValues": [],
+             "dynamicValues": [
+              {
+               "comesFrom": "blockDataScript",
+               "key": "item_details.product_info.details.short_description",
+               "property": "innerHTML",
+               "type": "key"
+              }
+             ],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "7so4gti7so4gti7s",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "cubqwtmvu",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             },
             {
              "activeState": null,
@@ -4197,7 +5196,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "rwcg3klja",
+             "blockId": "2qnl2pjik",
              "blockName": "Frame 54",
              "children": [
               {
@@ -4206,7 +5205,7 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "hig33kbzj",
+               "blockId": "3bv77urs0",
                "blockName": "button",
                "children": [
                 {
@@ -4215,34 +5214,42 @@
                  "baseStyles": {},
                  "blockClientScript": "",
                  "blockDataScript": "",
-                 "blockId": "70c7y53tc",
+                 "blockId": "5nu7e2udt",
                  "blockName": "Discover",
                  "children": [],
                  "classes": [],
                  "customAttributes": {},
                  "dataKey": null,
                  "dynamicValues": [],
+                 "extendedFromComponent": null,
                  "isChildOfComponent": "7so4gti7so4gti7s",
+                 "isRepeaterBlock": false,
                  "mobileStyles": {},
                  "originalElement": "",
                  "props": {},
                  "rawStyles": {},
                  "referenceBlockId": "i1csxj495",
-                 "tabletStyles": {}
+                 "tabletStyles": {},
+                 "visibilityCondition": null
                 }
                ],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "extendedFromComponent": null,
                "isChildOfComponent": "7so4gti7so4gti7s",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "6ibjriypq",
                "tabletStyles": {},
-               "visibilityCondition": {}
+               "visibilityCondition": {
+                "comesFrom": "blockDataScript",
+                "key": "item_details.cart_settings.enable_checkout"
+               }
               },
               {
                "activeState": null,
@@ -4250,7 +5257,7 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "hxamm1ewa",
+               "blockId": "19xvmueqj",
                "blockName": "button",
                "children": [
                 {
@@ -4259,40 +5266,50 @@
                  "baseStyles": {},
                  "blockClientScript": "",
                  "blockDataScript": "",
-                 "blockId": "64omludja",
+                 "blockId": "euzudqwil",
                  "blockName": "Discover",
                  "children": [],
                  "classes": [],
                  "customAttributes": {},
                  "dataKey": null,
                  "dynamicValues": [],
+                 "extendedFromComponent": null,
                  "isChildOfComponent": "7so4gti7so4gti7s",
+                 "isRepeaterBlock": false,
                  "mobileStyles": {},
                  "originalElement": "",
                  "props": {},
                  "rawStyles": {},
                  "referenceBlockId": "cltzbxgtl",
-                 "tabletStyles": {}
+                 "tabletStyles": {},
+                 "visibilityCondition": null
                 }
                ],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "extendedFromComponent": null,
                "isChildOfComponent": "7so4gti7so4gti7s",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "lk3cdqnpk",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               }
              ],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "7so4gti7so4gti7s",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
@@ -4309,58 +5326,103 @@
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "7so4gti7so4gti7s",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
+           "originalElement": null,
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "2sijw132r",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           }
          ],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
          "dynamicValues": [],
+         "element": null,
+         "extendedFromComponent": null,
+         "innerHTML": null,
          "isChildOfComponent": "7so4gti7so4gti7s",
+         "isRepeaterBlock": false,
          "mobileStyles": {},
          "originalElement": "",
          "props": {},
          "rawStyles": {},
          "referenceBlockId": "hrlfstcyt",
-         "tabletStyles": {}
+         "tabletStyles": {
+          "gap": "12px",
+          "minHeight": "auto"
+         },
+         "visibilityCondition": null
         }
        ],
        "classes": [],
        "customAttributes": {},
        "dataKey": null,
        "dynamicValues": [],
+       "element": null,
+       "extendedFromComponent": null,
+       "innerHTML": null,
        "isChildOfComponent": "7so4gti7so4gti7s",
+       "isRepeaterBlock": false,
        "mobileStyles": {},
        "originalElement": "",
        "props": {},
        "rawStyles": {},
        "referenceBlockId": "n0o5pt026",
-       "tabletStyles": {}
+       "tabletStyles": {
+        "gap": "32px"
+       },
+       "visibilityCondition": null
       }
      ],
      "classes": [],
      "customAttributes": {},
      "dataKey": null,
      "dynamicValues": [],
+     "element": null,
      "extendedFromComponent": "7so4gti7so4gti7s",
+     "innerHTML": null,
+     "isChildOfComponent": null,
+     "isRepeaterBlock": false,
      "mobileStyles": {},
      "originalElement": "",
-     "props": {},
+     "props": {
+      "item_code": {
+       "comesFrom": null,
+       "isDynamic": false,
+       "isPassedDown": true,
+       "isStandard": true,
+       "label": "Item Code",
+       "propOptions": {
+        "isRequired": false,
+        "options": {
+         "defaultValue": "WEB-ITM-0001"
+        },
+        "type": "string"
+       },
+       "value": "WEB-ITM-0003"
+      }
+     },
      "rawStyles": {},
-     "tabletStyles": {}
+     "referenceBlockId": null,
+     "tabletStyles": {},
+     "visibilityCondition": null
     },
     {
      "activeState": null,
      "attributes": {},
-     "baseStyles": {},
+     "baseStyles": {
+      "display": "flex"
+     },
      "blockClientScript": "",
      "blockDataScript": "",
-     "blockId": "fe656e6jd",
+     "blockId": "qx714do07",
      "blockName": "Footer",
      "children": [
       {
@@ -4369,7 +5431,7 @@
        "baseStyles": {},
        "blockClientScript": "",
        "blockDataScript": "",
-       "blockId": "bel7sdw9g",
+       "blockId": "vkof54r33",
        "blockName": "Frame 27",
        "children": [
         {
@@ -4378,7 +5440,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "2rmxvm8y1",
+         "blockId": "1253a7nuo",
          "blockName": "Frame 46",
          "children": [
           {
@@ -4387,7 +5449,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "hegdcl2kv",
+           "blockId": "ni6ssri6l",
            "blockName": "Frame 4",
            "children": [
             {
@@ -4396,7 +5458,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "w06ftwa3v",
+             "blockId": "bf6cfwjyd",
              "blockName": "app logo",
              "children": [
               {
@@ -4405,7 +5467,7 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "luff7fg05",
+               "blockId": "dllge17tt",
                "blockName": "Union",
                "children": [
                 {
@@ -4414,20 +5476,25 @@
                  "baseStyles": {},
                  "blockClientScript": "",
                  "blockDataScript": "",
-                 "blockId": "ndxnuavez",
+                 "blockId": "psjwesb36",
                  "blockName": "Vector",
                  "children": [],
                  "classes": [],
                  "customAttributes": {},
                  "dataKey": null,
                  "dynamicValues": [],
+                 "element": null,
+                 "extendedFromComponent": null,
+                 "innerHTML": null,
                  "isChildOfComponent": "ube0tcube0tcube0",
+                 "isRepeaterBlock": false,
                  "mobileStyles": {},
                  "originalElement": "__raw_html__",
                  "props": {},
                  "rawStyles": {},
                  "referenceBlockId": "6ln0lx5uk",
-                 "tabletStyles": {}
+                 "tabletStyles": {},
+                 "visibilityCondition": null
                 },
                 {
                  "activeState": null,
@@ -4435,46 +5502,61 @@
                  "baseStyles": {},
                  "blockClientScript": "",
                  "blockDataScript": "",
-                 "blockId": "ocye04exp",
+                 "blockId": "tfxu1bj8u",
                  "blockName": "Vector",
                  "children": [],
                  "classes": [],
                  "customAttributes": {},
                  "dataKey": null,
                  "dynamicValues": [],
+                 "element": null,
+                 "extendedFromComponent": null,
+                 "innerHTML": null,
                  "isChildOfComponent": "ube0tcube0tcube0",
+                 "isRepeaterBlock": false,
                  "mobileStyles": {},
                  "originalElement": "__raw_html__",
                  "props": {},
                  "rawStyles": {},
                  "referenceBlockId": "bji5tvyel",
-                 "tabletStyles": {}
+                 "tabletStyles": {},
+                 "visibilityCondition": null
                 }
                ],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
                "isChildOfComponent": "ube0tcube0tcube0",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "noxl565wu",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               }
              ],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "ube0tcube0tcube0",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "3wbkr9noe",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             },
             {
              "activeState": null,
@@ -4482,33 +5564,43 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "y2om9n9si",
+             "blockId": "83p2t0oja",
              "blockName": "Shop",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "ube0tcube0tcube0",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "ofytrnmg9",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             }
            ],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "ube0tcube0tcube0",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "8fey2m53n",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           },
           {
            "activeState": null,
@@ -4516,33 +5608,43 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "77bdmvlwx",
+           "blockId": "ei31y0o1f",
            "blockName": "Engineered for comfort. Designed for builders. The official merchandise store for the Frappe community.",
            "children": [],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "ube0tcube0tcube0",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "349h8s160",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           }
          ],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
          "dynamicValues": [],
+         "element": null,
+         "extendedFromComponent": null,
+         "innerHTML": null,
          "isChildOfComponent": "ube0tcube0tcube0",
+         "isRepeaterBlock": false,
          "mobileStyles": {},
          "originalElement": "",
          "props": {},
          "rawStyles": {},
          "referenceBlockId": "c30oktp89",
-         "tabletStyles": {}
+         "tabletStyles": {},
+         "visibilityCondition": null
         },
         {
          "activeState": null,
@@ -4550,7 +5652,7 @@
          "baseStyles": {},
          "blockClientScript": "",
          "blockDataScript": "",
-         "blockId": "k9gcxbtze",
+         "blockId": "68t47krm2",
          "blockName": "Frame 52",
          "children": [
           {
@@ -4559,7 +5661,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "evfjo5400",
+           "blockId": "byuqwjpos",
            "blockName": "Frame 49",
            "children": [
             {
@@ -4568,20 +5670,25 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "hnws29f2a",
+             "blockId": "tp6efj915",
              "blockName": "Shop",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "ube0tcube0tcube0",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "ezwers3vh",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             },
             {
              "activeState": null,
@@ -4589,7 +5696,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "h5i3ju6dm",
+             "blockId": "diissjqzr",
              "blockName": "Frame 48",
              "children": [
               {
@@ -4598,20 +5705,25 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "e1v4yvm93",
+               "blockId": "yp16q9qeg",
                "blockName": "New Arrivals",
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
                "isChildOfComponent": "ube0tcube0tcube0",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "kvi9a2mtp",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               },
               {
                "activeState": null,
@@ -4619,20 +5731,25 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "o0m0z62dp",
+               "blockId": "omvrrd9pz",
                "blockName": "Apparel",
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
                "isChildOfComponent": "ube0tcube0tcube0",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "q9vl9h7ot",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               },
               {
                "activeState": null,
@@ -4640,20 +5757,25 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "xr8gobzev",
+               "blockId": "lfemeta9r",
                "blockName": "Accessories",
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
                "isChildOfComponent": "ube0tcube0tcube0",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "0wuatwlbx",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               },
               {
                "activeState": null,
@@ -4661,46 +5783,61 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "is8ujd4hm",
+               "blockId": "jup7mb1w8",
                "blockName": "Gift cards",
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
                "isChildOfComponent": "ube0tcube0tcube0",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "55mckiue9",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               }
              ],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "ube0tcube0tcube0",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "5cwfe21b4",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             }
            ],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "ube0tcube0tcube0",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "wpmrwapx6",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           },
           {
            "activeState": null,
@@ -4708,7 +5845,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "nuzverogo",
+           "blockId": "gnucnu4s2",
            "blockName": "Frame 50",
            "children": [
             {
@@ -4717,20 +5854,25 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "fl3f0efcr",
+             "blockId": "7s0sugn0u",
              "blockName": "Support",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "ube0tcube0tcube0",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "yu2pcp4k7",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             },
             {
              "activeState": null,
@@ -4738,7 +5880,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "sz76v8n54",
+             "blockId": "ibyatiel2",
              "blockName": "Frame 48",
              "children": [
               {
@@ -4747,20 +5889,25 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "jxtiqrkwf",
+               "blockId": "q6h6k6qhg",
                "blockName": "Help Center",
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": "<p>Help Center</p>",
                "isChildOfComponent": "ube0tcube0tcube0",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "c12in8y6l",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               },
               {
                "activeState": null,
@@ -4768,20 +5915,25 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "ptsgwpbmd",
+               "blockId": "ayrfnhc6s",
                "blockName": "Returns",
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
                "isChildOfComponent": "ube0tcube0tcube0",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "jf3r7lztn",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               },
               {
                "activeState": null,
@@ -4789,46 +5941,61 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "r8s0bovge",
+               "blockId": "rxff4lojk",
                "blockName": "Contact Us",
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
                "isChildOfComponent": "ube0tcube0tcube0",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "um51gzxee",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               }
              ],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "ube0tcube0tcube0",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "h9by2vv77",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             }
            ],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "ube0tcube0tcube0",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "6geaqlhzh",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           },
           {
            "activeState": null,
@@ -4836,7 +6003,7 @@
            "baseStyles": {},
            "blockClientScript": "",
            "blockDataScript": "",
-           "blockId": "a2v0upxj4",
+           "blockId": "uaptct6cu",
            "blockName": "Frame 51",
            "children": [
             {
@@ -4845,20 +6012,25 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "lne4uer4q",
+             "blockId": "jciddm4uz",
              "blockName": "Legal",
              "children": [],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "ube0tcube0tcube0",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "1kkfn8jlf",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             },
             {
              "activeState": null,
@@ -4866,7 +6038,7 @@
              "baseStyles": {},
              "blockClientScript": "",
              "blockDataScript": "",
-             "blockId": "q0b2pfmx4",
+             "blockId": "osz2hwdbt",
              "blockName": "Frame 48",
              "children": [
               {
@@ -4875,20 +6047,25 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "blvend5ph",
+               "blockId": "js6z4na88",
                "blockName": "Privacy",
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
                "isChildOfComponent": "ube0tcube0tcube0",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "moslnn067",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               },
               {
                "activeState": null,
@@ -4896,84 +6073,117 @@
                "baseStyles": {},
                "blockClientScript": "",
                "blockDataScript": "",
-               "blockId": "2nbytr2uc",
+               "blockId": "4w01f85ob",
                "blockName": "Terms",
                "children": [],
                "classes": [],
                "customAttributes": {},
                "dataKey": null,
                "dynamicValues": [],
+               "element": null,
+               "extendedFromComponent": null,
+               "innerHTML": null,
                "isChildOfComponent": "ube0tcube0tcube0",
+               "isRepeaterBlock": false,
                "mobileStyles": {},
                "originalElement": "",
                "props": {},
                "rawStyles": {},
                "referenceBlockId": "c32fjums4",
-               "tabletStyles": {}
+               "tabletStyles": {},
+               "visibilityCondition": null
               }
              ],
              "classes": [],
              "customAttributes": {},
              "dataKey": null,
              "dynamicValues": [],
+             "element": null,
+             "extendedFromComponent": null,
+             "innerHTML": null,
              "isChildOfComponent": "ube0tcube0tcube0",
+             "isRepeaterBlock": false,
              "mobileStyles": {},
              "originalElement": "",
              "props": {},
              "rawStyles": {},
              "referenceBlockId": "aqv1en6ky",
-             "tabletStyles": {}
+             "tabletStyles": {},
+             "visibilityCondition": null
             }
            ],
            "classes": [],
            "customAttributes": {},
            "dataKey": null,
            "dynamicValues": [],
+           "element": null,
+           "extendedFromComponent": null,
+           "innerHTML": null,
            "isChildOfComponent": "ube0tcube0tcube0",
+           "isRepeaterBlock": false,
            "mobileStyles": {},
            "originalElement": "",
            "props": {},
            "rawStyles": {},
            "referenceBlockId": "25x2qvm2r",
-           "tabletStyles": {}
+           "tabletStyles": {},
+           "visibilityCondition": null
           }
          ],
          "classes": [],
          "customAttributes": {},
          "dataKey": null,
          "dynamicValues": [],
+         "element": null,
+         "extendedFromComponent": null,
+         "innerHTML": null,
          "isChildOfComponent": "ube0tcube0tcube0",
+         "isRepeaterBlock": false,
          "mobileStyles": {},
          "originalElement": "",
          "props": {},
          "rawStyles": {},
          "referenceBlockId": "kr2akrdl5",
-         "tabletStyles": {}
+         "tabletStyles": {},
+         "visibilityCondition": null
         }
        ],
        "classes": [],
        "customAttributes": {},
        "dataKey": null,
        "dynamicValues": [],
+       "element": null,
+       "extendedFromComponent": null,
+       "innerHTML": null,
        "isChildOfComponent": "ube0tcube0tcube0",
+       "isRepeaterBlock": false,
        "mobileStyles": {},
        "originalElement": "",
        "props": {},
        "rawStyles": {},
        "referenceBlockId": "jgu386igh",
-       "tabletStyles": {}
+       "tabletStyles": {},
+       "visibilityCondition": null
       }
      ],
      "classes": [],
      "customAttributes": {},
      "dataKey": null,
      "dynamicValues": [],
+     "element": null,
      "extendedFromComponent": "ube0tcube0tcube0",
-     "mobileStyles": {},
+     "innerHTML": null,
+     "isChildOfComponent": null,
+     "isRepeaterBlock": false,
+     "mobileStyles": {
+      "display": "flex"
+     },
      "originalElement": "",
      "props": {},
      "rawStyles": {},
-     "tabletStyles": {}
+     "referenceBlockId": null,
+     "tabletStyles": {},
+     "visibilityCondition": null
     }
    ],
    "classes": [],
@@ -4998,7 +6208,7 @@
   }
  ],
  "client_scripts": [],
- "creation": "2026-03-04 11:35:50.907128",
+ "creation": "2026-06-02 15:03:41.800402",
  "disable_indexing": 0,
  "docstatus": 0,
  "doctype": "Builder Page",
@@ -5008,15 +6218,14 @@
  "idx": 0,
  "is_standard": 1,
  "is_template": 0,
- "modified": "2026-06-05 08:15:15.885977",
+ "modified": "2026-06-02 15:07:37.924366",
  "modified_by": "Administrator",
- "name": "landing-page",
+ "name": "page-a813b66d",
  "owner": "Administrator",
- "page_name": "landing-page",
+ "page_name": "page-a813b66d",
  "page_title": "Shop - Frappe",
- "preview": "/files/landing-page-preview.webp?v=875ae",
+ "preview": "/assets/builder/images/fallback.png",
  "project_folder": "webshop",
- "published": 1,
- "published_at": "2026-06-02 16:21:26.955556",
+ "published": 0,
  "route": "shop"
 }
