@@ -51,7 +51,7 @@
 				<div itemprop="image" class="card-body">
 					<h5 class="card-title">{{ _(card.title) }}</h5>
 					<p class="card-subtitle mb-2 text-muted">{{ _(card.subtitle) or '' }}</p>
-					<p class="card-text">{{ card.content or '' | truncate(140, True) }}</p>
+					<p class="card-text">{{ _(card.content) or '' | truncate(140, True) }}</p>
 				</div>
 				<div class="card-body flex-grow-0">
 					<a href="{{ card.route }}" class="card-link">{{ _('More details') }}</a>
@@ -128,7 +128,7 @@
 	<div class="mt-4">
 		<a href="/{{ item.route or '#' }}">
 			<div class="product-title">
-				{{ title or '' }}
+				{{ _(title) or '' }}
 			</div>
 		</a>
 	</div>
@@ -138,7 +138,7 @@
 		</div>
 	{% else %}
 		{% if template != "Product Card" %}
-		<div class="product-category">{{ item.item_group or '' }}</div>
+		<div class="product-category">{{ _(item.item_group) or '' }}</div>
 		{% endif %}
 	{% endif %}
 </div>
@@ -233,23 +233,23 @@
 			{{ average_rating or 0 }}
 		</h2>
 		<div class="mb-2" style="margin-top: -.5rem;">
-			{{ frappe.utils.cstr(total_reviews or 0) + " " + _("ratings") }}
+			{{ frappe.utils.cstr(total_reviews or 0) }} {{ _("ratings") }}
 		</div>
 
 		<!-- Ratings Summary -->
 		{% if reviews %}
-			{% set rating_title = frappe.utils.cstr(average_rating) + " " + _("out of 5") if not for_summary else ''%}
-			{{ ratings_with_title(average_whole_rating/5, rating_title, "md", "rating-summary-title", for_summary) }}
+			{% set rating_title = frappe.utils.cstr(average_rating) }} {{ _("out of 5") if not for_summary else ''%}
+			{{ ratings_with_title(average_whole_rating, rating_title, "md", "rating-summary-title", for_summary) }}
 		{% endif %}
 
-		<div class="mt-2">{{ frappe.utils.cstr(average_rating or 0) + " " + _("out of 5") }}</div>
+		<div class="mt-2">{{ frappe.utils.cstr(average_rating or 0) }} {{ _("out of 5") }}</div>
 	</div>
 
 	<!-- Rating Progress Bars -->
 	<div class="rating-progress-bar-section col-4 ml-4">
 		{% for percent in reviews_per_rating %}
 			<div class="col-sm-4 small rating-bar-title">
-				{{ loop.index }} star
+				{{ loop.index }} {{ _("star") }}
 			</div>
 			<div class="row">
 				<div class="col-md-7">
