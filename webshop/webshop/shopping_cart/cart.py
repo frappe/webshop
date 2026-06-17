@@ -14,7 +14,10 @@ from webshop.webshop.doctype.webshop_settings.webshop_settings import (
     get_shopping_cart_settings,
 )
 from webshop.webshop.utils.product import get_web_item_qty_in_stock
-from erpnext.selling.doctype.quotation.quotation import _make_sales_order
+try:
+	from erpnext.selling.doctype.quotation.quotation import _make_sales_order
+except ImportError:
+	from erpnext.selling.doctype.quotation.mapper import _make_sales_order
 
 
 class WebsitePriceListMissingError(frappe.ValidationError):
