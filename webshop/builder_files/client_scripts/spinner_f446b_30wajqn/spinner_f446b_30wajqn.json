@@ -7,7 +7,7 @@
  "modified_by": "Administrator",
  "name": "spinner-f446b_30wajqn",
  "owner": "Administrator",
- "public_url": "/files/page_styles/spinner-f446b_30wajqn-8cc88c2591.css?v=c0fa19a5ed",
+ "public_url": "/files/page_styles/spinner-f446b_30wajqn-8cc88c2591.css?v=a940d76d1c",
  "script": "/* Write your CSS here */\n.spinner {\n    animation: spin 1s linear infinite;\n}\n\n@keyframes spin {\n    from {\n        transform: rotate(0deg);\n    }\n    to {\n        transform: rotate(360deg);\n    }\n}",
  "script_type": "CSS"
 }
