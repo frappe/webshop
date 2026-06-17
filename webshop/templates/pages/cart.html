@@ -92,9 +92,9 @@
 					{% else %}
 					<div class="mb-3">
 						<div class="d-flex w-100">
-							<input type="text" class="txtcoupon form-control mr-3 flex-grow-1 font-md" placeholder="{{ _("Enter coupon code") }}" name="txtcouponcode"  ></input>
-							<button class="btn btn-secondary btn-sm bt-coupon font-md flex-shrink-0">{{ _("Apply") }}</button>
-							<input type="hidden" class="txtreferral_sales_partner font-md" placeholder="Enter Sales Partner" name="txtreferral_sales_partner" type="text"></input>
+							<input type="text" class="txtcoupon form-control mr-3 w-50 font-md" placeholder={{ _("Enter Coupon Code") }} name="txtcouponcode"  ></input>
+							<button class="btn btn-primary btn-sm bt-coupon font-md">{{ _("Apply Coupon Code") }}</button>
+							<input type="hidden" class="txtreferral_sales_partner font-md" placeholder={{ _("Enter Sales Partner") }} name="txtreferral_sales_partner" type="text"></input>
 							</div>
 					</div>
 					{% endif %}
