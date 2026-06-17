@@ -41,6 +41,7 @@ def get_item_reviews(web_item, start=0, end=10, data=None, no_cache=False):
 		frappe.throw_permission_error()
 	start, end = cint(start), cint(end)
 	settings = get_shopping_cart_settings()
+	include_all_variants = bool(settings.get("include_all_variants_in_reviews"))
 
 	# Get cached reviews for first page (start=0)
 	# avoid cache when page is different
@@ -54,14 +55,14 @@ def get_item_reviews(web_item, start=0, end=10, data=None, no_cache=False):
 		if from_cache and reviews_cache:
 			data = reviews_cache
 		else:
-			data = get_queried_reviews(web_item, start, end, data)
+			data = get_queried_reviews(web_item, start, end, data, include_all_variants)
 			if from_cache:
 				set_reviews_in_cache(web_item, data)
 
 	return data
 
 
-def get_queried_reviews(web_item, start=0, end=10, data=None):
+def get_queried_reviews(web_item, start=0, end=10, data=None, include_all_variants=False):
 	"""
 	Query Website Item wise reviews and cache if needed.
 	Cache stores only first page of reviews i.e. 10 reviews maximum.
@@ -71,9 +72,16 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 	if not data:
 		data = frappe._dict()
 
+	filters = {}
+	if not include_all_variants:
+		filters["website_item"] = web_item
+	else:
+		from webshop.webshop.doctype.website_item.website_item import get_all_variants_for_website_item
+		filters["website_item"] = ["in", [item.name for item in get_all_variants_for_website_item(web_item)]]
+
 	data.reviews = frappe.db.get_all(
 		"Item Review",
-		filters={"website_item": web_item},
+		filters=filters,
 		fields=["*"],
 		limit_start=start,
 		limit_page_length=end,
@@ -84,7 +92,7 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 	try:
 		rating_data = frappe.db.get_all(
 			"Item Review",
-			filters={"website_item": web_item},
+			filters=filters,
 			fields=[
 				functions.Avg(review.rating * 5).as_("average"),
 				{"COUNT": "*", "as": "total"},
@@ -93,7 +101,7 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 	except (TypeError, AttributeError):
 		rating_data = frappe.db.get_all(
 			"Item Review",
-			filters={"website_item": web_item},
+			filters=filters,
 			fields=["avg(rating*5) as average, count(*) as total"],
 		)[0]
 
@@ -106,7 +114,7 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 	for i in range(1, 6):
 		lower = (i - 1) / 5
 		upper = i / 5
-		filters = {"website_item": web_item, "rating": ["between", [lower, upper]]}
+		filters["rating"] = ["between", [lower, upper]]
 
 		try:
 			count = frappe.db.get_all(

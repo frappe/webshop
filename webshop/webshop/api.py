@@ -5,50 +5,45 @@
 import json
 
 import frappe
+from erpnext.utilities.product import get_price
 from frappe import DoesNotExistError
-from frappe.query_builder.functions import Count
 from frappe.model.document import Document
+from frappe.query_builder.functions import Count
 from frappe.rate_limiter import rate_limit
 from frappe.utils import cint
+from pypika import Order
 
-from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
-from webshop.webshop.product_data_engine.query import ProductQuery
 from webshop.webshop.doctype.override_doctype.item_group import (
 	get_child_groups_for_website,
 )
-
 from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 	get_shopping_cart_settings,
 	show_quantity_in_website,
 )
-
-from webshop.webshop.shopping_cart.cart import _set_price_list
-from erpnext.utilities.product import get_price
+from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
+from webshop.webshop.product_data_engine.query import ProductQuery
+from webshop.webshop.shopping_cart.cart import (
+	_get_cart_quotation,
+	_set_price_list,
+	decorate_quotation_doc,
+	get_address_docs,
+	get_applicable_shipping_rules,
+	get_billing_addresses,
+	get_party,
+	get_shipping_addresses,
+	set_cart_count,
+	update_cart_address,
+)
 from webshop.webshop.utils.product import (
 	get_non_stock_item_status,
 	get_web_item_qty_in_stock,
 )
-
-from webshop.webshop.shopping_cart.cart import (
-	get_party,
-	_get_cart_quotation,
-	set_cart_count,
-	get_address_docs,
-	get_shipping_addresses,
-	update_cart_address,
-	decorate_quotation_doc,
-	get_billing_addresses,
-	get_applicable_shipping_rules,
-)
-
 from webshop.webshop.utils.query_builder import (
 	build_criterion,
 	merge_dicts,
 	order_col_map,
 	website_item,
 )
-
-from pypika import Order
 
 
 @frappe.whitelist(allow_guest=True)
@@ -153,6 +148,7 @@ def get_guest_redirect_on_action():
 def list_items(
 	filters: dict | None = None,
 	exclude_variants: bool = False,
+	exclude_templates: bool = False,
 	limit: int = 15,
 	offset: int = 0,
 	order: dict | None = None,  # e.g. {"created_at": "desc"} or {"ranking": "asc"}
@@ -175,6 +171,9 @@ def list_items(
 	if exclude_variants:
 		q = q.where(website_item.variant_of.isnull())  # noqa: E711
 
+	if exclude_templates:
+		q = q.where(website_item.has_variants == 0)
+
 	if order:
 		for field_name, direction in order.items():
 			col = order_col_map.get(field_name, website_item.field(field_name))
@@ -188,7 +187,11 @@ def list_items(
 
 
 @frappe.whitelist(allow_guest=True)
-def total_items(filters: dict | None = None, exclude_variants: bool = False) -> int:
+def total_items(
+	filters: dict | None = None,
+	exclude_variants: bool = False,
+	exclude_templates: bool = False,
+) -> int:
 	if not has_permission_for_webshop():
 		frappe.throw_permission_error()
 
@@ -201,6 +204,9 @@ def total_items(filters: dict | None = None, exclude_variants: bool = False) -> 
 
 	if exclude_variants:
 		q = q.where(website_item.variant_of.isnull())  # noqa: E711
+
+	if exclude_templates:
+		q = q.where(website_item.has_variants == 0)  # noqa: E711
 
 	result = q.run(as_dict=True)
 	return result[0].total if result else 0
@@ -220,6 +226,12 @@ def get_item(item_code: str, combine_template: bool = False):
 	# 	return frappe._dict({"product_info": {}})
 
 	web_item_info = frappe.get_cached_doc("Website Item", item_code)
+
+	if web_item_info.has_variants and cart_settings.open_default_variant:
+		if web_item_info.default_variant:
+			# redirect to default variant
+			frappe.local.flags.redirect_location = web_item_info.default_variant
+			raise frappe.Redirect
 	if combine_template:
 		if web_item_info.variant_of:
 			web_template = frappe.db.get_all(
@@ -492,7 +504,31 @@ def search_all(
 	return {"items": items, "collections": collections, "categories": categories}
 
 
-# TODO: unify all webshop settings to be exposed
+exposed_webshop_settings = [
+	"hide_variants",
+	"hide_templates",
+	"open_default_variant",
+	"products_per_page",
+	"enable_attribute_filters",
+	"enable_field_filters",
+	"enabled",
+	"enable_wishlist",
+	"enable_reviews",
+	"enable_recommendations",
+	"show_price",
+	"show_stock_availability",
+]
+
+
+@frappe.whitelist(allow_guest=True)
+def get_webshop_settings():
+	if not has_permission_for_webshop("Webshop Settings"):
+		frappe.throw_permission_error()
+	settings = get_shopping_cart_settings().as_dict()
+	return {key: settings[key] for key in exposed_webshop_settings}
+
+
+# TODO: remove these methods
 @frappe.whitelist(allow_guest=True)
 def hide_variant_in_product_list():
 	if not has_permission_for_webshop("Webshop Settings"):
@@ -513,11 +549,13 @@ def products_per_page():
 		frappe.throw_permission_error()
 	return get_shopping_cart_settings().products_per_page
 
+
 @frappe.whitelist(allow_guest=True)
 def is_checkout_enabled():
 	if not has_permission_for_webshop("Webshop Settings"):
 		frappe.throw_permission_error()
 	return get_shopping_cart_settings().enable_checkout
+
 
 @frappe.whitelist(allow_guest=True)
 def show_price():
@@ -525,8 +563,11 @@ def show_price():
 		frappe.throw_permission_error()
 	return get_shopping_cart_settings().show_price
 
+
 @frappe.whitelist()
-def get_cart(doc=None, get_formatted=["total", "net_total", "grand_total", "discount_amount"]):
+def get_cart(
+	doc=None, get_formatted=["total", "net_total", "grand_total", "discount_amount"]
+):
 	party = get_party()
 
 	if not doc:

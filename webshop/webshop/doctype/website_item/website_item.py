@@ -6,7 +6,7 @@ import json
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from erpnext.stock.doctype.item.item import Item
+	from erpnext.stock.doctype.item.item import Item
 
 import frappe
 from frappe import _
@@ -16,20 +16,20 @@ from frappe.website.website_generator import WebsiteGenerator
 
 from webshop.webshop.doctype.item_review.item_review import get_item_reviews
 from webshop.webshop.redisearch_utils import (
-    delete_item_from_index,
-    insert_item_to_index,
-    update_index_for_item,
+	delete_item_from_index,
+	insert_item_to_index,
+	update_index_for_item,
 )
 from webshop.webshop.shopping_cart.cart import _set_price_list
 from webshop.webshop.doctype.override_doctype.item_group import (
-    get_parent_item_groups,
-    invalidate_cache_for,
+	get_parent_item_groups,
+	invalidate_cache_for,
 )
 from erpnext.stock.doctype.item.item import Item
 from erpnext.utilities.product import get_price
 from webshop.webshop.shopping_cart.cart import get_party
 from webshop.webshop.variant_selector.item_variants_cache import (
-    ItemVariantsCacheManager,
+	ItemVariantsCacheManager,
 )
 
 
@@ -109,15 +109,7 @@ class WebsiteItem(WebsiteGenerator):
 	def make_route(self):
 		"""Called from set_route in WebsiteGenerator."""
 		if not self.route:
-			return (
-				cstr(frappe.db.get_value("Item Group", self.item_group, "route"))
-				+ "/"
-				+ self.scrub(
-					(self.item_name if self.item_name else self.item_code)
-					+ "-"
-					+ random_string(5)
-				)
-			)
+			return "item/" + self.scrub(self.name)
 
 	def update_template_item(self):
 		"""Publish Template Item if Variant is published."""
@@ -311,7 +303,6 @@ class WebsiteItem(WebsiteGenerator):
 					filters={"parent": attr.attribute},
 					order_by="idx asc",
 				):
-
 					if attr_value.attribute_value in attribute_values_available.get(
 						attr.attribute, []
 					):
@@ -559,6 +550,7 @@ def make_website_item(doc, save=True, suppress_error=False):
 
 	return [website_item.name, website_item.web_item_name]
 
+
 @frappe.whitelist()
 def has_website_permission_for_website_item(doc, ptype, user, verbose=False):
 	# Check item group permissions for website
@@ -569,10 +561,13 @@ def has_website_permission_for_website_item(doc, ptype, user, verbose=False):
 	if frappe.has_permission("Website Item", ptype=ptype, doc=doc, user=user):
 		return True
 
-	if not frappe.db.get_single_value("Webshop Settings", "login_required_to_view_products"):
+	if not frappe.db.get_single_value(
+		"Webshop Settings", "login_required_to_view_products"
+	):
 		return True
 
 	return False
+
 
 @frappe.whitelist()
 def has_website_permission_for_item_group(doc, ptype, user, verbose=False):
@@ -583,7 +578,25 @@ def has_website_permission_for_item_group(doc, ptype, user, verbose=False):
 	if frappe.has_permission("Item Group", ptype=ptype, doc=doc, user=user):
 		return True
 
-	if not frappe.db.get_single_value("Webshop Settings", "login_required_to_view_products"):
+	if not frappe.db.get_single_value(
+		"Webshop Settings", "login_required_to_view_products"
+	):
 		return True
 
 	return False
+
+
+def get_all_variants_for_website_item(web_item):
+	web_item_doc = frappe.get_doc("Website Item", web_item)
+	if web_item_doc.has_variants:
+		return frappe.db.get_all(
+			"Website Item", filters={"variant_of": web_item_doc.item_code}, fields=["name"]
+		)
+	elif web_item_doc.variant_of:
+		return frappe.db.get_all(
+			"Website Item",
+			filters={"variant_of": web_item_doc.variant_of},
+			fields=["name"],
+		)
+	else:
+		return [{"name": web_item}]
