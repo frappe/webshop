@@ -144,6 +144,7 @@ $.extend(shopping_cart, {
 				$cart.addClass("cart-animate");
 				setTimeout(() => {
 					$cart.removeClass("cart-animate");
+					window.location.reload();
 				}, 500);
 			}
 		} else {
