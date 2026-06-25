@@ -599,4 +599,4 @@ def get_all_variants_for_website_item(web_item):
 			fields=["name"],
 		)
 	else:
-		return [{"name": web_item}]
+		return [{"name": web_item.name}]
