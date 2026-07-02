@@ -306,7 +306,7 @@ def get_guest_cart_quotation(for_checkout=False, is_cart_page=False):
 			selected_method = next((m for m in methods if m['name'] == shipping_method), methods[0])
 			
 			if selected_method:
-				account_head = cart_settings.get("shipping_account") or "4110 - Sales - VK"
+				account_head = get_shipping_account(cart_settings)
 				tax_row = doc.append("taxes", {
 					"charge_type": "Actual",
 					"account_head": account_head,
@@ -392,6 +392,16 @@ def get_shipping_methods_list(cart_total):
 			"is_free": is_free
 		})
 	return methods
+
+
+def get_shipping_account(cart_settings):
+	account = cart_settings.get("shipping_account")
+	if account:
+		return account
+
+	frappe.throw(
+		_("Shipping Account is required in Webshop Settings before applying shipping charges.")
+	)
 
 
 @frappe.whitelist()
@@ -570,6 +580,13 @@ def place_order(quotation_name=None, payment_method=None, receipt_info=None):
 
 	if hasattr(frappe.local, "cookie_manager"):
 		frappe.local.cookie_manager.delete_cookie("cart_count")
+
+	if frappe.session.user == "Guest":
+		frappe.cache().set_value(
+			f"checkout_sales_order_{frappe.session.id}",
+			sales_order.name,
+			expires_in_sec=3600,
+		)
 
 	clear_guest_checkout_cache()
 
@@ -1048,7 +1065,7 @@ def convert_guest_cart_to_customer(
 	selected_method = next((m for m in methods if m['name'] == shipping_method), methods[0] if methods else None)
 	
 	if selected_method:
-		account_head = cart_settings.get("shipping_account") or "4110 - Sales - VK"
+		account_head = get_shipping_account(cart_settings)
 		tax_row = qdoc.append("taxes", {
 			"charge_type": "Actual",
 			"account_head": account_head,

@@ -45,6 +45,22 @@
 
 {% block page_content %}
 <div class="container">
+	{% if not doc %}
+	<div class="success-card glass-card">
+		<h1 class="mb-4">{{ _("Order not available") }}</h1>
+		<p class="lead mb-6 text-muted">
+			{{ _("We could not verify this order for the current session.") }}
+		</p>
+		<div class="action-btns">
+			<a href="/all-products" class="btn btn-primary btn-lg shadow-custom-primary">
+				{{ _("Continue Shopping") }}
+			</a>
+			<a href="/track-order" class="btn btn-outline-primary btn-lg">
+				{{ _("Track Order") }}
+			</a>
+		</div>
+	</div>
+	{% else %}
 	<div class="success-card glass-card">
 		<div class="success-icon animate__animated animate__bounceIn">
 			<i class="fa fa-check"></i>
@@ -53,10 +69,6 @@
 		<p class="lead mb-6 text-muted">
 			{{ _("Your order has been placed successfully. We've sent a confirmation email to your inbox.") }}
 		</p>
-		
-		{% if not doc and frappe.form_dict.id %}
-			{% set doc = frappe.get_doc("Sales Order", frappe.form_dict.id) %}
-		{% endif %}
 		
 		<div class="order-info mb-8">
 			<p class="mb-2 small text-muted text-uppercase letter-spacing-1">{{ _("Order Reference") }}</p>
@@ -115,5 +127,6 @@
 			</a>
 		</div>
 	</div>
+	{% endif %}
 </div>
 {% endblock %}

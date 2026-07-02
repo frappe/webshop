@@ -424,7 +424,6 @@ def get_wishlist_items_details(item_codes):
 	if not item_codes:
 		return []
 
-	from erpnext.utilities.product import get_price
 	from webshop.webshop.doctype.webshop_settings.webshop_settings import get_shopping_cart_settings
 	from webshop.webshop.shopping_cart.cart import _set_price_list, get_party
 
@@ -458,22 +457,32 @@ def get_wishlist_items_details(item_codes):
 			"route",
 		],
 	)
+	price_rows = frappe.get_all(
+		"Item Price",
+		filters={"item_code": ["in", item_codes], "price_list": selling_price_list},
+		fields=["item_code", "price_list_rate", "currency", "uom"],
+		order_by="modified desc",
+	)
+	item_prices = {}
+	for row in price_rows:
+		if row.item_code not in item_prices:
+			item_prices[row.item_code] = row
+
+	default_currency = (
+		frappe.db.get_value("Price List", selling_price_list, "currency")
+		or frappe.get_cached_value("Company", settings.company, "default_currency")
+	)
 
 	# Fetch price and stock details
 	for item in items:
-		price_details = get_price(
-			item.item_code,
-			selling_price_list,
-			customer_group,
-			settings.company,
-			party=party,
-		)
+		price_details = item_prices.get(item.item_code)
 
 		if price_details:
-			item.formatted_price = price_details.get("formatted_price")
-			item.formatted_mrp = price_details.get("formatted_mrp")
-			if item.formatted_mrp:
-				item.discount = price_details.get("formatted_discount_percent") or price_details.get("formatted_discount_rate")
+			currency = price_details.currency or default_currency
+			item.formatted_price = frappe.format_value(
+				flt(price_details.price_list_rate),
+				{"fieldtype": "Currency", "options": currency},
+			)
 
 		# Stock availability
 		if settings.show_stock_availability:

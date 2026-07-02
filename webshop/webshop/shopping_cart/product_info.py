@@ -30,10 +30,23 @@ def get_product_info_for_website(item_code, skip_quotation_creation=False):
 	if not skip_quotation_creation:
 		cart_quotation = _get_cart_quotation()
 
+	is_guest = frappe.session.user == "Guest"
+	party = None
+	customer_group = (
+		cart_settings.guest_customer_group or cart_settings.default_customer_group
+		if is_guest
+		else cart_settings.default_customer_group
+	)
 	selling_price_list = (
 		cart_quotation.get("selling_price_list")
 		if cart_quotation
-		else _set_price_list(cart_settings, None)
+		else (
+			cart_settings.guest_price_list
+			or frappe.db.get_value("Customer Group", customer_group, "default_price_list")
+			or cart_settings.price_list
+			if is_guest
+			else _set_price_list(cart_settings, None)
+		)
 	)
 
 	price = {}
@@ -41,15 +54,9 @@ def get_product_info_for_website(item_code, skip_quotation_creation=False):
 	item_meta = frappe.db.get_value("Item", item_code, ["stock_uom", "sales_uom"], as_dict=True)
 
 	if cart_settings.show_price:
-		is_guest = frappe.session.user == "Guest"
-		party = get_party()
-		
-		# Determine Customer Group
-		customer_group = None
-		if party and party.customer_group:
-			customer_group = party.customer_group
-		else:
-			customer_group = cart_settings.default_customer_group
+		if not is_guest:
+			party = get_party()
+			customer_group = party.customer_group if party and party.customer_group else cart_settings.default_customer_group
 		
 		# Determine preferred UOM
 		preferred_uom = item_meta.stock_uom if customer_group == "Retailer" else (item_meta.sales_uom or item_meta.stock_uom)
