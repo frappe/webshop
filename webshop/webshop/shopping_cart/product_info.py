@@ -206,6 +206,7 @@ def calculate_simulated_discount(item_code, price_rate, currency):
 	if getattr(frappe.session, "user", "Guest") != "Guest":
 		# Direct DB lookup to avoid circular import with cart.py
 		# Find the Customer linked to this Portal User
+		customer_group = None
 		customer = frappe.db.get_value("Portal User", {"user": frappe.session.user}, "parent")
 		if customer:
 			customer_group = frappe.db.get_value("Customer", customer, "customer_group")
