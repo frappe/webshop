@@ -317,7 +317,6 @@
    "fieldname": "payment_gateway_account",
    "fieldtype": "Link",
    "label": "Primary Payment Gateway Account",
-   "mandatory_depends_on": "enable_checkout",
    "options": "Payment Gateway Account"
   },
   {
@@ -434,6 +433,7 @@
    "fieldname": "shipping_account",
    "fieldtype": "Link",
    "label": "Shipping Account Head",
+   "mandatory_depends_on": "eval: doc.enable_standard_shipping || doc.enable_express_shipping",
    "options": "Account"
   },
   {

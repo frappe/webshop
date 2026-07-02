@@ -662,8 +662,10 @@
 					{% endif %}
 
 					<div class="place-order-action mt-8">
-						<div id="checkout-error" class="alert alert-danger px-4 py-3 mb-4 small" style="display: none;"></div>
-						<button id="btn-final-place-order" class="btn btn-primary btn-lg w-100 shadow-custom-primary">
+						<div id="checkout-error" class="alert alert-danger px-4 py-3 mb-4 small" style="{% if not checkout_error %}display: none;{% endif %}">
+							{{ checkout_error or "" }}
+						</div>
+						<button id="btn-final-place-order" class="btn btn-primary btn-lg w-100 shadow-custom-primary" {% if checkout_error %}disabled{% endif %}>
 							{{ _("Complete Order") }}
 						</button>
 						<p class="text-center text-muted mt-4 extra-small">

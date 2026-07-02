@@ -77,8 +77,32 @@ class WebshopSettings(Document):
 		self.hide_variants = 0
 
 	def validate_checkout(self):
-		if self.enable_checkout and not self.payment_gateway_account:
-			self.enable_checkout = 0
+		if not self.enable_checkout:
+			return
+
+		payment_methods = []
+		if self.payment_gateway_account:
+			payment_methods.append(_("Primary Payment Gateway"))
+		if self.payment_gateways:
+			payment_methods.append(_("Additional Payment Gateway"))
+		if self.enable_cod:
+			payment_methods.append(_("Cash on Delivery"))
+		if self.enable_raast:
+			if not self.raast_id:
+				frappe.throw(_("Raast ID is required when Raast payment is enabled"))
+			if not self.raast_account_title:
+				frappe.throw(_("Raast Account Title is required when Raast payment is enabled"))
+			payment_methods.append(_("Raast QR"))
+		if self.enable_bank_transfer:
+			if not self.bank_details:
+				frappe.throw(_("Bank Account Details are required when Bank Transfer is enabled"))
+			payment_methods.append(_("Bank Transfer"))
+
+		if not payment_methods:
+			frappe.throw(_("Enable at least one checkout payment method"))
+
+		if (self.enable_standard_shipping or self.enable_express_shipping) and not self.shipping_account:
+			frappe.throw(_("Shipping Account Head is required when shipping charges are enabled"))
 
 	def validate_search_index_fields(self):
 		if not self.search_index_fields:

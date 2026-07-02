@@ -1,3 +1,12 @@
+const ws_escape_html = (value) => {
+	if (frappe.utils && frappe.utils.escape_html) {
+		return frappe.utils.escape_html(String(value || ""));
+	}
+	return $("<div>").text(value || "").html();
+};
+
+const ws_escape_url = (value) => ws_escape_html(encodeURI(value || "#"));
+
 webshop.ProductList = class {
 	/* Options:
 		- items: Items
@@ -23,10 +32,11 @@ webshop.ProductList = class {
 		this.items.forEach(item => {
 			let title = item.web_item_name || item.item_name || item.item_code || "";
 			title =  title.length > 200 ? title.substr(0, 200) + "..." : title;
+			let safe_title = ws_escape_html(title);
 
 			html += `<div class='row list-row w-100 mb-4'>`;
-			html += me.get_image_html(item, title, me.settings);
-			html += me.get_row_body_html(item, title, me.settings);
+			html += me.get_image_html(item, title, safe_title, me.settings);
+			html += me.get_row_body_html(item, safe_title, me.settings);
 			html += `</div>`;
 		});
 
@@ -34,16 +44,17 @@ webshop.ProductList = class {
 		$product_wrapper.append(html);
 	}
 
-	get_image_html(item, title, settings) {
-		let image = item.website_image;
+	get_image_html(item, title, safe_title, settings) {
+		let image = ws_escape_url(item.website_image);
+		let route = ws_escape_url(item.route);
 		let wishlist_enabled = !item.has_variants && settings.enable_wishlist;
 		let image_html = ``;
 
-		if (image) {
+		if (item.website_image) {
 			image_html += `
 				<div class="col-2 border text-center rounded list-image">
-					<a class="product-link product-list-link" href="/${ item.route || '#' }">
-						<img itemprop="image" class="website-image h-100 w-100" alt="${ title }"
+					<a class="product-link product-list-link" href="/${ route }">
+						<img itemprop="image" class="website-image h-100 w-100" alt="${ safe_title }"
 							src="${ image }">
 					</a>
 					${ wishlist_enabled ? this.get_wishlist_icon(item): '' }
@@ -52,11 +63,11 @@ webshop.ProductList = class {
 		} else {
 			image_html += `
 				<div class="col-2 border text-center rounded list-image">
-					<a class="product-link product-list-link" href="/${ item.route || '#' }"
+					<a class="product-link product-list-link" href="/${ route }"
 						style="text-decoration: none">
-						<div class="card-img-top no-image-list">
-							${ frappe.get_abbr(title) }
-						</div>
+					<div class="card-img-top no-image-list">
+						${ ws_escape_html(frappe.get_abbr(title)) }
+					</div>
 					</a>
 					${ wishlist_enabled ? this.get_wishlist_icon(item): '' }
 				</div>
@@ -75,10 +86,11 @@ webshop.ProductList = class {
 	}
 
 	get_title_html(item, title, settings) {
+		let route = ws_escape_url(item.route);
 		let title_html = `<div style="display: flex; margin-left: -15px;">`;
 		title_html += `
 			<div class="col-8" style="margin-right: -15px;">
-				<a class="" href="/${ item.route || '#' }"
+				<a class="" href="/${ route }"
 					style="color: var(--gray-800); font-weight: 500;">
 					${ title }
 				</a>
@@ -98,26 +110,26 @@ webshop.ProductList = class {
 	get_item_details(item, settings) {
 		let details = `
 			<p class="product-code">
-				${ item.item_group } | ${ __('Item Code') } : ${ item.item_code }
+				${ ws_escape_html(item.item_group) } | ${ __('Item Code') } : ${ ws_escape_html(item.item_code) }
 			</p>
 			<div class="mt-2" style="color: var(--gray-600) !important; font-size: 13px;">
-				${ item.short_description || '' }
+				${ ws_escape_html(item.short_description) }
 			</div>
 			<div class="product-price" itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
-				${ item.formatted_price || '' }
+				${ ws_escape_html(item.formatted_price) }
 		`;
 
 		if (item.formatted_mrp || item.discount) {
 			if (item.formatted_mrp) {
 				details += `
 					<small class="striked-price">
-						<s>${ item.formatted_mrp ? item.formatted_mrp.replace(/ +/g, "") : "" }</s>
+						<s>${ item.formatted_mrp ? ws_escape_html(item.formatted_mrp.replace(/ +/g, "")) : "" }</s>
 					</small>
 				`;
 			}
 			details += `
 				<small class="ml-1 product-info-green">
-					${ item.discount || __("SALE") }
+					${ ws_escape_html(item.discount || __("SALE")) }
 				</small>
 			`;
 		}
@@ -155,10 +167,11 @@ webshop.ProductList = class {
 
 	get_wishlist_icon(item) {
 		let icon_class = item.wished ? "wished" : "not-wished";
+		let item_code = ws_escape_html(item.item_code);
 
 		return `
 			<div class="like-action-list ${ item.wished ? "like-action-wished" : ''}"
-				data-item-code="${ item.item_code }">
+				data-item-code="${ item_code }">
 				<svg class="icon sm">
 					<use class="${ icon_class } wish-icon" href="#icon-heart"></use>
 				</svg>
@@ -167,9 +180,12 @@ webshop.ProductList = class {
 	}
 
 	get_primary_button(item, settings) {
+		let route = ws_escape_url(item.route);
+		let item_name = ws_escape_html(item.name);
+		let item_code = ws_escape_html(item.item_code);
 		if (item.has_variants) {
 			return `
-				<a href="/${ item.route || '#' }">
+				<a href="/${ route }">
 					<div class="btn btn-sm btn-explore-variants btn mb-0 mt-0">
 						${ __("Explore") }
 					</div>
@@ -177,10 +193,10 @@ webshop.ProductList = class {
 			`;
 		} else if (settings.enabled && (settings.allow_items_not_in_stock || item.in_stock)) {
 			return `
-				<div id="${ item.name }" class="btn
+				<div id="list-add-${ item_name }" class="btn
 					btn-sm btn-primary btn-add-to-cart-list mb-0
 					${ item.in_cart ? 'hidden' : '' }"
-					data-item-code="${ item.item_code }"
+					data-item-code="${ item_code }"
 					style="margin-top: 0px !important; max-height: 30px; float: right;
 						padding: 0.25rem 1rem; min-width: 135px;">
 					<span class="mr-2">
@@ -196,11 +212,11 @@ webshop.ProductList = class {
 				</div>
 
 				<a href="/cart">
-					<div id="${ item.name }" class="btn
+					<div id="list-cart-${ item_name }" class="btn
 						btn-sm btn-primary btn-add-to-cart-list
 						ml-4 go-to-cart mb-0 mt-0
 						${ item.in_cart ? '' : 'hidden' }"
-						data-item-code="${ item.item_code }"
+						data-item-code="${ item_code }"
 						style="padding: 0.25rem 1rem; min-width: 135px;">
 						${ settings.enable_checkout ? __("Go to Cart") :  __("Go to Quote") }
 					</div>

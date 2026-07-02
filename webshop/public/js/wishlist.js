@@ -4,6 +4,15 @@ var wishlist = webshop.webshop.wishlist;
 frappe.provide("webshop.webshop.shopping_cart");
 var shopping_cart = webshop.webshop.shopping_cart;
 
+const ws_escape_html = (value) => {
+	if (frappe.utils && frappe.utils.escape_html) {
+		return frappe.utils.escape_html(String(value || ""));
+	}
+	return $("<div>").text(value || "").html();
+};
+
+const ws_escape_url = (value) => ws_escape_html(encodeURI(value || "#"));
+
 $.extend(wishlist, {
 	set_wishlist_count: function(animate=false) {
 		// set badge count for wishlist icon
@@ -46,7 +55,12 @@ $.extend(wishlist, {
 
 	get_guest_wishlist: function() {
 		let list = localStorage.getItem("guest_wishlist");
-		return list ? JSON.parse(list) : [];
+		try {
+			return list ? JSON.parse(list) : [];
+		} catch (e) {
+			localStorage.removeItem("guest_wishlist");
+			return [];
+		}
 	},
 
 	set_guest_wishlist: function(list) {
@@ -286,42 +300,47 @@ $.extend(wishlist, {
 
 	get_wishlist_card_html: function(item) {
 		// Simplified version of the wishlist_card macro
+		let item_code = ws_escape_html(item.item_code);
+		let item_name = ws_escape_html(item.item_name);
+		let web_item_name = ws_escape_html(item.web_item_name || item.item_name);
+		let item_group = ws_escape_html(item.item_group);
+		let route = ws_escape_url(item.route);
 		let image_html = item.image ? 
-			`<img itemprop="image" class="card-img" src="${item.image}" alt="${item.web_item_name}">` :
-			`<div itemprop="image" class="card-img-top no-image">${item.item_name ? item.item_name.substring(0,2).toUpperCase() : 'NA'}</div>`;
+			`<img itemprop="image" class="card-img" src="${ws_escape_url(item.image)}" alt="${web_item_name}">` :
+			`<div itemprop="image" class="card-img-top no-image">${item.item_name ? ws_escape_html(item.item_name.substring(0,2).toUpperCase()) : 'NA'}</div>`;
 
-		let price_html = `<div class="product-price">${item.formatted_price || ''}`;
+		let price_html = `<div class="product-price">${ws_escape_html(item.formatted_price)}`;
 		if (item.formatted_mrp) {
-			price_html += `<small class="ml-1 striked-price"><s>${item.formatted_mrp}</s></small>
-						   <small class="ml-1 product-info-green">${item.discount} OFF</small>`;
+			price_html += `<small class="ml-1 striked-price"><s>${ws_escape_html(item.formatted_mrp)}</s></small>
+						   <small class="ml-1 product-info-green">${ws_escape_html(item.discount)} OFF</small>`;
 		}
 		price_html += `</div>`;
 
 		let action_html = item.available ? 
-			`<button data-item-code="${item.item_code}" class="btn btn-primary btn-add-to-cart-list btn-add-to-cart mt-2 w-100">
+			`<button data-item-code="${item_code}" class="btn btn-primary btn-add-to-cart-list btn-add-to-cart mt-2 w-100">
 				<span class="mr-2"><svg class="icon icon-md"><use href="#icon-assets"></use></svg></span>
 				${__("Move to Cart")}
 			</button>` :
 			`<div class="out-of-stock">${__("Out of stock")}</div>`;
 
 		return `
-			<div class="col-sm-3 wishlist-card">
-				<div class="card text-center">
-					<div class="card-img-container">
-						<a href="/${item.route || '#'}" style="text-decoration: none;">
-							${image_html}
-						</a>
-						<div class="remove-wish" data-item-code="${item.item_code}">
-							<svg class="icon icon-md remove-wish-icon">
+				<div class="col-sm-3 wishlist-card">
+					<div class="card text-center">
+						<div class="card-img-container">
+							<a href="/${route}" style="text-decoration: none;">
+								${image_html}
+							</a>
+							<div class="remove-wish" data-item-code="${item_code}">
+								<svg class="icon icon-md remove-wish-icon">
 								<use class="close" href="#icon-delete"></use>
 							</svg>
+							</div>
 						</div>
-					</div>
-					<div class="card-body card-body-flex text-left" style="width: 100%;">
-						<div class="mt-4">
-							<div class="product-title">${item.web_item_name || item.item_name}</div>
-							<div class="product-category">${item.item_group || ''}</div>
-						</div>
+						<div class="card-body card-body-flex text-left" style="width: 100%;">
+							<div class="mt-4">
+								<div class="product-title">${web_item_name || item_name}</div>
+								<div class="product-category">${item_group || ''}</div>
+							</div>
 						${price_html}
 						${action_html}
 					</div>

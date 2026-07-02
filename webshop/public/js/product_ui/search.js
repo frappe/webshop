@@ -1,3 +1,12 @@
+const ws_escape_html = (value) => {
+	if (frappe.utils && frappe.utils.escape_html) {
+		return frappe.utils.escape_html(String(value || ""));
+	}
+	return $("<div>").text(value || "").html();
+};
+
+const ws_escape_url = (value) => ws_escape_html(encodeURI(value || "#"));
+
 webshop.ProductSearch = class {
 	constructor(opts) {
 		/* Options: search_box_id (for custom search box) */
@@ -124,7 +133,12 @@ webshop.ProductSearch = class {
 	}
 
 	getRecentSearches() {
-		return JSON.parse(localStorage.getItem("recent_searches") || "[]");
+		try {
+			return JSON.parse(localStorage.getItem("recent_searches") || "[]");
+		} catch (e) {
+			localStorage.removeItem("recent_searches");
+			return [];
+		}
 	}
 
 	attachEventListenersToChips() {
@@ -164,7 +178,7 @@ webshop.ProductSearch = class {
 		let recents = this.getRecentSearches();
 
 		if (!recents.length) {
-			this.recents_container.html(`<span class=""text-muted">${ __("No searches yet.") }</span>`);
+			this.recents_container.html(`<span class="text-muted">${ __("No searches yet.") }</span>`);
 			return;
 		}
 
@@ -178,9 +192,9 @@ webshop.ProductSearch = class {
 							<path d="M8.00027 5.20947V8.00017L10 10" stroke="var(--gray-500)" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
 						</svg>
 					</span>
-					${ key }
-				</div>
-			`;
+						${ ws_escape_html(key) }
+					</div>
+				`;
 		});
 
 		this.recents_container.html(html);
@@ -198,12 +212,15 @@ webshop.ProductSearch = class {
 
 		product_results.forEach((res) => {
 			let thumbnail = res.thumbnail || '/assets/webshop/images/cart-empty-state.png';
+			let route = ws_escape_url(res.route);
+			let item_name = ws_escape_html(res.web_item_name);
+			let brand = ws_escape_html(res.brand ? "by " + res.brand : "");
 			html += `
 				<div class="dropdown-item" style="display: flex;">
-					<img class="item-thumb col-2" src=${encodeURI(thumbnail)} />
+					<img class="item-thumb col-2" src="${ws_escape_url(thumbnail)}" />
 					<div class="col-9" style="white-space: normal;">
-						<a href="/${res.route}">${res.web_item_name}</a><br>
-						<span class="brand-line">${res.brand ? "by " + res.brand : ""}</span>
+						<a href="/${route}">${item_name}</a><br>
+						<span class="brand-line">${brand}</span>
 					</div>
 				</div>
 			`;
@@ -231,11 +248,13 @@ webshop.ProductSearch = class {
 		`;
 
 		category_results.forEach((category) => {
+			let route = ws_escape_url(category.route);
+			let name = ws_escape_html(category.name);
 			html += `
-				<a href="/${category.route}" class="btn btn-sm category-chip mr-2 mb-2"
+				<a href="/${route}" class="btn btn-sm category-chip mr-2 mb-2"
 					style="font-size: 13px" role="button">
-				${ category.name }
-				</button>
+				${ name }
+				</a>
 			`;
 		});
 

@@ -22,6 +22,55 @@ class WebsitePriceListMissingError(frappe.ValidationError):
     pass
 
 
+def get_published_web_item_for_cart(item_code):
+	"""Return the published Website Item used by cart flows."""
+	if not item_code:
+		frappe.throw(_("Item is required"))
+
+	web_item = frappe.db.get_value(
+		"Website Item",
+		{"item_code": item_code, "published": 1},
+		[
+			"name",
+			"item_code",
+			"item_name",
+			"web_item_name",
+			"minimum_qty",
+			"website_warehouse",
+			"website_image",
+			"item_group",
+			"route",
+		],
+		as_dict=True,
+	)
+	if not web_item:
+		frappe.throw(_("Item {0} is not available for purchase").format(frappe.bold(item_code)))
+
+	return web_item
+
+
+def validate_cart_uom(item_code, uom=None):
+	if not uom:
+		return
+
+	item_meta = frappe.db.get_value("Item", item_code, ["stock_uom", "sales_uom"], as_dict=True)
+	if not item_meta:
+		frappe.throw(_("Item {0} does not exist").format(frappe.bold(item_code)))
+
+	valid_uoms = {item_meta.stock_uom, item_meta.sales_uom}
+	valid_uoms.update(frappe.get_all("UOM Conversion Detail", filters={"parent": item_code}, pluck="uom"))
+	valid_uoms.discard(None)
+
+	if uom not in valid_uoms:
+		frappe.throw(_("UOM {0} is not valid for item {1}").format(frappe.bold(uom), frappe.bold(item_code)))
+
+
+def validate_cart_item(item_code, uom=None):
+	web_item = get_published_web_item_for_cart(item_code)
+	validate_cart_uom(item_code, uom)
+	return web_item
+
+
 def get_target_uom(item_code, customer_group=None):
 	"""Determines the default UOM based on the Item Price record in the active price list"""
 	cart_settings = get_shopping_cart_settings()
@@ -29,6 +78,9 @@ def get_target_uom(item_code, customer_group=None):
 		customer_group = cart_settings.default_customer_group
 	
 	item_meta = frappe.db.get_value("Item", item_code, ["stock_uom", "sales_uom"], as_dict=True)
+	if not item_meta:
+		frappe.throw(_("Item {0} does not exist").format(frappe.bold(item_code)))
+
 	selling_price_list = _set_price_list(cart_settings)
 
 	# Determine preferred UOM
@@ -136,8 +188,16 @@ def get_guest_cart_quotation(for_checkout=False, is_cart_page=False):
 
 	selling_price_list = _set_price_list(cart_settings)
 
+	valid_cart_items = []
 	for item in cart_items:
-		item_doc = frappe.get_cached_doc("Website Item", {"item_code": item['item_code']})
+		try:
+			web_item = validate_cart_item(item.get("item_code"), item.get("uom"))
+		except Exception:
+			frappe.log_error(frappe.get_traceback(), _("Invalid Guest Cart Item Removed"))
+			continue
+
+		valid_cart_items.append(item)
+		item_doc = frappe.get_cached_doc("Website Item", web_item.name)
 		target_uom = item.get('uom') or get_target_uom(item['item_code'])
 		
 		# Fetch price and UOM from Price List
@@ -164,7 +224,7 @@ def get_guest_cart_quotation(for_checkout=False, is_cart_page=False):
 		if item.get('variant_txt'):
 			item_description = f'{item_description}<br><b>Variant:</b> {item["variant_txt"]}'
 
-		minimum_qty = frappe.db.get_value("Website Item", {"item_code": item['item_code']}, "minimum_qty") or 1
+		minimum_qty = web_item.minimum_qty or 1
 
 		item_row = {
 			'description': item_description,
@@ -191,6 +251,9 @@ def get_guest_cart_quotation(for_checkout=False, is_cart_page=False):
 			item_row.update(simulated_data)
 		
 		doc.append("items", item_row)
+
+	if len(valid_cart_items) != len(cart_items):
+		frappe.cache().set_value(f"cart_{frappe.session.id}", valid_cart_items, expires_in_sec=86400)
 
 	# 2. Add Shipping Charge (Sales Taxes and Charges table) - Only for Checkout
 	if for_checkout:
@@ -375,8 +438,17 @@ def place_order(quotation_name=None, payment_method=None, receipt_info=None):
 		quotation = frappe.get_doc("Quotation", quotation_name)
 	else:
 		quotation = _get_cart_quotation()
+
+	validate_checkout_quotation(quotation)
+
 	cart_settings = frappe.get_cached_doc("Webshop Settings")
 	quotation.company = cart_settings.company
+
+	if not (quotation.shipping_address_name or quotation.customer_address):
+		frappe.throw(_("Set Shipping Address or Billing Address"))
+
+	for item in quotation.get("items"):
+		validate_cart_item(item.item_code, item.uom)
 
 	quotation.flags.ignore_permissions = True
 	quotation.submit()
@@ -384,9 +456,6 @@ def place_order(quotation_name=None, payment_method=None, receipt_info=None):
 	if quotation.quotation_to == "Lead" and quotation.party_name:
 		# company used to create customer accounts
 		frappe.defaults.set_user_default("company", quotation.company)
-
-	if not (quotation.shipping_address_name or quotation.customer_address):
-		frappe.throw(_("Set Shipping Address or Billing Address"))
 
 	sales_order = frappe.get_doc(
 		_make_sales_order(
@@ -415,35 +484,46 @@ def place_order(quotation_name=None, payment_method=None, receipt_info=None):
 						)
 					)
 
+	requires_payment_review = False
+	payment_comment = None
 	if payment_method:
 		# Map friendly name to internal gateway and store method for admin visibility
 		if payment_method == "COD":
 			sales_order.payment_method = "Cash on Delivery"
-			sales_order.payment_gateway_account = cart_settings.cod_gateway
+			if cart_settings.cod_gateway:
+				sales_order.payment_gateway_account = cart_settings.cod_gateway
 		elif payment_method == "Raast":
 			sales_order.payment_method = "Raast QR"
-			sales_order.payment_gateway_account = cart_settings.raast_gateway
+			if cart_settings.raast_gateway:
+				sales_order.payment_gateway_account = cart_settings.raast_gateway
 		elif payment_method == "Bank Transfer":
 			sales_order.payment_method = "Bank Transfer"
-			sales_order.payment_gateway_account = cart_settings.bank_gateway
+			if cart_settings.bank_gateway:
+				sales_order.payment_gateway_account = cart_settings.bank_gateway
 		else:
 			# Native gateway or direct gateway account selection
 			sales_order.payment_method = payment_method
 			sales_order.payment_gateway_account = payment_method
 
-		# Add a comment for the timeline
-		sales_order.add_comment("Comment", _("Checkout Payment Method: {0}").format(sales_order.payment_method))
+		payment_comment = _("Checkout Payment Method: {0}").format(sales_order.payment_method)
 		
 		# For non-immediate/unverified payments, don't auto-submit the SO
 		if payment_method in ["COD", "Raast", "Bank Transfer"]:
-			sales_order.submit_on_creation = 0
+			requires_payment_review = True
 	
 	sales_order.flags.ignore_permissions = True
 	sales_order.insert()
-	sales_order.submit()
+	if payment_comment:
+		sales_order.add_comment("Comment", payment_comment)
+	if requires_payment_review:
+		sales_order.add_comment("Comment", _("Payment verification is pending. Review the receipt/payment before submitting."))
+	else:
+		sales_order.submit()
 
 	if hasattr(frappe.local, "cookie_manager"):
 		frappe.local.cookie_manager.delete_cookie("cart_count")
+
+	clear_guest_checkout_cache()
 
 	if receipt_info:
 		try:
@@ -457,13 +537,14 @@ def place_order(quotation_name=None, payment_method=None, receipt_info=None):
 			filedata = receipt_info.get("filedata")
 
 			if filename and filedata:
+				content = validate_receipt_upload(filename, filedata)
 				file_doc = save_file(
 					fname=filename,
-					content=filedata,
+					content=content,
 					dt="Sales Order",
 					dn=sales_order.name,
 					folder="Home/Attachments",
-					decode=True,
+					decode=False,
 					is_private=1
 				)
 				sales_order.add_comment("Comment", _("Payment receipt uploaded: {0}").format(file_doc.file_url))
@@ -471,6 +552,63 @@ def place_order(quotation_name=None, payment_method=None, receipt_info=None):
 			frappe.log_error(f"Receipt Attach Error: {str(e)}", "Webshop Checkout")
 
 	return sales_order.name
+
+
+def validate_receipt_upload(filename, filedata):
+	import base64
+	import binascii
+	import os
+
+	allowed_extensions = {".jpg", ".jpeg", ".png", ".webp", ".pdf"}
+	extension = os.path.splitext(filename or "")[1].lower()
+	if extension not in allowed_extensions:
+		frappe.throw(_("Only JPG, PNG, WEBP, and PDF receipts are allowed"))
+
+	try:
+		content = base64.b64decode(filedata, validate=True)
+	except (binascii.Error, ValueError):
+		frappe.throw(_("Invalid receipt file"))
+
+	max_size = 5 * 1024 * 1024
+	if len(content) > max_size:
+		frappe.throw(_("Receipt file size must be 5 MB or less"))
+
+	return content
+
+
+def validate_checkout_quotation(quotation):
+	if quotation.doctype != "Quotation" or quotation.docstatus != 0:
+		frappe.throw(_("Invalid cart quotation"), frappe.PermissionError)
+
+	if quotation.order_type != "Shopping Cart":
+		frappe.throw(_("Invalid cart quotation"), frappe.PermissionError)
+
+	if frappe.session.user == "Guest":
+		expected_quotation = frappe.cache().get_value(f"checkout_quotation_{frappe.session.id}")
+		if not expected_quotation or expected_quotation != quotation.name:
+			frappe.throw(_("This cart is no longer valid. Please refresh checkout."), frappe.PermissionError)
+		return
+
+	if quotation.contact_email and quotation.contact_email != frappe.session.user:
+		frappe.throw(_("You are not allowed to submit this cart"), frappe.PermissionError)
+
+	party = get_party()
+	if quotation.party_name != party.name:
+		frappe.throw(_("You are not allowed to submit this cart"), frappe.PermissionError)
+
+
+def clear_guest_checkout_cache():
+	if frappe.session.user != "Guest":
+		return
+
+	session_id = frappe.session.id
+	for key in (
+		f"cart_{session_id}",
+		f"checkout_quotation_{session_id}",
+		f"applied_coupon_{session_id}",
+		f"shipping_method_{session_id}",
+	):
+		frappe.cache().delete_value(key)
 
 
 @frappe.whitelist(allow_guest=True)
@@ -501,15 +639,18 @@ def request_for_quotation():
 
 
 @frappe.whitelist(allow_guest=True)
-@frappe.whitelist(allow_guest=True)
 def update_cart(item_code, qty, additional_notes=None, with_items=False, uom=None, variant_txt=None):
+	qty = flt(qty)
+	web_item = None
+	if qty > 0:
+		web_item = validate_cart_item(item_code, uom)
+
 	if frappe.session.user == "Guest":
 		return update_guest_cart(item_code, qty, with_items, uom, variant_txt)
 
 	quotation = _get_cart_quotation()
 
 	empty_card = False
-	qty = flt(qty)
 	if qty == 0:
 		quotation_items = quotation.get("items", {"item_code": ["!=", item_code]})
 		if quotation_items:
@@ -518,13 +659,11 @@ def update_cart(item_code, qty, additional_notes=None, with_items=False, uom=Non
 			empty_card = True
 
 	else:
-		minimum_qty = frappe.db.get_value("Website Item", {"item_code": item_code}, "minimum_qty") or 1
+		minimum_qty = web_item.minimum_qty or 1
 		if qty < minimum_qty:
 			qty = minimum_qty
 
-		warehouse = frappe.get_cached_value(
-			"Website Item", {"item_code": item_code}, "website_warehouse"
-		)
+		warehouse = web_item.website_warehouse
 
 		quotation_items = quotation.get("items", {"item_code": item_code})
 		if not quotation_items:
@@ -598,7 +737,8 @@ def update_guest_cart(item_code, qty, with_items=0, uom=None, variant_txt=None):
 	if qty == 0:
 		cart_items = [item for item in cart_items if item['item_code'] != item_code]
 	else:
-		minimum_qty = frappe.db.get_value("Website Item", {"item_code": item_code}, "minimum_qty") or 1
+		web_item = validate_cart_item(item_code, uom)
+		minimum_qty = web_item.minimum_qty or 1
 		if qty < minimum_qty:
 			qty = minimum_qty
 
@@ -639,7 +779,15 @@ def update_guest_cart(item_code, qty, with_items=0, uom=None, variant_txt=None):
 
 
 @frappe.whitelist(allow_guest=True)
-def convert_guest_cart_to_customer(email, full_name, phone=None, create_account=False, address_data=None, billing_address_data=None):
+def convert_guest_cart_to_customer(
+	email,
+	full_name,
+	phone=None,
+	create_account=False,
+	address_data=None,
+	billing_address_data=None,
+	guest_wishlist=None,
+):
 	"""Converts a guest cart to a real Customer and Quotation, including Address"""
 	if frappe.session.user != "Guest":
 		return {"status": "success", "message": "User already logged in"}
@@ -667,6 +815,7 @@ def convert_guest_cart_to_customer(email, full_name, phone=None, create_account=
 			except Exception as e:
 				# Log error but don't block order placement
 				frappe.log_error(f"Failed to create user at checkout: {str(e)}")
+		migrate_guest_wishlist_to_user(email, guest_wishlist)
 
 	# 2. Create or Find Customer
 	customer_name = frappe.db.get_value("Customer", {"email_id": email})
@@ -680,7 +829,6 @@ def convert_guest_cart_to_customer(email, full_name, phone=None, create_account=
 			customer.flags.ignore_mandatory = True
 			customer.insert(ignore_permissions=True)
 			customer_name = customer.name
-			frappe.db.commit() # Commit to ensure ID is available for Address/Quotation
 		except frappe.DuplicateEntryError:
 			customer_name = frappe.db.get_value("Customer", {"email_id": email})
 	
@@ -760,7 +908,8 @@ def convert_guest_cart_to_customer(email, full_name, phone=None, create_account=
 	qdoc.selling_price_list = selling_price_list
 
 	for item in cart_items:
-		warehouse = frappe.get_cached_value("Website Item", {"item_code": item['item_code']}, "website_warehouse")
+		web_item = validate_cart_item(item.get("item_code"), item.get("uom"))
+		warehouse = web_item.website_warehouse
 		
 		# Ensure UOM is fetched the same way get_guest_cart_quotation does
 		target_uom = item.get('uom') or get_target_uom(item['item_code'])
@@ -802,7 +951,7 @@ def convert_guest_cart_to_customer(email, full_name, phone=None, create_account=
 	shipping_method = frappe.cache().get_value(f"shipping_method_{frappe.session.id}") or "Standard"
 	total_before_tax = qdoc.grand_total
 	methods = get_shipping_methods_list(total_before_tax)
-	selected_method = next((m for m in methods if m['name'] == shipping_method), methods[0])
+	selected_method = next((m for m in methods if m['name'] == shipping_method), methods[0] if methods else None)
 	
 	if selected_method:
 		account_head = cart_settings.get("shipping_account") or "4110 - Sales - VK"
@@ -822,14 +971,55 @@ def convert_guest_cart_to_customer(email, full_name, phone=None, create_account=
 
 	qdoc.save()
 	
-	# 4. Clear Guest Cache
-	frappe.cache().delete_value(cache_key)
+	# Keep the guest cart until the Sales Order is successfully created.
+	frappe.cache().set_value(f"checkout_quotation_{frappe.session.id}", qdoc.name, expires_in_sec=3600)
 	
 	return {
 		"status": "success",
 		"quotation": qdoc.name,
 		"customer": customer_name
 	}
+
+
+def migrate_guest_wishlist_to_user(user, guest_wishlist=None):
+	if not guest_wishlist:
+		return
+
+	if isinstance(guest_wishlist, str):
+		guest_wishlist = frappe.parse_json(guest_wishlist)
+
+	if not isinstance(guest_wishlist, list):
+		return
+
+	wishlist = frappe.get_doc("Wishlist", user) if frappe.db.exists("Wishlist", user) else frappe.get_doc(
+		{"doctype": "Wishlist", "user": user}
+	)
+	existing_items = {row.item_code for row in wishlist.get("items")}
+
+	for item_code in guest_wishlist:
+		if item_code in existing_items:
+			continue
+		try:
+			web_item = get_published_web_item_for_cart(item_code)
+		except Exception:
+			continue
+		wishlist.append(
+			"items",
+			{
+				"item_code": item_code,
+				"item_name": web_item.item_name,
+				"website_item": web_item.name,
+				"web_item_name": web_item.web_item_name,
+				"image": web_item.website_image,
+				"item_group": web_item.item_group,
+				"warehouse": web_item.website_warehouse,
+				"route": web_item.route,
+			},
+		)
+		existing_items.add(item_code)
+
+	if wishlist.get("items"):
+		wishlist.save(ignore_permissions=True)
 
 
 @frappe.whitelist()
@@ -1529,7 +1719,8 @@ def show_terms(doc):
 
 
 @frappe.whitelist(allow_guest=True)
-def apply_coupon_code(applied_code, applied_referral_sales_partner=None):
+def apply_coupon_code(applied_code=None, coupon_code=None, applied_referral_sales_partner=None):
+	applied_code = applied_code or coupon_code
 	if not applied_code:
 		frappe.throw(_("Please enter a coupon code"))
 
@@ -1583,9 +1774,6 @@ def remove_coupon_code():
 	quotation = _get_cart_quotation()
 	quotation.coupon_code = ""
 	quotation.referral_sales_partner = ""
-	quotation.flags.ignore_permissions = True
-	quotation.save()
-	return quotation
 
 	# reset discount amount if coupon code is removed (on desk it is done in client side)
 	# as we are enabling ignore_pricing_rule, so we also need to manually reset discount percentage
@@ -1593,6 +1781,7 @@ def remove_coupon_code():
 	quotation.additional_discount_percentage = 0
 	quotation.ignore_pricing_rule = 1
 
+	quotation.flags.ignore_permissions = True
 	quotation.save()
 
-	return quotation
+	return get_cart_quotation(quotation)

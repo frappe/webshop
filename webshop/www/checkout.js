@@ -533,14 +533,15 @@ frappe.ready(function() {
 		},
 
 		convert_guest_to_customer: function(values) {
-			let ajax_args = {
-				email: values.email,
-				full_name: values.full_name,
-				phone: values.phone,
-				create_account: values.create_account,
-				address_data: {
-					address_line1: values.address_line1,
-					city: values.city,
+				let ajax_args = {
+					email: values.email,
+					full_name: values.full_name,
+					phone: values.phone,
+					create_account: values.create_account,
+					guest_wishlist: values.create_account ? localStorage.getItem("guest_wishlist") : null,
+					address_data: {
+						address_line1: values.address_line1,
+						city: values.city,
 					state: values.state,
 					country: values.country,
 					pincode: values.pincode

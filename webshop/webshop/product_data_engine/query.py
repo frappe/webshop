@@ -319,6 +319,6 @@ class ProductQuery:
 		if self.filter_with_discount:
 			# no limit was added to results while querying
 			# slice results manually
-			result[: self.page_length]
+			result = result[: self.page_length]
 
 		return result
