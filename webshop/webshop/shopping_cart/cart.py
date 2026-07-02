@@ -161,6 +161,17 @@ def get_cart_quotation(doc=None, for_checkout=False, is_cart_page=False):
 
 	return context
 
+@frappe.whitelist(allow_guest=True)
+def get_cart_drawer():
+	context = get_cart_quotation(for_checkout=True)
+	doc = context.get("doc")
+
+	return {
+		"items": context.get("items"),
+		"taxes_and_totals": context.get("taxes_and_totals"),
+		"cart_count": cint(doc.get("total_qty")) if doc else 0,
+	}
+
 def get_guest_cart_quotation(for_checkout=False, is_cart_page=False):
 	cart_items = frappe.cache().get_value(f"cart_{frappe.session.id}") or []
 	cart_settings = frappe.get_doc("Webshop Settings")

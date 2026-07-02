@@ -273,14 +273,30 @@ $.extend(shopping_cart, {
 		const $summary_container = $("#cart-drawer-summary");
 		
 		frappe.call({
-			method: "webshop.webshop.shopping_cart.cart.get_cart_quotation",
-			args: { for_checkout: true },
+			method: "webshop.webshop.shopping_cart.cart.get_cart_drawer",
 			callback: function(r) {
 				if (r.message) {
 					shopping_cart.refresh_drawer_ui(r.message);
+				} else {
+					shopping_cart.show_drawer_error();
 				}
+			},
+			error: function() {
+				shopping_cart.show_drawer_error();
 			}
 		});
+	},
+
+	show_drawer_error: function() {
+		$("#cart-drawer-items").html(`
+			<div class="text-center py-5 text-muted">
+				<p class="small mb-3">Unable to load your cart right now.</p>
+				<button class="btn btn-sm btn-primary" onclick="webshop.webshop.shopping_cart.refresh_drawer()">
+					Retry
+				</button>
+			</div>
+		`);
+		$("#cart-drawer-summary").html("");
 	},
 
 	refresh_drawer_ui: function(message) {
@@ -363,4 +379,3 @@ $(document).on('click', '.btn-apply-coupon', function() {
 		}
 	});
 });
-
