@@ -151,6 +151,11 @@
 
 {% block page_content %}
 <div class="checkout-container py-8">
+	<div class="conversion-checkout-steps">
+		<div class="conversion-step active">{{ _("1. Address") }}</div>
+		<div class="conversion-step active">{{ _("2. Payment") }}</div>
+		<div class="conversion-step">{{ _("3. Review") }}</div>
+	</div>
 	<div class="row">
 		<!-- Left: Form Section -->
 		<div class="col-md-7">
@@ -577,6 +582,17 @@
 			<div class="order-summary-card sticky-top pb-4" style="top: 2rem; z-index: 10;">
 				<div class="frappe-card p-6 glass-card border-primary">
 					<h4 class="mb-5">{{ _("Order Summary") }}</h4>
+					{% if cart_settings.get("first_order_coupon_code") and not doc.coupon_code %}
+					<div class="mb-4 p-3 rounded" style="background: #fff7ed; border: 1px solid #fed7aa;">
+						<div class="small font-weight-bold mb-1" style="color: #9a3412;">{{ _("First Order Offer") }}</div>
+						<div class="d-flex justify-content-between align-items-center" style="gap: 10px;">
+							<span class="extra-small text-muted">{{ cart_settings.get("first_order_coupon_text") or _("Use this code on your first order") }}</span>
+							<button class="btn btn-sm btn-outline-primary btn-copy-conversion-coupon" data-coupon="{{ cart_settings.get('first_order_coupon_code') }}">
+								{{ cart_settings.get("first_order_coupon_code") }}
+							</button>
+						</div>
+					</div>
+					{% endif %}
 					<div class="checkout-items mb-5 max-h-96 overflow-y-auto">
 						{% for item in doc.items %}
 						<div class="checkout-item-row d-flex align-items-center mb-4 pb-4 border-bottom-light">
@@ -597,6 +613,27 @@
 					<div id="checkout-summary-totals" class="summary-totals pt-2">
 						{% include "webshop/templates/includes/cart/checkout_summary_totals.html" %}
 					</div>
+
+					<div class="conversion-promise-grid my-4">
+						<div class="conversion-promise">
+							<strong>{{ _("Delivery") }}</strong>
+							{{ cart_settings.get("delivery_promise_text") or _("Delivery in 2-4 working days") }}
+						</div>
+						<div class="conversion-promise">
+							<strong>{{ _("Support") }}</strong>
+							{{ cart_settings.get("returns_promise_text") or _("Easy exchange and support after purchase") }}
+						</div>
+						<div class="conversion-promise">
+							<strong>{{ _("Secure") }}</strong>
+							{{ _("Protected checkout and payment review") }}
+						</div>
+					</div>
+
+					{% if cart_settings.enable_whatsapp_order and cart_settings.whatsapp_number %}
+					<button class="btn btn-outline-primary btn-sm w-100 mb-4 btn-whatsapp-cart-assist">
+						{{ _("Need help? Send cart on WhatsApp") }}
+					</button>
+					{% endif %}
 
 					<!-- Payment Instructions (Conditional) -->
 					{% if cart_settings.enable_raast %}

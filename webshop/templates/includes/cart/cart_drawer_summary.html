@@ -16,6 +16,18 @@
     </div>
     {% endif %}
 
+    {% if cart_settings.get("first_order_coupon_code") and not doc.coupon_code %}
+    <div class="summary-row mb-3 p-3 rounded" style="background: #fff7ed; border: 1px solid #fed7aa;">
+        <div class="small font-weight-bold mb-1" style="color: #9a3412;">{{ _("First Order Offer") }}</div>
+        <div class="d-flex justify-content-between align-items-center" style="gap: 10px;">
+            <span class="small text-muted">{{ cart_settings.get("first_order_coupon_text") or _("Use this code on your first order") }}</span>
+            <button class="btn btn-sm btn-outline-primary btn-copy-conversion-coupon" data-coupon="{{ cart_settings.get('first_order_coupon_code') }}">
+                {{ cart_settings.get("first_order_coupon_code") }}
+            </button>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="summary-row d-flex justify-content-between mb-2">
         <span class="text-muted small">Net Total ({{ doc.total_qty|int }} Items)</span>
         <span class="font-weight-bold">{{ doc.get_formatted("net_total") }}</span>
@@ -64,6 +76,18 @@
             <div class="text-success small font-weight-bold">{{ _("Free shipping unlocked") }}</div>
         {% endif %}
     </div>
+    {% endif %}
+
+    <div class="summary-row mb-3 p-3 rounded" style="background: #f7fafc; border: 1px solid #e2e8f0;">
+        <div class="small font-weight-bold mb-2">{{ _("Why shop with us") }}</div>
+        <div class="small text-muted mb-1">{{ cart_settings.get("delivery_promise_text") or _("Delivery in 2-4 working days") }}</div>
+        <div class="small text-muted">{{ cart_settings.get("returns_promise_text") or _("Easy exchange and support after purchase") }}</div>
+    </div>
+
+    {% if cart_settings.enable_whatsapp_order and cart_settings.whatsapp_number %}
+    <button class="btn btn-outline-primary btn-sm w-100 mb-3 btn-whatsapp-cart-assist">
+        {{ _("Need help? Send cart on WhatsApp") }}
+    </button>
     {% endif %}
 
     <div class="summary-row d-flex justify-content-between border-top mt-3 pt-3">

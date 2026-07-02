@@ -42,6 +42,7 @@
 						</div>
 					{% endif %}
 			</div>
+			<div id="conversion-review-summary" class="mb-3"></div>
 		{% else %}
 			<div class="mb-4 text-muted d-flex align-items-center">
 				<svg class="icon icon-sm mr-2" style="width: 14px; height: 14px;"><use href="#icon-package"></use></svg>
@@ -67,9 +68,30 @@
 						({{ product_info.stock_qty }})
 					{% endif %}
 				</span>
+				{% set low_stock_threshold = cart_settings.get("low_stock_threshold") or 5 %}
+				{% if product_info.stock_qty and product_info.stock_qty <= low_stock_threshold %}
+					<span class="product-badge py-1 px-3 ml-2" style="background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa;">
+						{{ _("Only {0} left").format(product_info.stock_qty|int) }}
+					</span>
+				{% endif %}
 			{% endif %}
 		</div>
 		{% endif %}
+
+		<div class="conversion-promise-grid mb-4">
+			<div class="conversion-promise">
+				<strong>{{ _("Fast Delivery") }}</strong>
+				{{ cart_settings.get("delivery_promise_text") or _("Delivery in 2-4 working days") }}
+			</div>
+			<div class="conversion-promise">
+				<strong>{{ _("Support") }}</strong>
+				{{ cart_settings.get("returns_promise_text") or _("Easy exchange and support after purchase") }}
+			</div>
+			<div class="conversion-promise">
+				<strong>{{ _("Secure Checkout") }}</strong>
+				{{ _("COD, Raast, bank transfer and secure payment options") }}
+			</div>
+		</div>
 
 		<!-- Offers -->
 		{% if doc.offers %}

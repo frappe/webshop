@@ -7,7 +7,7 @@ from urllib.parse import quote
 
 import frappe
 from frappe import _
-from frappe.utils import cint, now_datetime
+from frappe.utils import cint, flt, now_datetime
 
 from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
 from webshop.webshop.product_data_engine.query import ProductQuery
@@ -103,6 +103,155 @@ def get_customer_price_tier():
 	from webshop.webshop.shopping_cart.cart import get_customer_price_tier as get_tier
 
 	return get_tier()
+
+
+@frappe.whitelist(allow_guest=True)
+def get_conversion_settings():
+	settings = frappe.get_cached_doc("Webshop Settings")
+	return {
+		"delivery_promise_text": settings.get("delivery_promise_text") or _("Delivery in 2-4 working days"),
+		"returns_promise_text": settings.get("returns_promise_text") or _("Easy exchange and support after purchase"),
+		"first_order_coupon_code": settings.get("first_order_coupon_code"),
+		"first_order_coupon_text": settings.get("first_order_coupon_text"),
+		"low_stock_threshold": cint(settings.get("low_stock_threshold") or 5),
+		"enable_exit_intent_recovery": 1 if settings.get("enable_exit_intent_recovery") is None else cint(settings.get("enable_exit_intent_recovery")),
+		"enable_whatsapp_order": cint(settings.get("enable_whatsapp_order")),
+	}
+
+
+def get_website_item_name(item_code=None, website_item=None):
+	if website_item:
+		return website_item
+	if not item_code:
+		return None
+	return frappe.db.get_value("Website Item", {"item_code": item_code, "published": 1}, "name")
+
+
+@frappe.whitelist(allow_guest=True)
+def get_item_review_summary(item_code=None, website_item=None):
+	website_item = get_website_item_name(item_code=item_code, website_item=website_item)
+	if not website_item:
+		return {"average_rating": 0, "total_reviews": 0}
+
+	reviews = frappe.get_all(
+		"Item Review",
+		filters={"website_item": website_item},
+		fields=["rating"],
+	)
+	total_reviews = len(reviews)
+	average_rating = sum(flt(review.rating) * 5 for review in reviews) / total_reviews if total_reviews else 0
+
+	return {
+		"website_item": website_item,
+		"average_rating": flt(average_rating, 1),
+		"total_reviews": total_reviews,
+	}
+
+
+def get_storefront_item_details(item_codes=None, item_group=None, exclude_item_codes=None, limit=4):
+	from erpnext.utilities.product import get_price
+	from webshop.webshop.doctype.webshop_settings.webshop_settings import get_shopping_cart_settings
+	from webshop.webshop.shopping_cart.cart import get_customer_price_tier, get_party
+
+	settings = get_shopping_cart_settings()
+	tier = get_customer_price_tier(settings)
+	party = None if tier.get("is_guest") else get_party()
+	filters = {"published": 1}
+
+	if item_codes:
+		filters["item_code"] = ["in", item_codes]
+	if item_group:
+		filters["item_group"] = item_group
+	if exclude_item_codes:
+		filters["item_code"] = ["not in", exclude_item_codes]
+
+	items = frappe.get_all(
+		"Website Item",
+		filters=filters,
+		fields=[
+			"name",
+			"web_item_name",
+			"item_name",
+			"item_code",
+			"route",
+			"website_image",
+			"thumbnail",
+			"item_group",
+			"website_warehouse as warehouse",
+			"ranking",
+		],
+		order_by="ranking desc, modified desc",
+		limit=cint(limit) or 4,
+	)
+
+	for item in items:
+		price = get_price(
+			item.item_code,
+			tier.get("price_list"),
+			tier.get("customer_group"),
+			settings.company,
+			party=party,
+		)
+		if price:
+			item.formatted_price = price.get("formatted_price")
+			item.formatted_mrp = price.get("formatted_mrp")
+
+		item.review_summary = get_item_review_summary(website_item=item.name)
+
+	return items
+
+
+@frappe.whitelist(allow_guest=True)
+def get_recently_viewed_items(item_codes=None, limit=4):
+	if isinstance(item_codes, str):
+		item_codes = json.loads(item_codes)
+	item_codes = [code for code in (item_codes or []) if code]
+	if not item_codes:
+		return []
+
+	items = get_storefront_item_details(item_codes=item_codes, limit=limit)
+	item_map = {item.item_code: item for item in items}
+	return [item_map[code] for code in item_codes if code in item_map]
+
+
+@frappe.whitelist(allow_guest=True)
+def get_smart_recommendations(item_code=None, limit=4):
+	exclude = [item_code] if item_code else []
+	item_group = frappe.db.get_value("Website Item", {"item_code": item_code}, "item_group") if item_code else None
+	items = get_storefront_item_details(item_group=item_group, exclude_item_codes=exclude, limit=limit)
+	if not items:
+		items = get_storefront_item_details(exclude_item_codes=exclude, limit=limit)
+	return items
+
+
+@frappe.whitelist(allow_guest=True)
+def get_cart_whatsapp_assist_url():
+	settings = frappe.get_cached_doc("Webshop Settings")
+	if not settings.enable_whatsapp_order or not settings.whatsapp_number:
+		frappe.throw(_("WhatsApp order number is not configured."))
+
+	from webshop.webshop.shopping_cart.cart import get_cart_quotation
+
+	context = get_cart_quotation(for_checkout=True)
+	doc = context.get("doc")
+	if not doc or not doc.get("items"):
+		frappe.throw(_("Your cart is empty."))
+
+	lines = [_("Hi, I need help with my order:"), ""]
+	for item in doc.get("items"):
+		lines.append("- {0} x {1}".format(cint(item.qty), item.web_item_name or item.item_name or item.item_code))
+	lines.extend([
+		"",
+		_("Cart total: {0}").format(doc.get_formatted("grand_total")),
+		frappe.utils.get_url("/cart"),
+	])
+
+	message = "\n".join(lines)
+	phone = "".join(ch for ch in settings.whatsapp_number if ch.isdigit())
+	return {
+		"message": message,
+		"url": "https://wa.me/{0}?text={1}".format(phone, quote(message)),
+	}
 
 
 PAYMENT_REVIEW_ROLES = ("System Manager", "Sales Manager", "Accounts Manager", "Accounts User")

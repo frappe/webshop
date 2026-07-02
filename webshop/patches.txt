@@ -8,3 +8,4 @@ webshop.patches.clear_cache_for_item_group_route
 webshop.patches.add_payment_review_fields
 webshop.patches.add_website_item_badge_fields
 webshop.patches.add_abandoned_cart_fields
+webshop.patches.add_conversion_settings_fields
