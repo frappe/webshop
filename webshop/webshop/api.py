@@ -424,13 +424,25 @@ def get_wishlist_items_details(item_codes):
 	if not item_codes:
 		return []
 
+	from erpnext.utilities.product import get_price
 	from webshop.webshop.doctype.webshop_settings.webshop_settings import get_shopping_cart_settings
 	from webshop.webshop.shopping_cart.cart import _set_price_list, get_party
-	from erpnext.utilities.product import get_price
 
 	settings = get_shopping_cart_settings()
-	selling_price_list = _set_price_list(settings)
-	party = get_party()
+	customer_group = settings.default_customer_group
+
+	if frappe.session.user == "Guest":
+		customer_group = settings.guest_customer_group or settings.default_customer_group
+		selling_price_list = (
+			settings.guest_price_list
+			or frappe.db.get_value("Customer Group", customer_group, "default_price_list")
+			or settings.price_list
+		)
+		party = None
+	else:
+		party = get_party()
+		customer_group = frappe.db.get_value("Customer", party.name, "customer_group") or customer_group
+		selling_price_list = _set_price_list(settings)
 
 	items = frappe.get_all(
 		"Website Item",
@@ -452,7 +464,7 @@ def get_wishlist_items_details(item_codes):
 		price_details = get_price(
 			item.item_code,
 			selling_price_list,
-			settings.default_customer_group,
+			customer_group,
 			settings.company,
 			party=party,
 		)
