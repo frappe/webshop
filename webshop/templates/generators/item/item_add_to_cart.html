@@ -105,6 +105,83 @@
 			</div>
 		{% endif %}
 
+		<div id="product-bundle-offers" class="mb-4" data-item-code="{{ item_code }}"></div>
+		<script>
+			frappe.ready(function() {
+				const $bundleWrapper = $("#product-bundle-offers");
+				if (!$bundleWrapper.length || $bundleWrapper.data("loaded")) return;
+				$bundleWrapper.data("loaded", true);
+
+				const escapeHTML = (value) => {
+					if (frappe.utils && frappe.utils.escape_html) {
+						return frappe.utils.escape_html(String(value || ""));
+					}
+					return $("<div>").text(value || "").html();
+				};
+
+				frappe.call({
+					method: "webshop.webshop.api.get_product_bundles",
+					args: { item_code: $bundleWrapper.data("item-code") },
+					callback: function(r) {
+						const bundles = r.message || [];
+						if (!bundles.length) return;
+
+						const cards = bundles.map((bundle) => {
+							const components = (bundle.components || []).map((component) => {
+								return `<span class="badge badge-light border mr-1 mb-1">${escapeHTML(component.qty)} x ${escapeHTML(component.item_name)}</span>`;
+							}).join("");
+							const price = bundle.formatted_price || __("Price on request");
+							const image = bundle.image ? `<img src="${escapeHTML(bundle.image)}" alt="${escapeHTML(bundle.web_item_name || bundle.item_name)}" style="width: 64px; height: 64px; object-fit: contain;">` : "";
+
+							return `
+								<div class="bundle-offer-card p-3 rounded border mb-3" style="background: #f7fafc;">
+									<div class="d-flex align-items-start" style="gap: 14px;">
+										<a href="/${escapeHTML(bundle.route || "#")}" class="d-flex align-items-center justify-content-center bg-white rounded border" style="width: 76px; height: 76px; flex: 0 0 76px;">
+											${image}
+										</a>
+										<div class="flex-fill">
+											<div class="d-flex justify-content-between align-items-start mb-2" style="gap: 12px;">
+												<div>
+													<div class="small text-uppercase text-muted font-weight-bold">${__("Combo Offer")}</div>
+													<a href="/${escapeHTML(bundle.route || "#")}" class="font-weight-bold text-dark">${escapeHTML(bundle.web_item_name || bundle.item_name)}</a>
+												</div>
+												<div class="text-right font-weight-bold text-primary">${escapeHTML(price)}</div>
+											</div>
+											<div class="mb-3">${components}</div>
+											<button class="btn btn-sm btn-outline-primary btn-add-bundle-to-cart" data-item-code="${escapeHTML(bundle.item_code)}">
+												${__("Add Combo")}
+											</button>
+										</div>
+									</div>
+								</div>
+							`;
+						}).join("");
+
+						$bundleWrapper.html(`
+							<div class="offers-heading mb-3">
+								<span class="mr-1 tag-icon">
+									<svg class="icon icon-lg"><use href="#icon-tag"></use></svg>
+								</span>
+								<b>${__("Combo Offers")}</b>
+							</div>
+							${cards}
+						`);
+					}
+				});
+			});
+
+			$(document).off("click", ".btn-add-bundle-to-cart").on("click", ".btn-add-bundle-to-cart", function() {
+				const itemCode = $(this).data("item-code");
+				if (webshop.webshop.shopping_cart && webshop.webshop.shopping_cart.shopping_cart_update) {
+					webshop.webshop.shopping_cart.shopping_cart_update({
+						item_code: itemCode,
+						qty: 1,
+						cart_dropdown: true
+					});
+				}
+			});
+		</script>
+
 		<!-- CSS Dependency -->
 		{{ include_style("assets/webshop/css/webshop-modern.css") }}
 

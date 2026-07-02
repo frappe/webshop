@@ -563,6 +563,9 @@ frappe.ready(function() {
 				args: ajax_args,
 				callback: (r) => {
 					if (r.message && r.message.status === "success") {
+						this.guest_account_ready = r.message.account_ready;
+						this.guest_account_created = r.message.account_created;
+						this.guest_account_email = r.message.account_email;
 						this.submit_order(r.message.quotation);
 					} else {
 						this.reset_button();
@@ -591,7 +594,17 @@ frappe.ready(function() {
 						this.reset_button();
 						this.show_error(__("Order placement failed. Please check your details."));
 					} else {
-						window.location.href = '/checkout-success?id=' + encodeURIComponent(r.message);
+						let success_url = '/checkout-success?id=' + encodeURIComponent(r.message);
+						if (this.guest_account_ready) {
+							success_url += '&account=1';
+						}
+						if (this.guest_account_created) {
+							success_url += '&account_created=1';
+						}
+						if (this.guest_account_email) {
+							success_url += '&account_email=' + encodeURIComponent(this.guest_account_email);
+						}
+						window.location.href = success_url;
 					}
 				},
 				error: (r) => {

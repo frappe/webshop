@@ -31,6 +31,38 @@
 	.badge-shipped { background: #d1ecf1; color: #0c5460; }
 	.badge-delivered { background: #d4edda; color: #155724; }
 	.badge-closed { background: #e2e3e5; color: #383d41; }
+	.tracking-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+	}
+	.tracking-box {
+		background: #fff;
+		border: 1px solid var(--border-color);
+		border-radius: 8px;
+		padding: 1rem;
+	}
+	.tracking-items {
+		display: grid;
+		gap: .75rem;
+		margin-top: 1rem;
+	}
+	.tracking-item {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		border-bottom: 1px solid var(--border-color);
+		padding-bottom: .75rem;
+	}
+	.tracking-item:last-child {
+		border-bottom: 0;
+		padding-bottom: 0;
+	}
+	@media (max-width: 576px) {
+		.tracking-grid {
+			grid-template-columns: 1fr;
+		}
+	}
 </style>
 {% endblock %}
 
@@ -60,14 +92,45 @@
 		</form>
 
 		<div id="tracking-result" class="tracking-status-bar" style="display: none;">
-			<div class="d-flex justify-content-between align-items-center mb-4">
-				<span class="text-muted small">{{ _("Status") }}:</span>
+			<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap" style="gap: .75rem;">
+				<div>
+					<div class="text-muted small">{{ _("Order") }}</div>
+					<strong id="tracked-order-id"></strong>
+				</div>
 				<span id="order-status-badge" class="status-badge"></span>
 			</div>
-			<div class="d-flex justify-content-between align-items-center mb-4">
-				<span class="text-muted small">{{ _("Delivery Status") }}:</span>
-				<span id="delivery-status" class="font-weight-bold"></span>
+
+			<div class="tracking-grid mb-4">
+				<div class="tracking-box">
+					<div class="text-muted small">{{ _("Order Date") }}</div>
+					<strong id="order-date"></strong>
+				</div>
+				<div class="tracking-box">
+					<div class="text-muted small">{{ _("Payment") }}</div>
+					<strong id="payment-status"></strong>
+				</div>
+				<div class="tracking-box">
+					<div class="text-muted small">{{ _("Delivery") }}</div>
+					<strong id="delivery-status"></strong>
+				</div>
+				<div class="tracking-box">
+					<div class="text-muted small">{{ _("Billing") }}</div>
+					<strong id="billing-status"></strong>
+				</div>
 			</div>
+
+			<div id="payment-review-note" class="alert alert-warning small" style="display: none;"></div>
+
+			<div class="tracking-box mb-4">
+				<div class="d-flex justify-content-between align-items-center">
+					<strong>{{ _("Items") }}</strong>
+					<span id="item-count" class="text-muted small"></span>
+				</div>
+				<div id="tracking-items" class="tracking-items"></div>
+			</div>
+
+			<div id="tracking-documents" class="tracking-box mb-4" style="display: none;"></div>
+
 			<div class="d-flex justify-content-between align-items-center pt-4 border-top">
 				<span class="font-weight-bold">{{ _("Amount") }}:</span>
 				<span id="grand-total-display" class="font-weight-bold h5 text-primary"></span>
@@ -81,6 +144,21 @@
 {{ include_script("frappe-web.bundle.js") }}
 <script>
 frappe.ready(function() {
+	function escape_html(value) {
+		return $("<div>").text(value || "").html();
+	}
+
+	function format_money(currency, value) {
+		return `${currency || ""} ${Number(value || 0).toLocaleString()}`;
+	}
+
+	function payment_label(order) {
+		if (order.requires_payment_review) {
+			return order.payment_review_status || __("Pending Verification");
+		}
+		return order.payment_method || __("Confirmed");
+	}
+
 	$("#track-order-form").on("submit", function(e) {
 		e.preventDefault();
 		const orderId = $("#track-order-id").val();
@@ -100,12 +178,45 @@ frappe.ready(function() {
 				$("#btn-track").prop("disabled", false).html(__("Check Status"));
 				if (r.message) {
 					const order = r.message;
+					$("#tracked-order-id").text(order.name);
 					$("#order-status-badge")
 						.text(__(order.status))
 						.attr("class", "status-badge badge-" + order.status.toLowerCase());
 					
+					$("#order-date").text(order.transaction_date || "");
+					$("#payment-status").text(payment_label(order));
 					$("#delivery-status").text(__(order.delivery_status || "Not Shipped"));
-					$("#grand-total-display").text(order.currency + " " + order.grand_total.toLocaleString());
+					$("#billing-status").text(__(order.billing_status || "Not Billed"));
+					$("#grand-total-display").text(format_money(order.currency, order.grand_total));
+
+					if (order.requires_payment_review && order.payment_review_status !== "Approved") {
+						$("#payment-review-note")
+							.text(__("Your payment is under review. We will confirm the order after verification."))
+							.show();
+					} else {
+						$("#payment-review-note").hide();
+					}
+
+					const items = order.items || [];
+					$("#item-count").text(items.length ? `${items.length} ${__("item(s)")}` : "");
+					$("#tracking-items").html(items.map(item => `
+						<div class="tracking-item">
+							<div>
+								<strong>${escape_html(item.item_name || item.item_code)}</strong>
+								<div class="text-muted small">${escape_html(item.qty)} ${escape_html(item.uom || "")}</div>
+							</div>
+							<strong>${format_money(order.currency, item.amount)}</strong>
+						</div>
+					`).join("") || `<div class="text-muted small">${__("No items found.")}</div>`);
+
+					const docs = [];
+					if ((order.invoices || []).length) {
+						docs.push(`<div><span class="text-muted small">${__("Invoices")}</span><br><strong>${order.invoices.map(escape_html).join(", ")}</strong></div>`);
+					}
+					if ((order.delivery_notes || []).length) {
+						docs.push(`<div class="mt-3"><span class="text-muted small">${__("Delivery Notes")}</span><br><strong>${order.delivery_notes.map(escape_html).join(", ")}</strong></div>`);
+					}
+					$("#tracking-documents").html(docs.join("")).toggle(!!docs.length);
 					
 					$("#tracking-result").fadeIn();
 				}

@@ -7,6 +7,13 @@ const ws_escape_html = (value) => {
 
 const ws_escape_url = (value) => ws_escape_html(encodeURI(value || "#"));
 
+const ws_badge_html = (item) => {
+	if (!item.badge_label) return "";
+	const label = ws_escape_html(item.badge_label);
+	const color = ws_escape_html(item.badge_color || "#B0008E");
+	return `<span class="badge badge-pill mb-2" style="background:${color}; color:#fff; font-size:11px; width:fit-content;">${label}</span>`;
+};
+
 webshop.ProductGrid = class {
 	/* Options:
 		- items: Items
@@ -88,6 +95,7 @@ webshop.ProductGrid = class {
 		}
 
 		body_html += `</div>`;
+		body_html += ws_badge_html(item);
 		body_html += `<div class="product-category" itemprop="name">${ ws_escape_html(item.item_group) }</div>`;
 
 		if (item.formatted_price) {

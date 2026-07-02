@@ -41,7 +41,7 @@ def get_product_data(search=None, start=0, limit=12):
 			web_item_name, item_name, item_code, brand, route,
 			website_image, thumbnail, item_group,
 			description, web_long_description as website_description,
-			website_warehouse, ranking
+			website_warehouse, ranking, badge_label, badge_color, badge_priority
 		FROM `tabWebsite Item`
 		WHERE published = 1
 		"""
@@ -67,10 +67,32 @@ def get_product_data(search=None, start=0, limit=12):
 def search(query):
 	product_results = product_search(query)
 	category_results = get_category_suggestions(query)
+	recovery = {}
+
+	if query and not product_results.get("results") and not category_results.get("results"):
+		recovery = get_search_recovery(query)
 
 	return {
 		"product_results": product_results.get("results") or [],
-		"category_results": category_results.get("results") or [],
+		"category_results": category_results.get("results") or recovery.get("categories") or [],
+		"recovery": recovery,
+	}
+
+
+def get_search_recovery(query=None, limit=4):
+	categories = frappe.db.get_all(
+		"Item Group",
+		filters={"show_in_website": 1},
+		fields=["name", "route"],
+		order_by="modified desc",
+		limit=limit,
+	)
+	products = get_product_data(None, 0, limit)
+
+	return {
+		"query": query,
+		"products": products,
+		"categories": categories,
 	}
 
 

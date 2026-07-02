@@ -3,9 +3,11 @@
 # For license information, please see license.txt
 
 import json
+from urllib.parse import quote
 
 import frappe
-from frappe.utils import cint
+from frappe import _
+from frappe.utils import cint, now_datetime
 
 from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
 from webshop.webshop.product_data_engine.query import ProductQuery
@@ -81,12 +83,185 @@ def get_product_filter_data(query_args=None):
 		"settings": engine.settings,
 		"sub_categories": sub_categories,
 		"items_count": result["items_count"],
+		"search_recovery": get_search_recovery(search) if search and not result["items"] else {},
 	}
+
+
+def get_search_recovery(search):
+	from webshop.templates.pages.product_search import get_search_recovery as build_search_recovery
+
+	return build_search_recovery(search)
 
 
 @frappe.whitelist(allow_guest=True)
 def get_guest_redirect_on_action():
 	return frappe.db.get_single_value("Webshop Settings", "redirect_on_action")
+
+
+@frappe.whitelist(allow_guest=True)
+def get_customer_price_tier():
+	from webshop.webshop.shopping_cart.cart import get_customer_price_tier as get_tier
+
+	return get_tier()
+
+
+PAYMENT_REVIEW_ROLES = ("System Manager", "Sales Manager", "Accounts Manager", "Accounts User")
+
+
+def require_payment_reviewer():
+	user_roles = set(frappe.get_roles(frappe.session.user))
+	if not user_roles.intersection(PAYMENT_REVIEW_ROLES):
+		frappe.throw(_("You are not allowed to review webshop payments."), frappe.PermissionError)
+
+
+@frappe.whitelist()
+def get_pending_payment_reviews(limit=50):
+	require_payment_reviewer()
+	limit = cint(limit) or 50
+
+	return frappe.get_all(
+		"Sales Order",
+		filters={
+			"requires_payment_review": 1,
+			"payment_review_status": ["in", ["", "Pending Verification"]],
+			"docstatus": 0,
+		},
+		fields=[
+			"name",
+			"customer",
+			"customer_name",
+			"transaction_date",
+			"grand_total",
+			"currency",
+			"payment_method",
+			"payment_receipt",
+			"payment_review_status",
+			"modified",
+		],
+		order_by="modified desc",
+		limit=limit,
+	)
+
+
+@frappe.whitelist()
+def approve_payment_review(sales_order, notes=None):
+	require_payment_reviewer()
+	doc = frappe.get_doc("Sales Order", sales_order)
+
+	if not cint(doc.get("requires_payment_review")):
+		frappe.throw(_("This Sales Order does not require payment review."))
+	if doc.docstatus != 0:
+		frappe.throw(_("Only draft Sales Orders can be approved from payment review."))
+
+	doc.payment_review_status = "Approved"
+	doc.payment_review_notes = notes or doc.get("payment_review_notes")
+	doc.payment_reviewed_by = frappe.session.user
+	doc.payment_reviewed_on = now_datetime()
+	doc.flags.ignore_permissions = True
+	doc.save()
+	doc.add_comment("Comment", _("Payment approved by {0}.").format(frappe.session.user))
+	doc.submit()
+
+	return {"name": doc.name, "status": "Approved"}
+
+
+@frappe.whitelist()
+def reject_payment_review(sales_order, notes=None):
+	require_payment_reviewer()
+	if not notes:
+		frappe.throw(_("Please add a reason before rejecting the payment."))
+
+	doc = frappe.get_doc("Sales Order", sales_order)
+	if not cint(doc.get("requires_payment_review")):
+		frappe.throw(_("This Sales Order does not require payment review."))
+	if doc.docstatus != 0:
+		frappe.throw(_("Only draft Sales Orders can be rejected from payment review."))
+
+	doc.payment_review_status = "Rejected"
+	doc.payment_review_notes = notes
+	doc.payment_reviewed_by = frappe.session.user
+	doc.payment_reviewed_on = now_datetime()
+	doc.flags.ignore_permissions = True
+	doc.save()
+	doc.add_comment("Comment", _("Payment rejected by {0}: {1}").format(frappe.session.user, notes))
+
+	return {"name": doc.name, "status": "Rejected"}
+
+
+@frappe.whitelist(allow_guest=True)
+def get_product_bundles(item_code, limit=4):
+	if not item_code:
+		return []
+
+	bundle_names = set(frappe.get_all(
+		"Product Bundle",
+		filters={"new_item_code": item_code},
+		pluck="name",
+	))
+	bundle_names.update(
+		row.parent for row in frappe.get_all(
+			"Product Bundle Item",
+			filters={"item_code": item_code},
+			fields=["parent"],
+		)
+	)
+	if not bundle_names:
+		return []
+
+	from erpnext.utilities.product import get_price
+	from webshop.webshop.doctype.webshop_settings.webshop_settings import get_shopping_cart_settings
+	from webshop.webshop.shopping_cart.cart import get_customer_price_tier, get_party
+
+	settings = get_shopping_cart_settings()
+	tier = get_customer_price_tier(settings)
+	party = None if tier.get("is_guest") else get_party()
+	limit = cint(limit) or 4
+
+	bundles = []
+	for bundle_name in list(bundle_names)[:limit]:
+		bundle = frappe.get_doc("Product Bundle", bundle_name)
+		web_item = frappe.db.get_value(
+			"Website Item",
+			{"item_code": bundle.new_item_code, "published": 1},
+			[
+				"name",
+				"web_item_name",
+				"item_name",
+				"item_code",
+				"route",
+				"website_image as image",
+			],
+			as_dict=True,
+		)
+		if not web_item:
+			continue
+		web_item.website_item = web_item.name
+
+		price = get_price(
+			bundle.new_item_code,
+			tier.get("price_list"),
+			tier.get("customer_group"),
+			settings.company,
+			party=party,
+		)
+		components = []
+		for row in bundle.get("items"):
+			components.append({
+				"item_code": row.item_code,
+				"item_name": frappe.db.get_value("Item", row.item_code, "item_name") or row.item_code,
+				"qty": row.qty,
+			})
+
+		web_item.update({
+			"bundle": bundle.name,
+			"description": bundle.description,
+			"components": components,
+			"formatted_price": price.get("formatted_price") if price else None,
+			"formatted_mrp": price.get("formatted_mrp") if price else None,
+		})
+		bundles.append(web_item)
+
+	return bundles
 
 
 @frappe.whitelist(allow_guest=True)
@@ -144,3 +319,37 @@ def get_wishlist_items_details(item_codes):
 			item.available = True
 
 	return items
+
+
+@frappe.whitelist()
+def get_wishlist_whatsapp_quote():
+	settings = frappe.get_cached_doc("Webshop Settings")
+	if not settings.enable_whatsapp_order or not settings.whatsapp_number:
+		frappe.throw(_("WhatsApp order number is not configured."))
+
+	if frappe.session.user == "Guest":
+		frappe.throw(_("Please log in to send your wishlist on WhatsApp."), frappe.PermissionError)
+
+	items = get_wishlist_items_details([
+		item.item_code for item in frappe.get_all(
+			"Wishlist Item",
+			filters={"parent": frappe.session.user},
+			fields=["item_code"],
+		)
+	])
+	if not items:
+		frappe.throw(_("Your wishlist is empty."))
+
+	lines = [_("*Wishlist Quote Request*"), "", _("Hi, I would like a quote for these items:"), ""]
+	for item in items:
+		price = item.get("formatted_price") or _("Price on request")
+		lines.append("• {0} ({1}) - {2}".format(item.get("web_item_name") or item.get("item_name"), item.item_code, price))
+
+	lines.extend(["", _("Customer: {0}").format(frappe.session.user)])
+	message = "\n".join(lines)
+	phone = "".join(ch for ch in settings.whatsapp_number if ch.isdigit())
+
+	return {
+		"message": message,
+		"url": "https://wa.me/{0}?text={1}".format(phone, quote(message)),
+	}

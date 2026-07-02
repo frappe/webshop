@@ -63,6 +63,22 @@
 			<span class="order-number h4">{{ doc.name if doc else frappe.form_dict.id }}</span>
 		</div>
 
+		{% if account_ready %}
+		<div class="account-ready p-6 rounded-lg text-left mb-8 border" style="background: #f7fafc;">
+			<h5 class="mb-3"><i class="fa fa-user-circle mr-2"></i> {{ _("Your account is ready") }}</h5>
+			<p class="small text-muted mb-4">
+				{% if account_created %}
+					{{ _("We created an account for {0}. Please check your email to set your password and manage orders faster next time.").format(account_email) }}
+				{% else %}
+					{{ _("Your order is linked with {0}. Log in anytime to view saved details and future orders.").format(account_email) }}
+				{% endif %}
+			</p>
+			<a href="/login?redirect-to=/orders" class="btn btn-outline-primary btn-sm">
+				{{ _("Go to My Orders") }}
+			</a>
+		</div>
+		{% endif %}
+
 		{% if doc.payment_method %}
 		<div class="payment-instructions p-6 rounded-lg text-center mb-8 border" style="background: rgba(var(--primary-rgb), 0.02);">
 			<h5 class="mb-3 font-weight-bold">{{ _("Payment: ") }} {{ doc.payment_method }}</h5>

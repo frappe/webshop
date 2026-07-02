@@ -60,7 +60,7 @@ webshop.ProductView =  class {
 
 					if (!result.message["items"].length) {
 						// if result has no items or result is empty
-						me.render_no_products_section();
+						me.render_no_products_section(false, result.message["search_recovery"]);
 					} else {
 						// Add discount filters
 						me.re_render_discount_filters(result.message["filters"].discount_filters);
@@ -492,18 +492,63 @@ webshop.ProductView =  class {
 		}
 	}
 
-	render_no_products_section(error=false) {
+	escape_html(value) {
+		if (frappe.utils && frappe.utils.escape_html) {
+			return frappe.utils.escape_html(String(value || ""));
+		}
+		return $("<div>").text(value || "").html();
+	}
+
+	escape_url(value) {
+		return this.escape_html(encodeURI(value || "#"));
+	}
+
+	render_no_products_section(error=false, recovery=null) {
 		let error_section = `
 			<div class="mt-4 w-100 alert alert-error font-md">
 				${ __("Something went wrong. Please refresh or contact us.") }
 			</div>
 		`;
+		let recovery_html = "";
+
+		if (recovery && (recovery.categories || recovery.products)) {
+			let category_html = "";
+			(recovery.categories || []).forEach((category) => {
+				category_html += `
+					<a href="/${ this.escape_url(category.route) }" class="btn btn-sm category-chip mr-2 mb-2" role="button">
+						${ this.escape_html(category.name) }
+					</a>
+				`;
+			});
+
+			let product_html = "";
+			(recovery.products || []).forEach((product) => {
+				const image = product.thumbnail || product.website_image || "/assets/webshop/images/cart-empty-state.png";
+				product_html += `
+					<a href="/${ this.escape_url(product.route) }" class="text-decoration-none text-dark">
+						<div class="d-flex align-items-center p-2 rounded border bg-white mb-2" style="gap: 12px;">
+							<img src="${ this.escape_url(image) }" alt="${ this.escape_html(product.web_item_name || product.item_name) }" style="width: 48px; height: 48px; object-fit: contain;">
+							<div class="font-weight-bold small">${ this.escape_html(product.web_item_name || product.item_name) }</div>
+						</div>
+					</a>
+				`;
+			});
+
+			recovery_html = `
+				<div class="mt-4 text-left" style="max-width: 640px; margin: 0 auto;">
+					${ category_html ? `<div class="mb-4"><div class="small text-muted font-weight-bold mb-2">${ __("Browse Categories") }</div>${ category_html }</div>` : "" }
+					${ product_html ? `<div><div class="small text-muted font-weight-bold mb-2">${ __("Popular Products") }</div>${ product_html }</div>` : "" }
+				</div>
+			`;
+		}
+
 		let no_results_section = `
 			<div class="cart-empty frappe-card mt-4">
 				<div class="cart-empty-state">
 					<img src="/assets/webshop/images/cart-empty-state.png" alt="Empty Cart">
 				</div>
-				<div class="cart-empty-message mt-4">${ __("No products found") }</p>
+				<div class="cart-empty-message mt-4">${ __("No products found") }</div>
+				${ recovery_html }
 			</div>
 		`;
 

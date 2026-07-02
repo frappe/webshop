@@ -63,10 +63,11 @@ webshop.ProductSearch = class {
 				},
 				callback: (data) => {
 					let product_results = null, category_results = null;
+					let recovery = data.message ? data.message.recovery : null;
 
 					// Populate product results
 					product_results = data.message ? data.message.product_results : null;
-					me.populateResults(product_results);
+					me.populateResults(product_results, recovery);
 
 					// Populate categories
 					if (me.category_container) {
@@ -201,9 +202,27 @@ webshop.ProductSearch = class {
 		this.attachEventListenersToChips();
 	}
 
-	populateResults(product_results) {
+	populateResults(product_results, recovery=null) {
 		if (!product_results || product_results.length === 0) {
 			let empty_html = ``;
+			if (recovery && recovery.products && recovery.products.length) {
+				empty_html = `
+					<div class="px-3 py-2 small text-muted font-weight-bold">${ __("Popular Products") }</div>
+				`;
+				recovery.products.forEach((res) => {
+					let thumbnail = res.thumbnail || res.website_image || '/assets/webshop/images/cart-empty-state.png';
+					let route = ws_escape_url(res.route);
+					let item_name = ws_escape_html(res.web_item_name || res.item_name);
+					empty_html += `
+						<div class="dropdown-item" style="display: flex;">
+							<img class="item-thumb col-2" src="${ws_escape_url(thumbnail)}" />
+							<div class="col-9" style="white-space: normal;">
+								<a href="/${route}">${item_name}</a>
+							</div>
+						</div>
+					`;
+				});
+			}
 			this.products_container.html(empty_html);
 			return;
 		}
@@ -215,12 +234,15 @@ webshop.ProductSearch = class {
 			let route = ws_escape_url(res.route);
 			let item_name = ws_escape_html(res.web_item_name);
 			let brand = ws_escape_html(res.brand ? "by " + res.brand : "");
+			let badge = res.badge_label
+				? `<span class="badge badge-pill mr-1" style="background:${ws_escape_html(res.badge_color || "#B0008E")}; color:#fff; font-size:10px;">${ws_escape_html(res.badge_label)}</span>`
+				: "";
 			html += `
 				<div class="dropdown-item" style="display: flex;">
 					<img class="item-thumb col-2" src="${ws_escape_url(thumbnail)}" />
 					<div class="col-9" style="white-space: normal;">
 						<a href="/${route}">${item_name}</a><br>
-						<span class="brand-line">${brand}</span>
+						${badge}<span class="brand-line">${brand}</span>
 					</div>
 				</div>
 			`;

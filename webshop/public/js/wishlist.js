@@ -347,6 +347,26 @@ $.extend(wishlist, {
 				</div>
 			</div>
 		`;
+	},
+
+	bind_whatsapp_quote_action: function() {
+		$(document.body).off("click", ".btn-wishlist-whatsapp").on("click", ".btn-wishlist-whatsapp", function() {
+			const $btn = $(this);
+			$btn.prop("disabled", true).text(__("Preparing..."));
+
+			frappe.call({
+				method: "webshop.webshop.api.get_wishlist_whatsapp_quote",
+				callback: function(r) {
+					$btn.prop("disabled", false).text(__("Send Wishlist on WhatsApp"));
+					if (r.message && r.message.url) {
+						window.open(r.message.url, "_blank", "noopener");
+					}
+				},
+				error: function() {
+					$btn.prop("disabled", false).text(__("Send Wishlist on WhatsApp"));
+				}
+			});
+		});
 	}
 });
 
@@ -357,6 +377,7 @@ frappe.ready(function() {
 	if (window.location.pathname === "/wishlist") {
 		wishlist.bind_move_to_cart_action();
 		wishlist.bind_remove_action();
+		wishlist.bind_whatsapp_quote_action();
 		if (frappe.session.user === "Guest") {
 			wishlist.render_guest_wishlist_page();
 		}

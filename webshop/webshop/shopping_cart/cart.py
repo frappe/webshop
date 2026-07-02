@@ -124,6 +124,7 @@ def get_cart_quotation(doc=None, for_checkout=False, is_cart_page=False):
 		return get_guest_cart_quotation(for_checkout=for_checkout, is_cart_page=is_cart_page)
 
 	party = get_party()
+	cart_settings = frappe.get_cached_doc("Webshop Settings")
 	if not doc:
 		quotation = _get_cart_quotation(party)
 		doc = quotation
@@ -147,7 +148,8 @@ def get_cart_quotation(doc=None, for_checkout=False, is_cart_page=False):
 		"shipping_addresses": get_shipping_addresses(party),
 		"billing_addresses": get_billing_addresses(party),
 		"shipping_rules": get_applicable_shipping_rules(party),
-		"cart_settings": frappe.get_cached_doc("Webshop Settings"),
+		"cart_settings": cart_settings,
+		"customer_tier": get_customer_price_tier(cart_settings, party),
 		"available_shipping_methods": available_methods,
 		"selected_shipping_method": shipping_method
 	}
@@ -169,7 +171,35 @@ def get_cart_drawer():
 	return {
 		"items": context.get("items"),
 		"taxes_and_totals": context.get("taxes_and_totals"),
+		"customer_tier": context.get("customer_tier"),
 		"cart_count": cint(doc.get("total_qty")) if doc else 0,
+	}
+
+
+def get_customer_price_tier(cart_settings=None, party=None):
+	cart_settings = cart_settings or frappe.get_cached_doc("Webshop Settings")
+	is_guest = frappe.session.user == "Guest"
+	customer_name = None
+	customer_group = cart_settings.default_customer_group
+	selling_price_list = None
+
+	if not is_guest:
+		party = party or get_party()
+		customer_name = party.name
+		customer_group = frappe.db.get_value("Customer", party.name, "customer_group") or customer_group
+		selling_price_list = _set_price_list(cart_settings, frappe._dict({"party_name": party.name}))
+
+	if not selling_price_list and customer_group:
+		selling_price_list = frappe.db.get_value("Customer Group", customer_group, "default_price_list")
+
+	selling_price_list = selling_price_list or cart_settings.price_list
+
+	return {
+		"is_guest": is_guest,
+		"customer": customer_name,
+		"customer_group": customer_group,
+		"price_list": selling_price_list,
+		"label": customer_group or _("Standard"),
 	}
 
 def get_guest_cart_quotation(for_checkout=False, is_cart_page=False):
@@ -198,6 +228,7 @@ def get_guest_cart_quotation(for_checkout=False, is_cart_page=False):
 	})
 
 	selling_price_list = _set_price_list(cart_settings)
+	doc.selling_price_list = selling_price_list
 
 	valid_cart_items = []
 	for item in cart_items:
@@ -307,6 +338,7 @@ def get_guest_cart_quotation(for_checkout=False, is_cart_page=False):
 		"shipping_rules": [],
 		"cart_settings": cart_settings,
 		"is_guest": True,
+		"customer_tier": get_customer_price_tier(cart_settings),
 		"available_shipping_methods": get_shipping_methods_list(doc.grand_total),
 		"selected_shipping_method": shipping_method
 	}
@@ -523,6 +555,11 @@ def place_order(quotation_name=None, payment_method=None, receipt_info=None):
 			requires_payment_review = True
 	
 	sales_order.flags.ignore_permissions = True
+	if requires_payment_review:
+		sales_order.requires_payment_review = 1
+		sales_order.payment_review_status = "Pending Verification"
+	else:
+		sales_order.requires_payment_review = 0
 	sales_order.insert()
 	if payment_comment:
 		sales_order.add_comment("Comment", payment_comment)
@@ -558,6 +595,9 @@ def place_order(quotation_name=None, payment_method=None, receipt_info=None):
 					decode=False,
 					is_private=1
 				)
+				sales_order.payment_receipt = file_doc.file_url
+				sales_order.flags.ignore_permissions = True
+				sales_order.save()
 				sales_order.add_comment("Comment", _("Payment receipt uploaded: {0}").format(file_doc.file_url))
 		except Exception as e:
 			frappe.log_error(f"Receipt Attach Error: {str(e)}", "Webshop Checkout")
@@ -624,15 +664,50 @@ def clear_guest_checkout_cache():
 
 @frappe.whitelist(allow_guest=True)
 def get_order_status(order_id, email):
-	"""Returns basic order status for guest tracking"""
+	"""Returns order status for guest tracking."""
 	order = frappe.db.get_value("Sales Order", {
 		"name": order_id,
 		"contact_email": email
-	}, ["name", "status", "delivery_status", "grand_total", "currency"], as_dict=True)
+	}, [
+		"name",
+		"status",
+		"delivery_status",
+		"billing_status",
+		"transaction_date",
+		"grand_total",
+		"currency",
+		"payment_method",
+		"requires_payment_review",
+		"payment_review_status",
+		"payment_receipt",
+	], as_dict=True)
 	
 	if not order:
 		frappe.throw(_("Order not found or email mismatch."), frappe.PermissionError)
-		
+
+	order.items = frappe.get_all(
+		"Sales Order Item",
+		filters={"parent": order.name},
+		fields=["item_code", "item_name", "qty", "uom", "amount"],
+		order_by="idx",
+	)
+
+	order.invoices = frappe.get_all(
+		"Sales Invoice Item",
+		filters={"sales_order": order.name, "docstatus": 1},
+		fields=["parent"],
+		distinct=True,
+		pluck="parent",
+	)
+
+	order.delivery_notes = frappe.get_all(
+		"Delivery Note Item",
+		filters={"against_sales_order": order.name, "docstatus": 1},
+		fields=["parent"],
+		distinct=True,
+		pluck="parent",
+	)
+
 	return order
 
 
@@ -812,6 +887,8 @@ def convert_guest_cart_to_customer(
 		return {"status": "error", "message": "Cart is empty"}
 
 	# 1. Create User if requested
+	account_created = False
+	account_ready = False
 	if frappe.cint(create_account):
 		if not frappe.db.exists("User", email):
 			try:
@@ -823,10 +900,16 @@ def convert_guest_cart_to_customer(
 				user.append("roles", {"role": "Customer"})
 				user.flags.ignore_permissions = True
 				user.insert()
+				account_created = True
+				account_ready = True
 			except Exception as e:
 				# Log error but don't block order placement
 				frappe.log_error(f"Failed to create user at checkout: {str(e)}")
-		migrate_guest_wishlist_to_user(email, guest_wishlist)
+		else:
+			account_ready = cint(frappe.db.get_value("User", email, "enabled"))
+
+		if account_ready:
+			migrate_guest_wishlist_to_user(email, guest_wishlist)
 
 	# 2. Create or Find Customer
 	customer_name = frappe.db.get_value("Customer", {"email_id": email})
@@ -988,12 +1071,18 @@ def convert_guest_cart_to_customer(
 	return {
 		"status": "success",
 		"quotation": qdoc.name,
-		"customer": customer_name
+		"customer": customer_name,
+		"account_created": account_created,
+		"account_ready": account_ready,
+		"account_email": email if account_ready else None,
 	}
 
 
 def migrate_guest_wishlist_to_user(user, guest_wishlist=None):
 	if not guest_wishlist:
+		return
+
+	if not frappe.db.exists("User", user):
 		return
 
 	if isinstance(guest_wishlist, str):

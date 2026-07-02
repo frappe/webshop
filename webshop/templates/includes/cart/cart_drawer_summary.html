@@ -1,9 +1,32 @@
 <!-- Cart Drawer Summary -->
 <div class="ws-drawer-summary p-4 bg-white border-top rounded-top" style="margin-top: -10px; position: relative; z-index: 5;">
+    {% set savings = namespace(amount=0) %}
+    {% for item in doc.items %}
+        {% if item.price_list_rate and item.rate and item.price_list_rate > item.rate %}
+            {% set savings.amount = savings.amount + ((item.price_list_rate - item.rate) * item.qty) %}
+        {% endif %}
+    {% endfor %}
+    {% set free_shipping_threshold = cart_settings.free_shipping_threshold or 0 %}
+    {% set free_shipping_remaining = free_shipping_threshold - doc.net_total if free_shipping_threshold else 0 %}
+
+    {% if customer_tier %}
+    <div class="summary-row d-flex justify-content-between align-items-center mb-3 p-2 rounded" style="background: #f7fafc; border: 1px solid #e2e8f0;">
+        <span class="text-muted small">{{ _("Price Tier") }}</span>
+        <span class="small font-weight-bold text-primary">{{ customer_tier.label }}</span>
+    </div>
+    {% endif %}
+
     <div class="summary-row d-flex justify-content-between mb-2">
         <span class="text-muted small">Net Total ({{ doc.total_qty|int }} Items)</span>
         <span class="font-weight-bold">{{ doc.get_formatted("net_total") }}</span>
     </div>
+
+    {% if savings.amount > 0 %}
+    <div class="summary-row d-flex justify-content-between mb-2 text-success">
+        <span class="small font-weight-bold">{{ _("You Saved") }}</span>
+        <span class="font-weight-bold">{{ frappe.format_value(savings.amount, {"fieldtype": "Currency", "options": doc.currency}) }}</span>
+    </div>
+    {% endif %}
 
     {% for d in doc.taxes %}
         {% if d.tax_amount or d.is_free_item %}
@@ -23,6 +46,23 @@
             <span class="small font-weight-bold">Coupon: {{ doc.coupon_code }}</span>
         </div>
         <button class="btn btn-link btn-xs text-danger p-0 btn-remove-coupon" title="Remove coupon">Remove</button>
+    </div>
+    {% endif %}
+
+    {% if free_shipping_threshold and doc.net_total > 0 %}
+    <div class="free-shipping-progress mb-3 p-3 rounded" style="background: #f7fafc; border: 1px solid #e2e8f0;">
+        {% if free_shipping_remaining > 0 %}
+            {% set progress = (doc.net_total / free_shipping_threshold * 100) if free_shipping_threshold else 0 %}
+            <div class="d-flex justify-content-between small mb-2">
+                <span class="text-muted">{{ _("Free Shipping") }}</span>
+                <strong>{{ frappe.format_value(free_shipping_remaining, {"fieldtype": "Currency", "options": doc.currency}) }} {{ _("away") }}</strong>
+            </div>
+            <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-primary" role="progressbar" style="width: {{ [progress, 100]|min }}%;"></div>
+            </div>
+        {% else %}
+            <div class="text-success small font-weight-bold">{{ _("Free shipping unlocked") }}</div>
+        {% endif %}
     </div>
     {% endif %}
 

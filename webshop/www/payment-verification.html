@@ -1,0 +1,188 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ _("Payment Verification") }}{% endblock %}
+
+{% block header %}
+{{ include_style("assets/webshop/css/webshop-modern.css") }}
+<style>
+	.payment-review-shell {
+		max-width: 1120px;
+		margin: 3rem auto;
+	}
+	.payment-review-toolbar {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 1.5rem;
+	}
+	.payment-review-list {
+		display: grid;
+		gap: 1rem;
+	}
+	.payment-review-card {
+		background: #fff;
+		border: 1px solid var(--border-color);
+		border-radius: 8px;
+		padding: 1.25rem;
+		box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+	}
+	.payment-review-meta {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(120px, 1fr));
+		gap: 1rem;
+	}
+	.payment-review-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: .75rem;
+		margin-top: 1rem;
+	}
+	@media (max-width: 768px) {
+		.payment-review-toolbar,
+		.payment-review-actions {
+			align-items: stretch;
+			flex-direction: column;
+		}
+		.payment-review-meta {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="container payment-review-shell">
+	<div class="payment-review-toolbar">
+		<div>
+			<h2 class="mb-1">{{ _("Payment Verification") }}</h2>
+			<p class="text-muted small mb-0">{{ _("Review uploaded receipts and submit approved offline payment orders.") }}</p>
+		</div>
+		<button class="btn btn-sm btn-primary" id="refresh-payment-reviews">{{ _("Refresh") }}</button>
+	</div>
+
+	<div id="payment-review-alert" class="alert d-none"></div>
+	<div id="payment-review-list" class="payment-review-list"></div>
+</div>
+{% endblock %}
+
+{% block base_scripts %}
+{{ include_script("frappe-web.bundle.js") }}
+<script>
+frappe.ready(function() {
+	const $list = $("#payment-review-list");
+	const $alert = $("#payment-review-alert");
+
+	function escape_html(value) {
+		return $("<div>").text(value || "").html();
+	}
+
+	function show_alert(message, indicator) {
+		$alert
+			.removeClass("d-none alert-success alert-danger alert-info")
+			.addClass("alert-" + (indicator || "info"))
+			.text(message);
+	}
+
+	function render_empty() {
+		$list.html(`
+			<div class="payment-review-card text-center text-muted py-5">
+				${__("No pending payment reviews.")}
+			</div>
+		`);
+	}
+
+	function render_reviews(rows) {
+		if (!rows || !rows.length) {
+			render_empty();
+			return;
+		}
+
+		$list.html(rows.map(row => {
+			const receipt = row.payment_receipt
+				? `<a href="${escape_html(row.payment_receipt)}" target="_blank" rel="noopener">${__("View Receipt")}</a>`
+				: `<span class="text-muted">${__("No receipt")}</span>`;
+
+			return `
+				<div class="payment-review-card" data-sales-order="${escape_html(row.name)}">
+					<div class="d-flex justify-content-between align-items-start mb-3">
+						<div>
+							<a class="h5 mb-1 d-block" href="/app/sales-order/${escape_html(row.name)}">${escape_html(row.name)}</a>
+							<div class="text-muted small">${escape_html(row.customer_name || row.customer)}</div>
+						</div>
+						<span class="badge badge-warning">${escape_html(row.payment_method || __("Offline Payment"))}</span>
+					</div>
+					<div class="payment-review-meta small">
+						<div><div class="text-muted">${__("Date")}</div><strong>${escape_html(row.transaction_date)}</strong></div>
+						<div><div class="text-muted">${__("Amount")}</div><strong>${escape_html(row.currency)} ${Number(row.grand_total || 0).toLocaleString()}</strong></div>
+						<div><div class="text-muted">${__("Receipt")}</div><strong>${receipt}</strong></div>
+						<div><div class="text-muted">${__("Status")}</div><strong>${escape_html(row.payment_review_status || __("Pending Verification"))}</strong></div>
+					</div>
+					<textarea class="form-control mt-3 review-notes" rows="2" placeholder="${__("Notes for approval/rejection")}"></textarea>
+					<div class="payment-review-actions">
+						<button class="btn btn-sm btn-outline-danger reject-payment">${__("Reject")}</button>
+						<button class="btn btn-sm btn-primary approve-payment">${__("Approve and Submit")}</button>
+					</div>
+				</div>
+			`;
+		}).join(""));
+	}
+
+	function load_reviews() {
+		$list.html(`<div class="payment-review-card text-center text-muted py-5">${__("Loading...")}</div>`);
+		$alert.addClass("d-none");
+		frappe.call({
+			method: "webshop.webshop.api.get_pending_payment_reviews",
+			callback: function(r) {
+				render_reviews(r.message || []);
+			},
+			error: function() {
+				show_alert(__("Unable to load payment reviews."), "danger");
+				render_empty();
+			}
+		});
+	}
+
+	$list.on("click", ".approve-payment", function() {
+		const $card = $(this).closest(".payment-review-card");
+		frappe.call({
+			method: "webshop.webshop.api.approve_payment_review",
+			args: {
+				sales_order: $card.data("sales-order"),
+				notes: $card.find(".review-notes").val()
+			},
+			freeze: true,
+			callback: function() {
+				show_alert(__("Payment approved and Sales Order submitted."), "success");
+				load_reviews();
+			}
+		});
+	});
+
+	$list.on("click", ".reject-payment", function() {
+		const $card = $(this).closest(".payment-review-card");
+		const notes = $card.find(".review-notes").val();
+		if (!notes) {
+			show_alert(__("Add rejection notes first."), "danger");
+			return;
+		}
+
+		frappe.call({
+			method: "webshop.webshop.api.reject_payment_review",
+			args: {
+				sales_order: $card.data("sales-order"),
+				notes: notes
+			},
+			freeze: true,
+			callback: function() {
+				show_alert(__("Payment rejected."), "success");
+				load_reviews();
+			}
+		});
+	});
+
+	$("#refresh-payment-reviews").on("click", load_reviews);
+	load_reviews();
+});
+</script>
+{% endblock %}

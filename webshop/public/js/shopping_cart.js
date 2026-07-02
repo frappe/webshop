@@ -299,6 +299,14 @@ $.extend(shopping_cart, {
 		$("#cart-drawer-summary").html("");
 	},
 
+	show_coupon_message: function(message, indicator="info") {
+		const color_class = indicator === "success" ? "text-success" : indicator === "danger" ? "text-danger" : "text-muted";
+		$("#cart-drawer-coupon-msg")
+			.removeClass("text-success text-danger text-muted")
+			.addClass(color_class)
+			.text(message || "");
+	},
+
 	refresh_drawer_ui: function(message) {
 		$("#cart-drawer-items").html(message.items || '<div class="text-center py-5 text-muted">No items in cart</div>');
 		$("#cart-drawer-summary").html(message.taxes_and_totals || "");
@@ -346,7 +354,7 @@ $.extend(shopping_cart, {
 				method: "webshop.webshop.shopping_cart.cart.remove_coupon_code",
 				callback: function(r) {
 					if (r.message) {
-						frappe.show_alert({message: __("Coupon Removed"), indicator: 'info'});
+						shopping_cart.show_coupon_message(__("Coupon removed."), "info");
 						shopping_cart.refresh_drawer();
 					}
 				}
@@ -364,6 +372,7 @@ $(document).on('click', '.cart-drawer-close, #cart-drawer-backdrop', function() 
 $(document).on('click', '.btn-apply-coupon', function() {
 	const coupon_code = $(".txtcoupon").val();
 	if (!coupon_code) return;
+	shopping_cart.show_coupon_message(__("Applying coupon..."), "info");
 	
 	frappe.call({
 		method: "webshop.webshop.shopping_cart.cart.apply_coupon_code",
@@ -373,9 +382,12 @@ $(document).on('click', '.btn-apply-coupon', function() {
 		},
 		callback: function(r) {
 			if (r.message) {
-				frappe.msgprint(__("Coupon Applied Successfully"));
+				shopping_cart.show_coupon_message(__("Coupon applied successfully."), "success");
 				shopping_cart.refresh_drawer();
 			}
+		},
+		error: function() {
+			shopping_cart.show_coupon_message(__("Unable to apply this coupon."), "danger");
 		}
 	});
 });
