@@ -488,9 +488,9 @@ def get_raast_qr():
 			"amount": quotation.grand_total,
 			"currency": quotation.currency
 		}
-	except Exception as e:
+	except Exception:
 		frappe.log_error(frappe.get_traceback(), "Raast QR Generation Error")
-		return {"error": str(e)}
+		return {"error": "Unable to generate Raast QR right now"}
 
 
 @frappe.whitelist(allow_guest=True)
