@@ -1483,6 +1483,12 @@ body.product-page {
 .w-fit {
 	width: fit-content !important;
 }
+
+html,
+body {
+	overflow-x: hidden;
+}
+
 /* Cart Drawer Styles */
 .ws-drawer-backdrop {
     position: fixed;
@@ -1500,23 +1506,25 @@ body.product-page {
 .ws-drawer {
     position: fixed;
     top: 0;
-    right: -450px;
+    right: 0;
     width: 450px;
     height: 100vh;
     background: white;
     z-index: 1050;
     display: flex;
     flex-direction: column;
-    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
 
+    &.open,
     &.active {
-        right: 0;
+        transform: translateX(0);
     }
 
     @media (max-width: 576px) {
         width: 100%;
-        right: -100%;
+        right: 0;
     }
 }
 

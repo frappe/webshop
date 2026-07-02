@@ -185,6 +185,11 @@ h1, h2, h3, h4, .product-title {
 }
 
 /* Side Drawer Styles */
+html,
+body {
+    overflow-x: hidden;
+}
+
 .ws-drawer {
     position: fixed;
     top: 0;
@@ -199,6 +204,10 @@ h1, h2, h3, h4, .product-title {
     flex-direction: column;
     max-width: 100%;
     margin: 0 !important; /* Prevent center alignment */
+}
+
+.ws-drawer.active {
+    transform: translateX(0);
 }
 
 .ws-drawer.open {
@@ -247,10 +256,13 @@ h1, h2, h3, h4, .product-title {
 @media (max-width: 576px) {
     .ws-drawer {
         width: 100%;
-        right: -100%;
+        right: 0;
     }
     .ws-drawer.open {
-        transform: translateX(-100%);
+        transform: translateX(0);
+    }
+    .ws-drawer.active {
+        transform: translateX(0);
     }
 }
 
