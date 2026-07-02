@@ -306,6 +306,9 @@ def approve_payment_review(sales_order, notes=None):
 	doc.payment_review_notes = notes or doc.get("payment_review_notes")
 	doc.payment_reviewed_by = frappe.session.user
 	doc.payment_reviewed_on = now_datetime()
+	# require_payment_reviewer() already restricts this path to trusted payment-review roles.
+	# Keep the bypass through submit so reviewers can approve draft webshop orders that they
+	# may not otherwise own, while still relying on the review gate and draft/payment checks above.
 	doc.flags.ignore_permissions = True
 	doc.save()
 	doc.add_comment("Comment", _("Payment approved by {0}.").format(frappe.session.user))
