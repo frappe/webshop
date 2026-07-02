@@ -1345,6 +1345,9 @@ def set_address_as_primary(address_name):
 		frappe.throw(_("Please log in to manage addresses."))
 
 	party = get_party()
+	target_addr = frappe.get_doc("Address", address_name)
+	if not any(link.link_name == party.name for link in target_addr.links):
+		frappe.throw(_("Not authorized to update this address."))
 	
 	# 1. Unset primary for all addresses linked to this party
 	linked_addresses = frappe.db.get_all("Dynamic Link", filters={
@@ -1361,8 +1364,8 @@ def set_address_as_primary(address_name):
 			addr.save()
 
 	# 2. Set primary for the target address
-	target_addr = frappe.get_doc("Address", address_name)
 	target_addr.is_primary_address = 1
+	# Ownership was validated above; bypass portal permissions only to persist the checkout address preference.
 	target_addr.flags.ignore_permissions = True
 	target_addr.save()
 
