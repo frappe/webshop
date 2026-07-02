@@ -6,7 +6,7 @@ import frappe.defaults
 from frappe import _, throw
 from frappe.contacts.doctype.address.address import get_address_display
 from frappe.contacts.doctype.contact.contact import get_contact_name
-from frappe.utils import cint, cstr, flt, get_fullname
+from frappe.utils import cint, cstr, flt, get_fullname, strip_html_tags
 from frappe.utils.nestedset import get_root_of
 
 from erpnext.accounts.utils import get_account_name
@@ -20,6 +20,13 @@ from webshop.webshop.shopping_cart.raast_qr import generate_raast_emvco_string
 
 class WebsitePriceListMissingError(frappe.ValidationError):
     pass
+
+
+def sanitize_variant_text(variant_txt):
+	if not variant_txt:
+		return None
+
+	return strip_html_tags(cstr(variant_txt)).strip()
 
 
 def get_published_web_item_for_cart(item_code):
@@ -263,8 +270,9 @@ def get_guest_cart_quotation(for_checkout=False, is_cart_page=False):
 			price = 0
 		
 		item_description = item_doc.description or ''
-		if item.get('variant_txt'):
-			item_description = f'{item_description}<br><b>Variant:</b> {item["variant_txt"]}'
+		variant_txt = sanitize_variant_text(item.get("variant_txt"))
+		if variant_txt:
+			item_description = f"{item_description}<br><b>Variant:</b> {variant_txt}"
 
 		minimum_qty = web_item.minimum_qty or 1
 
@@ -744,6 +752,7 @@ def request_for_quotation():
 @frappe.whitelist(allow_guest=True)
 def update_cart(item_code, qty, additional_notes=None, with_items=False, uom=None, variant_txt=None):
 	qty = flt(qty)
+	variant_txt = sanitize_variant_text(variant_txt)
 	web_item = None
 	if qty > 0:
 		web_item = validate_cart_item(item_code, uom)
@@ -832,6 +841,7 @@ def update_cart(item_code, qty, additional_notes=None, with_items=False, uom=Non
 
 def update_guest_cart(item_code, qty, with_items=0, uom=None, variant_txt=None):
 	# Store guest cart in cache
+	variant_txt = sanitize_variant_text(variant_txt)
 	session_id = frappe.session.id
 	cache_key = f"cart_{session_id}"
 	cart_items = frappe.cache().get_value(cache_key) or []
