@@ -2,8 +2,12 @@
 {% extends "templates/web.html" %}
 
 {% block header %}
-<div class="mb-6">{{ _(item_group_name) }}</div>
+<h1 class="mb-6">{{ _(item_group_name) }}</h1>
 {% endblock header %}
+
+{% block head_include %}
+{% include "templates/includes/seo_head.html" %}
+{% endblock %}
 
 {% block script %}
 <script type="text/javascript" src="/all-products/index.js"></script>
@@ -16,7 +20,7 @@
 {% endblock %}
 
 {% block page_content %}
-<div class="item-group-content" itemscope itemtype="http://schema.org/Product"
+<div class="item-group-content" itemscope itemtype="https://schema.org/CollectionPage"
 	data-item-group="{{ name }}">
 	<div class="item-group-slideshow">
 		{% if slideshow %} <!-- slideshow -->

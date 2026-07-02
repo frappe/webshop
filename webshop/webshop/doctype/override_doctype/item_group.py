@@ -5,6 +5,12 @@ from frappe.utils import get_url, cint
 from frappe.website.website_generator import WebsiteGenerator
 from erpnext.setup.doctype.item_group.item_group import ItemGroup
 from frappe.website.utils import clear_cache
+from webshop.webshop.seo import (
+	add_json_ld,
+	breadcrumb_schema,
+	collection_schema,
+	set_page_seo,
+)
 
 class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 	nsm_parent_field = "parent_item_group"
@@ -79,6 +85,19 @@ class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 		context.title = self.website_title or self.name
 		context.name = self.name
 		context.item_group_name = self.item_group_name
+		set_page_seo(
+			context,
+			self.website_title or self.item_group_name,
+			self.description,
+			self.route,
+			self.image,
+			og_type="website",
+		)
+		add_json_ld(
+			context,
+			breadcrumb_schema(context.parents, self.item_group_name, self.route),
+			collection_schema(self.website_title or self.item_group_name, self.description, self.route),
+		)
 
 		return context
 

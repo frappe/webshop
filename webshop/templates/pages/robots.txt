@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Disallow: /checkout
+Disallow: /cart
+Disallow: /api
+Disallow: /login
+Disallow: /desk
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+Sitemap: {{ frappe.utils.get_url("/sitemap.xml") }}

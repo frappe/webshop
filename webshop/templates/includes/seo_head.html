@@ -1,0 +1,6 @@
+{% if canonical_url %}
+<link rel="canonical" href="{{ canonical_url }}">
+{% endif %}
+{% if seo_json_ld_json %}
+<script type="application/ld+json">{{ seo_json_ld_json | safe }}</script>
+{% endif %}

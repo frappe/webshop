@@ -1,10 +1,14 @@
 {% from "webshop/templates/includes/macros.html" import attribute_filter_section, field_filter_section, discount_range_filters %}
 {% extends "templates/web.html" %}
 
-{% block title %}{{ _("All Products") }}{% endblock %}
+{% block title %}{{ title or _("All Products") }}{% endblock %}
 {% block header %}
-<div class="mb-6">{{ _("All Products") }}</div>
+<h1 class="mb-6">{{ _("All Products") }}</h1>
 {% endblock header %}
+
+{% block head_include %}
+{% include "templates/includes/seo_head.html" %}
+{% endblock %}
 
 {% block page_content %}
 <!-- CSS Dependency for modern cards and cart drawer -->

@@ -1,5 +1,6 @@
 import frappe
 from frappe import _
+from webshop.webshop.seo import add_json_ld, collection_schema, set_page_seo, website_schema
 
 sitemap = 1
 
@@ -16,6 +17,22 @@ def get_context(context):
 
 	if settings.slideshow:
 		context.slideshow = get_slideshow(settings.slideshow)
+	set_page_seo(
+		context,
+		_("Shop Euro Plast by Category"),
+		_("Explore Euro Plast product categories including storage containers, kitchenware, baskets, bathroom products, and household plastics."),
+		"/shop-by-category",
+		og_type="website",
+	)
+	add_json_ld(
+		context,
+		website_schema(),
+		collection_schema(
+			_("Shop Euro Plast by Category"),
+			_("Find Euro Plast products by category and choose durable plastic essentials for home and business use."),
+			"/shop-by-category",
+		),
+	)
 
 	context.no_cache = 1
 

@@ -9,3 +9,5 @@ webshop.patches.add_payment_review_fields
 webshop.patches.add_website_item_badge_fields
 webshop.patches.add_abandoned_cart_fields
 webshop.patches.add_conversion_settings_fields
+webshop.patches.enable_website_item_guest_view
+webshop.patches.unpublish_placeholder_freshmate_page

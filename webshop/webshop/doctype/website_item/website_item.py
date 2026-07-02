@@ -36,6 +36,14 @@ from erpnext.utilities.product import get_price
 from webshop.webshop.variant_selector.item_variants_cache import (
     ItemVariantsCacheManager,
 )
+from webshop.webshop.seo import (
+	add_json_ld,
+	breadcrumb_schema,
+	clean_text,
+	organization_schema,
+	product_schema,
+	set_page_seo,
+)
 
 
 class WebsiteItem(WebsiteGenerator):
@@ -250,6 +258,20 @@ class WebsiteItem(WebsiteGenerator):
 
 		self.set_metatags(context)
 		self.set_shopping_cart_data(context)
+		set_page_seo(
+			context,
+			self.web_item_name or self.item_name or self.item_code,
+			self.web_long_description or self.description,
+			self.route,
+			self.website_image,
+			og_type="product",
+		)
+		add_json_ld(
+			context,
+			organization_schema(),
+			breadcrumb_schema(context.parents, self.web_item_name or self.item_name or self.item_code, self.route),
+			product_schema(self, context),
+		)
 
 		settings = context.shopping_cart.cart_settings
 
@@ -324,7 +346,7 @@ class WebsiteItem(WebsiteGenerator):
 	def set_metatags(self, context):
 		context.metatags = frappe._dict({})
 
-		safe_description = frappe.utils.to_markdown(self.description)
+		safe_description = clean_text(self.web_long_description or self.description, 300)
 
 		context.metatags.url = frappe.utils.get_url() + "/" + context.route
 
@@ -335,12 +357,12 @@ class WebsiteItem(WebsiteGenerator):
 				url = frappe.utils.get_url() + context.website_image
 			context.metatags.image = url
 
-		context.metatags.description = safe_description[:300]
+		context.metatags.description = safe_description
 
 		context.metatags.title = self.web_item_name or self.item_name or self.item_code
 
 		context.metatags["og:type"] = "product"
-		context.metatags["og:site_name"] = "ERPNext"
+		context.metatags["og:site_name"] = "Euro Plast"
 
 	def set_shopping_cart_data(self, context):
 		from webshop.webshop.shopping_cart.product_info import (
