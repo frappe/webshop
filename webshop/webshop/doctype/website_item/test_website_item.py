@@ -81,14 +81,12 @@ class TestWebsiteItem(unittest.TestCase):
 		from webshop.webshop.doctype.website_item.website_item import on_doctype_update
 
 		on_doctype_update()
+		
+		expected_columns = {"route_index", "item_group", "brand"}  # add_index in on_doctype_update adds "_index" to "route" for its index name
+		missing = {col for col in expected_columns if not frappe.db.has_index("tabWebsite Item", col)}
 
-		indices = frappe.db.sql("show index from `tabWebsite Item`", as_dict=1)
-		expected_columns = {"route", "item_group", "brand"}
-		for index in indices:
-			expected_columns.discard(index.get("Column_name"))
-
-		if expected_columns:
-			self.fail(f"Expected db index on these columns: {', '.join(expected_columns)}")
+		if missing:
+			self.fail(f"Expected db index on these columns: {', '.join(missing)}")
 
 	def test_website_item_desk_item_sync(self):
 		"Check creation/updation/deletion of Website Item and its impact on Item master."
