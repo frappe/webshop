@@ -14,7 +14,7 @@ class TestWebshopSettings(unittest.TestCase):
 		frappe.db.rollback()
 
 	def test_tax_rule_validation(self):
-		frappe.db.sql("update `tabTax Rule` set use_for_shopping_cart = 0")
+		frappe.db.set_value("Tax Rule", {}, "use_for_shopping_cart", 0, update_modified=False)
 		frappe.db.commit()  # nosemgrep
 
 		cart_settings = frappe.get_doc("Webshop Settings")
@@ -22,7 +22,7 @@ class TestWebshopSettings(unittest.TestCase):
 		if not frappe.db.get_value("Tax Rule", {"use_for_shopping_cart": 1}, "name"):
 			self.assertRaises(ShoppingCartSetupError, cart_settings.validate_tax_rule)
 
-		frappe.db.sql("update `tabTax Rule` set use_for_shopping_cart = 1")
+		frappe.db.set_value("Tax Rule", {}, "use_for_shopping_cart", 1, update_modified=False)
 
 	def test_invalid_filter_fields(self):
 		"Check if Item fields are blocked in Webshop Settings filter fields."
