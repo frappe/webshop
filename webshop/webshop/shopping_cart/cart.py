@@ -20,6 +20,12 @@ try:
 except ImportError:
 	from erpnext.selling.doctype.quotation.mapper import _make_sales_order
 
+try:
+	from erpnext.accounts.services.taxes import TaxService
+except ImportError:
+	# Older erpnext keeps these as methods on the document, via AccountsController.
+	TaxService = None
+
 
 class WebsitePriceListMissingError(frappe.ValidationError):
     pass
@@ -534,8 +540,9 @@ def set_taxes(quotation, cart_settings):
 	quotation.set("taxes", [])
 	#
 	# 	# append taxes
-	quotation.append_taxes_from_master()
-	quotation.append_taxes_from_item_tax_template()
+	taxes = TaxService(quotation) if TaxService else quotation
+	taxes.append_taxes_from_master()
+	taxes.append_taxes_from_item_tax_template()
 
 
 def get_party(user=None):
