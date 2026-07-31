@@ -20,6 +20,12 @@ try:
 except ImportError:
 	from erpnext.selling.doctype.quotation.mapper import _make_sales_order
 
+try:
+	from erpnext.accounts.services.taxes import TaxService
+except ImportError:
+	# Older erpnext keeps these as methods on the document, via AccountsController.
+	TaxService = None
+
 
 class WebsitePriceListMissingError(frappe.ValidationError):
     pass
@@ -477,6 +483,7 @@ def set_price_list_and_rate(quotation, cart_settings):
 		item.price_list_rate = item.discount_percentage = item.rate = item.amount = None
 
 	# refetch values
+	_allow_reading_the_items_in_the_cart(quotation)
 	quotation.run_method("set_price_list_and_item_details")
 
 	if hasattr(frappe.local, "cookie_manager"):
@@ -484,6 +491,26 @@ def set_price_list_and_rate(quotation, cart_settings):
 		frappe.local.cookie_manager.set_cookie(
 			"selling_price_list", quotation.selling_price_list
 		)
+
+
+def _allow_reading_the_items_in_the_cart(quotation):
+	"""Let the shopper's own cart lines be priced.
+
+	`get_item_details` checks read permission on the Item (frappe/erpnext#57515), and the Item DocType
+	grants read to desk roles only — so pricing a line raises for the shopper it belongs to. This module
+	already saves the Quotation with `ignore_permissions`; the items on it carry the same trust, and no
+	wider one: only these lines, and the whitelisted `get_item_details` keeps checking.
+
+	`get_cached_doc` answers the same instance for the rest of the request, so this also covers the
+	`validate` that runs when the cart is saved.
+	"""
+	for item in quotation.get("items") or []:
+		if not item.item_code:
+			continue
+		try:
+			frappe.get_cached_doc("Item", item.item_code).flags.ignore_permissions = True
+		except frappe.DoesNotExistError:
+			continue
 
 
 def _set_price_list(cart_settings, quotation=None):
@@ -534,8 +561,9 @@ def set_taxes(quotation, cart_settings):
 	quotation.set("taxes", [])
 	#
 	# 	# append taxes
-	quotation.append_taxes_from_master()
-	quotation.append_taxes_from_item_tax_template()
+	taxes = TaxService(quotation) if TaxService else quotation
+	taxes.append_taxes_from_master()
+	taxes.append_taxes_from_item_tax_template()
 
 
 def get_party(user=None):
