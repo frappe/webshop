@@ -12,8 +12,16 @@ def after_install():
 	drop_ecommerce_settings()
 	remove_ecommerce_settings_doctype()
 	add_custom_fields()
+	allow_customer_role_to_select_accounts()
 	navbar_add_products_link()
 	say_thanks()
+
+
+def allow_customer_role_to_select_accounts():
+	"""A cart cannot be saved without resolving its party account — see the patch for why `select`."""
+	from webshop.patches.allow_customer_role_to_select_accounts import execute
+
+	execute()
 
 
 def copy_from_ecommerce_settings():
