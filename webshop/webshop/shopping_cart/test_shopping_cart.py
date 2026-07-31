@@ -13,11 +13,11 @@ from webshop.webshop.doctype.website_item.website_item import make_website_item
 from webshop.webshop.shopping_cart.cart import (
 	_get_cart_quotation,
 	get_cart_quotation,
+	get_or_create_party,
 	get_party,
 	request_for_quotation,
 	update_cart,
 )
-from erpnext.tests.utils import create_test_contact_and_address
 
 
 class TestShoppingCart(unittest.TestCase):
@@ -191,7 +191,7 @@ class TestShoppingCart(unittest.TestCase):
 		template_item = make_item(
 			"Test-Tshirt-Temp",
 			{
-				"has_variant": 1,
+				"has_variants": 1,
 				"variant_based_on": "Item Attribute",
 				"attributes": [{"attribute": "Test Size"}, {"attribute": "Test Colour"}],
 			},
@@ -244,7 +244,7 @@ class TestShoppingCart(unittest.TestCase):
 			"doctype": "Quotation",
 			"quotation_to": "Customer",
 			"order_type": "Shopping Cart",
-			"party_name": get_party(frappe.session.user).name,
+			"party_name": get_or_create_party(frappe.session.user).name,
 			"docstatus": 0,
 			"contact_email": frappe.session.user,
 			"selling_price_list": "_Test Price List Rest of the World",
@@ -312,6 +312,49 @@ class TestShoppingCart(unittest.TestCase):
 		settings.save()
 		frappe.local.shopping_cart_settings = None
 
+	def test_get_party_resolves_without_creating(self):
+		"""`get_party` answers who the shopper already is — it must never bring a Customer into being."""
+		self.create_user_if_not_exists("test_unlinked_shopper@example.com")
+		frappe.set_user("test_unlinked_shopper@example.com")
+		before = frappe.db.count("Customer")
+
+		self.assertIsNone(get_party())
+		self.assertEqual(frappe.db.count("Customer"), before)
+
+	def test_browsing_the_catalogue_does_not_create_a_customer(self):
+		"""Rendering a product is a read. Reads must not write.
+
+		`get_product_info_for_website` resolves a party to price the item; before the split it did so
+		through the creating `get_party`, so simply listing products brought a Customer into existence
+		(and, on a site whose Customer naming is not automatic, failed outright — see #58, #133, #135,
+		#259, #261, all fixes around this one side effect).
+		"""
+		from webshop.webshop.shopping_cart.product_info import get_product_info_for_website
+
+		self.create_user_if_not_exists("test_browsing_shopper@example.com")
+		frappe.set_user("test_browsing_shopper@example.com")
+		before = frappe.db.count("Customer")
+
+		get_product_info_for_website("_Test Item", skip_quotation_creation=True)
+
+		self.assertEqual(frappe.db.count("Customer"), before)
+
+	def test_get_or_create_party_creates_once(self):
+		"""The cart needs an owner, so this one creates — but only the first time."""
+		self.create_user_if_not_exists("test_new_shopper@example.com")
+		frappe.set_user("test_new_shopper@example.com")
+
+		party = get_or_create_party()
+		self.assertIsNotNone(party)
+		self.assertEqual(party.doctype, "Customer")
+
+		count_after_first = frappe.db.count("Customer")
+		self.assertEqual(get_or_create_party().name, party.name)
+		self.assertEqual(frappe.db.count("Customer"), count_after_first)
+
+		# and once it exists, plain resolution finds it
+		self.assertEqual(get_party().name, party.name)
+
 	def login_as_new_user(self):
 		self.create_user_if_not_exists("test_cart_user@example.com")
 		frappe.set_user("test_cart_user@example.com")
@@ -325,7 +368,11 @@ class TestShoppingCart(unittest.TestCase):
 	def clear_existing_quotations(self):
 		quotations = frappe.get_all(
 			"Quotation",
-			filters={"party_name": get_party().name, "order_type": "Shopping Cart", "docstatus": 0},
+			filters={
+				"party_name": get_or_create_party().name,
+				"order_type": "Shopping Cart",
+				"docstatus": 0,
+			},
 			order_by="modified desc",
 			pluck="name",
 		)
@@ -385,7 +432,6 @@ def create_address_and_contact(**kwargs):
 test_dependencies = [
 	"Sales Taxes and Charges Template",
 	"Price List",
-	"Item Price",
 	"Shipping Rule",
 	"Currency Exchange",
 	"Customer Group",

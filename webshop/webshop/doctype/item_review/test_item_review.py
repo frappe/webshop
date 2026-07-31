@@ -15,7 +15,7 @@ from webshop.webshop.doctype.item_review.item_review import (
 	get_item_reviews,
 )
 from webshop.webshop.doctype.website_item.website_item import make_website_item
-from webshop.webshop.shopping_cart.cart import get_party
+from webshop.webshop.shopping_cart.cart import get_or_create_party
 from erpnext.stock.doctype.item.test_item import make_item
 
 
@@ -48,11 +48,11 @@ class TestItemReview(unittest.TestCase):
 		frappe.set_user(test_user.name)
 
 		# create customer and contact against user
-		customer = get_party()
+		customer = get_or_create_party()
 
 		# post review on "Test Mobile Phone"
 		try:
-			add_item_review(web_item, "Great Product", 4, "Would recommend this product")
+			add_item_review(web_item, "Great Product", 4 / 5, "Would recommend this product")
 			review_name = frappe.db.get_value("Item Review", {"website_item": web_item})
 		except Exception:
 			self.fail(f"Error while publishing review for {web_item}")
@@ -61,7 +61,8 @@ class TestItemReview(unittest.TestCase):
 
 		self.assertEqual(len(review_data.reviews), 1)
 		self.assertTrue(review_data.average_rating)
-		self.assertEqual(review_data.reviews_per_rating[0], 100)
+		# a 4-star review lands in the fourth bucket, not the first
+		self.assertEqual(review_data.reviews_per_rating[3], 100)
 
 		# tear down
 		frappe.set_user("Administrator")
