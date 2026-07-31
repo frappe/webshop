@@ -42,17 +42,13 @@ class TestWishlist(unittest.TestCase):
 
 		# add second item to wishlist
 		add_to_wishlist("Test Phone Series Y")
-		wishlist_length = frappe.db.get_value(
-			"Wishlist Item", {"parent": frappe.session.user}, "count(*)"
-		)
+		wishlist_length = frappe.db.count("Wishlist Item", {"parent": frappe.session.user})
 		self.assertEqual(wishlist_length, 2)
 
 		remove_from_wishlist("Test Phone Series X")
 		remove_from_wishlist("Test Phone Series Y")
 
-		wishlist_length = frappe.db.get_value(
-			"Wishlist Item", {"parent": frappe.session.user}, "count(*)"
-		)
+		wishlist_length = frappe.db.count("Wishlist Item", {"parent": frappe.session.user})
 		self.assertIsNone(frappe.db.exists("Wishlist Item", {"parent": frappe.session.user}))
 		self.assertEqual(wishlist_length, 0)
 
