@@ -384,7 +384,6 @@ def create_address_and_contact(**kwargs):
 test_dependencies = [
 	"Sales Taxes and Charges Template",
 	"Price List",
-	"Item Price",
 	"Shipping Rule",
 	"Currency Exchange",
 	"Customer Group",

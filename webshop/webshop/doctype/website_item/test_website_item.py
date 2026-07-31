@@ -566,4 +566,4 @@ def create_user_and_customer_if_not_exists(email, first_name=None):
 	contact.save()
 
 
-test_dependencies = ["Price List", "Item Price", "Customer", "Contact", "Item"]
+test_dependencies = ["Price List", "Customer", "Contact", "Item"]
