@@ -6,6 +6,7 @@ import frappe.defaults
 from frappe import _, throw
 from frappe.contacts.doctype.address.address import get_address_display
 from frappe.contacts.doctype.contact.contact import get_contact_name
+from frappe.model.document import Document
 from frappe.utils import cint, cstr, flt, get_fullname
 from frappe.utils.nestedset import get_root_of
 
@@ -42,8 +43,8 @@ def set_cart_count(quotation=None):
 
 
 @frappe.whitelist()
-def get_cart_quotation(doc=None):
-	party = get_party()
+def get_cart_quotation(doc: Document | None = None):
+	party = get_or_create_party()
 
 	if not doc:
 		quotation = _get_cart_quotation(party)
@@ -65,9 +66,11 @@ def get_cart_quotation(doc=None):
 
 
 @frappe.whitelist()
-def get_shipping_addresses(party=None):
+def get_shipping_addresses(party: Document | None = None):
 	if not party:
 		party = get_party()
+	if not party:
+		return []
 	addresses = get_address_docs(party=party)
 	return [
 		{
@@ -81,9 +84,11 @@ def get_shipping_addresses(party=None):
 
 
 @frappe.whitelist()
-def get_billing_addresses(party=None):
+def get_billing_addresses(party: Document | None = None):
 	if not party:
 		party = get_party()
+	if not party:
+		return []
 	addresses = get_address_docs(party=party)
 	return [
 		{
@@ -379,7 +384,7 @@ def decorate_quotation_doc(doc):
 def _get_cart_quotation(party=None):
 	"""Return the open Quotation of type "Shopping Cart" or make a new one"""
 	if not party:
-		party = get_party()
+		party = get_or_create_party()
 
 	quotation = frappe.get_all(
 		"Quotation",
@@ -426,7 +431,7 @@ def _get_cart_quotation(party=None):
 
 
 def update_party(fullname, company_name=None, mobile_no=None, phone=None):
-	party = get_party()
+	party = get_or_create_party()
 
 	party.customer_name = company_name or fullname
 	party.customer_type = "Company" if company_name else "Individual"
@@ -455,7 +460,7 @@ def update_party(fullname, company_name=None, mobile_no=None, phone=None):
 
 def apply_cart_settings(party=None, quotation=None):
 	if not party:
-		party = get_party()
+		party = get_or_create_party()
 	if not quotation:
 		quotation = _get_cart_quotation(party)
 
@@ -517,7 +522,8 @@ def _set_price_list(cart_settings, quotation=None):
 	"""Set price list based on customer or shopping cart default"""
 	from erpnext.accounts.party import get_default_price_list
 
-	party_name = quotation.get("party_name") if quotation else get_party().get("name")
+	party = None if quotation else get_party()
+	party_name = quotation.get("party_name") if quotation else (party.name if party else None)
 	selling_price_list = None
 
 	# check if default customer price list exists
@@ -567,81 +573,99 @@ def set_taxes(quotation, cart_settings):
 
 
 def get_party(user=None):
+	"""Return the party (Customer/Supplier) `user` already belongs to, or ``None``.
+
+	Resolution only — this never writes. A shopper who has not been linked to a party yet simply
+	has none, and the caller decides what that means: a catalogue page prices with the shop
+	defaults, while a flow that needs an owner for a document calls :func:`get_or_create_party`.
+	"""
 	if not user:
 		user = frappe.session.user
 
 	contact_name = get_contact_name(user)
-	party = None
-
 	if contact_name:
 		contact = frappe.get_doc("Contact", contact_name)
 		if contact.links:
-			party_doctype = contact.links[0].link_doctype
-			party = contact.links[0].link_name
+			link = contact.links[0]
+			return frappe.get_doc(link.link_doctype, link.link_name)
+
+	portal_user_parent = frappe.db.get_value("Portal User", {"user": user}, "parent")
+	if portal_user_parent and frappe.db.exists("Customer", portal_user_parent):
+		return frappe.get_doc("Customer", portal_user_parent)
+
+	return None
+
+
+def get_or_create_party(user=None):
+	"""Return the party for `user`, creating a Customer when there is none.
+
+	Call this only where a party is REQUIRED because a document needs an owner — creating the cart.
+	Everywhere else use :func:`get_party`, so that merely rendering a page never brings a customer
+	into existence.
+	"""
+	if not user:
+		user = frappe.session.user
 
 	cart_settings = frappe.get_cached_doc("Webshop Settings")
-
-	debtors_account = ""
-
-	if cart_settings.enable_checkout:
-		debtors_account = get_debtors_account(cart_settings)
+	party = get_party(user)
 
 	if party:
-		doc = frappe.get_doc(party_doctype, party)
-		if doc.doctype in ["Customer", "Supplier"]:
-			if not frappe.db.exists("Portal User", {"parent": doc.name, "user": user}):
-				doc.append("portal_users", {"user": user})
-				doc.flags.ignore_permissions = True
-				doc.flags.ignore_mandatory = True
-				doc.save()
+		_link_portal_user(party, user)
+		return party
 
-		return doc
+	if not cart_settings.enabled:
+		frappe.local.flags.redirect_location = "/contact"
+		raise frappe.Redirect
 
-	elif not frappe.db.exists("Portal User", {"user": user}):
-		if not cart_settings.enabled:
-			frappe.local.flags.redirect_location = "/contact"
-			raise frappe.Redirect
-		customer = frappe.new_doc("Customer")
-		fullname = get_fullname(user)
+	return _create_party_for(user, cart_settings)
+
+
+def _link_portal_user(party, user):
+	"""Record that `user` shops on behalf of `party` — the link the cart is scoped by."""
+	if party.doctype not in ("Customer", "Supplier"):
+		return
+	if frappe.db.exists("Portal User", {"parent": party.name, "user": user}):
+		return
+	party.append("portal_users", {"user": user})
+	party.flags.ignore_permissions = True
+	party.flags.ignore_mandatory = True
+	party.save()
+
+
+def _create_party_for(user, cart_settings):
+	"""Bring a Customer into existence for `user`, with the Contact that links the two."""
+	debtors_account = get_debtors_account(cart_settings) if cart_settings.enable_checkout else ""
+
+	customer = frappe.new_doc("Customer")
+	fullname = get_fullname(user)
+	customer.update(
+		{
+			"customer_name": fullname,
+			"customer_type": "Individual",
+			"customer_group": get_shopping_cart_settings().default_customer_group,
+			"territory": get_root_of("Territory"),
+		}
+	)
+
+	customer.append("portal_users", {"user": user})
+
+	if debtors_account:
 		customer.update(
-			{
-				"customer_name": fullname,
-				"customer_type": "Individual",
-				"customer_group": get_shopping_cart_settings().default_customer_group,
-				"territory": get_root_of("Territory"),
-			}
+			{"accounts": [{"company": cart_settings.company, "account": debtors_account}]}
 		)
 
-		customer.append("portal_users", {"user": user})
+	customer.flags.ignore_mandatory = True
+	customer.insert(ignore_permissions=True)
 
-		if debtors_account:
-			customer.update(
-				{
-					"accounts": [
-						{"company": cart_settings.company, "account": debtors_account}
-					]
-				}
-			)
+	contact = frappe.new_doc("Contact")
+	contact.update(
+		{"first_name": fullname, "email_ids": [{"email_id": user, "is_primary": 1}]}
+	)
+	contact.append("links", dict(link_doctype="Customer", link_name=customer.name))
+	contact.flags.ignore_mandatory = True
+	contact.insert(ignore_permissions=True)
 
-		customer.flags.ignore_mandatory = True
-		customer.insert(ignore_permissions=True)
-
-		contact = frappe.new_doc("Contact")
-		contact.update(
-			{"first_name": fullname, "email_ids": [{"email_id": user, "is_primary": 1}]}
-		)
-		contact.append("links", dict(link_doctype="Customer", link_name=customer.name))
-		contact.flags.ignore_mandatory = True
-		contact.insert(ignore_permissions=True)
-
-		return customer
-	else:
-		customer = frappe.db.get_value(
-			"Portal User", {"user": user}, ["parent"]
-		)
-
-		if frappe.db.exists("Customer", customer):
-			return frappe.get_doc("Customer", customer)
+	return customer
 
 
 def get_debtors_account(cart_settings):

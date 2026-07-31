@@ -15,7 +15,7 @@ from webshop.webshop.doctype.item_review.item_review import (
 	get_item_reviews,
 )
 from webshop.webshop.doctype.website_item.website_item import make_website_item
-from webshop.webshop.shopping_cart.cart import get_party
+from webshop.webshop.shopping_cart.cart import get_or_create_party
 from erpnext.stock.doctype.item.test_item import make_item
 
 
@@ -48,7 +48,7 @@ class TestItemReview(unittest.TestCase):
 		frappe.set_user(test_user.name)
 
 		# create customer and contact against user
-		customer = get_party()
+		customer = get_or_create_party()
 
 		# post review on "Test Mobile Phone"
 		try:
