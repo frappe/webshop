@@ -47,7 +47,7 @@ class TestWebsiteItem(unittest.TestCase):
 			make_item(
 				"Test Web Item",
 				{
-					"has_variant": 1,
+					"has_variants": 1,
 					"variant_based_on": "Item Attribute",
 					"attributes": [{"attribute": "Test Size"}],
 				},
