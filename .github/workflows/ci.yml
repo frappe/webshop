@@ -16,7 +16,7 @@ env:
   WEBSHOP_BRANCH: ${{ github.base_ref || github.ref_name }}
 
 concurrency:
-  group: develop-webshop-${{ github.event.number }}
+  group: server-${{ github.event_name }}-${{ github.event.number }}
   cancel-in-progress: true
 
 jobs:
