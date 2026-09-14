@@ -34,23 +34,13 @@
 				</a>
 			</ul>
 		</div>
-		<div class="form-column col-sm-6">
-			<div class="page-header-actions-block" data-html-block="header-actions">
-				<p>
-					{% if enabled_checkout and (doc.doctype != "Sales Invoice" or doc.outstanding_amount > 0) %}
-					<a href="/api/method/erpnext.accounts.doctype.payment_request.payment_request.make_payment_request?dn={{ doc.name }}&dt={{ doc.doctype }}&submit_doc=1&order_type=Shopping Cart"
-						class="btn btn-primary btn-sm" id="pay-for-order">
-						{{ _("Pay") }} {{doc.get_formatted("grand_total") }}
-					</a>
-					{% endif %}
-				</p>
-			</div>
-		</div>
 	</div>
 {% endblock %}
 
 {% block page_content %}
-	<div>
+<div class="row m-0">
+	<div class="col-md-9">
+		<div>
 		<div class="row transaction-subheading  mt-1">
 			<div class="col-6 text-muted small mt-1">
 				{{ frappe.utils.format_date(doc.transaction_date, 'medium') }}
@@ -185,12 +175,49 @@
 		</div>
 	{% endif %}
 
+	  
+	  
+	  
+
 	{% if doc.terms %}
 		<div class="terms-and-condition text-muted small">
 			<hr>
 			<p>{{ doc.terms }}</p>
 		</div>
 	{% endif %}
+
+</div>
+
+<div class="col-md-3">
+	<div class="">
+		<div class="">
+		  <div class="card-body">
+			<div class="form-group mb-6">
+			  <label for="payment-method">{{ _("Payment Method") }}</label>
+			  <select id="payment-method" class="form-control">
+				<option value="others" selected>{{ _("Others") }}</option>
+				<option value="mpesa">{{ _("Mpesa") }}</option>
+			  </select>
+			</div>
+  
+			<div class="form-group mb-4" id="mpesa-phone-field" style="display: none;">
+			  <label for="phone-number">{{ _("Phone Number") }}</label>
+			  <input type="text" class="form-control" id="phone-number" placeholder="">
+			</div>
+  
+			{% if enabled_checkout and (doc.doctype != "Sales Invoice" or doc.outstanding_amount > 0) %}
+			<button type="button" class="btn btn-primary w-100" id="pay-for-order">
+				{{ _("Pay") }} {{ doc.get_formatted("grand_total") }}
+			</button>
+			
+			{% endif %}
+		  </div>
+	  </div>
+	</div>
+  </div>
+  
+
+</div>
 {% endblock %}
 
 {% block script %}
