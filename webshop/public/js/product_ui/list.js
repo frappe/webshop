@@ -37,11 +37,13 @@ webshop.ProductList = class {
 	get_image_html(item, title, settings) {
 		let image = item.website_image;
 		let wishlist_enabled = !item.has_variants && settings.enable_wishlist;
+		let badges_html = this.get_badges_html(item);
 		let image_html = ``;
 
 		if (image) {
 			image_html += `
-				<div class="col-2 border text-center rounded list-image">
+				<div class="col-2 border text-center rounded list-image" style="position: relative;">
+					${badges_html}
 					<a class="product-link product-list-link" href="/${ item.route || '#' }">
 						<img itemprop="image" class="website-image h-100 w-100" alt="${ title }"
 							src="${ image }">
@@ -51,7 +53,8 @@ webshop.ProductList = class {
 			`;
 		} else {
 			image_html += `
-				<div class="col-2 border text-center rounded list-image">
+				<div class="col-2 border text-center rounded list-image" style="position: relative;">
+					${badges_html}
 					<a class="product-link product-list-link" href="/${ item.route || '#' }"
 						style="text-decoration: none">
 						<div class="card-img-top no-image-list">
@@ -64,6 +67,17 @@ webshop.ProductList = class {
 		}
 
 		return image_html;
+	}
+
+	get_badges_html(item) {
+		let badges = '';
+
+		// Add discount badge if product has a discount
+		if (item.discount && item.formatted_mrp) {
+			badges += `<div class="discount-badge" style="top: 8px; right: 8px;">${item.discount}</div>`;
+		}
+
+		return badges;
 	}
 
 	get_row_body_html(item, title, settings) {
