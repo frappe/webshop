@@ -191,9 +191,7 @@ def create_items_autocomplete_dict():
 	"Add items as suggestions in Autocompleter."
 
 	ac = frappe.cache().ft()
-	items = frappe.get_all(
-		"Website Item", fields=["web_item_name", "item_group"], filters={"published": 1}
-	)
+	items = frappe.get_all("Website Item", fields=["web_item_name", "item_group"], filters={"published": 1})
 	for item in items:
 		ac.sugadd(WEBSITE_ITEM_NAME_AUTOCOMPLETE, Suggestion(item.web_item_name))
 
@@ -255,6 +253,4 @@ def raise_redisearch_error():
 	log = frappe.log_error("Redisearch Error")
 	log_link = frappe.utils.get_link_to_form("Error Log", log.name)
 
-	frappe.throw(
-		msg=_("Something went wrong. Check {0}").format(log_link), title=_("Redisearch Error")
-	)
+	frappe.throw(msg=_("Something went wrong. Check {0}").format(log_link), title=_("Redisearch Error"))

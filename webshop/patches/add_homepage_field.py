@@ -1,10 +1,9 @@
 import frappe
 from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 
+
 def execute():
-	if not frappe.db.exists("Custom Field",
-		{"fieldname": "products", "dt": "Homepage"}
-	):
+	if not frappe.db.exists("Custom Field", {"fieldname": "products", "dt": "Homepage"}):
 		custom_fields = {
 			"Homepage": [
 				dict(
