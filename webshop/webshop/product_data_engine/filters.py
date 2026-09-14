@@ -68,6 +68,8 @@ class ProductFiltersBuilder:
 				)
 
 				values = list(set(item_values) & link_doctype_values)  # intersection of both
+			elif df.fieldtype == "Select":
+				values = df.options.split("\n")
 			else:
 				# table multiselect
 				values = list(link_doctype_values)
