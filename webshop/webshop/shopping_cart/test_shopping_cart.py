@@ -5,14 +5,10 @@
 import unittest
 
 import frappe
-<<<<<<< HEAD
-=======
 from erpnext.accounts.doctype.tax_rule.tax_rule import ConflictingTaxRule
->>>>>>> f593c8e (test: drop unused import (#389))
 from frappe.tests.utils import change_settings
 from frappe.utils import add_months, cint, nowdate
 
-from erpnext.accounts.doctype.tax_rule.tax_rule import ConflictingTaxRule
 from webshop.webshop.doctype.website_item.website_item import make_website_item
 from webshop.webshop.shopping_cart.cart import (
 	_get_cart_quotation,
@@ -21,7 +17,6 @@ from webshop.webshop.shopping_cart.cart import (
 	request_for_quotation,
 	update_cart,
 )
-from erpnext.tests.utils import create_test_contact_and_address
 
 
 class TestShoppingCart(unittest.TestCase):

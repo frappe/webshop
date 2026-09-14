@@ -3,33 +3,27 @@
 # For license information, please see license.txt
 
 import json
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from erpnext.stock.doctype.item.item import Item
 
 import frappe
+from erpnext.utilities.product import get_price
 from frappe import _
 from frappe.utils import cint, cstr, flt, random_string
 from frappe.website.doctype.website_slideshow.website_slideshow import get_slideshow
 from frappe.website.website_generator import WebsiteGenerator
 
 from webshop.webshop.doctype.item_review.item_review import get_item_reviews
-from webshop.webshop.redisearch_utils import (
-    delete_item_from_index,
-    insert_item_to_index,
-    update_index_for_item,
-)
-from webshop.webshop.shopping_cart.cart import _set_price_list
 from webshop.webshop.doctype.override_doctype.item_group import (
-    get_parent_item_groups,
-    invalidate_cache_for,
+	get_parent_item_groups,
+	invalidate_cache_for,
 )
-from erpnext.stock.doctype.item.item import Item
-from erpnext.utilities.product import get_price
-from webshop.webshop.shopping_cart.cart import get_party
+from webshop.webshop.redisearch_utils import (
+	delete_item_from_index,
+	insert_item_to_index,
+	update_index_for_item,
+)
+from webshop.webshop.shopping_cart.cart import _set_price_list, get_party
 from webshop.webshop.variant_selector.item_variants_cache import (
-    ItemVariantsCacheManager,
+	ItemVariantsCacheManager,
 )
 
 
