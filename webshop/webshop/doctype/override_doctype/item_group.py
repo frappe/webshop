@@ -120,13 +120,14 @@ def get_parent_item_groups(item_group_name, from_item=False):
 		return base_parents
 
 	item_group = frappe.db.get_value("Item Group", item_group_name, ["lft", "rgt"], as_dict=1)
-	parent_groups = frappe.db.sql(
-		"""select name, route from `tabItem Group`
-		where lft <= %s and rgt >= %s
-		and show_in_website=1
-		order by lft asc""",
-		(item_group.lft, item_group.rgt),
-		as_dict=True,
+	parent_groups = frappe.get_all(
+		"Item Group",
+		filters=[
+				['lft', '<=', item_group.lft],
+				['rgt', '>=', item_group.rgt],
+				['show_in_website', '=', 1]],
+		fields=["name", "route"],
+		order_by="lft asc",
 	)
 
 	return base_parents + parent_groups

@@ -42,7 +42,7 @@ class TestShoppingCart(unittest.TestCase):
 
 	@classmethod
 	def tearDownClass(cls):
-		frappe.db.sql("delete from `tabTax Rule`")
+		frappe.db.delete("Tax Rule")
 
 	def test_get_cart_new_user(self):
 		self.login_as_customer(
