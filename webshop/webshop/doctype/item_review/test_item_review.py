@@ -4,19 +4,19 @@
 import unittest
 
 import frappe
+from erpnext.stock.doctype.item.test_item import make_item
 from frappe.core.doctype.user_permission.test_user_permission import create_user
 
-from webshop.webshop.doctype.webshop_settings.test_webshop_settings import (
-	setup_webshop_settings,
-)
 from webshop.webshop.doctype.item_review.item_review import (
 	UnverifiedReviewer,
 	add_item_review,
 	get_item_reviews,
 )
+from webshop.webshop.doctype.webshop_settings.test_webshop_settings import (
+	setup_webshop_settings,
+)
 from webshop.webshop.doctype.website_item.website_item import make_website_item
 from webshop.webshop.shopping_cart.cart import get_party
-from erpnext.stock.doctype.item.test_item import make_item
 
 
 class TestItemReview(unittest.TestCase):

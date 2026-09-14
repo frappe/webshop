@@ -1,11 +1,14 @@
-import frappe
-from frappe import _
 from urllib.parse import quote
-from frappe.utils import get_url, cint
-from frappe.website.website_generator import WebsiteGenerator
+
+import frappe
 from erpnext.setup.doctype.item_group.item_group import ItemGroup
+from frappe import _
+from frappe.utils import cint, get_url
 from frappe.website.utils import clear_cache
+from frappe.website.website_generator import WebsiteGenerator
+
 from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
+
 
 class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 	nsm_parent_field = "parent_item_group"
@@ -49,9 +52,7 @@ class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 	def get_context(self, context):
 		context.show_search = True
 		context.body_class = "product-page"
-		context.page_length = (
-			cint(frappe.db.get_single_value("Webshop Settings", "products_per_page")) or 6
-		)
+		context.page_length = cint(frappe.db.get_single_value("Webshop Settings", "products_per_page")) or 6
 		context.search_link = "/product_search"
 
 		filter_engine = ProductFiltersBuilder(self.name)
@@ -81,6 +82,7 @@ class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 		context.item_group_name = self.item_group_name
 
 		return context
+
 
 def get_item_for_list_in_html(context):
 	# add missing absolute link in files
@@ -137,6 +139,7 @@ def invalidate_cache_for(doc, item_group=None):
 		item_group_name = frappe.db.get_value("Item Group", d.get("name"))
 		if item_group_name:
 			clear_cache(frappe.db.get_value("Item Group", item_group_name, "route"))
+
 
 def get_child_groups_for_website(item_group_name, immediate=False, include_self=False):
 	"""Returns child item groups *excluding* passed group."""

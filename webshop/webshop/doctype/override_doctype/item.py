@@ -1,11 +1,14 @@
 import frappe
+from erpnext.stock.doctype.item.item import Item
 from frappe import _
 from frappe.utils import get_link_to_form
-from erpnext.stock.doctype.item.item import Item
+
 from webshop.webshop.doctype.override_doctype.item_group import invalidate_cache_for
+
 
 class DataValidationError(frappe.ValidationError):
 	pass
+
 
 class WebshopItem(Item):
 	def on_update(self):
