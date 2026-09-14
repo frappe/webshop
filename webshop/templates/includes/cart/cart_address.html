@@ -28,7 +28,7 @@
 <div class="checkbox ml-1 mb-2">
 	<label for="input_same_billing">
 		<input type="checkbox" class="product-filter" id="input_same_billing" checked style="width: 14px !important">
-		<span class="label-area font-md">{{ _('Billing Address is same as Shipping Address') }}</span>
+		<span class="label-area font-md">{{ _("Billing Address is same as Shipping Address") }}</span>
 	</label>
 </div>
 
@@ -191,12 +191,12 @@ frappe.ready(() => {
 	frappe.ready(() => {
 		function get_update_address_dialog() {
 			let d = new frappe.ui.Dialog({
-				title: "Select Address",
+				title: {{ _("Select Address") }},
 				fields: [{
 					'fieldtype': 'HTML',
 					'fieldname': 'address_picker',
 				}],
-				primary_action_label: __('Set Address'),
+				primary_action_label: {{ _("Set Address") }},
 				primary_action: () => {
 					const $card = d.$wrapper.find('.address-card.active');
 					const address_type = $card.closest('[data-address-type]').attr('data-address-type');
