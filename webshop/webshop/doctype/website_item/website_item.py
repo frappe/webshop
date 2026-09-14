@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2022, Frappe Technologies Pvt. Ltd. and contributors
 # For license information, please see license.txt
 
@@ -49,10 +48,10 @@ class WebsiteItem(WebsiteGenerator):
 			self.name = make_autoname(naming_series, doc=self)
 
 	def onload(self):
-		super(WebsiteItem, self).onload()
+		super().onload()
 
 	def validate(self):
-		super(WebsiteItem, self).validate()
+		super().validate()
 
 		if not self.item_code:
 			frappe.throw(_("Item Code is required"), title=_("Mandatory"))
@@ -82,7 +81,7 @@ class WebsiteItem(WebsiteGenerator):
 		self.update_template_item()
 
 	def on_trash(self):
-		super(WebsiteItem, self).on_trash()
+		super().on_trash()
 		delete_item_from_index(self)
 		self.publish_unpublish_desk_item(publish=False)
 
@@ -201,7 +200,7 @@ class WebsiteItem(WebsiteGenerator):
 						}
 					).save()
 
-				except IOError:
+				except OSError:
 					self.website_image = None
 
 			if file_doc:

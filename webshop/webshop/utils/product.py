@@ -36,14 +36,14 @@ def get_web_item_qty_in_stock(item_code, item_warehouse_field, warehouse=None):
 				.on(s.item_code == i.item_code)
 				.left_join(c)
 				.on((i.sales_uom == c.uom) & (c.parent == i.item_code))
-				.select((s.actual_qty / Coalesce(c.conversion_factor, 1)))
+				.select(s.actual_qty / Coalesce(c.conversion_factor, 1))
 				.where((s.item_code == item_code) & (s.warehouse == warehouse))
 			).run()
 
 			if stock_qty:
 				total_stock += adjust_qty_for_expired_items(item_code, stock_qty, warehouse)
 
-		in_stock = total_stock > 0 and 1 or 0
+		in_stock = (total_stock > 0 and 1) or 0
 
 	return frappe._dict({"in_stock": in_stock, "stock_qty": total_stock, "is_stock_item": is_stock_item})
 

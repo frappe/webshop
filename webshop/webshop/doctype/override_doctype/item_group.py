@@ -22,11 +22,11 @@ class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 	def validate(self):
 		self.make_route()
 		WebsiteGenerator.validate(self)
-		super(WebshopItemGroup, self).validate()
+		super().validate()
 
 	def on_update(self):
 		invalidate_cache_for(self)
-		super(WebshopItemGroup, self).on_update()
+		super().on_update()
 
 	def make_route(self):
 		"""Make website route"""
@@ -47,7 +47,7 @@ class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 
 	def on_trash(self):
 		WebsiteGenerator.on_trash(self)
-		super(WebshopItemGroup, self).on_trash()
+		super().on_trash()
 
 	def get_context(self, context):
 		context.show_search = True
