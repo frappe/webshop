@@ -222,6 +222,8 @@ class ProductQuery:
 
 	def add_display_details(self, result, discount_list, cart_items):
 		"""Add price and availability details in result."""
+
+		print("result:------>",result)
 		for item in result:
 			product_info = get_product_info_for_website(item.item_code, skip_quotation_creation=True).get(
 				"product_info"
@@ -235,6 +237,10 @@ class ProductQuery:
 				self.get_stock_availability(item)
 
 			item.in_cart = item.item_code in cart_items
+			# item.qty = ##
+			# item['in_cart_qty'] = self.get_cart_qty_for_item(item_code=item.item_code)
+
+			# print(">>>>>>>>", item['in_cart_qty'])
 
 			item.wished = False
 			if frappe.db.exists(
@@ -282,6 +288,39 @@ class ProductQuery:
 			# stock item and has warehouse
 			item.in_stock = get_stock_availability_from_template(item.item_code, warehouse)
 
+	@frappe.whitelist(allow_guest=True)
+	def get_cart_qty_for_item(self, item_code, item_name= None):
+		filters = frappe._dict({
+			"item_code": item_code
+		})
+		if item_name:
+			filters['name'] = item_name
+
+		return frappe.db.get_value("Quotation Item", filters = filters, fileds= ['qty'])
+	
+	@frappe.whitelist(allow_guest=True)
+	def get_cart_qty(item_code, item_name= None):
+		customer = get_customer(silent=True)
+		if customer:
+			quotation = frappe.get_all(
+				"Quotation",
+				fields=["name"],
+				filters={
+					"party_name": customer,
+					"contact_email": frappe.session.user,
+					"order_type": "Shopping Cart",
+					"docstatus": 0,
+				},
+				order_by="modified desc",
+				limit_page_length=1,
+			)
+
+			if quotation:
+				filters = {'parent': quotation[0].get("name")}
+				filters['item_code'] = item_code
+
+				return frappe.db.get_value("Quotation Item", filters, ["sum(qty)"])
+
 	def get_cart_items(self):
 		customer = get_customer(silent=True)
 		if customer:
@@ -299,7 +338,7 @@ class ProductQuery:
 			)
 			if quotation:
 				items = frappe.get_all(
-					"Quotation Item", fields=["item_code"], filters={"parent": quotation[0].get("name")}
+					"Quotation Item", fields=["item_code", ], filters={"parent": quotation[0].get("name")}
 				)
 				items = [row.item_code for row in items]
 				return items

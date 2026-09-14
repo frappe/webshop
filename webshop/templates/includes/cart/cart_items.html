@@ -67,7 +67,7 @@
 						</button>
 					</span>
 
-					<input class="form-control text-center cart-qty" value="{{ d.get_formatted('qty') }}" data-item-code="{{ d.item_code }}"
+					<input class="form-control text-center cart-qty" value="{{ d.get_formatted('qty') }}" data-item-code="{{ d.item_code }}" data-item-row-id="{{d.name}}"
 						style="max-width: 70px;" {{ disabled }}>
 
 					<span class="input-group-append d-sm-inline-block">
@@ -79,7 +79,7 @@
 
 				<div>
 					{% if not d.is_free_item %}
-						<div class="remove-cart-item column-sm-view d-flex" data-item-code="{{ d.item_code }}">
+						<div class="remove-cart-item column-sm-view d-flex" data-item-code="{{ d.item_code }}" data-item-row-id="{{d.name}}">
 							<span>
 								<svg class="icon sm remove-cart-item-logo"
 									width="18" height="18" viewBox="0 0 18 18"
