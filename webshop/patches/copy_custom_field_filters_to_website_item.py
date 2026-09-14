@@ -3,6 +3,7 @@ from frappe.custom.doctype.custom_field.custom_field import create_custom_field
 
 from webshop.webshop.utils.setup import has_ecommerce_fields
 
+
 def execute():
 	"Add Field Filters, that are not standard fields in Website Item, as Custom Fields."
 
@@ -91,7 +92,5 @@ def execute():
 						UPDATE `tabWebsite Item` wi, `tabItem` i
 						SET wi.{0} = i.{0}
 						WHERE wi.item_code = i.item_code
-					""".format(
-						row.fieldname
-					)
+					""".format(row.fieldname)
 				)

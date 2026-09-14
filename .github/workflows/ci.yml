@@ -45,7 +45,7 @@ jobs:
 
     steps:
       - name: Clone
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Find tests
         run: |
@@ -58,7 +58,7 @@ jobs:
           python-version: '3.14'
 
       - name: Setup Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 24
           check-latest: true
