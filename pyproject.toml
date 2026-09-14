@@ -4,11 +4,11 @@ authors = [
     { name = "Frappe Technologies Pvt. Ltd.", email = "contact@frappe.io"}
 ]
 description = "Open Source eCommerce Platform"
-requires-python = ">=3.14"
+requires-python = ">=3.14,<3.15"
 readme = "README.md"
 dynamic = ["version"]
 dependencies = [
-    # "frappe~=17.0.0" # Installed and managed by bench.
+    # "frappe~=16.0.0" # Installed and managed by bench.
     # "erpnext" and "payments" are declared in hooks.py `required_apps`.
 ]
 
