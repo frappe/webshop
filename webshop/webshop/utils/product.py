@@ -29,7 +29,7 @@ def get_web_item_qty_in_stock(item_code, item_warehouse_field, warehouse=None):
 		s = frappe.qb.DocType("Bin")
 		i = frappe.qb.DocType("Item")
 		c = frappe.qb.DocType("UOM Conversion Detail")
-		for warehouse in warehouses:	
+		for warehouse in warehouses:
 			stock_qty = (
 				frappe.qb.from_(s)
 				.inner_join(i)
