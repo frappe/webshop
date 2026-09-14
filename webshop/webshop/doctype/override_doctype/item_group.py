@@ -1,11 +1,14 @@
-import frappe
-from frappe import _
 from urllib.parse import quote
-from frappe.utils import get_url, cint
-from frappe.website.website_generator import WebsiteGenerator
+
+import frappe
 from erpnext.setup.doctype.item_group.item_group import ItemGroup
+from frappe import _
+from frappe.utils import cint
 from frappe.website.utils import clear_cache
+from frappe.website.website_generator import WebsiteGenerator
+
 from webshop.webshop.product_data_engine.filters import ProductFiltersBuilder
+
 
 class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 	nsm_parent_field = "parent_item_group"
