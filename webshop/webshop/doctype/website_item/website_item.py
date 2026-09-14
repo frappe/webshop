@@ -2,13 +2,8 @@
 # For license information, please see license.txt
 
 import json
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-	from erpnext.stock.doctype.item.item import Item
 
 import frappe
-from erpnext.stock.doctype.item.item import Item
 from erpnext.utilities.product import get_price
 from frappe import _
 from frappe.utils import cint, cstr, flt, random_string

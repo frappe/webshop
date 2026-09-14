@@ -3,7 +3,7 @@ from urllib.parse import quote
 import frappe
 from erpnext.setup.doctype.item_group.item_group import ItemGroup
 from frappe import _
-from frappe.utils import cint, get_url
+from frappe.utils import cint
 from frappe.website.utils import clear_cache
 from frappe.website.website_generator import WebsiteGenerator
 
