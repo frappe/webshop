@@ -37,13 +37,8 @@ jobs:
     if: github.event_name == 'pull_request'
 
     steps:
-<<<<<<< HEAD
       - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
-=======
-      - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
->>>>>>> 001664a (chore(deps): bump actions/setup-python from 6 to 7 (#384))
         with:
           python-version: '3.14'
           cache: pip
