@@ -1,21 +1,24 @@
 import frappe
+from erpnext.stock.doctype.item.item import Item
 from frappe import _
 from frappe.utils import get_link_to_form
-from erpnext.stock.doctype.item.item import Item
+
 from webshop.webshop.doctype.override_doctype.item_group import invalidate_cache_for
+
 
 class DataValidationError(frappe.ValidationError):
 	pass
 
+
 class WebshopItem(Item):
 	def on_update(self):
-		super(WebshopItem, self).on_update()
+		super().on_update()
 		invalidate_cache_for_item(self)
-		super(WebshopItem, self).on_update()
+		super().on_update()
 
 	def before_rename(self, old_name, new_name, merge=False):
 		self.validate_duplicate_website_item_before_merge(old_name, new_name)
-		return super(WebshopItem, self).before_rename(old_name, new_name, merge)
+		return super().before_rename(old_name, new_name, merge)
 
 	def validate_duplicate_website_item_before_merge(self, old_name, new_name):
 		"""
@@ -31,7 +34,7 @@ class WebshopItem(Item):
 		if len(web_items) <= 1:
 			return
 
-		old_web_item = [d.get("name") for d in web_items if d.get("item_code") == old_name][0]
+		old_web_item = next(d.get("name") for d in web_items if d.get("item_code") == old_name)
 		web_item_link = get_link_to_form("Website Item", old_web_item)
 		old_name, new_name = frappe.bold(old_name), frappe.bold(new_name)
 
@@ -42,7 +45,7 @@ class WebshopItem(Item):
 		if self.published_in_website:
 			invalidate_cache_for_item(self)
 
-		super(WebshopItem, self).after_rename(old_name, new_name, merge)
+		super().after_rename(old_name, new_name, merge)
 
 
 def invalidate_cache_for_item(doc):
