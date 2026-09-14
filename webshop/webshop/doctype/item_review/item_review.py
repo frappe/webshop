@@ -8,13 +8,13 @@ import frappe
 from frappe import _
 from frappe.contacts.doctype.contact.contact import get_contact_name
 from frappe.model.document import Document
+from frappe.query_builder import DocType, functions
 from frappe.utils import cint, flt
 
 from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 	get_shopping_cart_settings,
 )
 
-from frappe.query_builder import DocType, functions
 
 class UnverifiedReviewer(frappe.ValidationError):
 	pass
@@ -84,7 +84,7 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 			fields=[
 				functions.Avg(review.rating * 5).as_("average"),
 				{"COUNT": "*", "as": "total"},
-			]
+			],
 		)[0]
 	except (TypeError, AttributeError):
 		rating_data = frappe.db.get_all(
@@ -101,12 +101,16 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 	for i in range(1, 6):
 		try:
 			count = frappe.db.get_all(
-			"Item Review", filters={"website_item": web_item, "rating": i/5}, fields=[{"COUNT": "*", "as": "count"}]
-		)[0].count
+				"Item Review",
+				filters={"website_item": web_item, "rating": i / 5},
+				fields=[{"COUNT": "*", "as": "count"}],
+			)[0].count
 		except (TypeError, AttributeError):
-			count =  frappe.db.get_all(
-			"Item Review", filters={"website_item": web_item, "rating": i/5}, fields=["count(*) as count"]
-		)[0].count
+			count = frappe.db.get_all(
+				"Item Review",
+				filters={"website_item": web_item, "rating": i / 5},
+				fields=["count(*) as count"],
+			)[0].count
 
 		percent = flt((count / rating_data.total or 1) * 100, 0) if count else 0
 		reviews_per_rating.append(percent)

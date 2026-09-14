@@ -6,30 +6,29 @@ import json
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from erpnext.stock.doctype.item.item import Item
+	from erpnext.stock.doctype.item.item import Item
 
 import frappe
+from erpnext.stock.doctype.item.item import Item
+from erpnext.utilities.product import get_price
 from frappe import _
 from frappe.utils import cint, cstr, flt, random_string
 from frappe.website.doctype.website_slideshow.website_slideshow import get_slideshow
 from frappe.website.website_generator import WebsiteGenerator
 
 from webshop.webshop.doctype.item_review.item_review import get_item_reviews
-from webshop.webshop.redisearch_utils import (
-    delete_item_from_index,
-    insert_item_to_index,
-    update_index_for_item,
-)
-from webshop.webshop.shopping_cart.cart import _set_price_list
 from webshop.webshop.doctype.override_doctype.item_group import (
-    get_parent_item_groups,
-    invalidate_cache_for,
+	get_parent_item_groups,
+	invalidate_cache_for,
 )
-from erpnext.stock.doctype.item.item import Item
-from erpnext.utilities.product import get_price
-from webshop.webshop.shopping_cart.cart import get_party
+from webshop.webshop.redisearch_utils import (
+	delete_item_from_index,
+	insert_item_to_index,
+	update_index_for_item,
+)
+from webshop.webshop.shopping_cart.cart import _set_price_list, get_party
 from webshop.webshop.variant_selector.item_variants_cache import (
-    ItemVariantsCacheManager,
+	ItemVariantsCacheManager,
 )
 
 
@@ -88,20 +87,13 @@ class WebsiteItem(WebsiteGenerator):
 		self.publish_unpublish_desk_item(publish=False)
 
 	def validate_duplicate_website_item(self):
-		existing_web_item = frappe.db.exists(
-			"Website Item", {"item_code": self.item_code}
-		)
+		existing_web_item = frappe.db.exists("Website Item", {"item_code": self.item_code})
 		if existing_web_item and existing_web_item != self.name:
-			message = _("Website Item already exists against Item {0}").format(
-				frappe.bold(self.item_code)
-			)
+			message = _("Website Item already exists against Item {0}").format(frappe.bold(self.item_code))
 			frappe.throw(message, title=_("Already Published"))
 
 	def publish_unpublish_desk_item(self, publish=True):
-		if (
-			frappe.db.get_value("Item", self.item_code, "published_in_website")
-			and publish
-		):
+		if frappe.db.get_value("Item", self.item_code, "published_in_website") and publish:
 			return  # if already published don't publish again
 		frappe.db.set_value("Item", self.item_code, "published_in_website", publish)
 
@@ -111,11 +103,7 @@ class WebsiteItem(WebsiteGenerator):
 			return (
 				cstr(frappe.db.get_value("Item Group", self.item_group, "route"))
 				+ "/"
-				+ self.scrub(
-					(self.item_name if self.item_name else self.item_code)
-					+ "-"
-					+ random_string(5)
-				)
+				+ self.scrub((self.item_name if self.item_name else self.item_code) + "-" + random_string(5))
 			)
 
 	def update_template_item(self):
@@ -192,16 +180,12 @@ class WebsiteItem(WebsiteGenerator):
 				frappe.local.message_log.pop()
 
 			except requests.exceptions.HTTPError:
-				frappe.msgprint(
-					_("Warning: Invalid attachment {0}").format(self.website_image)
-				)
+				frappe.msgprint(_("Warning: Invalid attachment {0}").format(self.website_image))
 				self.website_image = None
 
 			except requests.exceptions.SSLError:
 				frappe.msgprint(
-					_("Warning: Invalid SSL certificate on attachment {0}").format(
-						self.website_image
-					)
+					_("Warning: Invalid SSL certificate on attachment {0}").format(self.website_image)
 				)
 				self.website_image = None
 
@@ -231,9 +215,7 @@ class WebsiteItem(WebsiteGenerator):
 		context.search_link = "/search"
 		context.body_class = "product-page"
 
-		context.parents = get_parent_item_groups(
-			self.item_group, from_item=True
-		)  # breadcumbs
+		context.parents = get_parent_item_groups(self.item_group, from_item=True)  # breadcumbs
 		self.attributes = frappe.get_all(
 			"Item Variant Attribute",
 			fields=["attribute", "attribute_value"],
@@ -279,9 +261,7 @@ class WebsiteItem(WebsiteGenerator):
 			)
 
 			# make an attribute-value map for easier access in templates
-			variant.attribute_map = frappe._dict(
-				{attr.attribute: attr.value for attr in variant.attributes}
-			)
+			variant.attribute_map = frappe._dict({attr.attribute: attr.value for attr in variant.attributes})
 
 			for attr in variant.attributes:
 				values = attribute_values_available.setdefault(attr.attribute, [])
@@ -295,12 +275,8 @@ class WebsiteItem(WebsiteGenerator):
 		for attr in attributes:
 			values = context.attribute_values.setdefault(attr.attribute, [])
 
-			if cint(
-				frappe.db.get_value("Item Attribute", attr.attribute, "numeric_values")
-			):
-				for val in sorted(
-					attribute_values_available.get(attr.attribute, []), key=flt
-				):
+			if cint(frappe.db.get_value("Item Attribute", attr.attribute, "numeric_values")):
+				for val in sorted(attribute_values_available.get(attr.attribute, []), key=flt):
 					values.append(val)
 			else:
 				# get list of values defined (for sequence)
@@ -310,10 +286,7 @@ class WebsiteItem(WebsiteGenerator):
 					filters={"parent": attr.attribute},
 					order_by="idx asc",
 				):
-
-					if attr_value.attribute_value in attribute_values_available.get(
-						attr.attribute, []
-					):
+					if attr_value.attribute_value in attribute_values_available.get(attr.attribute, []):
 						values.append(attr_value.attribute_value)
 
 	def set_metatags(self, context):
@@ -342,9 +315,7 @@ class WebsiteItem(WebsiteGenerator):
 			get_product_info_for_website,
 		)
 
-		context.shopping_cart = get_product_info_for_website(
-			self.item_code, skip_quotation_creation=True
-		)
+		context.shopping_cart = get_product_info_for_website(self.item_code, skip_quotation_creation=True)
 
 	@frappe.whitelist()
 	def copy_specification_from_item_group(self):
@@ -392,9 +363,7 @@ class WebsiteItem(WebsiteGenerator):
 			frappe.qb.from_(ri)
 			.join(wi)
 			.on(ri.item_code == wi.item_code)
-			.select(
-				ri.item_code, ri.route, ri.website_item_name, ri.website_item_thumbnail
-			)
+			.select(ri.item_code, ri.route, ri.website_item_name, ri.website_item_thumbnail)
 			.where((ri.parent == self.name) & (wi.published == 1))
 			.orderby(ri.idx)
 		)
@@ -434,9 +403,7 @@ def invalidate_item_variants_cache_for_website(doc):
 
 	if doc.has_variants and is_web_item:
 		item_code = doc.item_code
-	elif doc.variant_of and frappe.db.get_value(
-		"Item", doc.variant_of, "published_in_website"
-	):
+	elif doc.variant_of and frappe.db.get_value("Item", doc.variant_of, "published_in_website"):
 		item_code = doc.variant_of
 
 	if not item_code:
@@ -457,11 +424,7 @@ def invalidate_cache_for_web_item(doc):
 	website_item_groups = list(
 		set(
 			(doc.get("old_website_item_groups") or [])
-			+ [
-				d.item_group
-				for d in doc.get({"doctype": "Website Item Group"})
-				if d.item_group
-			]
+			+ [d.item_group for d in doc.get({"doctype": "Website Item Group"}) if d.item_group]
 		)
 	)
 
@@ -510,9 +473,7 @@ def make_website_item(doc, save=True):
 		doc = json.loads(doc)
 
 	if frappe.db.exists("Website Item", {"item_code": doc.get("item_code")}):
-		message = _("Website Item already exists against {0}").format(
-			frappe.bold(doc.get("item_code"))
-		)
+		message = _("Website Item already exists against {0}").format(frappe.bold(doc.get("item_code")))
 		frappe.throw(message, title=_("Already Published"))
 
 	website_item = frappe.new_doc("Website Item")
@@ -532,9 +493,7 @@ def make_website_item(doc, save=True):
 		website_item.update({field: doc.get(field)})
 
 	# Needed for publishing/mapping via Form UI only
-	if not frappe.flags.in_migrate and (
-		doc.get("image") and not website_item.website_image
-	):
+	if not frappe.flags.in_migrate and (doc.get("image") and not website_item.website_image):
 		website_item.website_image = doc.get("image")
 
 	if not save:
@@ -546,6 +505,7 @@ def make_website_item(doc, save=True):
 	insert_item_to_index(website_item)
 
 	return [website_item.name, website_item.web_item_name]
+
 
 @frappe.whitelist()
 def has_website_permission_for_website_item(doc, ptype, user, verbose=False):
@@ -561,6 +521,7 @@ def has_website_permission_for_website_item(doc, ptype, user, verbose=False):
 		return True
 
 	return False
+
 
 @frappe.whitelist()
 def has_website_permission_for_item_group(doc, ptype, user, verbose=False):

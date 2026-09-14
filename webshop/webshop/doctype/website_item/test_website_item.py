@@ -5,19 +5,19 @@
 import unittest
 
 import frappe
-
 from erpnext.controllers.item_variant import create_variant
-from webshop.webshop.doctype.webshop_settings.webshop_settings import (
-	get_shopping_cart_settings,
-)
+from erpnext.stock.doctype.item.test_item import make_item
+
+from webshop.webshop.doctype.override_doctype.item import DataValidationError
+from webshop.webshop.doctype.override_doctype.item_group import get_parent_item_groups
 from webshop.webshop.doctype.webshop_settings.test_webshop_settings import (
 	setup_webshop_settings,
 )
+from webshop.webshop.doctype.webshop_settings.webshop_settings import (
+	get_shopping_cart_settings,
+)
 from webshop.webshop.doctype.website_item.website_item import make_website_item
 from webshop.webshop.shopping_cart.product_info import get_product_info_for_website
-from webshop.webshop.doctype.override_doctype.item import DataValidationError
-from erpnext.stock.doctype.item.test_item import make_item
-from webshop.webshop.doctype.override_doctype.item_group import get_parent_item_groups
 
 WEBITEM_DESK_TESTS = ("test_website_item_desk_item_sync", "test_publish_variant_and_template")
 WEBITEM_PRICE_TESTS = (
@@ -81,8 +81,12 @@ class TestWebsiteItem(unittest.TestCase):
 		from webshop.webshop.doctype.website_item.website_item import on_doctype_update
 
 		on_doctype_update()
-		
-		expected_columns = {"route_index", "item_group", "brand"}  # add_index in on_doctype_update adds "_index" to "route" for its index name
+
+		expected_columns = {
+			"route_index",
+			"item_group",
+			"brand",
+		}  # add_index in on_doctype_update adds "_index" to "route" for its index name
 		missing = {col for col in expected_columns if not frappe.db.has_index("tabWebsite Item", col)}
 
 		if missing:
@@ -350,9 +354,7 @@ class TestWebsiteItem(unittest.TestCase):
 		)
 
 		# stock up item
-		stock_entry = make_stock_entry(
-			item_code=item_code, target="_Test Warehouse - _TC", qty=2, rate=100
-		)
+		stock_entry = make_stock_entry(item_code=item_code, target="_Test Warehouse - _TC", qty=2, rate=100)
 
 		# check if stock details are fetched and item is in stock with warehouse set
 		data = get_product_info_for_website(item_code, skip_quotation_creation=True)
@@ -433,9 +435,7 @@ class TestWebsiteItem(unittest.TestCase):
 		web_item = create_regular_web_item(item_code)
 
 		# price visible to guests
-		setup_webshop_settings(
-			{"enable_recommendations": 1, "show_price": 1, "hide_price_for_guest": 0}
-		)
+		setup_webshop_settings({"enable_recommendations": 1, "show_price": 1, "hide_price_for_guest": 0})
 
 		# create recommended web item and price for it
 		recommended_web_item = create_regular_web_item("Test Mobile Phone 1")
