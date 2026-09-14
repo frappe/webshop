@@ -22,11 +22,11 @@ class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 	def validate(self):
 		self.make_route()
 		WebsiteGenerator.validate(self)
-		super(WebshopItemGroup, self).validate()
+		super().validate()
 
 	def on_update(self):
 		invalidate_cache_for(self)
-		super(WebshopItemGroup, self).on_update()
+		super().on_update()
 
 	def make_route(self):
 		"""Make website route"""
@@ -47,14 +47,12 @@ class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 
 	def on_trash(self):
 		WebsiteGenerator.on_trash(self)
-		super(WebshopItemGroup, self).on_trash()
+		super().on_trash()
 
 	def get_context(self, context):
 		context.show_search = True
 		context.body_class = "product-page"
-		context.page_length = (
-			cint(frappe.db.get_single_value("Webshop Settings", "products_per_page")) or 6
-		)
+		context.page_length = cint(frappe.db.get_single_value("Webshop Settings", "products_per_page")) or 6
 		context.search_link = "/product_search"
 
 		filter_engine = ProductFiltersBuilder(self.name)
@@ -87,6 +85,7 @@ class WebshopItemGroup(ItemGroup, WebsiteGenerator):
 
 	def has_website_permission(self, ptype, user, verbose=False):
 		return ptype == "read"
+
 
 def get_item_for_list_in_html(context):
 	# add missing absolute link in files
@@ -143,6 +142,7 @@ def invalidate_cache_for(doc, item_group=None):
 		item_group_name = frappe.db.get_value("Item Group", d.get("name"))
 		if item_group_name:
 			clear_cache(frappe.db.get_value("Item Group", item_group_name, "route"))
+
 
 def get_child_groups_for_website(item_group_name, immediate=False, include_self=False):
 	"""Returns child item groups *excluding* passed group."""

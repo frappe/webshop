@@ -44,9 +44,7 @@ class TestShoppingCart(unittest.TestCase):
 		frappe.db.sql("delete from `tabTax Rule`")
 
 	def test_get_cart_new_user(self):
-		self.login_as_customer(
-			"test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer"
-		)
+		self.login_as_customer("test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer")
 		create_address_and_contact(
 			address_title="_Test Address for Customer 2",
 			first_name="_Test Contact for Customer 2",
@@ -79,9 +77,7 @@ class TestShoppingCart(unittest.TestCase):
 		return quotation
 
 	def test_add_to_cart(self):
-		self.login_as_customer(
-			"test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer"
-		)
+		self.login_as_customer("test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer")
 		create_address_and_contact(
 			address_title="_Test Address for Customer 2",
 			first_name="_Test Contact for Customer 2",
@@ -140,9 +136,7 @@ class TestShoppingCart(unittest.TestCase):
 	def test_tax_rule(self):
 		self.create_tax_rule()
 
-		self.login_as_customer(
-			"test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer"
-		)
+		self.login_as_customer("test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer")
 		create_address_and_contact(
 			address_title="_Test Address for Customer 2",
 			first_name="_Test Contact for Customer 2",
@@ -233,7 +227,7 @@ class TestShoppingCart(unittest.TestCase):
 		tax_rule = frappe.get_test_records("Tax Rule")[0]
 		try:
 			frappe.get_doc(tax_rule).insert(ignore_if_duplicate=True)
-		except (frappe.DuplicateEntryError, ConflictingTaxRule):
+		except frappe.DuplicateEntryError, ConflictingTaxRule:
 			pass
 
 	def create_quotation(self):
