@@ -1,20 +1,23 @@
 import frappe
+from erpnext.stock.doctype.item.item import Item
 from frappe import _
 from frappe.utils import get_link_to_form
-from erpnext.stock.doctype.item.item import Item
+
 from webshop.webshop.doctype.override_doctype.item_group import invalidate_cache_for
+
 
 class DataValidationError(frappe.ValidationError):
 	pass
 
+
 class WebshopItem(Item):
 	def on_update(self):
 		invalidate_cache_for_item(self)
-		super(WebshopItem, self).on_update()
+		super().on_update()
 
 	def before_rename(self, old_name, new_name, merge=False):
 		self.validate_duplicate_website_item_before_merge(old_name, new_name)
-		return super(WebshopItem, self).before_rename(old_name, new_name, merge)
+		return super().before_rename(old_name, new_name, merge)
 
 	def validate_duplicate_website_item_before_merge(self, old_name, new_name):
 		"""
@@ -41,7 +44,7 @@ class WebshopItem(Item):
 		if self.published_in_website:
 			invalidate_cache_for_item(self)
 
-		super(WebshopItem, self).after_rename(old_name, new_name, merge)
+		super().after_rename(old_name, new_name, merge)
 
 
 def invalidate_cache_for_item(doc):

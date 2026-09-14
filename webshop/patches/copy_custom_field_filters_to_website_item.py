@@ -88,7 +88,5 @@ def execute():
 						UPDATE `tabWebsite Item` wi, `tabItem` i
 						SET wi.{0} = i.{0}
 						WHERE wi.item_code = i.item_code
-					""".format(
-						row.fieldname
-					)
+					""".format(row.fieldname)
 				)
