@@ -36,7 +36,7 @@ def get_web_item_qty_in_stock(item_code, item_warehouse_field, warehouse=None):
 				.on(s.item_code == i.item_code)
 				.left_join(c)
 				.on((i.sales_uom == c.uom) & (c.parent == i.item_code))
-				.select((s.actual_qty / Coalesce(c.conversion_factor, 1)))
+				.select(s.actual_qty / Coalesce(c.conversion_factor, 1))
 				.where((s.item_code == item_code) & (s.warehouse == warehouse))
 			).run()
 
