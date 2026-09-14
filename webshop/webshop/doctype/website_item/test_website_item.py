@@ -80,7 +80,7 @@ class TestWebsiteItem(unittest.TestCase):
 		from webshop.webshop.doctype.website_item.website_item import on_doctype_update
 
 		on_doctype_update()
-		
+
 		expected_columns = {"route_index", "item_group", "brand"}  # add_index in on_doctype_update adds "_index" to "route" for its index name
 		missing = {col for col in expected_columns if not frappe.db.has_index("tabWebsite Item", col)}
 
