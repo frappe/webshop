@@ -1,4 +1,3 @@
-import click
 import frappe
 
 
