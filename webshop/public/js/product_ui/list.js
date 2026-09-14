@@ -98,7 +98,7 @@ webshop.ProductList = class {
 	get_item_details(item, settings) {
 		let details = `
 			<p class="product-code">
-				${ item.item_group } | ${ __('Item Code') } : ${ item.item_code }
+				${ item.item_group } | ${ __("Item Code") } : ${ item.item_code }
 			</p>
 			<div class="mt-2" style="color: var(--gray-600) !important; font-size: 13px;">
 				${ item.short_description || '' }
