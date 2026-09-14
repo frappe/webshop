@@ -7,6 +7,7 @@ import frappe
 from frappe.utils import cint, cstr
 from redis.commands.search.query import Query
 
+from webshop.webshop.doctype.override_doctype.item_group import get_item_for_list_in_html
 from webshop.webshop.redisearch_utils import (
 	WEBSITE_ITEM_CATEGORY_AUTOCOMPLETE,
 	WEBSITE_ITEM_INDEX,
@@ -14,7 +15,6 @@ from webshop.webshop.redisearch_utils import (
 	is_redisearch_enabled,
 )
 from webshop.webshop.shopping_cart.product_info import set_product_info_for_website
-from webshop.webshop.doctype.override_doctype.item_group import get_item_for_list_in_html
 
 no_cache = 1
 
