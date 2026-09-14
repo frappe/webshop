@@ -39,7 +39,7 @@ def get_web_item_qty_in_stock(item_code, item_warehouse_field, warehouse=None):
 			if stock_qty:
 				total_stock += adjust_qty_for_expired_items(item_code, stock_qty, warehouse)
 
-		in_stock = total_stock > 0 and 1 or 0
+		in_stock = (total_stock > 0 and 1) or 0
 
 	return frappe._dict({"in_stock": in_stock, "stock_qty": total_stock, "is_stock_item": is_stock_item})
 
