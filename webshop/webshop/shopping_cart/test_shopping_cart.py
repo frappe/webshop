@@ -5,6 +5,10 @@
 import unittest
 
 import frappe
+<<<<<<< HEAD
+=======
+from erpnext.accounts.doctype.tax_rule.tax_rule import ConflictingTaxRule
+>>>>>>> f593c8e (test: drop unused import (#389))
 from frappe.tests.utils import change_settings
 from frappe.utils import add_months, cint, nowdate
 
