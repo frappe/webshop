@@ -789,25 +789,3 @@ def apply_coupon_code(applied_code, applied_referral_sales_partner):
 				quotation.save()
 
 	return quotation
-<<<<<<< HEAD
-=======
-
-
-@frappe.whitelist(allow_guest=True)
-def remove_coupon_code():
-	quotation = _get_cart_quotation()
-	quotation.coupon_code = ""
-	quotation.referral_sales_partner = ""
-	quotation.flags.ignore_permissions = True
-
-	# reset discount amount if coupon code is removed (on desk it is done in client side)
-	# as we are enabling ignore_pricing_rule, so we also need to manually reset discount percentage
-	quotation.discount_amount = 0
-	quotation.additional_discount_percentage = 0
-	quotation.ignore_pricing_rule = 1
-
-	with system_permissions():
-		quotation.save()
-
-	return quotation
->>>>>>> 8058899 (fix(cart): create sales transactions as Admin)
