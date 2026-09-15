@@ -508,7 +508,6 @@ def _set_price_list(cart_settings, quotation=None):
 def set_taxes(quotation, cart_settings):
 	"""set taxes based on billing territory"""
 	from erpnext.accounts.party import set_taxes
-	from erpnext.accounts.services.taxes import TaxService
 
 	customer_group = frappe.db.get_value("Customer", quotation.party_name, "customer_group")
 
@@ -528,9 +527,8 @@ def set_taxes(quotation, cart_settings):
 	quotation.set("taxes", [])
 
 	# append taxes
-	tax_service = TaxService(quotation)
-	tax_service.append_taxes_from_master()
-	tax_service.append_taxes_from_item_tax_template()
+	quotation.append_taxes_from_master()
+	quotation.append_taxes_from_item_tax_template()
 
 
 def get_party(user=None):
