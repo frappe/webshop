@@ -184,7 +184,7 @@ class TestShoppingCart(unittest.TestCase):
 		template_item = make_item(
 			"Test-Tshirt-Temp",
 			{
-				"has_variant": 1,
+				"has_variants": 1,
 				"variant_based_on": "Item Attribute",
 				"attributes": [{"attribute": "Test Size"}, {"attribute": "Test Colour"}],
 			},
@@ -378,7 +378,6 @@ def create_address_and_contact(**kwargs):
 test_dependencies = [
 	"Sales Taxes and Charges Template",
 	"Price List",
-	"Item Price",
 	"Shipping Rule",
 	"Currency Exchange",
 	"Customer Group",
