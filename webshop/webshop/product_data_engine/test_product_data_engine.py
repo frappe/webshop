@@ -136,9 +136,7 @@ class TestProductDataEngine(unittest.TestCase):
 		field_filters = {"item_group": "Raw Material"}
 
 		engine = ProductQuery()
-		result = engine.query(
-			attributes={}, fields=field_filters, search_term=None, start=0, item_group=None
-		)
+		result = engine.query(attributes={}, fields=field_filters, search_term=None, start=0, item_group=None)
 		items = result.get("items")
 
 		# check if only 'Raw Material' are fetched in the right order
@@ -229,9 +227,7 @@ class TestProductDataEngine(unittest.TestCase):
 		frappe.local.shopping_cart_settings = None
 
 		engine = ProductQuery()
-		result = engine.query(
-			attributes={}, fields=field_filters, search_term=None, start=0, item_group=None
-		)
+		result = engine.query(attributes={}, fields=field_filters, search_term=None, start=0, item_group=None)
 		items = result.get("items")
 
 		# check if only product with 10% and below discount are fetched
@@ -293,12 +289,8 @@ class TestProductDataEngine(unittest.TestCase):
 			),
 		)
 
-		frappe.db.set_value(
-			"Website Item", {"item_code": "Test 11I Laptop"}, "supplier", "_Test Supplier"
-		)
-		frappe.db.set_value(
-			"Website Item", {"item_code": "Test 12I Laptop"}, "supplier", "_Test Supplier 1"
-		)
+		frappe.db.set_value("Website Item", {"item_code": "Test 11I Laptop"}, "supplier", "_Test Supplier")
+		frappe.db.set_value("Website Item", {"item_code": "Test 12I Laptop"}, "supplier", "_Test Supplier 1")
 
 		settings = frappe.get_doc("Webshop Settings")
 		settings.append("filter_fields", {"fieldname": "supplier"})
@@ -316,9 +308,7 @@ class TestProductDataEngine(unittest.TestCase):
 		# test if custom filter works in query
 		field_filters = {"supplier": "_Test Supplier 1"}
 		engine = ProductQuery()
-		result = engine.query(
-			attributes={}, fields=field_filters, search_term=None, start=0, item_group=None
-		)
+		result = engine.query(attributes={}, fields=field_filters, search_term=None, start=0, item_group=None)
 		items = result.get("items")
 
 		# check if only 'Raw Material' are fetched in the right order
@@ -329,13 +319,14 @@ class TestProductDataEngine(unittest.TestCase):
 def create_variant_web_item():
 	"Create Variant and Template Website Items."
 	from erpnext.controllers.item_variant import create_variant
-	from webshop.webshop.doctype.website_item.website_item import make_website_item
 	from erpnext.stock.doctype.item.test_item import make_item
+
+	from webshop.webshop.doctype.website_item.website_item import make_website_item
 
 	make_item(
 		"Test Web Item",
 		{
-			"has_variant": 1,
+			"has_variants": 1,
 			"variant_based_on": "Item Attribute",
 			"attributes": [{"attribute": "Test Size"}],
 		},

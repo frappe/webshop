@@ -1,8 +1,9 @@
 import click
 import frappe
-
 from frappe import _
 from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
+
+from webshop.webshop.utils.setup import has_ecommerce_fields
 
 
 def after_install():
@@ -46,18 +47,6 @@ def copy_from_ecommerce_settings():
 		)
 
 		query.run()
-
-def has_ecommerce_fields() -> bool:
-	table = frappe.qb.Table("tabSingles")
-	query = (
-		frappe.qb.from_(table)
-		.select(table.field)
-		.where(table.doctype == "E Commerce Settings")
-		.limit(1)
-	)
-
-	data = query.run(as_dict=True)
-	return bool(data)
 
 
 def drop_ecommerce_settings():
@@ -188,7 +177,7 @@ def add_custom_fields():
 				"options": "Website Attribute",
 				"insert_after": "filter_fields",
 			},
-		]
+		],
 	}
 
 	frappe.make_property_setter(
@@ -198,12 +187,13 @@ def add_custom_fields():
 			"fieldname": "allow_guest_to_view",
 			"property": "allow_guest_to_view",
 			"value": 1,
-			"property_type": "Check"
+			"property_type": "Check",
 		},
 		is_system_generated=True,
 	)
 
 	return create_custom_fields(custom_fields)
+
 
 def navbar_add_products_link():
 	website_settings = frappe.get_doc("Website Settings")
@@ -229,19 +219,17 @@ def say_thanks():
 patches = [
 	"create_website_items",
 	"populate_e_commerce_settings",
+	"add_homepage_field",
 	"make_homepage_products_website_items",
 	"fetch_thumbnail_in_website_items",
 	"convert_to_website_item_in_item_card_group_template",
 	"shopping_cart_to_ecommerce",
 	"copy_custom_field_filters_to_website_item",
-	"add_homepage_field",
 ]
+
 
 def run_patches():
 	# Customers migrating from v13 to v15 directly need to run all below patches
-
-	if frappe.db.table_exists("Website Item"):
-		return
 
 	frappe.flags.in_patch = True
 
@@ -251,5 +239,3 @@ def run_patches():
 
 	finally:
 		frappe.flags.in_patch = False
-
-

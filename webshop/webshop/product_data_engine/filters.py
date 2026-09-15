@@ -1,6 +1,7 @@
 # Copyright (c) 2021, Frappe Technologies Pvt. Ltd. and Contributors
 # License: GNU General Public License v3. See license.txt
 import frappe
+from frappe import _
 from frappe.utils import floor
 
 
@@ -24,9 +25,7 @@ class ProductFiltersBuilder:
 
 		# filter valid field filters i.e. those that exist in Website Item
 		web_item_meta = frappe.get_meta("Website Item", cached=True)
-		fields = [
-			web_item_meta.get_field(field) for field in filter_fields if web_item_meta.has_field(field)
-		]
+		fields = [web_item_meta.get_field(field) for field in filter_fields if web_item_meta.has_field(field)]
 
 		for df in fields:
 			item_filters, item_or_filters = {"published": 1}, []
@@ -41,14 +40,24 @@ class ProductFiltersBuilder:
 						item_or_filters.extend(
 							[
 								["item_group", "in", include_groups],
-								["Website Item Group", "item_group", "=", self.item_group],  # consider website item groups
+								[
+									"Website Item Group",
+									"item_group",
+									"=",
+									self.item_group,
+								],  # consider website item groups
 							]
 						)
 					else:
 						item_or_filters.extend(
 							[
 								["item_group", "=", self.item_group],
-								["Website Item Group", "item_group", "=", self.item_group],  # consider website item groups
+								[
+									"Website Item Group",
+									"item_group",
+									"=",
+									self.item_group,
+								],  # consider website item groups
 							]
 						)
 
@@ -131,8 +140,13 @@ class ProductFiltersBuilder:
 			attribute_value_map.setdefault(d.attribute, []).append(d.attribute_value)
 
 		out = []
-		for name, values in attribute_value_map.items():
-			out.append(frappe._dict(name=name, item_attribute_values=values))
+		for attribute in attributes:
+			if attribute not in attribute_value_map:
+				continue
+
+			values = attribute_value_map[attribute]
+			out.append(frappe._dict(name=attribute, item_attribute_values=values))
+
 		return out
 
 	def get_discount_filters(self, discounts):
@@ -152,7 +166,7 @@ class ProductFiltersBuilder:
 		max_range = (max_range + 10) if max_range != max_range_absolute else max_range  # 60
 
 		for discount in range(min_range, (max_range + 1), 10):
-			label = f"{discount}% and below"
+			label = _("{0}% and below").format(discount)
 			discount_filters.append([discount, label])
 
 		return discount_filters

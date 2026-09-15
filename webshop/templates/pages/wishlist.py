@@ -1,13 +1,12 @@
 # Copyright (c) 2021, Frappe Technologies Pvt. Ltd. and Contributors
 # License: GNU General Public License v3. See license.txt
 import frappe
+from erpnext.utilities.product import get_price
 
 from webshop.webshop.doctype.webshop_settings.webshop_settings import (
-    get_shopping_cart_settings,
+	get_shopping_cart_settings,
 )
-from webshop.webshop.shopping_cart.cart import _set_price_list
-from erpnext.utilities.product import get_price
-from webshop.webshop.shopping_cart.cart import get_party
+from webshop.webshop.shopping_cart.cart import _set_price_list, get_party
 
 
 def get_context(context):
@@ -65,9 +64,7 @@ def get_wishlist_items():
 def set_stock_price_details(items, settings, selling_price_list):
 	for item in items:
 		if settings.show_stock_availability:
-			item.available = get_stock_availability(
-				item.item_code, item.get("warehouse")
-			)
+			item.available = get_stock_availability(item.item_code, item.get("warehouse"))
 
 		party = get_party()
 
@@ -83,8 +80,8 @@ def set_stock_price_details(items, settings, selling_price_list):
 			item.formatted_price = price_details.get("formatted_price")
 			item.formatted_mrp = price_details.get("formatted_mrp")
 			if item.formatted_mrp:
-				item.discount = price_details.get(
-					"formatted_discount_percent"
-				) or price_details.get("formatted_discount_rate")
+				item.discount = price_details.get("formatted_discount_percent") or price_details.get(
+					"formatted_discount_rate"
+				)
 
 	return items

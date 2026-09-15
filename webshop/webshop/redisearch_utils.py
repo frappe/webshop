@@ -8,8 +8,13 @@ from frappe import _
 from frappe.utils.redis_wrapper import RedisWrapper
 from redis import ResponseError
 from redis.commands.search.field import TagField, TextField
-from redis.commands.search.indexDefinition import IndexDefinition
 from redis.commands.search.suggestion import Suggestion
+
+try:
+	from redis.commands.search.index_definition import IndexDefinition
+except ImportError:
+	from redis.commands.search.indexDefinition import IndexDefinition
+
 
 WEBSITE_ITEM_INDEX = "website_items_index"
 WEBSITE_ITEM_KEY_PREFIX = "website_item:"
@@ -186,9 +191,7 @@ def create_items_autocomplete_dict():
 	"Add items as suggestions in Autocompleter."
 
 	ac = frappe.cache().ft()
-	items = frappe.get_all(
-		"Website Item", fields=["web_item_name", "item_group"], filters={"published": 1}
-	)
+	items = frappe.get_all("Website Item", fields=["web_item_name", "item_group"], filters={"published": 1})
 	for item in items:
 		ac.sugadd(WEBSITE_ITEM_NAME_AUTOCOMPLETE, Suggestion(item.web_item_name))
 
@@ -250,6 +253,4 @@ def raise_redisearch_error():
 	log = frappe.log_error("Redisearch Error")
 	log_link = frappe.utils.get_link_to_form("Error Log", log.name)
 
-	frappe.throw(
-		msg=_("Something went wrong. Check {0}").format(log_link), title=_("Redisearch Error")
-	)
+	frappe.throw(msg=_("Something went wrong. Check {0}").format(log_link), title=_("Redisearch Error"))

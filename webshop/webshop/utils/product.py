@@ -1,8 +1,8 @@
 import frappe
-from frappe.utils import getdate, nowdate
-
 from erpnext.stock.doctype.batch.batch import get_batch_qty
 from erpnext.stock.doctype.warehouse.warehouse import get_child_warehouses
+from frappe.query_builder.functions import Coalesce
+from frappe.utils import getdate, nowdate
 
 
 def get_web_item_qty_in_stock(item_code, item_warehouse_field, warehouse=None):
@@ -26,25 +26,26 @@ def get_web_item_qty_in_stock(item_code, item_warehouse_field, warehouse=None):
 
 	total_stock = 0.0
 	if warehouses:
+		s = frappe.qb.DocType("Bin")
+		i = frappe.qb.DocType("Item")
+		c = frappe.qb.DocType("UOM Conversion Detail")
 		for warehouse in warehouses:
-			stock_qty = frappe.db.sql(
-				"""
-				select S.actual_qty / IFNULL(C.conversion_factor, 1)
-				from tabBin S
-				inner join `tabItem` I on S.item_code = I.Item_code
-				left join `tabUOM Conversion Detail` C on I.sales_uom = C.uom and C.parent = I.Item_code
-				where S.item_code=%s and S.warehouse=%s""",
-				(item_code, warehouse),
-			)
+			stock_qty = (
+				frappe.qb.from_(s)
+				.inner_join(i)
+				.on(s.item_code == i.item_code)
+				.left_join(c)
+				.on((i.sales_uom == c.uom) & (c.parent == i.item_code))
+				.select(s.actual_qty / Coalesce(c.conversion_factor, 1))
+				.where((s.item_code == item_code) & (s.warehouse == warehouse))
+			).run()
 
 			if stock_qty:
 				total_stock += adjust_qty_for_expired_items(item_code, stock_qty, warehouse)
 
-		in_stock = total_stock > 0 and 1 or 0
+		in_stock = (total_stock > 0 and 1) or 0
 
-	return frappe._dict(
-		{"in_stock": in_stock, "stock_qty": total_stock, "is_stock_item": is_stock_item}
-	)
+	return frappe._dict({"in_stock": in_stock, "stock_qty": total_stock, "is_stock_item": is_stock_item})
 
 
 def adjust_qty_for_expired_items(item_code, stock_qty, warehouse):
@@ -86,9 +87,7 @@ def get_non_stock_item_status(item_code, item_warehouse_field):
 	# if item is a product bundle, check if its bundle items are in stock
 	if frappe.db.exists("Product Bundle", item_code):
 		items = frappe.get_doc("Product Bundle", item_code).get_all_children()
-		bundle_warehouse = frappe.db.get_value(
-			"Website Item", {"item_code": item_code}, item_warehouse_field
-		)
+		bundle_warehouse = frappe.db.get_value("Website Item", {"item_code": item_code}, item_warehouse_field)
 		return all(
 			get_web_item_qty_in_stock(d.item_code, item_warehouse_field, bundle_warehouse).in_stock
 			for d in items

@@ -1,22 +1,21 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2021, Frappe Technologies Pvt. Ltd. and Contributors
 # See license.txt
 import unittest
 
 import frappe
+from erpnext.stock.doctype.item.test_item import make_item
 from frappe.core.doctype.user_permission.test_user_permission import create_user
 
-from webshop.webshop.doctype.webshop_settings.test_webshop_settings import (
-	setup_webshop_settings,
-)
 from webshop.webshop.doctype.item_review.item_review import (
 	UnverifiedReviewer,
 	add_item_review,
 	get_item_reviews,
 )
+from webshop.webshop.doctype.webshop_settings.test_webshop_settings import (
+	setup_webshop_settings,
+)
 from webshop.webshop.doctype.website_item.website_item import make_website_item
 from webshop.webshop.shopping_cart.cart import get_party
-from erpnext.stock.doctype.item.test_item import make_item
 
 
 class TestItemReview(unittest.TestCase):
@@ -52,7 +51,7 @@ class TestItemReview(unittest.TestCase):
 
 		# post review on "Test Mobile Phone"
 		try:
-			add_item_review(web_item, "Great Product", 4, "Would recommend this product")
+			add_item_review(web_item, "Great Product", 4 / 5, "Would recommend this product")
 			review_name = frappe.db.get_value("Item Review", {"website_item": web_item})
 		except Exception:
 			self.fail(f"Error while publishing review for {web_item}")
@@ -61,7 +60,7 @@ class TestItemReview(unittest.TestCase):
 
 		self.assertEqual(len(review_data.reviews), 1)
 		self.assertTrue(review_data.average_rating)
-		self.assertEqual(review_data.reviews_per_rating[0], 100)
+		self.assertEqual(review_data.reviews_per_rating[3], 100)  # 4 out of 5 stars
 
 		# tear down
 		frappe.set_user("Administrator")

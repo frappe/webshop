@@ -5,10 +5,10 @@
 import unittest
 
 import frappe
+from erpnext.accounts.doctype.tax_rule.tax_rule import ConflictingTaxRule
 from frappe.tests.utils import change_settings
 from frappe.utils import add_months, cint, nowdate
 
-from erpnext.accounts.doctype.tax_rule.tax_rule import ConflictingTaxRule
 from webshop.webshop.doctype.website_item.website_item import make_website_item
 from webshop.webshop.shopping_cart.cart import (
 	_get_cart_quotation,
@@ -17,7 +17,6 @@ from webshop.webshop.shopping_cart.cart import (
 	request_for_quotation,
 	update_cart,
 )
-from erpnext.tests.utils import create_test_contact_and_address
 
 
 class TestShoppingCart(unittest.TestCase):
@@ -42,12 +41,10 @@ class TestShoppingCart(unittest.TestCase):
 
 	@classmethod
 	def tearDownClass(cls):
-		frappe.db.sql("delete from `tabTax Rule`")
+		frappe.db.delete("Tax Rule")
 
 	def test_get_cart_new_user(self):
-		self.login_as_customer(
-			"test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer"
-		)
+		self.login_as_customer("test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer")
 		create_address_and_contact(
 			address_title="_Test Address for Customer 2",
 			first_name="_Test Contact for Customer 2",
@@ -80,9 +77,7 @@ class TestShoppingCart(unittest.TestCase):
 		return quotation
 
 	def test_add_to_cart(self):
-		self.login_as_customer(
-			"test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer"
-		)
+		self.login_as_customer("test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer")
 		create_address_and_contact(
 			address_title="_Test Address for Customer 2",
 			first_name="_Test Contact for Customer 2",
@@ -141,9 +136,7 @@ class TestShoppingCart(unittest.TestCase):
 	def test_tax_rule(self):
 		self.create_tax_rule()
 
-		self.login_as_customer(
-			"test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer"
-		)
+		self.login_as_customer("test_contact_two_customer@example.com", "_Test Contact 2 For _Test Customer")
 		create_address_and_contact(
 			address_title="_Test Address for Customer 2",
 			first_name="_Test Contact for Customer 2",
@@ -191,7 +184,7 @@ class TestShoppingCart(unittest.TestCase):
 		template_item = make_item(
 			"Test-Tshirt-Temp",
 			{
-				"has_variant": 1,
+				"has_variants": 1,
 				"variant_based_on": "Item Attribute",
 				"attributes": [{"attribute": "Test Size"}, {"attribute": "Test Colour"}],
 			},
@@ -385,7 +378,6 @@ def create_address_and_contact(**kwargs):
 test_dependencies = [
 	"Sales Taxes and Charges Template",
 	"Price List",
-	"Item Price",
 	"Shipping Rule",
 	"Currency Exchange",
 	"Customer Group",
