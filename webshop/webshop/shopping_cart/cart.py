@@ -34,15 +34,24 @@ def system_permissions():
 	The cart is edited by website users, who have no read access on Item, Account
 	and the like. erpnext checks those while pricing and validating the Quotation,
 	so only the party lookups may run as the website user.
+
+	`frappe.set_user` can't be used here, as it also resets `form_dict`,
+	`session.data` and `session.sid`. So swap the user along with the caches that
+	are scoped to it, and put the previous ones back afterwards.
 	"""
 	user = frappe.session.user
+	user_perms = frappe.local.user_perms
+	new_doc_templates = frappe.local.new_doc_templates
+
 	frappe.session.user = "Administrator"
-	frappe.local.role_permissions, frappe.local.user_perms = {}, None
+	frappe.local.user_perms = None
+	frappe.local.new_doc_templates = {}
 	try:
 		yield
 	finally:
 		frappe.session.user = user
-		frappe.local.role_permissions, frappe.local.user_perms = {}, None
+		frappe.local.user_perms = user_perms
+		frappe.local.new_doc_templates = new_doc_templates
 
 
 def set_cart_count(quotation=None):
