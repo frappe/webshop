@@ -1,6 +1,8 @@
 # Copyright (c) 2015, Frappe Technologies Pvt. Ltd. and Contributors
 # License: GNU General Public License v3. See license.txt
 
+from contextlib import contextmanager
+
 import frappe
 import frappe.defaults
 from erpnext.accounts.utils import get_account_name
@@ -19,6 +21,24 @@ from webshop.webshop.utils.product import get_web_item_qty_in_stock
 
 class WebsitePriceListMissingError(frappe.ValidationError):
 	pass
+
+
+@contextmanager
+def system_permissions():
+	"""Run cart writes with system permissions.
+
+	The cart is edited by website users, who have no read access on Item, Account
+	and the like. erpnext checks those while pricing and validating the Quotation,
+	so only the party lookups may run as the website user.
+	"""
+	user = frappe.session.user
+	frappe.session.user = "Administrator"
+	frappe.local.role_permissions, frappe.local.user_perms = {}, None
+	try:
+		yield
+	finally:
+		frappe.session.user = user
+		frappe.local.role_permissions, frappe.local.user_perms = {}, None
 
 
 def set_cart_count(quotation=None):
@@ -93,7 +113,8 @@ def place_order():
 	quotation.company = cart_settings.company
 
 	quotation.flags.ignore_permissions = True
-	quotation.submit()
+	with system_permissions():
+		quotation.submit()
 
 	if quotation.quotation_to == "Lead" and quotation.party_name:
 		# company used to create customer accounts
@@ -102,7 +123,8 @@ def place_order():
 	if not (quotation.shipping_address_name or quotation.customer_address):
 		frappe.throw(_("Set Shipping Address or Billing Address"))
 
-	sales_order = frappe.get_doc(_make_sales_order(quotation.name, ignore_permissions=True))
+	with system_permissions():
+		sales_order = frappe.get_doc(_make_sales_order(quotation.name, ignore_permissions=True))
 	sales_order.payment_schedule = []
 
 	if not cint(cart_settings.allow_items_not_in_stock):
@@ -120,8 +142,9 @@ def place_order():
 					throw(_("Only {0} in Stock for item {1}").format(item_stock.stock_qty, item.item_code))
 
 	sales_order.flags.ignore_permissions = True
-	sales_order.insert()
-	sales_order.submit()
+	with system_permissions():
+		sales_order.insert()
+		sales_order.submit()
 
 	if hasattr(frappe.local, "cookie_manager"):
 		frappe.local.cookie_manager.delete_cookie("cart_count")
@@ -134,10 +157,11 @@ def request_for_quotation():
 	quotation = _get_cart_quotation()
 	quotation.flags.ignore_permissions = True
 
-	if get_shopping_cart_settings().save_quotations_as_draft:
-		quotation.save()
-	else:
-		quotation.submit()
+	with system_permissions():
+		if get_shopping_cart_settings().save_quotations_as_draft:
+			quotation.save()
+		else:
+			quotation.submit()
 
 	return quotation.name
 
@@ -179,11 +203,12 @@ def update_cart(item_code, qty, additional_notes=None, with_items=False):
 
 	quotation.flags.ignore_permissions = True
 	quotation.payment_schedule = []
-	if not empty_card:
-		quotation.save()
-	else:
-		quotation.delete()
-		quotation = None
+	with system_permissions():
+		if not empty_card:
+			quotation.save()
+		else:
+			quotation.delete()
+			quotation = None
 
 	set_cart_count(quotation)
 
@@ -283,7 +308,8 @@ def update_cart_address(address_type, address_name):
 	apply_cart_settings(quotation=quotation)
 
 	quotation.flags.ignore_permissions = True
-	quotation.save()
+	with system_permissions():
+		quotation.save()
 
 	context = get_cart_quotation(quotation)
 	context["address"] = address_doc
@@ -375,7 +401,8 @@ def _get_cart_quotation(party=None):
 		qdoc.contact_email = frappe.session.user
 
 		qdoc.flags.ignore_permissions = True
-		qdoc.run_method("set_missing_values")
+		with system_permissions():
+			qdoc.run_method("set_missing_values")
 		apply_cart_settings(party, qdoc)
 
 	return qdoc
@@ -404,9 +431,10 @@ def update_party(fullname, company_name=None, mobile_no=None, phone=None):
 	qdoc = _get_cart_quotation(party)
 	if not qdoc.get("__islocal"):
 		qdoc.customer_name = company_name or fullname
-		qdoc.run_method("set_missing_lead_customer_details")
 		qdoc.flags.ignore_permissions = True
-		qdoc.save()
+		with system_permissions():
+			qdoc.run_method("set_missing_lead_customer_details")
+			qdoc.save()
 
 
 def apply_cart_settings(party=None, quotation=None):
@@ -417,13 +445,14 @@ def apply_cart_settings(party=None, quotation=None):
 
 	cart_settings = frappe.get_cached_doc("Webshop Settings")
 
-	set_price_list_and_rate(quotation, cart_settings)
+	with system_permissions():
+		set_price_list_and_rate(quotation, cart_settings)
 
-	quotation.run_method("calculate_taxes_and_totals")
+		quotation.run_method("calculate_taxes_and_totals")
 
-	set_taxes(quotation, cart_settings)
+		set_taxes(quotation, cart_settings)
 
-	_apply_shipping_rule(party, quotation, cart_settings)
+		_apply_shipping_rule(party, quotation, cart_settings)
 
 
 def set_price_list_and_rate(quotation, cart_settings):
@@ -641,7 +670,8 @@ def apply_shipping_rule(shipping_rule):
 	apply_cart_settings(quotation=quotation)
 
 	quotation.flags.ignore_permissions = True
-	quotation.save()
+	with system_permissions():
+		quotation.save()
 
 	return get_cart_quotation(quotation)
 
@@ -735,7 +765,8 @@ def apply_coupon_code(applied_code, applied_referral_sales_partner):
 	quotation = _get_cart_quotation()
 	quotation.coupon_code = coupon_name
 	quotation.flags.ignore_permissions = True
-	quotation.save()
+	with system_permissions():
+		quotation.save()
 
 	if applied_referral_sales_partner:
 		sales_partner_list = frappe.get_all(
@@ -745,6 +776,29 @@ def apply_coupon_code(applied_code, applied_referral_sales_partner):
 			sales_partner_name = sales_partner_list[0].name
 			quotation.referral_sales_partner = sales_partner_name
 			quotation.flags.ignore_permissions = True
-			quotation.save()
+			with system_permissions():
+				quotation.save()
 
 	return quotation
+<<<<<<< HEAD
+=======
+
+
+@frappe.whitelist(allow_guest=True)
+def remove_coupon_code():
+	quotation = _get_cart_quotation()
+	quotation.coupon_code = ""
+	quotation.referral_sales_partner = ""
+	quotation.flags.ignore_permissions = True
+
+	# reset discount amount if coupon code is removed (on desk it is done in client side)
+	# as we are enabling ignore_pricing_rule, so we also need to manually reset discount percentage
+	quotation.discount_amount = 0
+	quotation.additional_discount_percentage = 0
+	quotation.ignore_pricing_rule = 1
+
+	with system_permissions():
+		quotation.save()
+
+	return quotation
+>>>>>>> 8058899 (fix(cart): create sales transactions as Admin)
