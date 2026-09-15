@@ -1,10 +1,10 @@
 import click
 import frappe
-
 from frappe import _
 from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 
 from webshop.webshop.utils.setup import has_ecommerce_fields
+
 
 def after_install():
 	run_patches()
@@ -47,6 +47,7 @@ def copy_from_ecommerce_settings():
 		)
 
 		query.run()
+
 
 def drop_ecommerce_settings():
 	frappe.delete_doc_if_exists("DocType", "E Commerce Settings", force=True)
@@ -176,7 +177,7 @@ def add_custom_fields():
 				"options": "Website Attribute",
 				"insert_after": "filter_fields",
 			},
-		]
+		],
 	}
 
 	frappe.make_property_setter(
@@ -186,12 +187,13 @@ def add_custom_fields():
 			"fieldname": "allow_guest_to_view",
 			"property": "allow_guest_to_view",
 			"value": 1,
-			"property_type": "Check"
+			"property_type": "Check",
 		},
 		is_system_generated=True,
 	)
 
 	return create_custom_fields(custom_fields)
+
 
 def navbar_add_products_link():
 	website_settings = frappe.get_doc("Website Settings")
@@ -225,6 +227,7 @@ patches = [
 	"copy_custom_field_filters_to_website_item",
 ]
 
+
 def run_patches():
 	# Customers migrating from v13 to v15 directly need to run all below patches
 
@@ -236,5 +239,3 @@ def run_patches():
 
 	finally:
 		frappe.flags.in_patch = False
-
-

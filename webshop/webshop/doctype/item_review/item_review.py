@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2021, Frappe Technologies Pvt. Ltd. and contributors
 # For license information, please see license.txt
 
@@ -8,6 +7,7 @@ import frappe
 from frappe import _
 from frappe.contacts.doctype.contact.contact import get_contact_name
 from frappe.model.document import Document
+from frappe.query_builder import DocType, functions
 from frappe.utils import cint, flt
 
 from webshop.webshop.doctype.webshop_settings.webshop_settings import (
@@ -74,11 +74,23 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 		limit_page_length=end,
 	)
 
-	rating_data = frappe.db.get_all(
-		"Item Review",
-		filters={"website_item": web_item},
-		fields=["avg(rating*5) as average, count(*) as total"],
-	)[0]
+	review = DocType("Item Review")
+
+	try:
+		rating_data = frappe.db.get_all(
+			"Item Review",
+			filters={"website_item": web_item},
+			fields=[
+				functions.Avg(review.rating * 5).as_("average"),
+				{"COUNT": "*", "as": "total"},
+			],
+		)[0]
+	except (TypeError, AttributeError):
+		rating_data = frappe.db.get_all(
+			"Item Review",
+			filters={"website_item": web_item},
+			fields=["avg(rating*5) as average, count(*) as total"],
+		)[0]
 
 	data.average_rating = flt(rating_data.average, 5)
 	data.average_whole_rating = flt(data.average_rating, 0)
@@ -86,9 +98,18 @@ def get_queried_reviews(web_item, start=0, end=10, data=None):
 	# get % of reviews per rating
 	reviews_per_rating = []
 	for i in range(1, 6):
-		count = frappe.db.get_all(
-			"Item Review", filters={"website_item": web_item, "rating": i/5}, fields=["count(*) as count"]
-		)[0].count
+		try:
+			count = frappe.db.get_all(
+				"Item Review",
+				filters={"website_item": web_item, "rating": i / 5},
+				fields=[{"COUNT": "*", "as": "count"}],
+			)[0].count
+		except (TypeError, AttributeError):
+			count = frappe.db.get_all(
+				"Item Review",
+				filters={"website_item": web_item, "rating": i / 5},
+				fields=["count(*) as count"],
+			)[0].count
 
 		percent = flt((count / rating_data.total or 1) * 100, 0) if count else 0
 		reviews_per_rating.append(percent)

@@ -6,10 +6,7 @@ from webshop.webshop.doctype.webshop_settings.webshop_settings import is_cart_en
 
 
 def show_cart_count():
-	if (
-		is_cart_enabled()
-		and frappe.db.get_value("User", frappe.session.user, "user_type") == "Website User"
-	):
+	if is_cart_enabled() and frappe.db.get_value("User", frappe.session.user, "user_type") == "Website User":
 		return True
 
 	return False

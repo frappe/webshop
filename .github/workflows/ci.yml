@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
     name: Server
-    
+
     services:
       redis-cache:
         image: redis:alpine
@@ -36,78 +36,79 @@ jobs:
         ports:
           - 11000:6379
       mariadb:
-        image: mariadb:10.6
+        image: mariadb:11.8
         env:
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
         options: --health-cmd="mariadb-admin ping" --health-interval=5s --health-timeout=2s --health-retries=3
-    
+
     steps:
       - name: Clone
-        uses: actions/checkout@v3
-      
+        uses: actions/checkout@v7
+
       - name: Find tests
         run: |
           echo "Finding tests"
           grep -rn "def test" > /dev/null
-      
+
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v7
         with:
-          python-version: '3.10'
-      
+          python-version: '3.14'
+
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
         with:
-          node-version: 18
+          node-version: 24
           check-latest: true
-      
+
       - name: Cache pip
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/*requirements.txt', '**/pyproject.toml', '**/setup.py', '**/setup.cfg') }}
           restore-keys: |
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
-      
+
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: 'echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT'
-      
-      - uses: actions/cache@v4
+
+      - uses: actions/cache@v6
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      
+
       - name: Install MariaDB Client
-        run: sudo apt update && sudo apt-get install mariadb-client
-      
+        run: |
+          sudo apt update
+          sudo apt-get install mariadb-client
+
       - name: Setup
         run: |
           pip install frappe-bench
           bench init --frappe-branch $WEBSHOP_BRANCH --skip-redis-config-generation --skip-assets --python "$(which python)" ~/frappe-bench
           mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL character_set_server = 'utf8mb4'"
           mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL collation_server = 'utf8mb4_unicode_ci'"
-      
+
       - name: Install
         working-directory: /home/runner/frappe-bench
         run: |
-          bench setup requirements --dev
           bench get-app erpnext --branch $WEBSHOP_BRANCH
           bench get-app payments --branch $WEBSHOP_BRANCH
-          bench get-app $GITHUB_WORKSPACE
+          bench get-app webshop $GITHUB_WORKSPACE
+          bench setup requirements --dev
           bench new-site --db-root-password root --admin-password admin test_site
-          bench --site test_site install-app erpnext
           bench --site test_site install-app webshop
           bench build
         env:
           CI: 'Yes'
-      
+
       - name: Run Tests
         working-directory: /home/runner/frappe-bench
         run: |

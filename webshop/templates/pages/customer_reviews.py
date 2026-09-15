@@ -2,10 +2,10 @@
 # License: GNU General Public License v3. See license.txt
 import frappe
 
+from webshop.webshop.doctype.item_review.item_review import get_item_reviews
 from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 	get_shopping_cart_settings,
 )
-from webshop.webshop.doctype.item_review.item_review import get_item_reviews
 from webshop.webshop.doctype.website_item.website_item import check_if_user_is_customer
 
 
