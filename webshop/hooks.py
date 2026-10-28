@@ -74,3 +74,7 @@ has_website_permission = {
 	"Website Item": "webshop.webshop.doctype.website_item.website_item.has_website_permission_for_website_item",
 	"Item Group": "webshop.webshop.doctype.website_item.website_item.has_website_permission_for_item_group",
 }
+
+# Expose method source code through the API discovery endpoints. Safe for open
+# source apps and helps API clients understand what a method does.
+expose_discovery_source = True
