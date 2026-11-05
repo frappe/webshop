@@ -68,8 +68,9 @@ def get_item_codes_by_attributes(attribute_filters, template_item_code=None):
 	return res
 
 
-@frappe.whitelist(allow_guest=True)
-def get_attributes_and_values(item_code):
+# Guest access is required by the storefront variant selector.
+@frappe.whitelist(allow_guest=True)  # nosemgrep: guest-whitelisted-method
+def get_attributes_and_values(item_code: str):
 	"""Build a list of attributes and their possible values.
 	This will ignore the values upon selection of which there cannot exist one item.
 	"""
@@ -80,7 +81,8 @@ def get_attributes_and_values(item_code):
 	attribute_list = [a.attribute for a in attributes]
 
 	valid_options = {}
-	for item_code, attribute, attribute_value in item_variants_data:
+	for row in item_variants_data:
+		attribute, attribute_value = row[1:]
 		if attribute in attribute_list:
 			valid_options.setdefault(attribute, set()).add(attribute_value)
 
@@ -112,8 +114,9 @@ def get_attributes_and_values(item_code):
 	return attributes
 
 
-@frappe.whitelist(allow_guest=True)
-def get_next_attribute_and_values(item_code, selected_attributes):
+# Guest access is required by the storefront variant selector.
+@frappe.whitelist(allow_guest=True)  # nosemgrep: guest-whitelisted-method
+def get_next_attribute_and_values(item_code: str, selected_attributes: str | dict):
 	from erpnext.stock.doctype.warehouse.warehouse import get_child_warehouses
 
 	"""Find the count of Items that match the selected attributes.
@@ -183,7 +186,7 @@ def get_next_attribute_and_values(item_code, selected_attributes):
 		if exact_match and len(exact_match) == 1:
 			product_id = exact_match[0]
 		elif filtered_items_count == 1:
-			product_id = list(filtered_items)[0]
+			product_id = next(iter(filtered_items))
 
 	if product_id:
 		warehouse = frappe.get_cached_value("Website Item", {"item_code": product_id}, "website_warehouse")

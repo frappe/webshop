@@ -94,7 +94,7 @@ def create_website_items_index():
 
 	# TODO: sortable?
 	index.create_index(
-		[TextField("web_item_name", sortable=True)] + idx_fields,
+		[TextField("web_item_name", sortable=True), *idx_fields],
 		definition=idx_def,
 	)
 

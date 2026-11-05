@@ -34,7 +34,7 @@ class WebshopItem(Item):
 		if len(web_items) <= 1:
 			return
 
-		old_web_item = [d.get("name") for d in web_items if d.get("item_code") == old_name][0]
+		old_web_item = next(d.get("name") for d in web_items if d.get("item_code") == old_name)
 		web_item_link = get_link_to_form("Website Item", old_web_item)
 		old_name, new_name = frappe.bold(old_name), frappe.bold(new_name)
 
