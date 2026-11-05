@@ -5,10 +5,13 @@
 import unittest
 
 import frappe
+from bs4 import BeautifulSoup
 from erpnext.accounts.doctype.tax_rule.tax_rule import ConflictingTaxRule
+from erpnext.selling.doctype.sales_order.test_sales_order import make_sales_order
 from frappe.tests.utils import change_settings
 from frappe.utils import add_months, cint, nowdate
 
+from webshop.templates.pages.order import get_context
 from webshop.webshop.doctype.website_item.website_item import make_website_item
 from webshop.webshop.shopping_cart.cart import (
 	_get_cart_quotation,
@@ -62,6 +65,74 @@ class TestShoppingCart(unittest.TestCase):
 		self.assertEqual(quotation.contact_email, frappe.session.user)
 
 		return quotation
+
+	def test_order_payment_form(self):
+		order = make_sales_order(qty=1, rate=1000)
+		draft = make_sales_order(do_not_submit=True)
+		cancelled = make_sales_order()
+		cancelled.cancel()
+		gateway = frappe.get_doc({"doctype": "Payment Gateway", "gateway": "_Test Webshop Gateway"}).insert()
+		gateway_account = frappe.get_doc(
+			{
+				"doctype": "Payment Gateway Account",
+				"payment_gateway": gateway.name,
+				"payment_account": frappe.get_cached_value("Company", order.company, "default_cash_account"),
+				"company": order.company,
+				"currency": order.currency,
+			}
+		).insert()
+		settings = frappe.get_doc("Webshop Settings")
+		settings.enable_checkout = 1
+		settings.payment_gateway_account = gateway_account.name
+		settings.save()
+		user = frappe.get_doc(
+			{
+				"doctype": "User",
+				"email": "_test_webshop_payment@example.com",
+				"first_name": "Webshop Customer",
+				"user_type": "Website User",
+				"send_welcome_email": 0,
+				"roles": [{"role": "Customer"}],
+			}
+		).insert()
+		customer = frappe.get_doc("Customer", order.customer)
+		customer.append("portal_users", {"user": user.name})
+		customer.save()
+		self.addCleanup(setattr, frappe.local, "form_dict", frappe.local.form_dict)
+		frappe.set_user(user.name)
+		self.assertFalse(frappe.has_permission("Payment Request", "create"))
+
+		for document in (order, draft, cancelled):
+			with self.subTest(docstatus=document.docstatus):
+				frappe.local.form_dict = frappe._dict(doctype=document.doctype, name=document.name)
+				context = frappe._dict()
+				get_context(context)
+				template = frappe.get_template("webshop/templates/pages/order.html")
+				html = "".join(template.blocks["header_actions"](template.new_context(context)))
+				button = BeautifulSoup(html, "html.parser").find(id="pay-for-order")
+				if document.docstatus != 1:
+					self.assertIsNone(button)
+					continue
+
+				self.assertIsNotNone(button)
+				form = button.find_parent("form")
+				self.assertIsNotNone(form)
+				self.assertEqual(form["method"], "post")
+				self.assertEqual(
+					form["action"],
+					"/api/method/erpnext.accounts.doctype.payment_request.payment_request.make_payment_request",
+				)
+				self.assertEqual(context.pay_amount, order.grand_total)
+				self.assertEqual(
+					{field["name"]: field["value"] for field in form.find_all("input", type="hidden")},
+					{
+						"csrf_token": context.csrf_token,
+						"dn": order.name,
+						"dt": order.doctype,
+						"submit_doc": "1",
+						"order_type": "Shopping Cart",
+					},
+				)
 
 	def test_get_cart_customer(self, customer="_Test Customer 2"):
 		def validate_quotation(customer_name):
