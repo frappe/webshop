@@ -606,20 +606,20 @@ def get_party(user=None):
 
 
 def get_debtors_account(cart_settings):
-	if not cart_settings.payment_gateway_account:
-		frappe.throw(_("Payment Gateway Account not set"), _("Mandatory"))
+	if not cart_settings.payment_account:
+		frappe.throw(_("Payment Account not set"), _("Mandatory"))
 
-	payment_gateway_account_currency = frappe.get_doc(
-		"Payment Gateway Account", cart_settings.payment_gateway_account
-	).currency
+	payment_account_currency = frappe.get_cached_value(
+		"Account", cart_settings.payment_account, "account_currency"
+	)
 
-	account_name = _("Debtors ({0})").format(payment_gateway_account_currency)
+	account_name = _("Debtors ({0})").format(payment_account_currency)
 
 	debtors_account_name = get_account_name(
 		"Receivable",
 		"Asset",
 		is_group=0,
-		account_currency=payment_gateway_account_currency,
+		account_currency=payment_account_currency,
 		company=cart_settings.company,
 	)
 
@@ -634,7 +634,7 @@ def get_debtors_account(cart_settings):
 					root_type="Asset", is_group=1, company=cart_settings.company
 				),
 				"account_name": account_name,
-				"currency": payment_gateway_account_currency,
+				"currency": payment_account_currency,
 			}
 		).insert(ignore_permissions=True)
 
