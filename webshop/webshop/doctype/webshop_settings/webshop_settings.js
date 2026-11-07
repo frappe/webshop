@@ -8,13 +8,18 @@ frappe.ui.form.on("Webshop Settings", {
 			frm.refresh_field("quotation_series");
 		}
 
-		frm.set_query("payment_gateway_account", function () {
+		frm.set_query("payment_account", function () {
 			return {
+				query: "erpnext.accounts.doctype.payment_request.payment_request.get_payment_account",
 				filters: {
-					payment_channel: ["in", ["Email", "Phone"]],
+					payment_gateway: frm.doc.payment_gateway,
+					company: frm.doc.company,
 				},
 			};
 		});
+	},
+	payment_gateway: function (frm) {
+		frm.set_value("payment_account", null);
 	},
 	refresh: function (frm) {
 		if (frm.doc.enabled) {
