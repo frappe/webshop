@@ -86,3 +86,66 @@ def get_product_filter_data(query_args=None):
 @frappe.whitelist(allow_guest=True)
 def get_guest_redirect_on_action():
 	return frappe.db.get_single_value("Webshop Settings", "redirect_on_action")
+
+
+
+@frappe.whitelist(allow_guest=True)
+def get_country_state_options(country):
+        """Return State/Province suggestions from optional registered providers.
+
+        Providers are registered through the country_state_providers hook.
+        Each provider receives a Country name and returns a list of strings
+        or dictionaries containing label and value.
+        """
+        country = str(country or "").strip()
+        if not country or len(country) > 140:
+                return []
+
+        if not frappe.db.exists("Country", country):
+                return []
+
+        providers = frappe.get_hooks("country_state_providers") or []
+
+        for provider_path in providers:
+                if not isinstance(provider_path, str) or not provider_path.strip():
+                        continue
+
+                try:
+                        provider = frappe.get_attr(provider_path)
+                        options = provider(country)
+                except Exception:
+                        frappe.log_error(
+                                frappe.get_traceback(),
+                                "Webshop country State provider failed",
+                        )
+                        continue
+
+                if not isinstance(options, (list, tuple)):
+                        continue
+
+                result = []
+                seen = set()
+
+                for option in options:
+                        if isinstance(option, str):
+                                label = value = option.strip()
+                        elif isinstance(option, dict):
+                                label = str(option.get("label") or option.get("value") or "").strip()
+                                value = str(option.get("value") or "").strip()
+                        else:
+                                continue
+
+                        if not value or not label or len(value) > 140 or len(label) > 140:
+                                continue
+
+                        key = value.casefold()
+                        if key in seen:
+                                continue
+
+                        seen.add(key)
+                        result.append({"label": label, "value": value})
+
+                if result:
+                        return result
+
+        return []

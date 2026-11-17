@@ -69,6 +69,8 @@ frappe.ready(() => {
 	});
 
 	$('.btn-new-address').click(() => {
+		let stateRequestId = 0;
+
 		const d = new frappe.ui.Dialog({
 			title: '{{_("New Address") }}',
 			fields: [
@@ -98,7 +100,8 @@ frappe.ready(() => {
 				{
 					label: '{{ _("State") }}',
 					fieldname: 'state',
-					fieldtype: 'Data'
+					fieldtype: 'Autocomplete',
+					ignore_validation: 1
 				},
 				{
 					label: '{{ _("Country") }}',
@@ -106,7 +109,33 @@ frappe.ready(() => {
 					fieldtype: 'Link',
 					options: 'Country',
 					only_select: true,
-					reqd: 1
+					reqd: 1,
+					onchange: () => {
+						const country = d.get_value('country');
+						const stateField = d.get_field('state');
+						const requestId = ++stateRequestId;
+
+						stateField.set_value('');
+						stateField.set_data([]);
+
+						if (!country) return;
+
+						frappe.call({
+							method: 'webshop.webshop.api.get_country_state_options',
+							args: { country }
+						}).then(r => {
+							if (
+								requestId !== stateRequestId ||
+								d.get_value('country') !== country
+							) return;
+
+							stateField.set_data(r.message || []);
+						}).catch(() => {
+							if (requestId === stateRequestId) {
+								stateField.set_data([]);
+							}
+						});
+					}
 				},
 				{
 					fieldname: "column_break0",
