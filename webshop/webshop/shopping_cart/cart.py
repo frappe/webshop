@@ -9,7 +9,7 @@ from erpnext.accounts.utils import get_account_name
 from frappe import _, throw
 from frappe.contacts.doctype.address.address import get_address_display
 from frappe.contacts.doctype.contact.contact import get_contact_name
-from frappe.utils import cint, cstr, flt, get_fullname
+from frappe.utils import cint, cstr, flt, get_email_address, get_fullname
 from frappe.utils.nestedset import get_root_of
 
 from webshop.webshop.doctype.webshop_settings.webshop_settings import (
@@ -379,12 +379,13 @@ def _get_cart_quotation(party=None):
 	if not party:
 		party = get_party()
 
+	email = get_email_address()
 	quotation = frappe.get_all(
 		"Quotation",
 		fields=["name"],
 		filters={
 			"party_name": party.name,
-			"contact_email": frappe.session.user,
+			"contact_email": email,
 			"order_type": "Shopping Cart",
 			"docstatus": 0,
 		},
@@ -410,8 +411,8 @@ def _get_cart_quotation(party=None):
 			}
 		)
 
-		qdoc.contact_person = frappe.db.get_value("Contact", {"email_id": frappe.session.user})
-		qdoc.contact_email = frappe.session.user
+		qdoc.contact_person = frappe.db.get_value("Contact", {"email_id": email})
+		qdoc.contact_email = email
 
 		qdoc.flags.ignore_permissions = True
 		with system_permissions():
@@ -427,7 +428,7 @@ def update_party(fullname, company_name=None, mobile_no=None, phone=None):
 	party.customer_name = company_name or fullname
 	party.customer_type = "Company" if company_name else "Individual"
 
-	contact_name = frappe.db.get_value("Contact", {"email_id": frappe.session.user})
+	contact_name = frappe.db.get_value("Contact", {"email_id": get_email_address()})
 	contact = frappe.get_doc("Contact", contact_name)
 	contact.first_name = fullname
 	contact.last_name = None
@@ -541,7 +542,8 @@ def get_party(user=None):
 	if not user:
 		user = frappe.session.user
 
-	contact_name = get_contact_name(user)
+	email = get_email_address(user)
+	contact_name = get_contact_name(email)
 	party = None
 
 	if contact_name:
@@ -592,7 +594,7 @@ def get_party(user=None):
 		customer.insert(ignore_permissions=True)
 
 		contact = frappe.new_doc("Contact")
-		contact.update({"first_name": fullname, "email_ids": [{"email_id": user, "is_primary": 1}]})
+		contact.update({"first_name": fullname, "email_ids": [{"email_id": email, "is_primary": 1}]})
 		contact.append("links", dict(link_doctype="Customer", link_name=customer.name))
 		contact.flags.ignore_mandatory = True
 		contact.insert(ignore_permissions=True)
