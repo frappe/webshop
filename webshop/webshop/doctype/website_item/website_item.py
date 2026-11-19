@@ -6,7 +6,7 @@ import json
 import frappe
 from erpnext.utilities.product import get_price
 from frappe import _
-from frappe.utils import cint, cstr, flt, random_string
+from frappe.utils import cint, cstr, flt, get_email_address, random_string
 from frappe.website.doctype.website_slideshow.website_slideshow import get_slideshow
 from frappe.website.website_generator import WebsiteGenerator
 
@@ -442,7 +442,7 @@ def check_if_user_is_customer(user=None):
 	if not user:
 		user = frappe.session.user
 
-	contact_name = get_contact_name(user)
+	contact_name = get_contact_name(get_email_address(user))
 	customer = None
 
 	if contact_name:

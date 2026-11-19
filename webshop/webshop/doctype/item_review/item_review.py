@@ -8,7 +8,7 @@ from frappe import _
 from frappe.contacts.doctype.contact.contact import get_contact_name
 from frappe.model.document import Document
 from frappe.query_builder import DocType, functions
-from frappe.utils import cint, flt
+from frappe.utils import cint, flt, get_email_address
 
 from webshop.webshop.doctype.webshop_settings.webshop_settings import (
 	get_shopping_cart_settings,
@@ -152,8 +152,7 @@ def get_customer(silent=False):
 	"""
 	silent: Return customer if exists else return nothing. Dont throw error.
 	"""
-	user = frappe.session.user
-	contact_name = get_contact_name(user)
+	contact_name = get_contact_name(get_email_address())
 	customer = None
 
 	if contact_name:
