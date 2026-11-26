@@ -2,7 +2,9 @@
 # License: GNU General Public License v3. See license.txt
 
 import frappe
+from erpnext.templates.pages.order import get_payment_details
 from frappe import _
+from frappe.sessions import get_csrf_token
 
 from webshop.webshop.doctype.webshop_settings.webshop_settings import show_attachments
 
@@ -37,6 +39,10 @@ def get_context(context):
 
 	if not frappe.has_website_permission(context.doc):
 		frappe.throw(_("Not Permitted"), frappe.PermissionError)
+
+	context.show_pay_button, context.pay_amount = get_payment_details(context.doc)
+	if context.enabled_checkout and context.show_pay_button:
+		context.csrf_token = get_csrf_token()
 
 	if context.doc.get("customer"):
 		# check for the loyalty program of the customer
