@@ -2,7 +2,7 @@
 # License: GNU General Public License v3. See license.txt
 
 import frappe
-from frappe.utils import flt
+from frappe.utils import flt, get_email_address
 
 from webshop.webshop.doctype.item_review.item_review import get_customer
 from webshop.webshop.shopping_cart.product_info import get_product_info_for_website
@@ -290,7 +290,7 @@ class ProductQuery:
 				fields=["name"],
 				filters={
 					"party_name": customer,
-					"contact_email": frappe.session.user,
+					"contact_email": get_email_address(),
 					"order_type": "Shopping Cart",
 					"docstatus": 0,
 				},

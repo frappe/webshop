@@ -70,7 +70,7 @@ frappe.ready(() => {
 		const item_code = $btn.data("item-code");
 		d.set_value("subject", "Inquiry about " + item_code);
 		if (!["Administrator", "Guest"].includes(frappe.session.user)) {
-			d.set_value("email_id", frappe.session.user);
+			d.set_value("email_id", $btn.data("email"));
 			d.set_value("lead_name", frappe.get_cookie("full_name"));
 		}
 

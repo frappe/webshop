@@ -1,6 +1,7 @@
 # Copyright (c) 2021, Frappe Technologies Pvt. Ltd. and Contributors
 # License: GNU General Public License v3. See license.txt
 import frappe
+from frappe.utils import get_email_address
 
 from webshop.webshop.doctype.webshop_settings.webshop_settings import is_cart_enabled
 
@@ -41,7 +42,7 @@ def update_website_context(context):
 
 def is_customer():
 	if frappe.session.user and frappe.session.user != "Guest":
-		contact_name = frappe.get_value("Contact", {"email_id": frappe.session.user})
+		contact_name = frappe.get_value("Contact", {"email_id": get_email_address()})
 		if contact_name:
 			contact = frappe.get_doc("Contact", contact_name)
 			for link in contact.links:
