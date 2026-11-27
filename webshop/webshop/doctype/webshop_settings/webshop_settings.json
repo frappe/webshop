@@ -38,7 +38,8 @@
   "show_price_in_quotation",
   "column_break_27",
   "save_quotations_as_draft",
-  "payment_gateway_account",
+  "payment_gateway",
+  "payment_account",
   "payment_success_url",
   "add_ons_section",
   "enable_wishlist",
@@ -254,11 +255,19 @@
   },
   {
    "depends_on": "enable_checkout",
-   "fieldname": "payment_gateway_account",
+   "fieldname": "payment_gateway",
    "fieldtype": "Link",
-   "label": "Payment Gateway Account",
+   "label": "Payment Gateway",
    "mandatory_depends_on": "enable_checkout",
-   "options": "Payment Gateway Account"
+   "options": "Payment Gateway"
+  },
+  {
+   "depends_on": "enable_checkout",
+   "fieldname": "payment_account",
+   "fieldtype": "Link",
+   "label": "Payment Account",
+   "mandatory_depends_on": "enable_checkout",
+   "options": "Account"
   },
   {
    "collapsible": 1,
@@ -387,7 +396,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-09-15 05:28:20.808725",
+ "modified": "2026-11-06 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "Webshop",
  "name": "Webshop Settings",

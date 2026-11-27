@@ -14,7 +14,7 @@ frappe.ready(() => {
 
 		if (!loyalty_points) return;
 
-		const callback = async (r) => {
+		const callback = (r) => {
 			if (!r) return;
 
 			var message = "";
@@ -40,15 +40,6 @@ frappe.ready(() => {
 				order_type: "Shopping Cart",
 				loyalty_points,
 			};
-
-			const payment_gateway_account = await frappe.db.get_single_value(
-				"Webshop Settings",
-				"payment_gateway_account"
-			);
-
-			if (payment_gateway_account) {
-				args_obj.payment_gateway_account = payment_gateway_account;
-			}
 
 			const args_str = Object.entries(args_obj)
 				.map((e) => e[0] + "=" + e[1])

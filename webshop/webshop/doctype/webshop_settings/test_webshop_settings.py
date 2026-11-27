@@ -39,6 +39,17 @@ class TestWebshopSettings(unittest.TestCase):
 
 		self.assertRaises(frappe.ValidationError, settings.save)
 
+	def test_checkout_needs_payment_gateway_and_account(self):
+		settings = frappe.get_doc("Webshop Settings")
+
+		settings.update({"enable_checkout": 1, "payment_gateway": "_Test Gateway", "payment_account": None})
+		settings.validate_checkout()
+		self.assertFalse(settings.enable_checkout)
+
+		settings.update({"enable_checkout": 1, "payment_account": "_Test Account"})
+		settings.validate_checkout()
+		self.assertTrue(settings.enable_checkout)
+
 
 def setup_webshop_settings(values_dict):
 	"Accepts a dict of values that updates Webshop Settings."
